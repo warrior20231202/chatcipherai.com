@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>morsecode : La page bien plus que du codage</title>
+    <meta name="description"
+        content="Tel un phare dans l'immense ciel étoilé, le Code Morse utilise des points et des tirets pour façonner d'anciens secrets à travers l'étendue des ondes radio, reliant le passé et le futur à travers les dimensions du temps et de l'espace.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: -36px;
+            right: 1px;
+            margin-left: 0;
+            background-color: #0a0f24;
+            padding: 5px 8px;
+        }
+
+        .copy-button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 20px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 13%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .navbar ul li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        .textarea-light {
+            background-color: #bbbaba;
+        }
+
+        .textarea-dark-text {
+            color: #0A0F24;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-right: 20px;
+            margin-left: 20px;
+            text-align: center;
+            flex-wrap: wrap;
+            min-height: 600px;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            margin-top: 50px;
+        }
+
+        h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        h3 {
+            margin-top: 20px;
+            font-size: 22px;
+        }
+
+        h4 { 
+            font-size: 20px;
+        }
+
+        .textarea-container {
+            width: 150%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 40px;
+            position: relative;
+        }
+        
+        textarea {
+            font-weight: 500;
+            width: 100%;
+            max-height: 400px;
+            min-height: 150px;
+            margin: 10px;
+            padding: 10px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #0A0F24;
+            resize: vertical;
+            font-size: 15px;
+            font-family: 'Segoe UI', Tahoma,  sans-serif;
+        }
+
+        textarea::placeholder {
+            color: #0A0F24;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #c0c0c0;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: #0A0F24;
+        }
+
+        body {
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: white;
+            color: #000000;
+        }
+
+        .light-mode .navbar ul {
+            background-color: rgba(255, 255, 255, 0);
+            color: #000000;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #000000;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        .play-button {
+            position: absolute;
+            left: 5px;
+            top: 190px;
+        }
+
+        #playStopButton {
+            padding: 6px 10px;
+            margin: 5px;
+            border: none;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #playStopButton:hover {
+            background-color: #F5F5F5;
+            color: #0a0f24;
+        }
+
+        #morseAlphabetTable tr:hover {
+            background-color: #ddd !important;
+        }
+
+        #morseAlphabetTable {
+            border-collapse: collapse;
+            margin: 0 auto;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #morseAlphabetTable th,
+        #morseAlphabetTable td {
+            padding: 8px;
+            text-align: center;
+            border: 0 solid #eae6e6;
+            font-weight: bold;
+        }
+
+        #morseAlphabetTable th {
+            background-color: #7fbef5;
+            color: white;
+            font-size: 16px;
+        }
+
+        #morseAlphabetTable td {
+            color: #333;
+            font-size: 16px;
+        }
+
+        .dark-mode #morseAlphabetTable {
+            background-color: #e9f1f4;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .button-container :hover{
+            color: #0A0F24;
+        }
+
+        .icon-alphabet::before {
+            content: "\1F4D5";
+            margin-right: 5px;
+        }
+
+        .icon-sos::before {
+            content: "\25B6";
+            margin-right: 5px;
+        }
+
+        .icon-copy::before {
+            content: "\1F4CB";
+            margin-right: 5px;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .icon-play::before {
+            content: "\25B6";
+            margin-right: 5px;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .icon-stop::before {
+            content: "\25A0";
+            margin-right: 5px;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 26px;
+        }
+
+        .introduce {
+            text-align: left;
+            width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+            margin-top: 100px;
+        }
+
+        .introduce li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 100%;
+            padding-bottom: 10px; 
+        }
+
+        .introduce p {
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        .clear-all-button {
+            padding: 7px 10px;
+            margin-top: 20px;
+            background-color: #47d7ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            position: absolute;
+            top: -46px;
+            left: 5px;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 85%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .textarea-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                margin: 20px 0;
+            }
+
+            textarea {
+                width: 90%;
+                min-height: 100px;
+                margin: 10px 0;
+            }
+
+            .container {
+                align-items: center;
+            }
+
+            #morseAlphabetTable {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .introduce {
+                width: 100%;
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .introduce p {
+                font-size: 0.9em;
+            }
+
+            .copy-button {
+                padding: 4px 8px;
+                font-size: 0.6em;
+            }
+
+            #clearAllButton {
+                padding: 8px 8px;
+                font-size: 0.8em;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .introduce h2 {
+                font-size: 1.2em; 
+            }
+
+            .introduce li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            figcaption {
+                margin-top: -40px;
+                margin-bottom: 40px;
+                margin-left: 20px;
+                font-size: 10px;
+                color: #007bff;
+                font-weight: bold;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+                line-height: 16px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .navbar ul li a {
+                font-size: 10px;
+            }
+
+            .navbar ul {
+                width: 30%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 105%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 55%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            .play-button {
+                margin-top: -42px;
+                margin-left: 1px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; menu</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/fr/chatcipherai.html">Monde des Cryptosystèmes</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/fr/Caesar_Cipher.html">Chiffre de César</a></li>
+                        <li><a href="https://chatcipherai.com/fr/Playfair_Cipher.html">Chiffre de Playfair</a></li>
+                        <li><a href="https://chatcipherai.com/fr/Hill_Cipher.html">Chiffre de Hill</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/fr/Hash_value_test.html">Test de Valeur de Hachage</a></li>
+                <li><a href="https://chatcipherai.com/fr/Morsecode_main.html">Traducteur de Code Morse</a></li>
+                <li><a href="https://chatcipherai.com/fr/Shortcut_Key_Description.html">Description des raccourcis clavier</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; lang</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Morsecode_main.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Morsecode_main.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Morsecode_main.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Morsecode_main.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Morsecode_main.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Morsecode_main.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Morsecode_main.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Morsecode_main.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Morsecode_main.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Morsecode_main.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Morsecode_main.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+
+            <h1>Traducteur de code Morse</h1>
+
+            <div class="style-selector">
+                <button id="darkStyle">🌙 Style Sombre(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ Style Lumineux(<span class="highlight-key">L</span>)</button>
+            </div> 
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <h2>Encodeur</h2>
+            <div class="textarea-container">
+                <textarea id="inputText" class="textarea-light" placeholder="Entrez le texte à encoder"></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('inputText')">Copier</button>
+                <button id="clearAllButton" class="clear-all-button">Tout effacer(<span class="highlight-key">A</span>)</button>
+                <div class="play-button">
+                <button id="playStopButton"><span class="icon-play"></span>Jouer</button>
+                </div>
+            </div>
+            <button id="encodeButton" style="display: none;">Encoder</button>
+    
+            <div class="textarea-container">
+                <textarea id="morseCode" class="textarea-light" placeholder="Sortie en code Morse" readonly></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('morseCode')">Copier</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Décodeur</h2>
+            <div class="textarea-container">
+                <textarea id="inputMorse" class="textarea-light" placeholder="Entrez le code Morse à décoder"></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('inputMorse')">Copier</button>
+            </div>
+            <button id="decodeButton" style="display: none;">Décoder</button>
+            <div class="textarea-container">
+                <textarea id="decodedText" class="textarea-light" placeholder="Texte décodé" readonly></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('decodedText')">Copier</button>
+            </div>
+        </div>        
+    </div>
+
+    <div class="button-container">
+        <button id="toggleAlphabetButton" class="icon-alphabet">Codes alphabétique(<span class="highlight-key">M</span>)</button>
+        <button id="playSosButton" class="icon-sos">Jouer SOS(<span class="highlight-key">P</span>)</button>
+    </div>
+    <div class="table-container" style="display: none;">
+        <table id="morseAlphabetTable">
+            <tr>
+                <th>Lettre</th>
+                <th>Code Morse</th>
+                <th>Lettre</th>
+                <th>Code Morse</th>
+                <th>Lettre</th>
+                <th>Code Morse</th>
+                <th>Lettre</th>
+                <th>Code Morse</th>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>.-</td>
+                <td>B</td>
+                <td>-...</td>
+                <td>C</td>
+                <td>-.-.</td>
+                <td>D</td>
+                <td>-..</td>
+            </tr>
+            <tr>
+                <td>E</td>
+                <td>.</td>
+                <td>F</td>
+                <td>..-.</td>
+                <td>G</td>
+                <td>--.</td>
+                <td>H</td>
+                <td>....</td>
+            </tr>
+            <tr>
+                <td>I</td>
+                <td>..</td>
+                <td>J</td>
+                <td>.---</td>
+                <td>K</td>
+                <td>-.-</td>
+                <td>L</td>
+                <td>.-..</td>
+            </tr>
+            <tr>
+                <td>M</td>
+                <td>--</td>
+                <td>N</td>
+                <td>-.</td>
+                <td>O</td>
+                <td>---</td>
+                <td>P</td>
+                <td>.--.</td>
+            </tr>
+            <tr>
+                <td>Q</td>
+                <td>--.-</td>
+                <td>R</td>
+                <td>.-.</td>
+                <td>S</td>
+                <td>...</td>
+                <td>T</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>U</td>
+                <td>..-</td>
+                <td>V</td>
+                <td>...-</td>
+                <td>W</td>
+                <td>.--</td>
+                <td>X</td>
+                <td>-..-</td>
+            </tr>
+            <tr>
+                <td>Y</td>
+                <td>-.--</td>
+                <td>Z</td>
+                <td>--..</td>
+            </tr>
+            <tr>
+                <th>Chiffres</th>
+                <th>Code Morse</th>
+                <th>Chiffres</th>
+                <th>Code Morse</th>
+                <th>Chiffres</th>
+                <th>Code Morse</th>
+                <th>Chiffres</th>
+                <th>Code Morse</th>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>-----</td>
+                <td>1</td>
+                <td>.----</td>
+                <td>2</td>
+                <td>..---</td>
+                <td>3</td>
+                <td>...--</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>....-</td>
+                <td>5</td>
+                <td>.....</td>
+                <td>6</td>
+                <td>-....</td>
+                <td>7</td>
+                <td>--...</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>---..</td>
+                <td>9</td>
+                <td>----.</td>
+            </tr>
+            <tr>
+                <th>Ponctuation</th>
+                <th>Code Morse</th>
+                <th>Ponctuation</th>
+                <th>Code Morse</th>
+                <th>Ponctuation</th>
+                <th>Code Morse</th>
+                <th>Ponctuation</th>
+                <th>Code Morse</th>
+            </tr>
+            <tr>
+                <td>.</td>
+                <td>.-.-.-</td>
+                <td>,</td>
+                <td>--..--</td>
+                <td>?</td>
+                <td>..--..</td>
+                <td>'</td>
+                <td>.----.</td>
+            </tr>
+            <tr>
+                <td>!</td>
+                <td>-.-.--</td>
+                <td>/</td>
+                <td>-..-.</td>
+                <td>(</td>
+                <td>-.--.</td>
+                <td>)</td>
+                <td>-.--.-</td>
+            </tr>
+            <tr>
+                <td>&</td>
+                <td>.-...</td>
+                <td>:</td>
+                <td>---...</td>
+                <td>;</td>
+                <td>-.-.-.</td>
+                <td>=</td>
+                <td>-...-</td>
+            </tr>
+            <tr>
+                <td>+</td>
+                <td>.-.-.</td>
+                <td>-</td>
+                <td>-....-</td>
+                <td>_</td>
+                <td>..--.-</td>
+                <td>"</td>
+                <td>.-..-.</td>
+            </tr>
+            <tr>
+                <td>$</td>
+                <td>...-..-</td>
+                <td>@</td>
+                <td>.--.-.</td>
+            </tr>
+        </table>
+    </div>    
+
+    <div class="introduce">
+        <h2>Code Morse : Le chiffrement de communication numérique intemporel</h2>
+        <p>Le code Morse, une méthode de communication numérique pionnière, utilise des signaux intermittents uniques pour coder les informations. Inventé dans les années 1830, il reste pertinent pour des applications spécialisées aujourd'hui. Sa caractéristique distinctive réside dans sa simplicité, utilisant seulement deux signaux et des intervalles variables pour représenter les lettres, les chiffres et la ponctuation.</p>
+        <p>Au cœur du code Morse se trouvent les signaux point (Di) et trait (Dah), qui diffèrent en durée pour faciliter la représentation des caractères divers. Ce système binaire permet de coder l'ensemble de l'alphabet anglais et plus encore. Par exemple, 'A' est indiqué par un point unique suivi d'un trait (·-), tandis que 'B' est représenté par un trait suivi de trois points (−···).</p>
+        <p>Au-delà de ses signaux de base, le code Morse utilise des intervalles de temps pour différencier les caractères, les mots et les phrases, garantissant que les messages sont transmis avec clarté. Ces pauses stratégiques améliorent la capacité du code à transmettre des messages complexes de manière efficace.</p>
+        <p>Initialement conçu pour la télégraphie, l'application du code Morse s'est étendue à la radio et à d'autres formes de communication, soulignant son adaptabilité et sa pertinence durable. Malgré les avancées dans les technologies de communication, le code Morse offre toujours une valeur pratique dans des scénarios où les méthodes contemporaines peuvent ne pas être viables, comme dans les communications d'urgence.</p>
+        <p>De plus, le code Morse transcende ses racines utilitaires pour devenir un passe-temps ou une compétence pour les passionnés, attestant de son attrait unique et de sa puissance communicative. Bien que les technologies modernes aient largement supplanté le code Morse dans l'usage quotidien, il perdure comme un mode de communication culturellement et historiquement significatif.</p>
+        
+
+        <h2>Comprendre le fonctionnement du code Morse</h2>
+        <p>Le code Morse fonctionne comme un système de codage modulé sophistiqué en espace-temps, distinguant les lettres, les chiffres et la ponctuation via des signaux courts (Di) et longs (Dah) ainsi que leurs intervalles. Ce système de codage est réputé pour sa simplicité et sa polyvalence, permettant la communication à travers divers médias. Voici quelques étapes clés de la communication en code Morse :</p>
+        <ul>
+            <li><strong>Codage :</strong> Chaque caractère se voit attribuer une séquence unique de points (Di) et de traits (Dah).</li>
+            <li><strong>Transmission :</strong> Les signaux sont transmis par des moyens sonores, lumineux ou électriques, nécessitant la maîtrise du code Morse par l'expéditeur pour garantir un codage précis du message.</li>
+            <li><strong>Minutage :</strong> La gestion des intervalles est cruciale dans le code Morse - elle permet de distinguer les points des traits, les caractères et les mots pour maintenir la clarté du message.</li>
+            <li><strong>Réception :</strong> Le destinataire décode la séquence de signaux pour retrouver le message voulu, nécessitant une connaissance du système de points et de traits du code Morse.</li>
+            <li><strong>Décodage :</strong> Les signaux correctement interprétés sont retranscrits dans leur format textuel original par le récepteur.</li>
+        </ul>
+        <p>L'avantage durable du code Morse réside dans sa capacité d'adaptation et sa simplicité, s'avérant inestimable dans les scénarios où les canaux de communication conventionnels sont compromis. Dans les situations d'urgence, par exemple, le code Morse peut faciliter la communication vitale à travers de simples frappes ou signaux lumineux, démontrant sa pertinence intemporelle.</p>
+        
+
+        <h2>Qui a inventé le code Morse ?</h2>
+        <p>Le code Morse a été inventé par l'inventeur américain Samuel F. B. Morse dans les années 1830, qui est donc connu comme le fondateur du code Morse. En 1848, le code Morse a été développé et inventé par Friedrich Clemens Gerke et est devenu le code Morse international moderne, officiellement utilisé pour les communications télégraphiques entre Hambourg et Cuxhaven, en Allemagne.</p>
+        
+        <h2>Quelle est la lettre la plus couramment utilisée en code Morse ?</h2>
+        <p>Dans le code Morse, les lettres "E" (représentée par ".") et "T" (représentée par "-") sont les plus couramment utilisées car elles apparaissent le plus fréquemment dans la langue anglaise.</p>
+        
+        <h2>Comment envoyer du code Morse sans machine télégraphique ?</h2>
+        <p>En réalité, vous pouvez utiliser tout ce qui produit deux signaux nettement différents pour envoyer du code Morse. Par exemple, vous pouvez utiliser une lampe de poche (clignotement pour Di, constant pour Dah), ou vous pouvez utiliser des sons (court pour Di, long pour Dah).</p>
+        
+        <h2>Comment envoyer un signal SOS en utilisant le code Morse ?</h2>
+        <p>Le SOS est un signal de détresse accepté internationalement, exprimé en code Morse par "...---..." (trois Di, trois Dah, puis trois Di) ou cliquez sur le bouton "Play SOS" ci-dessus.</p>
+        
+        <h2>Le rôle crucial du temps d'intervalle dans le code Morse</h2>
+        <p>Dans le code Morse, le temps d'intervalle entre les signaux, appelé "temps d'intervalle", joue un rôle crucial pour assurer une communication claire. Il aide le récepteur à distinguer entre les différents caractères et mots, améliorant la lisibilité et la compréhension globales du message. L'importance du temps d'intervalle dans le code Morse peut être répartie en trois catégories principales :</p>
+        
+        <ul>
+            <li><strong>Entre les points et les traits :</strong> Les courtes pauses entre les points (.) et les traits (-) à l'intérieur d'un seul caractère sont essentielles pour distinguer les éléments individuels qui composent le caractère.</li>
+            <li><strong>Entre les caractères :</strong> Une pause légèrement plus longue entre les caractères à l'intérieur d'un mot est nécessaire pour indiquer clairement la fin d'un caractère et le début du suivant.</li>
+            <li><strong>Espacement des mots :</strong> La pause la plus longue se produit entre les mots, cruciale pour indiquer la séparation des mots dans un message en code Morse.</li>
+        </ul>
+        <p>Ces intervalles sont fondamentaux pour la clarté et l'efficacité des transmissions en code Morse. La précision et la cohérence de ces intervalles temporels sont vitales pour l'interprétation exacte et la compréhension des messages, assurant une communication efficace.</p>
+ 
+        <h2>Pourquoi le code Morse est-il considéré comme un "codage de longueur variable" ?</h2>
+        <p>Le code Morse est qualifié de système de "codage de longueur variable" car il attribue des codes de longueurs variées à différents caractères. Contrairement au codage à longueur fixe, qui assigne un nombre identique de bits à chaque symbole, les systèmes de codage à longueur variable comme le <a href="https://fr.wikipedia.org/wiki/Code_Morse" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">code Morse</a> utilisent un nombre divers de bits — ou, plus précisément, de points et de traits — pour représenter différents symboles.</p>
+        <p>Les caractéristiques définissant le code Morse incluent :</p>
+        <ul>
+            <li><strong>Représentations de longueur variable :</strong> Les lettres fréquemment utilisées telles que "E" sont désignées par des codes plus courts comme un seul point ("."), tandis que des caractères moins courants comme "Q" sont représentés par des séquences plus longues ("--.-"). Cette approche, axée sur l'efficacité, attribue des codes plus courts aux caractères plus communs, réduisant ainsi la longueur moyenne des messages et améliorant la vitesse de transmission.</li>
+            <li><strong>Optimisation pour l'efficacité :</strong> La stratégie consistant à utiliser des codes plus courts pour les lettres utilisées fréquemment rend le code Morse un système efficace pour la transmission des langues comme l'anglais.</li>
+            <li><strong>Intervalles d'espacement divers :</strong> Le code Morse différencie les lettres et les mots en utilisant des intervalles d'espacement variables. L'espace entre les lettres à l'intérieur d'un mot est plus court que l'espacement pour une pause entre les mots, aidant à distinguer clairement les lettres et les mots lors de la transmission.</li>
+        </ul>
+        <p>De par son approche unique d'attribution de codes de différentes longueurs à chaque caractère, le code Morse se distingue en tant que système de codage à longueur variable, en contraste avec les systèmes de codage à longueur fixe utilisés dans les communications numériques modernes, tels que l'ASCII, où chaque caractère est représenté par un nombre constant de bits.</p>
+        
+        <h2>Code de Huffman vs. Code Morse : Une analyse comparative</h2>
+        <section>
+            <h3>Présentation du codage Huffman et du code Morse</h3>
+            <p>Tant le <strong>codage Huffman</strong> que le <strong>code Morse</strong> sont des systèmes de codage novateurs conçus pour transmettre des informations de manière efficace. Alors que le <a href="https://fr.wikipedia.org/wiki/Codage_de_Huffman" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">codage Huffman</a> excelle dans la compression de données en attribuant des codes de longueur variable basés sur la fréquence des caractères, le code Morse simplifie les communications télégraphiques avec son système unique de points et de traits.</p>
+        </section>
+        
+        <section>
+            <h3>Comparaison des concepts de conception et des applications</h3>
+            <p>Le <strong>codage Huffman</strong> est un algorithme sophistiqué optimisé pour la compression de données, utilisant une structure d'arbre binaire pour allouer des codes plus courts aux caractères plus fréquents. En contraste, le <strong>code Morse</strong> utilise une approche plus simple de points et de traits pour représenter les caractères, privilégiant la facilité de transmission plutôt que la compression de données.</p>
+        </section>
+        
+        <section>
+            <h3>Similitudes entre le codage Huffman et le code Morse</h3>
+            <p>Malgré leurs différences, les deux systèmes emploient un codage de longueur variable et prennent en compte la fréquence des caractères pour déterminer la longueur du code. Cette approche partagée souligne leur engagement envers l'efficacité et l'efficience de la communication.</p>
+        </section>
+        
+        <section>
+            <h3>Principales différences mises en évidence</h3>
+            <p>Alors que le codage Huffman est une pierre angulaire de la compression moderne des données, le code Morse reste un artefact historique de la communication par télégraphe et radio. La dépendance du premier à un arbre binaire pour l'attribution de codes contraste fortement avec l'ensemble de codes prédéfinis du second, illustrant l'évolution des techniques de codage du 19e au milieu du 20e siècle.</p>
+        </section>
+        
+        <h2>Comment représenter les espaces et les sauts de ligne en code Morse ?</h2>
+        <p>En code Morse, les espaces (c'est-à-dire les intervalles entre les mots) sont généralement représentés par une période sans signal. Cette période de temps est approximativement trois fois la longueur d'un caractère. Quant aux sauts de ligne, le code Morse a été initialement conçu pour une communication télégraphique continue et ne comportait pas de sauts de ligne spéciaux. Bien sûr, le symbole de nouvelle ligne peut également être exprimé selon les symboles convenus par les parties communicantes.</p>
+        
+        <h2>Le code Morse est-il sensible à la casse ?</h2>
+        <p>Le code Morse n'est pas sensible à la casse. Toutes les lettres sont codées de la même manière. Cependant, dans les applications pratiques, les parties communicantes peuvent convenir d'utiliser une certaine manière de représenter la capitalisation, comme ajouter un symbole spécifique avant la première lettre de chaque mot.</p>
+        
+        <h2>Maîtrisez efficacement le code Morse avec la méthode Koch</h2>
+        <p>Voulez-vous <strong>apprendre le code Morse</strong> rapidement et efficacement ? La méthode Koch offre une approche éprouvée pour <strong>mémoriser le code Morse</strong> facilement. Développée par le psychologue allemand Ludwig Koch, cette technique est adaptée pour un apprentissage rapide et une mémorisation par la pratique progressive.</p>
+        <h3>Qu'est-ce que la méthode Koch ?</h3>
+        <p>La méthode Koch est une stratégie renommée pour <em>apprendre le code Morse</em> qui met l'accent sur l'introduction progressive des caractères et la pratique à la vitesse cible dès le début. Elle est conçue pour imiter des scénarios de communication réels, ce qui en fait l'une des <strong>techniques d'apprentissage du code Morse les plus efficaces</strong>.</p>
+        <h3>Principales caractéristiques de la méthode Koch</h3>
+        <ul>
+            <li><strong>Caractères de départ :</strong> Commencez avec des caractères facilement reconnaissables, tels que "K" (-.-) et "M" (--), pour construire la familiarité et la confiance.</li>
+            <li><strong>Vitesse constante :</strong> Pratiquez à votre vitesse cible dès le début pour vous adapter aux vitesses de communication réelles sans avoir besoin de réapprendre à un rythme plus rapide plus tard.</li>
+            <li><strong>Apprentissage progressif :</strong> Ajoutez de nouveaux caractères à votre répertoire uniquement après avoir atteint au moins 90% de précision avec les caractères actuels, garantissant une maîtrise solide avant de passer aux suivants.</li>
+            <li><strong>Application pratique :</strong> Engagez-vous dans la pratique avec des phrases, des mots et des phrases pour améliorer la compréhension et l'application dans la communication réelle.</li>
+            <li><strong>Répétition pour la maîtrise :</strong> Une pratique et une révision constantes sont cruciales pour la mémorisation et l'amélioration des compétences.</li>
+            <li><strong>Accent sur l'écoute :</strong> Donnez la priorité à l'entraînement auditif plutôt qu'à la reconnaissance visuelle pour améliorer la vitesse et la précision dans la réception des messages.</li>
+        </ul>
+        
+        <h3>Avantages de la méthode Koch</h3>
+        <p>En adoptant la méthode Koch, les apprenants peuvent atteindre la fluidité en code Morse à la vitesse souhaitée, élargissant progressivement leur connaissance des caractères. Cette approche renforce non seulement la confiance mais assure également une compréhension complète et l'application du code Morse dans des scénarios pratiques. Pour plus d'informations sur la méthode Koch et des conseils pour maîtriser le code Morse, veuillez visiter <a href="https://en.wikipedia.org/wiki/Morse_code#Learning_methods" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">ici</a>.</p>
+        
+        <h2>Y a-t-il des événements ou des personnages historiques célèbres liés au code Morse ?</h2>
+        <p>Il existe de nombreux événements et personnages historiques liés au code Morse. Par exemple, lorsque le Titanic a coulé, le signal de détresse envoyé était en code Morse. De plus, pendant la Seconde Guerre mondiale, certaines informations importantes des Alliés ont également été transmises par code Morse. En termes de personnages, Alan Turing était un célèbre scientifique informatique et cryptographe britannique. Il a apporté des contributions importantes dans le déchiffrement du code Morse utilisé par l'armée allemande.</p>
+        
+        <h2>Que dois-je faire si le code Morse est envoyé incorrectement ?</h2>
+        <p>Dans les communications en code Morse, si un signal incorrect est envoyé, des symboles spécifiques sont souvent utilisés pour indiquer l'erreur et le message correct est renvoyé. Ce symbole est appelé un signal "d'erreur" ou un signal "d'annulation". Dans le code Morse, le signal d'erreur est généralement composé de six points consécutifs, qui est exprimé comme ".........." (pointez un peu), et parfois il est également abrégé en "EEEEEE".</p>
+        
+        <h2>Commençons notre voyage !</h2>
+        <p>.... . .-.. .-.. --- .-- --- .-. .-.. -.. -.-.--</p>        
+    </div>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. Tous droits réservés.</p>
+            <p>
+                <a href="https://chatcipherai.com/fr/Privacy_Policy.html" title="Privacy Policy">Politique de confidentialité</a>
+                |
+                <a href="https://chatcipherai.com/fr/Terms_of_Use.html" title="Terms of Use">Conditions d'utilisation</a>
+                |
+                <a href="https://chatcipherai.com/fr/About_Us.html" title="About Us">À Propos de Nous</a>
+                |
+                <a href="https://chatcipherai.com/fr/Disclaimer.html" title="Disclaimer">Clause de non-responsabilité</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">Retour en Haut</button>
+        </div>
+    </footer> 
+    <script>
+        let shortcutsEnabled = true;
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            // Ensure focus is not inside input or textarea fields
+            if (document.activeElement.type === 'text' || document.activeElement.tagName === 'TEXTAREA') {
+                return; // Skip shortcut if inside input or textarea
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'A':
+                    clearAllTextAreas(); // Corrected to a proper function call
+                    console.log('Clear All triggered');
+                    break;
+                case 'M':
+                    toggleMorseTable(); // Function to toggle Morse code table display
+                    console.log('Toggled Morse Code Table');
+                    break;
+                case 'P':
+                    playSOS(); // Function to play SOS Morse Code
+                    console.log('SOS Morse Code Played');
+                    break;
+                case 'L':
+                    setStyle('light-mode');
+                    console.log('Light style activated');
+                    break;
+                case 'N':
+                    setStyle('dark-mode');
+                    console.log('Dark style activated');
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        // Ensure these functions are defined somewhere in your script or linked script files
+        function clearAllTextAreas() {
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.value = '';
+            });
+            console.log('All text areas cleared.');
+        }
+
+        function toggleMorseTable() {
+            var tableContainer = document.querySelector('.table-container');
+            tableContainer.style.display = (tableContainer.style.display === 'none' || tableContainer.style.display === '') ? 'block' : 'none';
+        }
+
+        function playSOS() {
+            var morseCode = document.getElementById('morseCode');
+            morseCode.value = '... --- ...'; // SOS Morse Code
+            playMorseAudio(morseCode.value);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'light-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+
+        document.getElementById('inputText').addEventListener('input', function () {
+            document.getElementById('morseCode').value = encodeToMorse(document.getElementById('inputText').value);
+        });
+
+        document.getElementById('inputMorse').addEventListener('input', function () {
+            document.getElementById('decodedText').value = decodeMorse(document.getElementById('inputMorse').value);
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+            updateTableStyle(style);
+            updateIntroduceStyle(style);
+        }
+
+        function updateIntroduceStyle(style) {
+            var introduces = document.querySelectorAll('.introduce');
+            introduces.forEach(function (introduce) {
+                if (style === 'dark-mode') {
+                    introduce.style.color = '#FFFFFF'; // White text for dark mode
+                } else {
+                    introduce.style.color = '#000000'; // Black text for light mode
+                }
+            });
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#000000';
+        }
+
+
+        document.getElementById('playSosButton').addEventListener('click', function () {
+            var inputText = document.getElementById('inputText');
+            var morseCode = document.getElementById('morseCode');
+            inputText.value = 'SOS';
+            morseCode.value = encodeToMorse('SOS');
+            playMorseAudio(morseCode.value);
+        });
+
+        function encodeToMorse(text) {
+            if (text.toUpperCase() === 'SOS') {
+                return '... --- ...';
+            }
+            const morseCodeDict = {
+                'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+                'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+                'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+                'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+                'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--',
+                '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+                '9': '----.', '0': '-----', ' ': ' ', '.': '.-.-.-', ',': '--..--', '?': '..--..',
+                "'": '.----.', '!': '-.-.--', '/': '-..-.', '(': '-.--.', ')': '-.--.-',
+                '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.',
+                '-': '-....-', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.', '！': '-.-.--'
+            };
+            return text.toUpperCase().split('').map(function (char) {
+                return morseCodeDict[char] ? morseCodeDict[char] : char;
+            }).join(' ');
+        }
+
+        function decodeMorse(morseCode) {
+            const textDict = {
+                '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E', '..-.': 'F',
+                '--.': 'G', '....': 'H', '..': 'I', '.---': 'J', '-.-': 'K', '.-..': 'L',
+                '--': 'M', '-.': 'N', '---': 'O', '.--.': 'P', '--.-': 'Q', '.-.': 'R',
+                '...': 'S', '-': 'T', '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X',
+                '-.--': 'Y', '--..': 'Z', '.----': '1', '..---': '2', '...--': '3',
+                '....-': '4', '.....': '5', '-....': '6', '--...': '7', '---..': '8',
+                '----.': '9', '-----': '0', '.-.-.-': '.', '--..--': ',', '..--..': '?',
+                '.----.': "'", '-.-.--': '!', '-..-.': '/', '-.--.': '(', '-.--.-': ')',
+                '.-...': '&', '---...': ':', '-.-.-.': ';', '-...-': '=', '.-.-.': '+',
+                '-....-': '-', '..--.-': '_', '.-..-.': '"', '...-..-': '$', '.--.-.': '@'
+            };
+            return morseCode.split('   ').map(function (word) {
+                return word.split(' ').map(function (code) {
+                    return textDict[code] || (code === '' ? ' ' : '?');
+                }).join('');
+            }).join(' ');
+        }
+
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId);
+            copyText.select();
+            document.execCommand('copy');
+        }
+
+        let isPlaying = false;
+        let audioCtx;
+        let timeoutHandles = [];
+
+        document.getElementById('playStopButton').addEventListener('click', function () {
+            isPlaying = !isPlaying;
+            var iconSpan = this.querySelector('span');
+            if (isPlaying) {
+                playMorseAudio(document.getElementById('morseCode').value);
+                this.textContent = '';
+                iconSpan.className = 'icon-stop';
+                this.appendChild(iconSpan);
+                this.appendChild(document.createTextNode('arrêt'));
+            } else {
+                stopMorseAudio();
+                this.textContent = '';
+                iconSpan.className = 'icon-play';
+                this.appendChild(iconSpan);
+                this.appendChild(document.createTextNode('Jouer'));
+            }
+        });
+
+        function playMorseAudio(morseCode) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const dotDuration = 0.1;
+            let currentTime = audioCtx.currentTime;
+            morseCode.split('').forEach(symbol => {
+                if (symbol === '.') {
+                    scheduleTone(currentTime, dotDuration);
+                    currentTime += dotDuration;
+                } else if (symbol === '-') {
+                    scheduleTone(currentTime, dotDuration * 3);
+                    currentTime += dotDuration * 3;
+                }
+                currentTime += dotDuration;
+            });
+        }
+
+        function scheduleTone(startTime, duration) {
+            const oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(440, startTime);
+            oscillator.connect(audioCtx.destination);
+
+            const handle = setTimeout(() => {
+                oscillator.start(startTime);
+                oscillator.stop(startTime + duration);
+            }, startTime * 1000);
+
+            timeoutHandles.push(handle);
+        }
+
+        function stopMorseAudio() {
+            timeoutHandles.forEach(handle => clearTimeout(handle));
+            timeoutHandles = [];
+            if (audioCtx) {
+                audioCtx.close();
+                audioCtx = null;
+            }
+        }
+
+        document.getElementById('toggleAlphabetButton').addEventListener('click', function () {
+            var tableContainer = document.querySelector('.table-container');
+            var button = this;
+            if (tableContainer.style.display === 'none' || tableContainer.style.display === '') {
+                tableContainer.style.display = 'flex';
+                button.textContent = 'Alphabet caché';
+            } else {
+                tableContainer.style.display = 'none';
+                button.textContent = 'Codes alphabétique';
+            }
+        });
+
+        function updateTableStyle(style) {
+            var table = document.getElementById('morseAlphabetTable');
+            if (style === 'dark-mode') {
+                table.style.color = '#FFFFFF';
+            } else {
+                table.style.color = '#000000';
+            }
+        }
+
+        document.getElementById('toggleAlphabetButton').addEventListener('click', function () {
+            document.querySelector('.table-container').classList.toggle('active');
+        });
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.onclick = function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            };
+        });
+
+        document.getElementById("clearAllButton").addEventListener("click", function () {
+            var textareas = document.querySelectorAll("textarea");
+            textareas.forEach(function (textarea) {
+                textarea.value = '';
+            });
+        });
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function() {
+                if(window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'Retour en Haut(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+</html>

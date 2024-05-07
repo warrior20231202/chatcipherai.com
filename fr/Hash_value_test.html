@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorateur Hash SHA-256 : Le sculpteur irréversible du monde numérique.</title>
+    <meta name="description"
+          content="Forgeant l'empreinte unique de l'information avec un cryptage de 256 bits, protégeant l'intégrité et l'authenticité des données.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 13%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 1000px;
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 120px;
+            margin-right: -10px;
+        }
+
+        .sections-container h2,
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        p {
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: center; 
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            margin-top: 50px;
+        }
+
+        h3 {
+            margin-top: 50px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #c0c0c0;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: #FFFFFF;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent;
+            color: #0A0F24;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+        }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px;
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent {
+            width: 80%;
+            margin: auto;
+            text-align: left;
+            padding: 10px;
+            display: none;
+            margin-left: 0px;
+        }
+
+        .moreContent p {
+            margin-bottom: 16px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            padding-bottom: 5px;
+        }
+
+        #moreContent1 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 77%;
+        }
+
+        #moreContent1 ul li {
+            margin-bottom: 15px; /* This adds 15px of space below each list item */
+        }
+
+        #moreContent2 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 77%;
+        }
+
+        #moreContent2 ul li {
+            margin-bottom: 15px; /* This adds 15px of space below each list item */
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -290px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.workflow,
+        figcaption.Irreversibility,
+        figcaption.Resistance,
+        figcaption.Merkle-Damgård,
+        figcaption.Compare,
+        figcaption.sponge {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 85%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .input-group {
+            display: flex;
+            width: 83%;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 40px;
+        }
+
+        .input-group>div {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .input-group>div:last-child {
+            margin-right: 0;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 15px 10px 5px;
+            border: 1px solid #eae6e6;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button,
+        input[type="submit"],
+        input[type="file"]::file-selector-button {
+            background-color: #0a0f24;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        button:hover,
+        input[type="submit"]:hover,
+        input[type="file"]::file-selector-button:hover {
+            background-color: #c0c0c0;
+            color: #0A0F24;
+        }
+
+        .compare-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            display: block;
+        }
+
+        .outPut {
+            width: 100%;
+            white-space: normal;
+            word-break: break-all;
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .section {
+            padding-left: 220px;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .attention {
+            margin-top: 20px;
+            font-size: 0.8em;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 93%;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .section h2 {
+                font-size: 1.2em; 
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .section p {
+                font-size: 0.9em; 
+            }
+
+            section li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            figure {
+                display: flex;
+                flex-direction: column;
+                align-items: center; 
+                justify-content: center; 
+                text-align: center;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -90px;
+                margin-top: 20px;
+            }
+
+            figcaption.workflow,
+            figcaption.Irreversibility,
+            figcaption.Resistance,
+            figcaption.Merkle-Damgård,
+            figcaption.Compare,
+            figcaption.sponge {
+                width: 100%;
+                margin-left: -100px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            pre {
+                display: none;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+   
+            .input-group {
+                flex-direction: column;
+            }
+
+            .section.interactive-tool {
+                width: 320px;
+            }
+            .navbar ul {
+                width: 30%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 55%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+
+            .attention {
+                margin-top: 10px;
+                font-size: 0.5em;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; menu</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/fr/chatcipherai.html">Monde des Cryptosystèmes</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/fr/Caesar_Cipher.html">Chiffre de César</a></li>
+                        <li><a href="https://chatcipherai.com/fr/Playfair_Cipher.html">Chiffre de Playfair</a></li>
+                        <li><a href="https://chatcipherai.com/fr/Hill_Cipher.html">Chiffre de Hill</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/fr/Hash_value_test.html">Test de Valeur de Hachage</a></li>
+                <li><a href="https://chatcipherai.com/fr/Morsecode_main.html">Traducteur de Code Morse</a></li>
+                <li><a href="https://chatcipherai.com/fr/Shortcut_Key_Description.html">Description des raccourcis clavier</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; lang</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Hash_value_test.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Hash_value_test.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Hash_value_test.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Hash_value_test.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Hash_value_test.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Hash_value_test.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Hash_value_test.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Hash_value_test.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Hash_value_test.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Hash_value_test.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Hash_value_test.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+
+            <h1>Explorateur de Hash SHA-256</h1>
+
+            <div class="style-selector">
+                <button id="darkStyle">🌙 Style Sombre(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ Style Lumineux(<span class="highlight-key">L</span>)</button>
+            </div>            
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <section class="section interactive-tool">
+            <h2>Test de Valeur de Hachage</h2>
+            <p>Entrez du texte pour voir le processus de conversion en une valeur de hachage en temps réel,
+                <br>
+                ou sélectionnez un fichier pour calculer la valeur de hachage du fichier.
+            </p>
+
+            <div class="input-group">
+                <div>
+                    <p>Générer la Valeur de Hachage du Texte</p>
+                    <input type="text" class="input_value" id="textInput" placeholder="Entrez du texte" oninput="generateHash()" />
+                    <button onclick="copyTextHash()">Copier la valeur de hachage du texte</button>
+                    <div id="processOutput"></div>
+                    <div id="hashOutput" class="outPut"></div>
+                </div>
+                <div>
+                    <p>Comparer la Valeur de Hachage du Texte</p>
+                    <input type="text" class="input_value" id="hashCompareInput"
+                        placeholder="Entrez la valeur de hachage pour comparaison" />
+                    <button onclick="compareTextHash()">Comparer</button>
+                    <div id="textCompareResult"></div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div>
+                    <p>Générer la Valeur de Hachage du Fichier</p>
+                    <input type="file" id="fileInput" onchange="generateFileHash()" />
+                    <button onclick="copyFileHash()">Copier la valeur de hachage du fichier</button>
+                    <div id="fileHashOutput" class="outPut"></div>
+                </div>
+                <div>
+                    <p>Comparer la Valeur de Hachage du Fichier</p>
+                    <input type="file" id="compareFileInput" onchange="compareFileHash()" />
+                    <div id="fileCompareResult" class="outPut"></div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div>
+                    <p>Saisissez la valeur de hachage 1</p>
+                    <input type="text" class="input_value" id="hashInput1" placeholder="Entrez la valeur de hachage 1" />
+                </div>
+                <div>
+                    <p>Saisissez la valeur de hachage 2</p>
+                    <input type="text" class="input_value" id="hashInput2" placeholder="Entrez la valeur de hachage 2" />
+                    <button onclick="compareHashValues()">Comparer</button>
+                    <div id="hashComparisonResult" class="outPut"></div>
+                </div>
+            </div>
+        
+            <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">Tout effacer(<span class="highlight-key">A</span>)</button>
+            <div class="attention">
+                Rappel aimable : Avant de saisir des données, veuillez vérifier soigneusement l'exactitude et la sensibilité des informations. Nous vous conseillons d'uploader vos données importantes avec prudence, ce qui contribuera à renforcer la protection de votre confidentialité et de votre sécurité.
+            </div>
+        </section>
+
+        <article class="section">
+            <p><strong><em>"Dans l'ère numérique actuelle, la sécurité des données n'est pas seulement la pierre angulaire de la protection de la vie privée personnelle et des secrets d'entreprise, mais aussi la clé pour maintenir la confiance sociale et la stabilité économique."</em></strong></p>
+            <section>
+                <h2>Qu'est-ce qu'une Valeur de Hachage ?</h2>
+                <p>
+                    Une valeur de hachage est une chaîne ou un nombre de taille fixe généré à partir de toute taille de données d'entrée par une fonction de hachage.
+                    Ces fonctions acceptent des entrées diverses comme du texte, des images et des vidéos, produisant une valeur de hachage irréversible de longueur fixe.
+                    Les valeurs de hachage sont déterministes, ce qui signifie que des entrées identiques produisent toujours le même résultat. Elles présentent également une résistance aux collisions,
+                    rendant difficile la recherche d'entrées distinctes qui produisent le même résultat.
+                </p>
+            </section>
+
+            <section>
+                <h2>Fonctions de la Valeur de Hachage</h2>
+                <p>
+                    Les valeurs de hachage jouent des rôles essentiels dans l'informatique et les TI, offrant un résumé de longueur fixe des données, quelle que soit leur taille. Ces fonctions facilitent diverses applications :
+                </p>
+                <ul>
+                    <li><strong>Vérification de l'intégrité des données :</strong> Utilisée pour vérifier si les données restent inchangées lors de la transmission, garantissant l'intégrité des fichiers téléchargés.</li>
+                    <li><strong>Stockage des mots de passe :</strong> Les mots de passe sont stockés sous forme de valeurs de hachage pour la sécurité, rendant difficile la récupération des mots de passe originaux à partir des bases de données compromises.</li>
+                    <li><strong>Récupération rapide des données :</strong> Les valeurs de hachage agissent comme des indices dans les tables de hachage, permettant des opérations de données efficaces.</li>
+                    <li><strong>Déduplication des données :</strong> Aide à identifier et à supprimer les éléments de données en double en comparant les valeurs de hachage.</li>
+                    <li><strong>Signature numérique et vérification :</strong> Assure l'intégrité des données et leur origine grâce à la cryptographie à clé publique et aux fonctions de hachage.</li>
+                    <li><strong>Technologie Blockchain :</strong> Utilise les valeurs de hachage pour sécuriser les enregistrements de transactions et garantir l'immuabilité des données.</li>
+                    <li><strong>Horodatage infalsifiable :</strong> Fournit un horodatage irréversible pour les données, utile dans la protection légale et des droits d'auteur.</li>
+                </ul>
+                <p>
+                    Les valeurs de hachage sont efficaces dans ces domaines en raison de leurs caractéristiques clés : rapidité, déterminisme, irréversibilité et résistance aux collisions. Bien utilisées, les fonctions de hachage peuvent fournir un soutien robuste dans la sécurisation des données, 
+                    l'amélioration de l'efficacité et la vérification de l'authenticité des informations.
+                </p>
+            </section>
+            
+            <section>
+                <h2>Qu'est-ce qu'une fonction de hachage ?</h2>
+                <p>Une fonction de hachage est une construction mathématique qui associe des données d'entrée (ou "message") à une chaîne de taille fixe, généralement une valeur numérique, comme illustré dans le diagramme ci-dessous. Largement utilisée dans la gestion des données et la sécurité de l'information, 
+                    une fonction de hachage se caractérise par sa performance de calcul efficace, sa longueur de sortie constante, son irréversibilité, sa sensibilité aux variations d'entrée et sa résistance aux collisions.
+                </p>
+                <figure>
+                    <img src="./images/Hash input output.jpg" alt="Diagramme de flux de travail de la fonction de hachage" />
+                    <figcaption class="workflow">Diagramme de flux de travail de la fonction de hachage</figcaption>
+                </figure>
+            </section>
+            
+            <section>
+                <h3>Performance de calcul efficace</h3>
+                <p>
+                    Les fonctions de hachage peuvent rapidement calculer des valeurs de hachage à partir de données de toute forme, quelle que soit la taille des données. Cette caractéristique est cruciale pour les applications nécessitant un accès rapide aux données, telles que les tables de hachage.
+                    Cela est dû au fait que, lors du stockage des données dans des tables de hachage, la vitesse de la fonction de hachage détermine la vitesse de récupération des données. Les tables de hachage utilisent des fonctions de hachage pour localiser rapidement l'emplacement de stockage des données, en s'appuyant sur la capacité de calcul rapide des fonctions de hachage.
+                </p>
+            
+                <p>
+                    De plus, dans les systèmes devant traiter de grandes quantités de données, l'efficacité des fonctions de hachage impacte directement la performance globale du système. Si une fonction de hachage est lente, elle deviendra un goulot d'étranglement dans la performance du système. Certains systèmes en temps réel,
+                    comme le filtrage de paquets dans les dispositifs réseau, nécessitent un calcul immédiat des valeurs de hachage pour les données afin de prendre rapidement des décisions. Dans ces cas, l'efficacité des fonctions de hachage est tout aussi cruciale.
+                </p>
+            
+                <p>
+                    Par exemple, considérez une plateforme de commerce en ligne où les utilisateurs peuvent entrer des noms de produits dans la barre de recherche pour trouver des produits. Le système backend peut utiliser des fonctions de hachage pour localiser rapidement les informations sur les produits stockées dans des tables de hachage.
+                    Si le processus de calcul de la fonction de hachage est lent, l'expérience utilisateur sera gravement affectée, car ils devront attendre plus longtemps pour obtenir les résultats de la recherche. Dans cette situation, la performance de calcul efficace des fonctions de hachage assure des temps de réponse rapides, améliorant ainsi l'expérience utilisateur.
+                    <a href="javascript:void(0);" class="learnMore" data-target="moreContent1">[En savoir plus]</a>
+                </p>
+            </section>
+            
+            <div id="moreContent1" class="moreContent" style="display:none;" style="color: #007bff; font-size: 1.0em;">
+                <p>Les raisons pour lesquelles les fonctions de hachage peuvent améliorer l'efficacité du calcul sont principalement dues aux caractéristiques de conception suivantes :</p>
+                <ul>
+                    <li><strong>Opérations simples :</strong> Les fonctions de hachage utilisent généralement des opérations mathématiques et bit à bit simples, qui s'exécutent très rapidement en raison du support matériel direct du CPU.</li>
+                    <li><strong>Éviter les dépendances de boucle :</strong> En évitant les dépendances de boucle, les fonctions de hachage permettent un traitement en pipeline, augmentant ainsi la vitesse.</li>
+                    <li><strong>Traitement parallèle :</strong> Les fonctions de hachage modernes sont conçues pour le traitement parallèle, améliorant l'efficacité sur les processeurs multicœurs.</li>
+                    <li><strong>Taille de sortie fixe :</strong> La sortie de longueur fixe simplifie l'allocation de mémoire et la comparaison des données, améliorant le modèle de programmation et l'efficacité.</li>
+                    <li><strong>Prétraitement et post-traitement :</strong> Les fonctions de hachage peuvent traiter de grandes données en les divisant en blocs, en calculant séparément les valeurs de hachage, puis en les combinant, ce qui améliore l'efficacité.</li>
+                    <li><strong>Chemins d'algorithme optimisés :</strong> La réduction du branchement lors de l'exécution augmente la précision de la prédiction des instructions sur les CPU, augmentant ainsi la vitesse.</li>
+                    <li><strong>Compatible avec le cache :</strong> Concevoir des fonctions de hachage pour minimiser les défauts de cache augmente considérablement la vitesse de traitement.</li>
+                    <li><strong>Optimisation matérielle :</strong> Les accélérateurs matériels dédiés peuvent augmenter considérablement la vitesse des calculs de hachage, en particulier pour les fonctions de hachage cryptographiques comme la série SHA.</li>
+                    <li><strong>Non étatique :</strong> Les fonctions de hachage ne conservent pas d'informations d'état, permettant un traitement léger de chaque nouvelle entrée.</li>
+                    <li><strong>Universalité :</strong> Les fonctions de hachage sont universelles pour tous les types de données d'entrée, éliminant le besoin d'algorithmes personnalisés pour différents types de données.</li>
+                </ul>
+            </div>
+            
+            <section>
+                <h3>Consistance de la longueur de sortie dans les fonctions de hachage</h3>
+                <p>
+                    Les fonctions de hachage transforment une entrée de n'importe quelle longueur en une sortie de longueur fixe à travers une série complexe de calculs. Ce processus implique souvent de diviser les données d'entrée en blocs de taille fixe (pour les entrées dépassant la taille de l'unité de traitement),
+                    d'appliquer une série d'opérations mathématiques et logiques à chaque bloc, puis de combiner ou d'accumuler les résultats de ces opérations d'une certaine manière pour produire finalement une valeur de hachage de taille fixe.
+                </p>
+                <p>
+                    <strong>Pourquoi est-ce important ?</strong>
+                    La consistance de la longueur de sortie aide à assurer la sécurité des fonctions de hachage. Si la longueur de la sortie du hachage pouvait varier, cela pourrait divulguer des informations sur la taille des données originales, ce qui pourrait potentiellement être exploité pour attaquer le système dans certains scénarios.
+                    De plus, une longueur de sortie fixe rend également difficile pour les attaquants de déduire les caractéristiques des données d'entrée en analysant la longueur de sortie. En même temps, les sorties de longueur fixe simplifient le stockage et la comparaison des valeurs de hachage.
+                    Les concepteurs de systèmes peuvent savoir à l'avance combien d'espace chaque valeur de hachage occupera, ce qui est très important pour des scénarios tels que la conception de bases de données et la transmission réseau. En outre, la consistance de la longueur de sortie devient très efficace pour comparer si les valeurs de hachage sont égales car cela nécessite uniquement de comparer des données de longueur fixe.
+                    Cela est particulièrement important lors de l'utilisation de tables de hachage pour une récupération rapide des données.
+                </p>
+                <p>
+                    Prenant SHA-256 comme exemple, cette fonction de hachage cryptographique largement utilisée produit toujours une valeur de hachage de 256 bits (c'est-à-dire 32 octets), que les données d'entrée soient un seul octet ou plusieurs millions d'octets. Cette consistance garantit que les valeurs de hachage SHA-256 peuvent être utilisées pour diverses applications de sécurité,
+                    telles que les signatures numériques et les codes d'authentification de message (MAC), tout en simplifiant le flux de travail de traitement et de stockage des données.
+                </p>
+            </section>
+            
+            <section>
+                <h3>Irreversibilité des fonctions de hachage</h3>
+                <p>
+                    Les fonctions de hachage sont unidirectionnelles, signifiant qu'il est impossible de déduire les données originales à partir de la valeur de hachage. Cette caractéristique est particulièrement importante pour le stockage des mots de passe, car même si la base de données est compromise, les attaquants ne peuvent pas récupérer les mots de passe à partir des valeurs de hachage.
+                    L'irréversibilité des fonctions de hachage repose principalement sur les principes et caractéristiques suivants :
+                </p>
+                <ul>
+                    <li><strong>Compression :</strong> Les fonctions de hachage peuvent mapper des entrées de toute longueur (qui peuvent être très grandes en pratique) vers une sortie de longueur fixe. Cela signifie qu'il y a infiniment beaucoup d'entrées possibles mappées vers un nombre fini de sorties. Comme l'espace de sortie (valeurs de hachage) est beaucoup plus petit que l'espace d'entrée, différentes entrées produiront inévitablement la même sortie, un phénomène connu sous le nom de "collision". En raison de cette compression, il est impossible de déterminer l'entrée spécifique à partir d'une sortie donnée (valeur de hachage).</li>
+                    <li><strong>Haute non-linéarité et complexité :</strong> Les fonctions de hachage sont conçues en utilisant des opérations mathématiques et logiques complexes (telles que les opérations bit à bit, les opérations modulo, etc.), pour garantir que la sortie est très sensible à l'entrée. Même de petits changements dans l'entrée (par exemple, changer un bit) peuvent provoquer des changements importants et imprévisibles dans la sortie (valeur de hachage). Ce haut degré de non-linéarité et le caractère aléatoire de la sortie rendent extrêmement difficile de déduire l'entrée originale à partir de la valeur de hachage.</li>
+                    <li><strong>Unidirectionnalité :</strong> La conception des fonctions de hachage garantit que leur fonctionnement est à sens unique ; c'est-à-dire que si le calcul de la valeur de hachage est facile, le processus inverse (récupérer les données originales à partir de la valeur de hachage) n'est pas faisable. Cela est dû au fait que le processus de calcul des fonctions de hachage implique une série d'opérations irréversibles (telles que l'irréversibilité des opérations modulo), garantissant que même avec la valeur de hachage, il est impossible de rétro-concevoir les données originales.</li>
+                    <li><strong>Cartographie aléatoire :</strong> Une fonction de hachage idéale devrait agir comme un "cartographe aléatoire", signifiant que chaque entrée possible est également susceptible d'être mappée à n'importe quel point dans l'espace de sortie. Cette propriété garantit qu'il n'y a aucun moyen faisable de prédire à quel résultat une entrée spécifique sera mappée, renforçant l'irréversibilité de la fonction de hachage.</li>
+                    <li><strong>Fondation mathématique :</strong> Mathématiquement, l'irréversibilité des fonctions de hachage peut être comprise grâce à leur dépendance à des "problèmes de logarithme discret", "problèmes de factorisation de grands entiers" ou d'autres problèmes de théorie des nombres qui sont difficiles à résoudre avec les capacités mathématiques et informatiques actuelles. Par exemple, la conception de certains algorithmes de hachage peut dépendre indirectement de la difficulté de calcul de ces problèmes, garantissant ainsi leur irréversibilité.</li>
+                </ul>
+                <figure>
+                    <img src="./images/Irreversibility.jpg" alt="Irréversibilité des fonctions de hachage" />
+                    <figcaption class="Irreversibility">Irréversibilité des fonctions de hachage</figcaption>
+                </figure>
+            </section>            
+
+            <section>
+                <h3>Sensibilité aux entrées et l'effet avalanche</h3>
+                <p>
+                    Dans la conception des fonctions de hachage, des opérations mathématiques et logiques complexes (telles que les opérations bit à bit, les opérations modulo, etc.) sont utilisées pour garantir que la sortie soit hautement sensible à l'entrée.
+                    Même de petits changements dans l'entrée (par exemple, changer un seul bit) entraîneront des changements significatifs et imprévisibles dans la sortie (la valeur de hachage), un phénomène connu sous le nom d'« effet avalanche ».
+                    <a href="javascript:void(0);" class="learnMore" data-target="moreContent2">[En savoir plus]</a>
+                </p>
+            </section>
+            
+            <div id="moreContent2" class="moreContent" style="display:none;">
+                <p>L'<a href="https://en.wikipedia.org/wiki/Avalanche_effect" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">effet avalanche</a> peut avoir différentes interprétations dans divers domaines :</p>
+                <ul>
+                    <li><strong>En cryptographie :</strong> L'effet avalanche est une propriété souhaitable des algorithmes de chiffrement (en particulier les chiffrements par blocs et les fonctions de hachage cryptographiques). Il se produit lorsque le moindre changement dans l'entrée (par exemple, inverser un bit binaire) conduit à des changements indiscernables dans la sortie (avec une probabilité de 50 % d'inverser chaque bit binaire dans la sortie). Cette caractéristique aide à renforcer la sécurité du chiffrement car des changements significatifs dans la sortie peuvent se produire même avec seulement de mineurs changements dans l'entrée, rendant plus difficile de craquer le chiffrement en analysant la relation entre l'entrée et la sortie.</li>
+                    <li><strong>En affaires et technologie :</strong> L'effet avalanche fait référence au phénomène où une énergie significative peut être libérée en démantelant et recombinant de manière appropriée la structure et le système inhérents aux affaires et à la technologie. Cette énergie peut détruire de vieux systèmes industriels comme une avalanche, ou même causer la disparition d'une industrie entière. Sous l'immense pression de l'avalanche, la connexion inhérente entre les affaires et la technologie est complètement interrompue, nécessitant l'acceptation de nouvelles transformations et intégrations. Cet effet déclenche finalement une série d'innovations révolutionnaires.</li>
+                    <li><strong>En architecture de microservices :</strong> L'effet avalanche décrit le scénario où, en raison des dépendances entre les services, une défaillance ou une indisponibilité dans un service peut se propager à travers la chaîne d'appels, entraînant la paralysie de l'ensemble du système. Les causes de l'effet avalanche peuvent inclure des défaillances matérielles, des pics de trafic, la pénétration du cache, des bogues de programme, et des blocages de la JVM, entre autres.</li>
+                    <li><strong>Dans le monde naturel :</strong> L'effet avalanche fait référence au phénomène où une petite pierre qui roule sur une montagne enneigée peut déclencher une avalanche. C'est parce que l'impact de la petite pierre provoque le relâchement et la glissade des couches de neige environnantes, conduisant à une avalanche à plus grande échelle. Ce phénomène peut également décrire de manière métaphorique comment des événements ou des facteurs mineurs peuvent déclencher d'énormes réactions en chaîne.</li>
+                </ul>
+            </div>
+            
+            <section>
+                <h3>Résistance aux collisions en cryptographie</h3>
+                <p>
+                    La résistance aux collisions d'une fonction de hachage est un concept crucial en cryptographie, indiquant le niveau de sécurité d'une fonction de hachage contre les attaques par collisions. Cette propriété implique que pour toute fonction de hachage <strong>H</strong>, il est pratiquement infaisable de trouver deux entrées distinctes <strong>x</strong> et <strong>y</strong> (<strong>x ≠ y</strong>) telles que <strong>H(x) = H(y)</strong>. Une fonction de hachage avec une solide résistance aux collisions rend extrêmement difficile de trouver deux entrées différentes menant à la même valeur de sortie.
+                </p>
+                <figure>
+                    <img src="./images/Collision Resistance.jpg" alt="Diagramme illustrant la résistance aux collisions">
+                    <figcaption class="Resistance">Illustration de la résistance aux collisions</figcaption>
+                </figure>
+                <p>
+                    La résistance aux collisions joue un rôle vital dans le maintien de l'intégrité des données et la vérification. En transformant les informations d'entrée en une sortie de taille fixe (ou empreinte), les fonctions de hachage garantissent qu'aucune deux entrées différentes ne produisent la même sortie. Cette caractéristique unique permet à la valeur de hachage d'identifier précisément la valeur originale.
+                </p>
+                <p>
+                    Lors de la création ou du stockage de données, une valeur de hachage (ou empreinte) est générée en utilisant une fonction de hachage. Cette valeur est stockée ou transmise aux côtés des données originales. Par exemple, les sites de téléchargement de logiciels affichent souvent les valeurs de hachage des fichiers pour la vérification de l'intégrité. Les destinataires peuvent recalculer indépendamment la valeur de hachage des données reçues pour confirmer leur intégrité. Si les valeurs de hachage originales et recalculées correspondent, l'intégrité des données est vérifiée. Sinon, les données peuvent avoir été altérées ou corrompues pendant la transmission ou le stockage.
+                </p>
+                <p>
+                    Comparer les valeurs de hachage offre également l'avantage de vérifier l'intégrité des données sans nécessiter un espace de stockage important. Cette méthode permet aux destinataires de confirmer l'authenticité des données en comparant simplement les valeurs de hachage avant et après la transmission.
+                </p>
+                <figure>
+                    <img src="./images/Compare Hash.jpg" alt="Processus de comparaison des valeurs de hachage">
+                    <figcaption class="Compare">Processus de comparaison des valeurs de hachage</figcaption>
+                </figure>
+            </section>            
+            
+            <section>
+                <h2>Les collisions de hachage peuvent-elles être trouvées ?</h2>
+                <p>
+                    À travers les caractéristiques des fonctions de hachage mentionnées ci-dessus, nous avons compris la résistance aux collisions. Mais est-il possible que des collisions de hachage existent, c'est-à-dire que deux entrées différentes produisent le même résultat ?
+                    La réponse est affirmative, les collisions existent bien. Selon le <a href="https://en.wikipedia.org/wiki/Pigeonhole_principle" target="_blank" style="color: #007bff; font-size: 1.0em;">principe des tiroirs</a>, tant que l'espace d'entrée est suffisamment grand, il existe une possibilité de collisions de hachage.
+                    Cela est dû au fait que l'espace de sortie des fonctions de hachage est généralement beaucoup plus petit que l'espace d'entrée, conduisant inévitablement à plusieurs entrées différentes mappées sur le même résultat.
+                </p>
+                
+                <p>
+                    Le principe des tiroirs est un principe simple et intuitif de mathématiques combinatoires, stipulant que si plus de n objets sont placés dans n conteneurs, alors au moins un conteneur contiendra deux objets ou plus.
+                    Ce principe peut également être utilisé pour expliquer des problèmes tels que le paradoxe des anniversaires.
+                </p>
+                <p>
+                    L'application du principe des tiroirs est très large, avec des utilisations importantes dans des domaines tels que la cryptographie, l'informatique et les mathématiques. Par exemple, en informatique, le principe des tiroirs est utilisé pour prouver la correction de certains algorithmes ou pour analyser la complexité temporelle des algorithmes.
+                    En cryptographie, le principe des tiroirs est également utilisé pour concevoir certaines méthodes d'attaque cryptographique, comme l'attaque par anniversaires.
+                </p>
+                <p>
+                    Le paradoxe des anniversaires est une application classique du principe des tiroirs. Supposons qu'il y ait n personnes dans une pièce.
+                    Si nous voulons que la probabilité qu'au moins deux personnes partagent le même anniversaire soit supérieure à 50 %, combien de personnes sont nécessaires ? Selon le principe des tiroirs,
+                    si 367 personnes (en supposant qu'il y ait 366 jours dans une année, plus un jour supplémentaire pour le 29 février d'une année bissextile) sont placées dans 366 « tiroirs » (c'est-à-dire les anniversaires), alors au moins un « tiroir » contiendra deux personnes, signifiant qu'au moins deux personnes partagent le même anniversaire. Ceci illustre le paradoxe des anniversaires.
+                </p>
+                <p>
+                    Il est important de noter que, bien que le principe des tiroirs soit simple et intuitif, son application doit tenir compte du contexte spécifique.
+                    Par exemple, lors de l'application du principe des tiroirs, il est nécessaire de s'assurer que les variables aléatoires impliquées sont indépendantes les unes des autres ; sinon, cela peut conduire à des conclusions incorrectes. De plus, dans certains cas, il est également nécessaire de prendre en compte des facteurs tels que la taille et la forme des tiroirs.
+                </p>
+            </section>
+            
+            <section>
+                <p>
+                    Cependant, tenter de trouver des collisions de hachage en parcourant simplement l'espace d'entrée peut ne pas être pratique, principalement pour deux raisons :
+                </p>
+                <ul>
+                    <li><strong>Complexité computationnelle :</strong> Pour la plupart des fonctions de hachage, l'espace d'entrée est vaste. Prenons SHA-256 comme exemple ; sa sortie est une valeur de hachage de 256 bits, ce qui signifie qu'il a 2^256 sorties possibles. Puisque l'un des objectifs de conception des fonctions de hachage est de minimiser autant que possible les collisions, théoriquement,
+                            trouver une collision de hachage pour SHA-256 nécessiterait de parcourir environ 2^(256/2) = 2^128 entrées, selon le paradoxe des anniversaires, qui est le nombre approximatif d'entrées attendu pour trouver une collision. Même avec les superordinateurs les plus puissants actuellement disponibles, il faudrait bien au-delà d'une vie humaine pour achever une telle tâche.
+                            Spécifiquement, le temps pour parcourir 2^128 entrées dépasse de loin l'âge de l'humanité, rendant considéré comme impossible de trouver une collision de hachage SHA-256 par simple parcours.</li>
+                    <li><strong>Conception des fonctions de hachage :</strong> Les fonctions de hachage sont généralement conçues pour rendre la recherche de collisions computationnellement infaisable. Cela signifie que, bien que les collisions existent théoriquement, elles sont pratiquement impossibles à trouver en pratique. C'est une caractéristique importante des fonctions de hachage cryptographiques (telles que SHA-256),
+                            qui sont largement utilisées dans des domaines tels que les signatures numériques, le stockage des mots de passe, et plus encore.</li>
+                </ul>
+                <p>
+                    Bien sûr, nous pouvons également utiliser des algorithmes spécifiques pour essayer de trouver des collisions de hachage. Ces algorithmes exploitent souvent certaines propriétés ou faiblesses connues des fonctions de hachage pour trouver des collisions. Voici quelques techniques et méthodes courantes pour trouver des collisions de hachage :
+                </p>
+                <ul>
+                    <li><strong>Attaque par anniversaires :</strong> C'est une méthode simple basée sur la probabilité utilisée pour estimer le temps nécessaire pour trouver une collision lorsque les entrées sont choisies au hasard. Le principe de l'attaque par anniversaires est que s'il y a beaucoup de personnes dans une pièce, la probabilité que deux personnes aient le même anniversaire augmente avec le nombre de personnes.
+                            De manière similaire, dans les fonctions de hachage, si un nombre suffisant d'entrées sont sélectionnées au hasard, il est probable que deux entrées produiront finalement la même sortie de hachage.</li>
+                    <li><strong>Attaque par force brute :</strong> C'est la méthode la plus simple, qui implique de parcourir toutes les entrées possibles pour trouver une collision. Cependant, cette méthode est peu pratique pour les fonctions de hachage avec de grands espaces d'entrée en raison des énormes ressources computationnelles et du temps requis.</li>
+                    <li><strong>Tables arc-en-ciel :</strong> Cette technique est utilisée pour précalculer et stocker un grand nombre de valeurs de hachage et leurs entrées correspondantes. Les tables arc-en-ciel sont particulièrement utiles pour craquer les mots de passe qui n'ont pas utilisé d'obfuscation de données aléatoires ou qui ont une fonction de hachage connue. En consultant la table arc-en-ciel, un attaquant peut rapidement trouver une entrée qui correspond à une valeur de hachage spécifique.</li>
+                    <li><strong>Attaques par extension de hachage :</strong> Certaines fonctions de hachage permettent aux attaquants de combiner des données supplémentaires avec une valeur de hachage connue sans connaître l'entrée d'origine, générant ainsi une nouvelle valeur de hachage. Cette attaque peut être utilisée pour construire des collisions ou effectuer d'autres types d'attaques.</li>
+                    <li><strong>Entrées spécialement construites :</strong> Parfois, les attaquants peuvent exploiter des faiblesses spécifiques ou des comportements non linéaires dans les fonctions de hachage pour construire des entrées spéciales qui sont plus susceptibles de produire des collisions dans la fonction de hachage.</li>
+                </ul>
+            </section>            
+
+            <section>
+                <h2>Quelles sont les fonctions de hachage couramment utilisées ?</h2>
+                <h3>MD5 (Message Digest Algorithm 5)</h3>
+                <p>
+                    MD5 est une fonction de hachage cryptographique largement utilisée, conçue par Ronald Rivest dans les années 1990 pour remplacer l'ancien algorithme MD4. Elle peut convertir un message de n'importe quelle longueur en une valeur de hachage de longueur fixe (128 bits, soit 16 octets).
+                    L'objectif de la conception de MD5 était de fournir un moyen rapide et relativement sûr de générer une empreinte numérique des données. Cependant, des méthodes de collision pour <a href="https://fr.wikipedia.org/wiki/MD5" target="_blank" style="color: #007bff; font-size: 1.0em;">MD5</a> ont été découvertes, rendant l'algorithme non sécurisé, mais il est toujours largement utilisé dans des situations où la sécurité n'est pas une préoccupation principale.
+                <br>
+                <br>Le processus de calcul de MD5 comprend les étapes suivantes :
+                </p>
+                <ul>
+                    <li><strong>Rembourrage :</strong> Initialement, les données originales sont rembourrées pour que leur longueur en octets soit un multiple de 512. Le rembourrage commence par un 1, suivi de 0 jusqu'à ce que l'exigence de longueur soit satisfaite.</li>
+                    <li><strong>Ajout de la longueur :</strong> Une valeur de longueur de 64 bits, qui est la représentation binaire de la longueur du message original, est ajoutée au message rembourré, rendant la longueur finale du message un multiple de 512 bits.</li>
+                    <li><strong>Initialisation du tampon MD :</strong> Quatre registres de 32 bits (A, B, C, D) sont initialisés pour stocker les valeurs de hachage intermédiaires et finales.</li> 
+                    <li><strong>Traitement des blocs de messages :</strong> Le message rembourré et traité en longueur est divisé en blocs de 512 bits, et chaque bloc est traité à travers quatre tours d'opération. Chaque tour inclut 16 opérations similaires basées sur des fonctions non linéaires (F, G, H, I), des opérations de décalage circulaire gauche et une addition modulo 32.</li> 
+                    <li><strong>Sortie :</strong> La valeur de hachage finale est le contenu du dernier état des quatre registres A, B, C, D concaténés ensemble (chaque registre est de 32 bits), formant une valeur de hachage de 128 bits.</li> 
+                </ul>
+                
+                <h3>SHA-1 (Secure Hash Algorithm 1)</h3>
+                <p>
+                    SHA-1 a été conçu par la National Security Agency (NSA) des États-Unis et publié comme Federal Information Processing Standard (FIPS PUB 180-1) par le National Institute of Standards and Technology (NIST) en 1995.
+                    SHA-1 est destiné à être utilisé dans les signatures numériques et autres applications cryptographiques, générant une valeur de hachage de 160 bits (20 octets) connue sous le nom de message digest. Bien qu'il soit désormais connu que <a href="https://fr.wikipedia.org/wiki/SHA-1" target="_blank" style="color: #007bff; font-size: 1.0em;">SHA-1</a> présente des vulnérabilités de sécurité et a été remplacé par des algorithmes plus sécurisés tels que SHA-256 et SHA-3,
+                    comprendre son principe de fonctionnement conserve une valeur éducative et historique.
+                <br>
+                <br>Le but de la conception de SHA-1 est de prendre un message de longueur arbitraire et de produire un message digest de 160 bits pour vérifier l'intégrité des données. Son processus de calcul peut être divisé en les étapes suivantes :
+                </p>
+                <ul>
+                    <li><strong>Rembourrage :</strong> Initialement, le message original est rembourré pour que sa longueur (en bits) modulo 512 soit égale à 448. Le rembourrage commence toujours par un bit "1", suivi de plusieurs bits "0", jusqu'à ce que la condition de longueur ci-dessus soit remplie.</li>
+                    <li><strong>Ajout de la longueur :</strong> Un bloc de 64 bits est ajouté au message rembourré, représentant la longueur du message original (en bits), rendant la longueur finale du message un multiple de 512 bits.</li>
+                    <li><strong>Initialisation du tampon :</strong> L'algorithme SHA-1 utilise un tampon de 160 bits, divisé en cinq registres de 32 bits (A, B, C, D, E), pour stocker les valeurs de hachage intermédiaires et finales. Ces registres sont initialisés à des valeurs constantes spécifiques au début de l'algorithme.</li>
+                    <li><strong>Traitement des blocs de messages :</strong> Le message pré-traité est divisé en blocs de 512 bits. Pour chaque bloc, l'algorithme exécute une boucle principale contenant 80 étapes similaires. Ces 80 étapes sont divisées en quatre tours, chacun avec 20 étapes. Chaque étape utilise une fonction non linéaire différente (F, G, H, I) et une constante (K). Ces fonctions sont conçues pour augmenter la complexité et la sécurité des opérations. Dans ces étapes, l'algorithme utilise des opérations binaires (telles que ET, OU, XOR, NON) et une addition modulo 32, ainsi que des décalages circulaires gauche.</li>
+                    <li><strong>Sortie :</strong> Après avoir traité tous les blocs, les valeurs accumulées dans les cinq registres sont concaténées pour former la valeur de hachage finale de 160 bits.</li>
+                </ul>
+
+                <h3>SHA-2 (Algorithme de Hachage Sécurisé 2)</h3>
+                <p>
+                    SHA-2 est une famille de fonctions de hachage cryptographiques, comprenant plusieurs versions différentes, principalement constituées de six variantes : SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224 et SHA-512/256.
+                    SHA-2 a été conçu par la National Security Agency (NSA) des États-Unis et publié comme un Standard Fédéral de Traitement de l'Information (FIPS) par le National Institute of Standards and Technology (NIST). Comparé à son prédécesseur, SHA-1, SHA-2 offre une sécurité renforcée, principalement reflétée dans des valeurs de hachage plus longues et une résistance plus forte aux attaques par collision.
+                <br>
+                <br>Le fonctionnement de la famille <a href="https://fr.wikipedia.org/wiki/SHA-2" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">SHA-2</a> est similaire à SHA-1 à bien des égards mais offre une sécurité plus élevée grâce à l'utilisation de valeurs de hachage plus longues et une procédure de traitement plus complexe. Voici les principales étapes de l'algorithme SHA-2 :
+                </p>
+                <ul>
+                    <li><strong>Rembourrage :</strong> Le message d'entrée est d'abord rembourré pour rendre sa longueur, moins 64 bits, égale à 448 ou 896 sur une base modulo 512 (pour SHA-224 et SHA-256) ou modulo 1024 (pour SHA-384 et SHA-512). La méthode de rembourrage est la même que SHA-1, qui consiste à ajouter un "1" à la fin du message, suivi de plusieurs "0", et finalement une représentation binaire de 64 bits (pour SHA-224 et SHA-256) ou 128 bits (pour SHA-384 et SHA-512) de la longueur du message original en bits.</li>
+                    <li><strong>Initialisation du Tampon :</strong> L'algorithme SHA-2 utilise un ensemble de valeurs de hachage initialisées comme tampon de départ, selon la variante SHA-2 choisie. Par exemple, SHA-256 utilise huit registres de 32 bits, tandis que SHA-512 utilise huit registres de 64 bits. Ces registres sont initialisés à des valeurs constantes spécifiques.</li>
+                    <li><strong>Traitement des Blocs de Messages :</strong> Le message rembourré est divisé en blocs de 512 bits ou 1024 bits, et chaque bloc subit plusieurs tours d'opérations cryptographiques. SHA-256 et SHA-224 effectuent 64 tours d'opérations, tandis que SHA-512, SHA-384, SHA-512/224 et SHA-512/256 effectuent 80 tours. Chaque tour d'opération comprend une série d'opérations complexes en bits, incluant des opérations logiques, d'addition modulaire et conditionnelles, en s'appuyant sur différentes fonctions non linéaires et des constantes prédéfinies. Ces opérations augmentent la complexité et la sécurité de l'algorithme.</li>
+                    <li><strong>Sortie :</strong> Finalement, après avoir traité tous les blocs, les valeurs dans le tampon sont combinées pour former la valeur de hachage finale. Selon la variante SHA-2, cette valeur de hachage peut être de 224, 256, 384 ou 512 bits de longueur.</li>
+                </ul>
+                <P>
+                    Vous pourriez être curieux de savoir pourquoi l'entrée d'une fonction de hachage peut être de longueur arbitraire, mais la sortie est fixe. La raison est que la famille SHA-2 utilise la transformation de Merkle-Damgård, qui permet la construction de fonctions de hachage pouvant traiter des messages de n'importe quelle longueur à partir d'une fonction de compression de longueur fixe. La transformation de Merkle-Damgård est adoptée dans de nombreuses fonctions de hachage traditionnelles, y compris MD5 et SHA-1.
+                </P>
+                <p>
+                    L'idée centrale de la transformation de Merkle-Damgård est de diviser le message d'entrée en blocs de taille fixe, puis de traiter ces blocs un par un, chaque étape de traitement dépendant du résultat de la précédente, pour produire finalement une valeur de hachage de taille fixe. L'étape de padding de SHA-256 incarne les principes de base de la transformation de Merkle-Damgård, à savoir en appliquant un padding approprié pour traiter des messages de toute longueur et en s'assurant que la longueur finale du message traité respecte certaines conditions (comme être un multiple d'une longueur fixe). Ainsi, on peut dire que l'étape de padding de SHA-256 suit la méthode de transformation de Merkle-Damgård.
+                </p>
+                <figure>
+                    <img src="./images/Merkle-Damgård Padding.jpg" alt="Principe de padding de Merkle-Damgård">
+                    <figcaption class="Merkle-Damgård">Principe de padding de Merkle-Damgård</figcaption>
+                </figure>
+                <p>
+                    Cependant, SHA-256 n'est pas simplement une mise en œuvre directe de la transformation de Merkle-Damgård. Il comprend également une série d'étapes de calcul complexes (telles que l'expansion des messages, de multiples tours de fonctions de compression, etc.), qui sont des conceptions uniques de SHA-256, visant à renforcer sa sécurité. Par conséquent, bien que SHA-256 suive les principes de la transformation de Merkle-Damgård dans son étape de padding, il renforce la sécurité globale en introduisant d'autres mécanismes de sécurité, ce qui fait qu'il ne se limite pas uniquement au cadre de base de la transformation de Merkle-Damgård.
+                </p>
+                
+                <h3>SHA-3 (Secure Hash Algorithm 3)</h3>
+                <p>
+                    SHA-3 est le dernier standard de hachage sécurisé, officiellement approuvé par le National Institute of Standards and Technology (NIST) en 2015 comme Federal Information Processing Standard (FIPS 202). SHA-3 n'est pas destiné à remplacer les précédents SHA-1 ou SHA-2 (car SHA-2 est toujours considéré comme sûr),
+                    mais plutôt pour compléter et offrir une option alternative au sein de la famille SHA, fournissant un algorithme de hachage cryptographique différent. SHA-3 est basé sur l'algorithme Keccak, conçu par Guido Bertoni et d'autres, et a été le gagnant du concours SHA-3 organisé par le NIST en 2012.
+                <br>
+                <br>Le principe de fonctionnement de SHA-3 diffère considérablement de celui de SHA-2, principalement parce qu'il utilise une méthode connue sous le nom de "construction éponge" pour absorber et presser les données, produisant la valeur de hachage finale. Cette méthode permet à SHA-3 de fournir de manière flexible des valeurs de hachage de différentes longueurs, offrant ainsi une gamme d'applications plus large que SHA-2. Voici les principales étapes de SHA-3 :
+                </p>
+                <figure>
+                    <img src="./images/sponge construction.jpg" alt="Diagramme schématique de la construction éponge">
+                    <figcaption class="sponge">Diagramme schématique de la construction éponge</figcaption>
+                </figure>
+                <h4>Phase d'absorption :</h4>
+                <p>
+                    Dans la phase d'absorption, la structure éponge divise d'abord les données d'entrée en blocs de taille fixe. Ces blocs de données sont séquentiellement "absorbés" dans l'état interne de l'éponge, qui est généralement plus grand qu'un seul bloc de données, pour garantir qu'une grande quantité de données puisse être traitée sans débordement.
+                    Plus précisément, chaque bloc de données est fusionné avec une partie de l'état interne d'une manière ou d'une autre (comme par une opération XOR), suivi de l'application d'une fonction de permutation fixe (dans SHA-3, il s'agit de <a href="https://en.wikipedia.org/wiki/SHA-3" target="_blank" style="color: #007bff; font-size: 1.0em;">Keccak-f</a> ) pour transformer l'ensemble de l'état, empêchant ainsi l'interférence entre différents blocs de données d'entrée. Ce processus est répété jusqu'à ce que tous les blocs de données d'entrée aient été traités.
+                </p>
+                <p>
+                    Keccak-f est la fonction de permutation principale utilisée dans l'algorithme de hachage cryptographique SHA-3. Il est un composant central de la famille d'algorithmes Keccak. SHA-3 est basé sur l'algorithme Keccak, qui a remporté le concours d'algorithmes de hachage cryptographique organisé par le NIST et a été sélectionné comme standard pour SHA-3. La fonction Keccak-f a plusieurs variantes, la plus couramment utilisée étant Keccak-f[1600], où le nombre indique la largeur de bit sur laquelle elle opère. 
+                </p>
+                <p>
+                    Keccak-f est composé de plusieurs tours de la même opération (appelés rondes). Pour Keccak-f[1600], il y a un total de 24 tours d'opérations. Chaque tour comprend cinq étapes de base : <em>θ (Theta), ρ (Rho), π (Pi), χ (Chi) et ι (Iota)</em>. Ces étapes agissent ensemble sur le tableau d'état, transformant progressivement son contenu,
+                    augmentant la confusion et la diffusion pour renforcer la sécurité. Voici une brève description de ces étapes :
+                </p>
+                <ul>
+                    <li><strong>Étape θ (Theta) :</strong> Effectue des opérations XOR sur tous les bits de chaque colonne, puis XOR le résultat sur les colonnes adjacentes, fournissant une diffusion entre les colonnes.</li>
+                    <li><strong>Étape ρ (Rho) :</strong> Opération de rotation au niveau des bits, où chaque bit est tourné d'un nombre différent de bits selon des règles prédéterminées, augmentant la complexité des données.</li>
+                    <li><strong>Étape π (Pi) :</strong> Réorganise les bits dans le tableau d'état, changeant la position des bits pour atteindre une diffusion à travers les rangées et les colonnes.</li>
+                    <li><strong>Étape χ (Chi) :</strong> Une étape non linéaire qui effectue des opérations XOR sur chaque bit de chaque rangée, y compris elle-même, son voisin immédiat et le complément du voisin. C'est une opération locale qui augmente les caractéristiques non linéaires de l'algorithme cryptographique.</li>
+                    <li><strong>Étape ι (Iota) :</strong> Introduit une constante de tour dans une partie du tableau d'état, avec la constante différant à chaque tour, pour éviter que tous les tours ne fonctionnent de manière identique, introduisant de l'imprévisibilité.</li>
+                </ul>
+                <p>
+                    Keccak-f offre un haut niveau de sécurité grâce à ces étapes. Sa conception garantit que même de légers changements dans l'entrée entraînent des changements généralisés et imprévisibles dans le tableau d'état, réalisés grâce aux principes de confusion (rendant difficile pour les attaquants de déduire l'entrée à partir de la sortie) et de diffusion (où de légers changements dans l'entrée affectent plusieurs parties de la sortie).
+                </p>
+                
+                <p>
+                    La conception de Keccak-f permet d'ajuster les paramètres (comme la taille de l'état et le nombre de tours) à différents niveaux de sécurité et scénarios d'application, offrant une grande flexibilité. Keccak-f[1600] est réputé pour son implémentation efficace, atteignant des vitesses de traitement élevées à la fois en matériel et en logiciel, en particulier lors du traitement de grandes quantités de données.
+                </p>
+                
+                <h4>Phase de pressage :</h4>
+                <p>
+                    Une fois que tous les blocs de données d'entrée ont été absorbés dans l'état interne, la structure éponge entre dans la phase de pressage. À ce stade, des parties de l'état interne sont progressivement sorties comme le résultat de la fonction de hachage. Si la longueur de sortie requise dépasse la quantité qui peut être extraite à la fois, la structure éponge applique la fonction de permutation pour transformer à nouveau l'état interne, puis continue à sortir plus de données. Ce processus est poursuivi jusqu'à ce que la longueur de sortie souhaitée soit atteinte.
+                </p>
+                
+                <p>
+                    L'objectif de la conception de SHA-3 est de fournir une sécurité supérieure à celle de SHA-2 et une meilleure résistance contre les attaques informatiques quantiques. Grâce à sa structure éponge unique, SHA-3 est théoriquement capable de résister à toutes les méthodes d'attaque cryptographiques actuellement connues, y compris les attaques par collision, les attaques par préimage et les attaques par seconde préimage.
+                </p>
+                
+                <h3>RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest)</h3>
+                <p>
+                    RIPEMD-160 est une fonction de hachage cryptographique conçue pour fournir un algorithme de hachage sécurisé. Elle a été développée en 1996 par Hans Dobbertin et d'autres, 
+                    et elle fait partie de la famille RIPEMD (RACE Integrity Primitives Evaluation Message Digest).
+                </p>
+                <p>
+                    RIPEMD-160 produit une valeur de hachage de 160 bits (20 octets), ce qui est à l'origine du "160" dans son nom. Il est basé sur la conception du MD4 et influencé par d'autres algorithmes de hachage tels que MD5 et SHA-1. RIPEMD-160 comprend deux opérations parallèles,
+                    similaires qui traitent les données d'entrée séparément puis combinent les résultats de ces deux processus pour générer la valeur de hachage finale. Cette conception vise à renforcer la sécurité.
+                <br>
+                <br>Le processus de calcul de <a href="https://en.wikipedia.org/wiki/RIPEMD" target="_blank" style="color: #007bff; font-size: 1.0em;">RIPEMD-160</a> inclut plusieurs étapes de base : le bourrage, le traitement des blocs et la compression :
+                </p>
+                <ul>
+                    <li><strong>Bourrage :</strong> Le message d'entrée est d'abord complété pour que sa longueur modulo 512 bits soit égale à 448 bits. Le bourrage commence toujours par un seul bit de 1 suivi d'une série de bits de 0, se terminant par une représentation sur 64 bits de la longueur du message original.</li>
+                    <li><strong>Traitement des blocs :</strong> Le message complété est divisé en blocs de 512 bits.</li>
+                    <li><strong>Initialisation :</strong> Il utilise cinq registres de 32 bits (A, B, C, D, E), qui sont initialisés à certaines valeurs spécifiques.</li>
+                    <li><strong>Fonction de compression :</strong> Chaque bloc est traité à son tour, mettant à jour les valeurs de ces cinq registres par une série d'opérations complexes. Ce processus comprend des opérations binaires (telles que l'addition, ET, OU, NON, rotations circulaires à gauche) et l'utilisation d'un ensemble de constantes fixes.</li>
+                    <li><strong>Sortie :</strong> Après que tous les blocs ont été traités, les valeurs de ces cinq registres sont concaténées pour former la valeur de hachage finale de 160 bits.</li>
+                </ul>                
+            </section>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. Tous droits réservés.</p>
+            <p>
+                <a href="https://chatcipherai.com/fr/Privacy_Policy.html" title="Privacy Policy">Politique de confidentialité</a>
+                |
+                <a href="https://chatcipherai.com/fr/Terms_of_Use.html" title="Terms of Use">Conditions d'utilisation</a>
+                |
+                <a href="https://chatcipherai.com/fr/About_Us.html" title="About Us">À Propos de Nous</a>
+                |
+                <a href="https://chatcipherai.com/fr/Disclaimer.html" title="Disclaimer">Clause de non-responsabilité</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">Retour en Haut</button>
+        </div>
+    </footer>   
+
+    <script>
+        let shortcutsEnabled = true;
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Ensure all handlers are set up once the DOM is fully loaded
+            document.addEventListener('keydown', handleKeyPress);
+
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+            
+            setupEventListeners(); // Setup other event listeners
+            adjustButton();
+        });
+
+        let generatedTextHash = '';
+        let generatedFileHash = '';
+
+        async function generateHash() {
+            const text = document.getElementById('textInput').value;
+            document.getElementById('processOutput').textContent = text.length ? "Calcul de la valeur de hachage..." : '';
+            const msgUint8 = new TextEncoder().encode(text);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            document.getElementById('hashOutput').textContent = `Valeur de hachage (SHA-256): ${hashHex}`;
+            generatedTextHash = hashHex;
+            document.getElementById('processOutput').textContent = "";
+        }
+
+        async function generateFileHash() {
+            const fileInput = document.getElementById('fileInput');
+            if (!fileInput.files.length) {
+                alert("Veuillez sélectionner un fichier.");
+                return;
+            }
+            document.getElementById('fileHashOutput').textContent = "Calcul de la valeur de hachage du fichier...";
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function (event) {
+                const arrayBuffer = event.target.result;
+                const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                document.getElementById('fileHashOutput').textContent = `Valeur de hachage (SHA-256): ${hashHex}`;
+                generatedFileHash = hashHex;
+            };
+            reader.onerror = function () {
+                alert("Erreur de lecture du fichier.");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function compareTextHash() {
+            const compareHash = document.getElementById('hashCompareInput').value;
+            if (!generatedTextHash) {
+                alert("Veuillez d'abord générer un hachage du texte.");
+                return;
+            }
+            const resultText = generatedTextHash === compareHash ? "<strong>Conclusion : </strong>Les hachages correspondent et les données n'ont pas été falsifiées." : "<strong>Conclusion : </strong>Les hachages ne correspondent pas et les données peuvent avoir été falsifiées pendant le transport ou une erreur s'est produite lors du stockage.";
+            document.getElementById('textCompareResult').innerHTML = resultText;
+            document.getElementById('textCompareResult').style.color = generatedTextHash === compareHash ? "black" : "red";
+        }
+
+        async function compareFileHash() {
+            const fileInput = document.getElementById('compareFileInput');
+            if (!fileInput.files.length) {
+                alert("Veuillez sélectionner un fichier à comparer.");
+                return;
+            }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function (event) {
+                const arrayBuffer = event.target.result;
+                const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                document.getElementById('fileCompareResult').textContent = `Valeur de hachage (SHA-256): ${hashHex}`;
+
+                if (generatedFileHash === hashHex) {
+                    document.getElementById('fileCompareResult').innerHTML += "<br><strong>Conclusion : </strong>Les hachages correspondent et les données n'ont pas été falsifiées.";
+                    document.getElementById('fileCompareResult').style.color = "black";
+                } else {
+                    document.getElementById('fileCompareResult').innerHTML += "<br><strong>Conclusion : </strong>Les hachages ne correspondent pas et les données peuvent avoir été falsifiées pendant le transport ou une erreur s'est produite lors du stockage.";
+                    document.getElementById('fileCompareResult').style.color = "red";
+                }
+            };
+            reader.onerror = function () {
+                alert("Erreur de lecture du fichier.");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function compareHashValues() {
+            var hashValue1 = document.getElementById('hashInput1').value.trim();
+            var hashValue2 = document.getElementById('hashInput2').value.trim();
+
+            var resultDisplay = document.getElementById('hashComparisonResult');
+
+            resultDisplay.style.fontWeight = 'bold';
+
+            if (hashValue1 === "" || hashValue2 === "") {
+                resultDisplay.textContent = 'Les deux valeurs de hachage doivent être saisies.';
+                resultDisplay.style.color = 'black';
+            } else if (hashValue1 === hashValue2) {
+                resultDisplay.textContent = 'Les valeurs de hachage correspondent !';
+                resultDisplay.style.color = 'black';
+            } else {
+                resultDisplay.textContent = 'Les valeurs de hachage ne correspondent pas.';
+                resultDisplay.style.color = 'red';
+            }
+        }
+
+        function copyTextHash() {
+            const hashValue = document.getElementById('hashOutput').textContent;
+            const hash = hashValue.split(": ")[1];
+            if (hash) {
+                navigator.clipboard.writeText(hash).then(() => {
+                }, () => {
+                    console.error("Échec de la copie du hachage du texte.");
+                });
+            }
+        }
+
+        function copyFileHash() {
+            const hashValue = document.getElementById('fileHashOutput').textContent;
+            const hash = hashValue.split(": ")[1];
+            if (hash) {
+                navigator.clipboard.writeText(hash).then(() => {
+                }, () => {
+                    console.error("Échec de la copie du hachage du fichier.");
+                });
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('hashOutput').textContent = '';
+            document.getElementById('hashCompareInput').value = '';
+            document.getElementById('textCompareResult').textContent = '';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileHashOutput').textContent = '';
+            document.getElementById('compareFileInput').value = '';
+            document.getElementById('fileCompareResult').textContent = '';
+            document.getElementById('hashInput1').value = '';
+            document.getElementById('hashInput2').value = '';
+            document.getElementById('hashComparisonResult').textContent = '';
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.9)' : 'rgba(255, 255, 255, 0.9)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.addEventListener('click', function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none" || moreContent.style.display === "") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Fermeture]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[En savoir plus]";
+                }
+            });
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'Retour en Haut(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+
+</html>

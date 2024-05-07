@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>morsecode: Страница не только о кодировании</title>
+    <meta name="description"
+        content="Как маяк в огромном звездном небе, Азбука Морзе использует точки и тире для создания древних секретов в пространстве радиоволн, соединяя прошлое и будущее через измерения времени и пространства.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: -36px;
+            right: 1px;
+            margin-left: 0;
+            background-color: #0a0f24;
+            padding: 5px 8px;
+        }
+
+        .copy-button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 20px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .navbar ul li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        .textarea-light {
+            background-color: #bbbaba;
+        }
+
+        .textarea-dark-text {
+            color: #0A0F24;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-right: 20px;
+            margin-left: 20px;
+            text-align: center;
+            flex-wrap: wrap;
+            min-height: 600px;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            margin-top: 50px;
+        }
+
+        h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        h3 {
+            margin-top: 20px;
+            font-size: 22px;
+        }
+
+        h4 { 
+            font-size: 20px;
+        }
+
+        .textarea-container {
+            width: 150%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 40px;
+            position: relative;
+        }
+        
+        textarea {
+            font-weight: 500;
+            width: 100%;
+            max-height: 400px;
+            min-height: 150px;
+            margin: 10px;
+            padding: 10px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #0A0F24;
+            resize: vertical;
+            font-size: 15px;
+            font-family: 'Segoe UI', Tahoma,  sans-serif;
+        }
+
+        textarea::placeholder {
+            color: #0A0F24;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #c0c0c0;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: #0A0F24;
+        }
+
+        body {
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: white;
+            color: #000000;
+        }
+
+        .light-mode .navbar ul {
+            background-color: rgba(255, 255, 255, 0);
+            color: #000000;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #000000;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        .play-button {
+            position: absolute;
+            left: 5px;
+            top: 190px;
+        }
+
+        #playStopButton {
+            padding: 6px 10px;
+            margin: 5px;
+            border: none;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #playStopButton:hover {
+            background-color: #F5F5F5;
+            color: #0a0f24;
+        }
+
+        #morseAlphabetTable tr:hover {
+            background-color: #ddd !important;
+        }
+
+        #morseAlphabetTable {
+            border-collapse: collapse;
+            margin: 0 auto;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #morseAlphabetTable th,
+        #morseAlphabetTable td {
+            padding: 8px;
+            text-align: center;
+            border: 0 solid #eae6e6;
+            font-weight: bold;
+        }
+
+        #morseAlphabetTable th {
+            background-color: #7fbef5;
+            color: white;
+            font-size: 16px;
+        }
+
+        #morseAlphabetTable td {
+            color: #333;
+            font-size: 16px;
+        }
+
+        .dark-mode #morseAlphabetTable {
+            background-color: #e9f1f4;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+        
+        .button-container :hover{
+            color: #0A0F24;
+        }
+
+        .icon-alphabet::before {
+            content: "\1F4D5";
+            margin-right: 5px;
+        }
+
+        .icon-sos::before {
+            content: "\25B6";
+            margin-right: 5px;
+        }
+
+        .icon-copy::before {
+            content: "\1F4CB";
+            margin-right: 5px;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .icon-play::before {
+            content: "\25B6";
+            margin-right: 5px;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .icon-stop::before {
+            content: "\25A0";
+            margin-right: 5px;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 26px;
+        }
+
+        .introduce {
+            text-align: left;
+            width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+            margin-top: 100px;
+        }
+
+        .introduce li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 100%;
+            padding-bottom: 10px; 
+        }
+
+        .introduce p {
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        .clear-all-button {
+            padding: 7px 10px;
+            margin-top: 20px;
+            background-color: #47d7ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            position: absolute;
+            top: -46px;
+            left: 5px;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 85%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .textarea-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                margin: 20px 0;
+            }
+
+            textarea {
+                width: 90%;
+                min-height: 100px;
+                margin: 10px 0;
+            }
+
+            .container {
+                align-items: center;
+            }
+
+            #morseAlphabetTable {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .introduce {
+                width: 100%;
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .introduce p {
+                font-size: 0.9em;
+            }
+
+            .copy-button {
+                padding: 4px 8px;
+                font-size: 0.6em;
+            }
+
+            #clearAllButton {
+                padding: 8px 8px;
+                font-size: 0.8em;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .introduce h2 {
+                font-size: 1.2em; 
+            }
+
+            .introduce li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            figcaption {
+                margin-top: -40px;
+                margin-bottom: 40px;
+                margin-left: 20px;
+                font-size: 10px;
+                color: #007bff;
+                font-weight: bold;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+                line-height: 16px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .navbar ul li a {
+                font-size: 10px;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 105%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 55%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0;
+            }
+
+            #languageIcon::before {
+                content: '\2637'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            .play-button {
+                margin-top: -42px;
+                margin-left: 1px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; меню</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/ru/chatcipherai.html">Мир криптосистем</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/ru/Caesar_Cipher.html">Шифр Цезаря</a></li>
+                        <li><a href="https://chatcipherai.com/ru/Playfair_Cipher.html">Шифр Плейфера</a></li>
+                        <li><a href="https://chatcipherai.com/ru/Hill_Cipher.html">Шифр Хилла</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/ru/Hash_value_test.html">Тест хеш-значения</a></li>
+                <li><a href="https://chatcipherai.com/ru/Morsecode_main.html">Переводчик Морзе</a></li>
+                <li><a href="https://chatcipherai.com/ru/Shortcut_Key_Description.html">Описание сочетания клавиш</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; язык</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Morsecode_main.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Morsecode_main.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Morsecode_main.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Morsecode_main.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Morsecode_main.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Morsecode_main.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Morsecode_main.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Morsecode_main.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Morsecode_main.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Morsecode_main.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Morsecode_main.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+
+            <h1>Переводчик Морзе</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 Тёмный стиль(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ Светлый стиль(<span class="highlight-key">L</span>)</button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <h2>Кодировщик</h2>
+            <div class="textarea-container">
+                <textarea id="inputText" class="textarea-light" placeholder="Введите текст для кодирования"></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('inputText')">Копировать</button>
+                <button id="clearAllButton" class="clear-all-button">Очистить все(<span class="highlight-key">A</span>)</button>
+                <div class="play-button">
+                <button id="playStopButton"><span class="icon-play"></span>Воспроизвести</button>
+                </div>
+            </div>
+            <button id="encodeButton" style="display: none;">Кодировать</button>
+    
+            <div class="textarea-container">
+                <textarea id="morseCode" class="textarea-light" placeholder="Вывод азбуки Морзе" readonly></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('morseCode')">Копировать</button>
+            </div>
+        </div>
+    
+        <div class="section">
+            <h2>Декодировщик</h2>
+            <div class="textarea-container">
+                <textarea id="inputMorse" class="textarea-light" placeholder="Введите Морзе для декодирования"></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('inputMorse')">Копировать</button>
+            </div>
+            <button id="decodeButton" style="display: none;">Декодировать</button>
+            <div class="textarea-container">
+                <textarea id="decodedText" class="textarea-light" placeholder="Вывод декодированного текста" readonly></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('decodedText')">Копировать</button>
+            </div>
+        </div>
+    </div>    
+
+    <div class="button-container">
+        <button id="toggleAlphabetButton" class="icon-alphabet">Азбука Морзе(<span class="highlight-key">M</span>)</button>
+        <button id="playSosButton" class="icon-sos">Воспроизвести SOS(<span class="highlight-key">P</span>)</button>
+    </div>
+    
+    <div class="table-container" style="display: none;">
+        <table id="morseAlphabetTable">
+            <tr>
+                <th>Буква</th>
+                <th>Морзе</th>
+                <th>Буква</th>
+                <th>Морзе</th>
+                <th>Буква</th>
+                <th>Морзе</th>
+                <th>Буква</th>
+                <th>Морзе</th>
+            </tr>            
+            <tr>
+                <td>A</td>
+                <td>.-</td>
+                <td>B</td>
+                <td>-...</td>
+                <td>C</td>
+                <td>-.-.</td>
+                <td>D</td>
+                <td>-..</td>
+            </tr>
+            <tr>
+                <td>E</td>
+                <td>.</td>
+                <td>F</td>
+                <td>..-.</td>
+                <td>G</td>
+                <td>--.</td>
+                <td>H</td>
+                <td>....</td>
+            </tr>
+            <tr>
+                <td>I</td>
+                <td>..</td>
+                <td>J</td>
+                <td>.---</td>
+                <td>K</td>
+                <td>-.-</td>
+                <td>L</td>
+                <td>.-..</td>
+            </tr>
+            <tr>
+                <td>M</td>
+                <td>--</td>
+                <td>N</td>
+                <td>-.</td>
+                <td>O</td>
+                <td>---</td>
+                <td>P</td>
+                <td>.--.</td>
+            </tr>
+            <tr>
+                <td>Q</td>
+                <td>--.-</td>
+                <td>R</td>
+                <td>.-.</td>
+                <td>S</td>
+                <td>...</td>
+                <td>T</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>U</td>
+                <td>..-</td>
+                <td>V</td>
+                <td>...-</td>
+                <td>W</td>
+                <td>.--</td>
+                <td>X</td>
+                <td>-..-</td>
+            </tr>
+            <tr>
+                <td>Y</td>
+                <td>-.--</td>
+                <td>Z</td>
+                <td>--..</td>
+            </tr>
+            <tr>
+                <th>Числа</th>
+                <th>Азбука Морзе</th>
+                <th>Числа</th>
+                <th>Азбука Морзе</th>
+                <th>Числа</th>
+                <th>Азбука Морзе</th>
+                <th>Числа</th>
+                <th>Азбука Морзе</th>
+            </tr>            
+            <tr>
+                <td>0</td>
+                <td>-----</td>
+                <td>1</td>
+                <td>.----</td>
+                <td>2</td>
+                <td>..---</td>
+                <td>3</td>
+                <td>...--</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>....-</td>
+                <td>5</td>
+                <td>.....</td>
+                <td>6</td>
+                <td>-....</td>
+                <td>7</td>
+                <td>--...</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>---..</td>
+                <td>9</td>
+                <td>----.</td>
+            </tr>
+            <tr>
+                <th>Пунктуация</th>
+                <th>Азбука Морзе</th>
+                <th>Пунктуация</th>
+                <th>Азбука Морзе</th>
+                <th>Пунктуация</th>
+                <th>Азбука Морзе</th>
+                <th>Пунктуация</th>
+                <th>Азбука Морзе</th>
+            </tr>            
+            <tr>
+                <td>.</td>
+                <td>.-.-.-</td>
+                <td>,</td>
+                <td>--..--</td>
+                <td>?</td>
+                <td>..--..</td>
+                <td>'</td>
+                <td>.----.</td>
+            </tr>
+            <tr>
+                <td>!</td>
+                <td>-.-.--</td>
+                <td>/</td>
+                <td>-..-.</td>
+                <td>(</td>
+                <td>-.--.</td>
+                <td>)</td>
+                <td>-.--.-</td>
+            </tr>
+            <tr>
+                <td>&</td>
+                <td>.-...</td>
+                <td>:</td>
+                <td>---...</td>
+                <td>;</td>
+                <td>-.-.-.</td>
+                <td>=</td>
+                <td>-...-</td>
+            </tr>
+            <tr>
+                <td>+</td>
+                <td>.-.-.</td>
+                <td>-</td>
+                <td>-....-</td>
+                <td>_</td>
+                <td>..--.-</td>
+                <td>"</td>
+                <td>.-..-.</td>
+            </tr>
+            <tr>
+                <td>$</td>
+                <td>...-..-</td>
+                <td>@</td>
+                <td>.--.-.</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="introduce">
+        <h2>Морзе: Вечная цифровая шифровальная связь</h2>
+        <p>Азбука Морзе, пионерский метод цифровой связи, использует уникальные прерывистые сигналы для кодирования информации. Изобретенная в 1830-х годах, она остается актуальной для специализированных применений и сегодня. Ее отличительная особенность заключается в простоте — использование всего двух сигналов и переменных интервалов для представления букв, цифр и знаков препинания.</p>
+        <p>В основе азбуки Морзе лежат сигналы точка (Di) и тире (Dah), которые отличаются по длительности, что позволяет разнообразно представлять символы. Эта двоичная система позволяет кодировать весь английский алфавит и не только. Например, 'A' обозначается одной точкой, за которой следует тире (·-), а 'B' указывается тире, за которым следуют три точки (−···).</p>
+        <p>Помимо базовых сигналов, Морзе использует временные интервалы для различения символов, слов и предложений, обеспечивая передачу сообщений с ясностью. Эти стратегические паузы улучшают способность кода эффективно передавать сложные сообщения.</p>
+        <p>Первоначально разработанная для телеграфии, азбука Морзе расширила свое применение на радио и другие формы связи, что подтверждает ее адаптивность и долговечную актуальность. Несмотря на прогресс в технологиях связи, Морзе по-прежнему предлагает практическую ценность в сценариях, где современные методы могут быть неприменимы, например, в аварийной связи.</p>
+        <p>Более того, Морзе превосходит свои утилитарные корни, становясь хобби или навыком для энтузиастов, подтверждая ее уникальное очарование и коммуникативную мощь. Хотя современные технологии во многом заменили Морзе в повседневном использовании, она остается культурно и исторически значимым способом общения.</p>
+
+        <h2>Понимание функциональности азбуки Морзе</h2>
+        <p>Азбука Морзе действует как сложная система кодирования с модуляцией в пространстве и времени, различая буквы, цифры и знаки препинания с помощью коротких (Di) и длинных (Dah) сигналов вместе с их интервалами. Эта система кодирования известна своей простотой и универсальностью, позволяя осуществлять связь через различные среды. В коммуникации азбукой Морзе есть несколько ключевых этапов:</p>
+        <ul>
+            <li><strong>Кодирование:</strong> Каждому символу присваивается уникальная последовательность точек (Di) и тире (Dah).</li>
+            <li><strong>Передача:</strong> Сигналы передаются через звук, свет или электрические средства, требуя от отправителя знания азбуки Морзе для обеспечения точного кодирования сообщения.</li>
+            <li><strong>Временные интервалы:</strong> Критически важными для Морзе являются управление интервалами - различение точек от тире, символов и слов для поддержания ясности сообщения.</li>
+            <li><strong>Прием:</strong> Получатель декодирует последовательность сигналов в предполагаемое сообщение, что требует знакомства с системой точек и тире Морзе.</li>
+            <li><strong>Декодирование:</strong> Успешно интерпретированные сигналы переводятся обратно в их первоначальный текстовый формат получателем.</li>
+        </ul>
+        <p>Продолжающееся преимущество Морзе заключается в ее адаптивности и простоте, оказываясь бесценной в сценариях, где традиционные каналы связи нарушены. В чрезвычайных ситуациях, например, Морзе может облегчить жизненно важную связь через простые стуки или световые сигналы, демонстрируя ее вечную актуальность.</p>
+
+        <h2>Кто изобрел азбуку Морзе?</h2>
+        <p>Азбука Морзе была изобретена американским изобретателем Сэмюэлем Ф. Б. Морзе в 1830-х годах, и поэтому он известен как основатель азбуки Морзе. В 1848 году азбука Морзе была развита и изобретена Фридрихом Клеменсом Герке и стала современной международной азбукой Морзе, официально использованной для телеграфной связи между Гамбургом и Куксхафеном, Германия.</p>
+
+        <h2>Какая буква наиболее часто используется в азбуке Морзе?</h2>
+        <p>В азбуке Морзе буквы "E" (представлена как ".") и "T" (представлена как "-") являются наиболее часто используемыми, поскольку они встречаются в английском языке чаще всего.</p>
+
+        <h2>Как отправить азбуку Морзе без телеграфного аппарата?</h2>
+        <p>На самом деле, вы можете использовать что угодно, что производит два отличительно разных сигнала, для отправки азбуки Морзе. Например, вы можете использовать фонарик (мигание для Di, постоянный свет для Dah) или вы можете использовать звуки (короткий для Di, длинный для Dah).</p>
+
+        <h2>Как отправить сигнал SOS с помощью азбуки Морзе?</h2>
+        <p>SOS — это международно признанный сигнал бедствия, выраженный в азбуке Морзе как "...---..." (три точки, три тире и снова три точки) или нажмите кнопку "Воспроизвести SOS" выше.</p>
+        
+        <h2>Критическая роль временных интервалов в азбуке Морзе</h2>
+        <p>В азбуке Морзе время между сигналами, называемое "интервальным временем", играет ключевую роль в обеспечении четкой связи. Оно помогает приемнику различать разные символы и слова, повышая общую читаемость и понимание сообщения. Значение интервального времени в азбуке Морзе можно разделить на три основные категории:</p>
+        
+        <ul>
+            <li><strong>Между точками и тире:</strong> Короткие паузы между точками (.) и тире (-) внутри одного символа необходимы для различения отдельных элементов, составляющих символ.</li>
+            <li><strong>Между символами:</strong> Немного более длительная пауза между символами внутри слова необходима для четкого обозначения конца одного символа и начала следующего.</li>
+            <li><strong>Разделение слов:</strong> Самая длинная пауза происходит между словами, что критически важно для указания на разделение слов в сообщении азбуки Морзе.</li>
+        </ul>
+        <p>Эти интервалы являются фундаментальными для ясности и эффективности передачи сообщений Морзе. Точность и согласованность этих временных промежутков важны для точной интерпретации и понимания сообщений, обеспечивая эффективную связь.</p>
+        
+        <h2>Почему азбука Морзе считается системой "переменной длины кодирования"?</h2>
+        <p>Код Морзе называется системой "кодирования переменной длины", поскольку он распределяет коды различной длины для разных символов. В отличие от кодирования с фиксированной длиной, которое назначает идентичное количество бит каждому символу, системы кодирования переменной длины, такие как <a href="https://en.wikipedia.org/wiki/Morse_code" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">Код Морзе</a>, используют разное количество бит — или, точнее, точек и тире — для представления различных символов.</p>
+        <p>Определяющие характеристики азбуки Морзе включают:</p>
+        <ul>
+            <li><strong>Представления переменной длины:</strong> Часто используемые буквы, такие как "E", обозначаются более короткими кодами, например одной точкой ("."), в то время как менее распространенные символы, такие как "Q", представлены более длинными последовательностями ("--.-"). Этот подход, ориентированный на эффективность, назначает более короткие коды более часто используемым символам, тем самым сокращая среднюю длину сообщения и увеличивая скорость передачи.</li>
+            <li><strong>Оптимизация для эффективности:</strong> Стратегия использования более коротких кодов для более часто используемых букв делает азбуку Морзе эффективной системой для передачи языков, таких как английский.</li>
+            <li><strong>Разнообразные интервалы разрывов:</strong> Азбука Морзе различает буквы и слова, используя переменные промежутки. Пространство между буквами внутри слова короче, чем промежуток для паузы между словами, что помогает в четком различии букв и слов во время передачи.</li>
+        </ul>
+        <p>Благодаря своему уникальному подходу к назначению разной длины кодов для каждого символа, азбука Морзе выделяется как система кодирования переменной длины, контрастируя с системами кодирования с фиксированной длиной, используемыми в современных цифровых коммуникациях, таких как ASCII, где каждый символ представлен постоянным количеством бит.</p>
+        
+        <h2>Сравнительный анализ кода Хаффмана и азбуки Морзе</h2>
+        <section>
+            <h3>Обзор кодирования Хаффмана и азбуки Морзе</h3>
+            <p>Как <strong>кодирование Хаффмана</strong>, так и <strong>азбука Морзе</strong> являются инновационными системами кодирования, разработанными для эффективной передачи информации. В то время как <a href="https://en.wikipedia.org/wiki/Huffman_coding" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">кодирование Хаффмана</a> превосходит в сжатии данных за счет присвоения переменной длины кодов на основе частоты символов, азбука Морзе упрощает телеграфную связь с помощью своей уникальной системы точек и тире.</p>
+        </section>
+        
+        <section>
+            <h3>Сравнение концепций дизайна и применений</h3>
+            <p><strong>Кодирование Хаффмана</strong> представляет собой сложный алгоритм, оптимизированный для сжатия данных, использующий структуру бинарного дерева для распределения более коротких кодов более часто встречающимся символам. В отличие от этого, <strong>азбука Морзе</strong> использует более простой подход с точками и тире для представления символов, отдавая приоритет простоте передачи перед сжатием данных.</p>
+        </section>
+        
+        <section>
+            <h3>Сходства между кодированием Хаффмана и Морзе</h3>
+            <p>Несмотря на их различия, обе системы используют кодирование переменной длины и учитывают частоту символов для определения длины кода. Этот общий подход подчеркивает их стремление к эффективности и эффективности в коммуникации.</p>
+        </section>
+        
+        <section>
+            <h3>Выделенные ключевые различия</h3>
+            <p>Хотя кодирование Хаффмана является краеугольным камнем современного сжатия данных, азбука Морзе остается историческим артефактом телеграфной и радиосвязи. Зависимость первого от бинарного дерева для назначения кода резко контрастирует со вторым, который имеет заранее определенный набор кодов, иллюстрируя эволюцию техник кодирования с 19-го по середину 20-го века.</p>
+        </section>
+        
+        <h2>Как представить пробелы и новые строки в азбуке Морзе?</h2>
+        <p>В азбуке Морзе пробелы (то есть интервалы между словами) обычно представлены периодом без сигнала. Этот период времени примерно в три раза длиннее длительности одного символа. Что касается разрывов строк, азбука Морзе изначально была разработана для непрерывной телеграфной связи и не предусматривала специальных обозначений для новых строк. Разумеется, символ новой строки также может быть выражен в соответствии с договоренностями между сторонами общения.</p>
+        
+        <h2>Чувствительна ли азбука Морзе к регистру?</h2>
+        <p>Азбука Морзе не чувствительна к регистру. Все буквы кодируются одинаково. Однако на практике стороны, осуществляющие связь, могут договориться о специальном обозначении заглавных букв, например, добавляя определенный символ перед первой буквой каждого слова.</p>
+        
+        <h2>Эффективно овладейте азбукой Морзе с помощью метода Коха</h2>
+        <p>Хотите <strong>быстро и эффективно научиться азбуке Морзе</strong>? Метод Коха предлагает проверенный подход к <strong>запоминанию азбуки Морзе</strong> с легкостью. Разработанный немецким психологом Людвигом Кохом, этот метод предназначен для быстрого обучения и запоминания посредством постепенной практики.</p>
+        <h3>Что такое метод Коха?</h3>
+        <p>Метод Коха — это известная стратегия <em>обучения азбуке Морзе</em>, которая акцентирует внимание на постепенном введении символов и практике на целевой скорости с самого начала. Он разработан так, чтобы имитировать реальные сценарии общения, что делает его одним из <strong>самых эффективных методов обучения азбуке Морзе</strong>.</p>
+        <h3>Основные особенности метода Коха</h3>
+        <ul>
+            <li><strong>Начальные символы:</strong> Начинайте с легко узнаваемых символов, таких как "K" (-.-) и "M" (--), чтобы построить уверенность и знакомство.</li>
+            <li><strong>Постоянная скорость:</strong> Практикуйтесь на вашей целевой скорости с самого начала, чтобы адаптироваться к реальным скоростям связи, не нуждаясь в последующем переобучении на более высокой скорости.</li>
+            <li><strong>Постепенное обучение:</strong> Добавляйте новые символы в ваш репертуар только после достижения по крайней мере 90% точности с текущими, гарантируя твердое владение перед переходом к следующим.</li>
+            <li><strong>Практическое применение:</strong> Занимайтесь практикой с фразами, словами и предложениями, чтобы улучшить понимание и применение в реальных условиях общения.</li>
+            <li><strong>Повторение для овладения:</strong> Постоянная практика и повторение критически важны для запоминания и улучшения навыков.</li>
+            <li><strong>Сосредоточение на прослушивании:</strong> Отдавайте приоритет тренировке слуха перед визуальным узнаванием, чтобы улучшить скорость и точность в приеме сообщений.</li>
+        </ul>
+        
+        <h3>Преимущества метода Коха</h3>
+        <p>Приняв метод Коха, учащиеся могут достичь владения азбукой Морзе на желаемой скорости, постепенно расширяя свои знания символов. Этот подход не только повышает уверенность, но и обеспечивает всестороннее понимание и применение азбуки Морзе в практических сценариях.
+        Для получения дополнительной информации о методе Коха и советов по освоению азбуки Морзе, пожалуйста, посетите <a href="https://en.wikipedia.org/wiki/Morse_code#Learning_methods" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">здесь</a>.</p>
+        
+        <h2>Есть ли какие-нибудь известные исторические события или фигуры, связанные с азбукой Морзе?</h2>
+        <p>Существует множество известных исторических событий и личностей, связанных с азбукой Морзе. Например, когда затонул "Титаник", сигнал бедствия был отправлен азбукой Морзе. Кроме того, во время Второй мировой войны некоторая важная информация от союзников также передавалась через азбуку Морзе. Что касается личностей, то Алан Тьюринг был знаменитым британским компьютерным ученым и криптографом. Он внес значительный вклад в расшифровку азбуки Морзе, используемой немецкой армией.</p>
+        
+        <h2>Что делать, если сигнал азбуки Морзе отправлен неверно?</h2>
+        <p>В коммуникациях азбукой Морзе, если отправлен неверный сигнал, часто используются специальные символы для указания на ошибку, и корректное сообщение отправляется заново. Этот символ называется "сигнал ошибки" или "сигнал отмены". В азбуке Морзе сигнал ошибки обычно состоит из шести последовательных точек, которые выражаются как ".........." (точка за точкой), и иногда это также может быть сокращено как "EEEEEE".</p>
+        
+        <h2>Давайте начнем наше путешествие!</h2>
+        <p>.... . .-.. .-.. ---   .-- --- .-. .-.. -.. -.-.--</p>        
+    </div>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. Все права защищены.</p>
+            <p>
+                <a href="https://chatcipherai.com/ru/Privacy_Policy.html" title="Privacy Policy">Политика конфиденциальности</a>
+                |
+                <a href="https://chatcipherai.com/ru/Terms_of_Use.html" title="Terms of Use">Условия использования</a>
+                |
+                <a href="https://chatcipherai.com/ru/About_Us.html" title="About Us">О нас</a>
+                |
+                <a href="https://chatcipherai.com/ru/Disclaimer.html" title="Disclaimer">Отказ от ответственности</a>
+            </p>
+            <button id="backToTop" onclick="scrollToTop()">Вернуться наверх</button>
+        </div> 
+    </footer>
+    
+    <script>
+        let shortcutsEnabled = true;
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            // Ensure focus is not inside input or textarea fields
+            if (document.activeElement.type === 'text' || document.activeElement.tagName === 'TEXTAREA') {
+                return; // Skip shortcut if inside input or textarea
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'A':
+                    clearAllTextAreas(); // Corrected to a proper function call
+                    console.log('Clear All triggered');
+                    break;
+                case 'M':
+                    toggleMorseTable(); // Function to toggle Morse code table display
+                    console.log('Toggled Morse Code Table');
+                    break;
+                case 'P':
+                    playSOS(); // Function to play SOS Morse Code
+                    console.log('SOS Morse Code Played');
+                    break;
+                case 'L':
+                    setStyle('light-mode');
+                    console.log('Light style activated');
+                    break;
+                case 'N':
+                    setStyle('dark-mode');
+                    console.log('Dark style activated');
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        // Ensure these functions are defined somewhere in your script or linked script files
+        function clearAllTextAreas() {
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.value = '';
+            });
+            console.log('All text areas cleared.');
+        }
+
+        function toggleMorseTable() {
+            var tableContainer = document.querySelector('.table-container');
+            tableContainer.style.display = (tableContainer.style.display === 'none' || tableContainer.style.display === '') ? 'block' : 'none';
+        }
+
+        function playSOS() {
+            var morseCode = document.getElementById('morseCode');
+            morseCode.value = '... --- ...'; // SOS Morse Code
+            playMorseAudio(morseCode.value);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'light-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+
+        document.getElementById('inputText').addEventListener('input', function () {
+            document.getElementById('morseCode').value = encodeToMorse(document.getElementById('inputText').value);
+        });
+
+        document.getElementById('inputMorse').addEventListener('input', function () {
+            document.getElementById('decodedText').value = decodeMorse(document.getElementById('inputMorse').value);
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+            updateTableStyle(style);
+            updateIntroduceStyle(style);
+        }
+
+        function updateIntroduceStyle(style) {
+            var introduces = document.querySelectorAll('.introduce');
+            introduces.forEach(function (introduce) {
+                if (style === 'dark-mode') {
+                    introduce.style.color = '#FFFFFF'; // White text for dark mode
+                } else {
+                    introduce.style.color = '#000000'; // Black text for light mode
+                }
+            });
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#000000';
+        }
+
+
+        document.getElementById('playSosButton').addEventListener('click', function () {
+            var inputText = document.getElementById('inputText');
+            var morseCode = document.getElementById('morseCode');
+            inputText.value = 'SOS';
+            morseCode.value = encodeToMorse('SOS');
+            playMorseAudio(morseCode.value);
+        });
+
+        function encodeToMorse(text) {
+            if (text.toUpperCase() === 'SOS') {
+                return '... --- ...';
+            }
+            const morseCodeDict = {
+                'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+                'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+                'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+                'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+                'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--',
+                '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+                '9': '----.', '0': '-----', ' ': ' ', '.': '.-.-.-', ',': '--..--', '?': '..--..',
+                "'": '.----.', '!': '-.-.--', '/': '-..-.', '(': '-.--.', ')': '-.--.-',
+                '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.',
+                '-': '-....-', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.', '！': '-.-.--'
+            };
+            return text.toUpperCase().split('').map(function (char) {
+                return morseCodeDict[char] ? morseCodeDict[char] : char;
+            }).join(' ');
+        }
+
+        function decodeMorse(morseCode) {
+            const textDict = {
+                '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E', '..-.': 'F',
+                '--.': 'G', '....': 'H', '..': 'I', '.---': 'J', '-.-': 'K', '.-..': 'L',
+                '--': 'M', '-.': 'N', '---': 'O', '.--.': 'P', '--.-': 'Q', '.-.': 'R',
+                '...': 'S', '-': 'T', '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X',
+                '-.--': 'Y', '--..': 'Z', '.----': '1', '..---': '2', '...--': '3',
+                '....-': '4', '.....': '5', '-....': '6', '--...': '7', '---..': '8',
+                '----.': '9', '-----': '0', '.-.-.-': '.', '--..--': ',', '..--..': '?',
+                '.----.': "'", '-.-.--': '!', '-..-.': '/', '-.--.': '(', '-.--.-': ')',
+                '.-...': '&', '---...': ':', '-.-.-.': ';', '-...-': '=', '.-.-.': '+',
+                '-....-': '-', '..--.-': '_', '.-..-.': '"', '...-..-': '$', '.--.-.': '@'
+            };
+            return morseCode.split('   ').map(function (word) {
+                return word.split(' ').map(function (code) {
+                    return textDict[code] || (code === '' ? ' ' : '?');
+                }).join('');
+            }).join(' ');
+        }
+
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId);
+            copyText.select();
+            document.execCommand('copy');
+        }
+
+        let isPlaying = false;
+        let audioCtx;
+        let timeoutHandles = [];
+
+        document.getElementById('playStopButton').addEventListener('click', function () {
+            isPlaying = !isPlaying;
+            var iconSpan = this.querySelector('span');
+            if (isPlaying) {
+                playMorseAudio(document.getElementById('morseCode').value);
+                this.textContent = '';
+                iconSpan.className = 'icon-stop';
+                this.appendChild(iconSpan);
+                this.appendChild(document.createTextNode('Stop'));
+            } else {
+                stopMorseAudio();
+                this.textContent = '';
+                iconSpan.className = 'icon-play';
+                this.appendChild(iconSpan);
+                this.appendChild(document.createTextNode('Play'));
+            }
+        });
+
+        function playMorseAudio(morseCode) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const dotDuration = 0.1;
+            let currentTime = audioCtx.currentTime;
+            morseCode.split('').forEach(symbol => {
+                if (symbol === '.') {
+                    scheduleTone(currentTime, dotDuration);
+                    currentTime += dotDuration;
+                } else if (symbol === '-') {
+                    scheduleTone(currentTime, dotDuration * 3);
+                    currentTime += dotDuration * 3;
+                }
+                currentTime += dotDuration;
+            });
+        }
+
+        function scheduleTone(startTime, duration) {
+            const oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(440, startTime);
+            oscillator.connect(audioCtx.destination);
+
+            const handle = setTimeout(() => {
+                oscillator.start(startTime);
+                oscillator.stop(startTime + duration);
+            }, startTime * 1000);
+
+            timeoutHandles.push(handle);
+        }
+
+        function stopMorseAudio() {
+            timeoutHandles.forEach(handle => clearTimeout(handle));
+            timeoutHandles = [];
+            if (audioCtx) {
+                audioCtx.close();
+                audioCtx = null;
+            }
+        }
+
+        document.getElementById('toggleAlphabetButton').addEventListener('click', function () {
+            var tableContainer = document.querySelector('.table-container');
+            var button = this;
+            if (tableContainer.style.display === 'none' || tableContainer.style.display === '') {
+                tableContainer.style.display = 'flex';
+                button.textContent = 'скрыть алфавит';
+            } else {
+                tableContainer.style.display = 'none';
+                button.textContent = 'Азбука Морзе';
+            }
+        });
+
+        function updateTableStyle(style) {
+            var table = document.getElementById('morseAlphabetTable');
+            if (style === 'dark-mode') {
+                table.style.color = '#FFFFFF';
+            } else {
+                table.style.color = '#000000';
+            }
+        }
+
+        document.getElementById('toggleAlphabetButton').addEventListener('click', function () {
+            document.querySelector('.table-container').classList.toggle('active');
+        });
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.onclick = function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            };
+        });
+
+        document.getElementById("clearAllButton").addEventListener("click", function () {
+            var textareas = document.querySelectorAll("textarea");
+            textareas.forEach(function (textarea) {
+                textarea.value = '';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function() {
+                if(window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'Вернуться наверх(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .menuUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var navbarUl = document.querySelector('.navbar ul');
+
+            if (!menuIcon.contains(event.target) && !navbarUl.contains(event.target)) {
+                navbarUl.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

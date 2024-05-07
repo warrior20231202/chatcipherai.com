@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador de Hash SHA-256: O escultor irreversível do mundo digital.</title>
+    <meta name="description" content="Forjando a impressão digital única da informação com criptografia de 256 bits, protegendo a integridade e autenticidade dos dados.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 13%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 1000px;
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 120px;
+            margin-right: -10px;
+        }
+
+        .sections-container h2,
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        p {
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: center; 
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            margin-top: 50px;
+        }
+
+        h3 {
+            margin-top: 50px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #c0c0c0;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: #FFFFFF;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent;
+            color: #0A0F24;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+        }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px;
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent {
+            width: 80%;
+            margin: auto;
+            text-align: left;
+            padding: 10px;
+            display: none;
+            margin-left: 0px;
+        }
+
+        .moreContent p {
+            margin-bottom: 16px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            padding-bottom: 5px;
+        }
+
+        #moreContent1 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 77%;
+        }
+
+        #moreContent1 ul li {
+            margin-bottom: 15px; /* This adds 15px of space below each list item */
+        }
+
+        #moreContent2 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 77%;
+        }
+
+        #moreContent2 ul li {
+            margin-bottom: 15px; /* This adds 15px of space below each list item */
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -290px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.workflow,
+        figcaption.Irreversibility,
+        figcaption.Resistance,
+        figcaption.Merkle-Damgård,
+        figcaption.Compare,
+        figcaption.sponge {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 80%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .input-group {
+            display: flex;
+            width: 83%;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 40px;
+        }
+
+        .input-group>div {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .input-group>div:last-child {
+            margin-right: 0;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 15px 10px 5px;
+            border: 1px solid #eae6e6;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button,
+        input[type="submit"],
+        input[type="file"]::file-selector-button {
+            background-color: #0a0f24;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        button:hover,
+        input[type="submit"]:hover,
+        input[type="file"]::file-selector-button:hover {
+            background-color: #c0c0c0;
+            color: #0A0F24;
+        }
+
+        .compare-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            display: block;
+        }
+
+        .outPut {
+            width: 100%;
+            white-space: normal;
+            word-break: break-all;
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .introduce {
+            margin-left: 220px;
+        }
+
+        .introduce li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .attention {
+            margin-top: 20px;
+            font-size: 0.8em;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 100%;
+            }
+
+            .sections-container h2 {
+                font-size: 1.2em;
+            }
+
+            .sections-container p {
+                font-size: 0.9em;
+            }
+            
+            .introduce {
+                width: 100%;
+                padding: 10px;
+                margin-left: 90px;
+            }
+
+            .introduce h2 {
+                font-size: 1.2em; 
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .introduce p {
+                font-size: 0.9em; 
+            }
+
+            .introduce li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            figure {
+                display: flex;
+                flex-direction: column;
+                align-items: center; 
+                justify-content: center; 
+                text-align: center;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -90px;
+                margin-top: 20px;
+            }
+
+            figcaption.workflow,
+            figcaption.Irreversibility,
+            figcaption.Resistance,
+            figcaption.Merkle-Damgård,
+            figcaption.Compare,
+            figcaption.sponge {
+                width: 100%;
+                margin-left: -100px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            pre {
+                display: none;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+   
+            .input-group {
+                flex-direction: column;
+            }
+
+            .section.interactive-tool {
+                width: 320px;
+            }
+            .navbar ul {
+                width: 27%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 55%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0;
+            }
+
+            #languageIcon::before {
+                content: '\2637'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            #hashCompareInput {
+                width: 240px;
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+
+            .attention {
+                margin-top: 10px;
+                font-size: 0.5em;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; menu</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/pt/chatcipherai.html">Mundo dos Criptossistemas</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/pt/Caesar_Cipher.html">Cifra de César</a></li>
+                        <li><a href="https://chatcipherai.com/pt/Playfair_Cipher.html">Cifra de Playfair</a></li>
+                        <li><a href="https://chatcipherai.com/pt/Hill_Cipher.html">Cifra de Hill</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/pt/Hash_value_test.html">Teste de Valor de Hash</a></li>
+                <li><a href="https://chatcipherai.com/pt/Morsecode_main.html">Tradutor de Código Morse</a></li>
+                <li><a href="https://chatcipherai.com/pt/Shortcut_Key_Description.html">Descrição da Tecla de Atalho</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; idioma</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Hash_value_test.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Hash_value_test.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Hash_value_test.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Hash_value_test.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Hash_value_test.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Hash_value_test.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Hash_value_test.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Hash_value_test.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Hash_value_test.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Hash_value_test.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Hash_value_test.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+
+            <h1>Explorador de Hash SHA-256</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 Estilo Escuro(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ Estilo Claro(<span class="highlight-key">L</span>)</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <section class="section interactive-tool">
+            <h2>Teste de Valor de Hash</h2>
+            <p>Insira texto para visualizar o processo de conversão em um valor de hash em tempo real,
+                <br>
+                ou selecione um arquivo para calcular o valor de hash do arquivo.
+            </p>
+        
+            <div class="input-group">
+                <div>
+                    <p>Gerar Valor de Hash de Texto</p>
+                    <input type="text" class="input_value" id="textInput" placeholder="Insira texto" oninput="generateHash()" />
+                    <button onclick="copyTextHash()">Copiar valor de hash de texto</button>
+                    <div id="processOutput"></div>
+                    <div id="hashOutput" class="outPut"></div>
+                </div>
+                <div>
+                    <p>Comparar Valor de Hash de Texto</p>
+                    <input type="text" class="input_value" id="hashCompareInput"
+                        placeholder="Insira o valor de hash a ser usado para comparação" />
+                    <button onclick="compareTextHash()">Comparar</button>
+                    <div id="textCompareResult"></div>
+                </div>
+            </div>
+        
+            <div class="input-group">
+                <div>
+                    <p>Gerar Valor de Hash de Arquivo</p>
+                    <input type="file" id="fileInput" onchange="generateFileHash()" />
+                    <button onclick="copyFileHash()">Copiar valor de hash de arquivo</button>
+                    <div id="fileHashOutput" class="outPut"></div>
+                </div>
+                <div>
+                    <p>Comparar Valor de Hash de Arquivo</p>
+                    <input type="file" id="compareFileInput" onchange="compareFileHash()" />
+                    <div id="fileCompareResult" class="outPut"></div>
+                </div>
+            </div>
+        
+            <div class="input-group">
+                <div>
+                    <p>Insira o Valor de Hash 1</p>
+                    <input type="text" class="input_value" id="hashInput1" placeholder="Digite o valor de hash 1" />
+                </div>
+                <div>
+                    <p>Insira o Valor de Hash 2</p>
+                    <input type="text" class="input_value" id="hashInput2" placeholder="Digite o valor de hash 2" />
+                    <button onclick="compareHashValues()">Comparar</button>
+                    <div id="hashComparisonResult" class="outPut"></div>
+                </div>
+            </div>
+        
+            <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">Limpar Tudo(<span class="highlight-key">A</span>)</button>
+            <div class="attention">
+                Lembrete gentil: Antes de inserir dados, por favor, verifique cuidadosamente a precisão e a sensibilidade das informações. Recomendamos que você faça o upload cauteloso de dados importantes, pois isso ajuda a proteger melhor sua privacidade e segurança.
+            </div>
+        </section>
+        
+        <section class="introduce">
+            <p><strong><em>"Na era digital de hoje, a segurança dos dados não é apenas a pedra angular para proteger a privacidade pessoal e os segredos corporativos, mas também a chave para manter a confiança social e a estabilidade econômica."</em></strong></p>
+            <div>
+                <h2>O que é um Valor de Hash?</h2>
+                <p>
+                    Um valor de hash é uma cadeia ou número de tamanho fixo gerado a partir de qualquer tamanho de dados de entrada por uma função de hash. 
+                    Essas funções aceitam entradas diversas como texto, imagens e vídeos, produzindo um valor de hash de comprimento fixo e irreversível. 
+                    Os valores de hash são determinísticos, o que significa que entradas idênticas sempre resultam na mesma saída. Eles também possuem resistência a colisões, 
+                    tornando desafiador encontrar entradas distintas que produzam a mesma saída.
+                </p>
+            </div>
+            
+            <div>
+                <h2>Funções do Valor de Hash</h2>
+                <p>
+                    Os valores de hash desempenham papéis essenciais em toda a ciência da computação e tecnologia da informação, oferecendo um resumo de tamanho fixo dos dados, independentemente do tamanho. Essas funções facilitam várias aplicações:
+                </p>
+                <ul>
+                    <li><strong>Verificação de Integridade de Dados:</strong> Usado para verificar se os dados permanecem inalterados durante a transmissão, garantindo a integridade dos arquivos baixados.</li>
+                    <li><strong>Armazenamento de Senhas:</strong> As senhas são armazenadas como valores de hash para segurança, tornando difícil recuperar senhas originais de bancos de dados comprometidos.</li>
+                    <li><strong>Recuperação Rápida de Dados:</strong> Os valores de hash atuam como índices em tabelas de hash, permitindo operações eficientes com dados.</li>
+                    <li><strong>Deduplicação de Dados:</strong> Ajuda na identificação e remoção de itens de dados duplicados comparando valores de hash.</li>
+                    <li><strong>Assinatura Digital e Verificação:</strong> Garante a integridade e origem dos dados por meio de criptografia de chave pública e funções de hash.</li>
+                    <li><strong>Tecnologia Blockchain:</strong> Utiliza valores de hash para garantir registros de transações e garantir a imutabilidade dos dados.</li>
+                    <li><strong>Carimbos de Tempo à Prova de Manipulação:</strong> Fornece um carimbo de tempo irreversível para dados, útil em proteções legais e de direitos autorais.</li>
+                </ul>
+                <p>
+                    A razão pela qual os valores de hash são eficazes nessas áreas é devido às suas características-chave de velocidade, determinismo, irreversibilidade e resistência a colisões. Devidamente utilizadas, as funções de hash podem fornecer suporte robusto na segurança de dados, 
+                    aumentando a eficiência e verificando a autenticidade das informações.
+                </p>
+            </div>            
+
+            <div>
+                <h2>O que é uma função de hash?</h2>
+                <p>Uma função de hash é uma construção matemática que mapeia dados de entrada (ou "mensagem") para uma cadeia de tamanho fixo, tipicamente um valor numérico, conforme ilustrado no diagrama abaixo. Amplamente utilizado em gerenciamento de dados e segurança da informação, 
+                    uma função de hash é caracterizada por sua eficiência computacional, comprimento de saída consistente, irreversibilidade, sensibilidade a variações de entrada e resistência a colisões.
+                </p>
+                <figure>
+                    <img src="./images/Hash input output.jpg" alt="Diagrama de Fluxo de Trabalho da Função de Hash" />
+                    <figcaption class="workflow">Diagrama de Fluxo de Trabalho da Função de Hash</figcaption>
+                </figure>
+            </div>
+            
+            <div>
+                <h3>Desempenho Computacional Eficiente</h3>
+                <p>
+                    As funções de hash podem calcular rapidamente valores de hash a partir de dados de qualquer forma, independentemente do tamanho dos dados. Essa característica é crucial para aplicações que requerem acesso rápido aos dados, como tabelas de hash. 
+                    Isso ocorre porque, ao armazenar dados em tabelas de hash, a velocidade da função de hash determina a velocidade de recuperação de dados. As tabelas de hash usam funções de hash para localizar rapidamente o local de armazenamento dos dados, dependendo da rápida capacidade computacional das funções de hash.
+                </p>
+            
+                <p>
+                    Além disso, em sistemas que precisam processar grandes quantidades de dados, a eficiência das funções de hash impacta diretamente o desempenho geral do sistema. Se uma função de hash funcionar lentamente, ela se tornará um gargalo no desempenho do sistema. Alguns sistemas em tempo real, 
+                    como filtragem de pacotes em dispositivos de rede, exigem a computação imediata de valores de hash para dados tomarem decisões rápidas. Nesses casos, a eficiência das funções de hash é igualmente crucial.
+                </p>
+            
+                <p>
+                    Por exemplo, considere uma plataforma de comércio eletrônico online onde os usuários podem digitar nomes de produtos na barra de pesquisa para encontrar produtos. O sistema backend pode usar funções de hash para localizar rapidamente informações de produtos armazenadas em tabelas de hash. 
+                    Se o processo de cálculo da função de hash for lento, a experiência do usuário será severamente afetada, pois eles terão que esperar mais tempo para obter resultados de pesquisa. Nessa situação, o desempenho computacional eficiente das funções de hash garante tempos de resposta rápidos, melhorando assim a experiência do usuário.
+                    <a href="javascript:void(0);" class="learnMore" data-target="moreContent1">[Saiba mais]</a>
+                </p>
+            </div>
+            
+            <div id="moreContent1" class="moreContent" style="display:none;" style="color: #007bff; font-size: 1.0em;">
+                <p>As razões pelas quais as funções de hash podem melhorar a eficiência computacional são principalmente devido às seguintes características de design:</p>
+                <ul>
+                    <li><strong>Operações Simples:</strong> As funções de hash geralmente usam operações matemáticas e bitwise simples, que são executadas muito rapidamente devido ao suporte direto de hardware da CPU.</li>
+                    <li><strong>Avoidando Dependências de Loop:</strong> Ao evitar dependências de loop, as funções de hash permitem o processamento em pipeline, aumentando assim a velocidade.</li>
+                    <li><strong>Processamento Paralelo:</strong> As funções de hash modernas são projetadas para processamento paralelo, aumentando a eficiência em processadores de vários núcleos.</li>
+                    <li><strong>Tamanho de Saída Fixo:</strong> A saída de comprimento fixo simplifica a alocação de memória e a comparação de dados, melhorando o modelo de programação e a eficiência.</li>
+                    <li><strong>Pré-processamento e Pós-processamento:</strong> As funções de hash podem lidar com grandes dados dividindo-os em blocos, calculando valores de hash separadamente e, em seguida, combinando-os, o que aumenta a eficiência.</li>
+                    <li><strong>Caminhos de Algoritmo Otimizados:</strong> Reduzir o ramificação durante a execução aumenta a precisão da previsão de instruções em CPUs, aumentando assim a velocidade.</li>
+                    <li><strong>Amigável ao Cache:</strong> Projetar funções de hash para minimizar as faltas de cache aumenta significativamente a velocidade de processamento.</li>
+                    <li><strong>Otimização de Hardware:</strong> Aceleradores de hardware dedicados podem aumentar significativamente a velocidade dos cálculos de hash, especialmente para funções de hash criptográficas como a série SHA.</li>
+                    <li><strong>Sem Estado:</strong> As funções de hash não mantêm informações de estado, permitindo o processamento leve de cada nova entrada.</li>
+                    <li><strong>Universalidade:</strong> As funções de hash são universais para todos os tipos de dados de entrada, eliminando a necessidade de algoritmos personalizados para diferentes tipos de dados.</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3>Consistência do Comprimento da Saída em Funções de Hash</h3>
+                <p>
+                    As funções de hash convertem entradas de qualquer comprimento em uma saída de comprimento fixo por meio de uma série complexa de cálculos. Esse processo frequentemente envolve dividir os dados de entrada em blocos de tamanho fixo (para entradas que excedem o tamanho da unidade de processamento), 
+                    aplicar uma série de operações matemáticas e lógicas a cada bloco e, em seguida, combinar ou acumular os resultados dessas operações de alguma forma para produzir um valor de hash de tamanho fixo.
+                </p>
+                <p>
+                    <strong>Por que é importante?</strong>
+                    A consistência do comprimento da saída ajuda a garantir a segurança das funções de hash. Se o comprimento da saída do hash pudesse variar, isso poderia vazar informações sobre o tamanho dos dados originais, o que poderia ser potencialmente explorado para atacar o sistema em alguns cenários. 
+                    Além disso, um comprimento de saída fixo também dificulta que os atacantes inferem características dos dados de entrada analisando o comprimento da saída. Ao mesmo tempo, as saídas de comprimento fixo simplificam o armazenamento e a comparação de valores de hash. 
+                    Os projetistas de sistemas podem saber com antecedência quanto espaço cada valor de hash ocupará, o que é muito importante para cenários como design de banco de dados e transmissão de rede. Além disso, a consistência do comprimento da saída torna-se muito eficiente para comparar se os valores de hash são iguais, 
+                    pois requer apenas a comparação de dados de um comprimento fixo. Isso é particularmente importante ao usar tabelas de hash para recuperação rápida de dados.
+                </p>
+                <p>
+                    Tomando SHA-256 como exemplo, esta função de hash criptográfica amplamente utilizada sempre produz um valor de hash de 256 bits (ou seja, 32 bytes), independentemente se os dados de entrada são um único byte ou vários milhões de bytes. Essa consistência garante que os valores de hash SHA-256 possam ser usados para várias aplicações de segurança, 
+                    como assinaturas digitais e Códigos de Autenticação de Mensagem (MACs), ao mesmo tempo que simplifica o fluxo de trabalho de processamento e armazenamento de dados.
+                </p>
+            </div>
+            
+            <div>
+                <h3>Irreversibilidade das Funções de Hash</h3>
+                <p>
+                    As funções de hash são unidirecionais, o que significa que é impossível inferir os dados originais a partir do valor de hash. Esta característica é particularmente importante ao armazenar senhas, pois mesmo que o banco de dados seja comprometido, os atacantes não podem recuperar as senhas a partir dos valores de hash. 
+                    A irreversibilidade das funções de hash baseia-se principalmente nos seguintes princípios e características:
+                </p>
+                <ul>
+                    <li><strong>Compressão:</strong> As funções de hash podem mapear entradas de qualquer tamanho (que podem ser muito grandes em uso prático) para uma saída de tamanho fixo. Isso significa que há infinitamente muitas entradas possíveis mapeadas para um número finito de saídas. Como o espaço de saída (valores de hash) é muito menor que o espaço de entrada, diferentes entradas inevitavelmente produzirão a mesma saída, um fenômeno conhecido como "colisão". Devido a essa compressão, é impossível determinar a entrada específica a partir de uma saída dada (valor de hash).</li>
+                    <li><strong>Alta Não-linearidade e Complexidade:</strong> As funções de hash são projetadas usando operações matemáticas e lógicas complexas (como operações bitwise, operações de módulo, etc.), para garantir que a saída seja altamente sensível à entrada. Mesmo pequenas alterações na entrada (por exemplo, mudar um bit) podem causar mudanças significativas e imprevisíveis na saída (valor de hash). Esse alto grau de não-linearidade e a aleatoriedade da saída tornam extremamente difícil deduzir a entrada original a partir do valor de hash.</li>
+                    <li><strong>Unidirecionalidade:</strong> O design das funções de hash garante que sua operação seja unidirecional; ou seja, enquanto calcular o valor de hash é fácil, o processo reverso (recuperar os dados originais a partir do valor de hash) não é viável. Isso ocorre porque o processo de computação de funções de hash envolve uma série de operações irreversíveis (como a irreversibilidade de operações de módulo), garantindo que mesmo com o valor de hash, seja impossível engenharia reversa dos dados originais.</li>
+                    <li><strong>Mapeamento Aleatório:</strong> Uma função de hash ideal deve atuar como um "mapeador aleatório", o que significa que toda entrada possível tem a mesma probabilidade de ser mapeada para qualquer ponto no espaço de saída. Essa propriedade garante que não há maneira viável de prever para qual saída uma entrada específica será mapeada, aumentando a irreversibilidade da função de hash.</li>
+                    <li><strong>Fundação Matemática:</strong> Matematicamente, a irreversibilidade das funções de hash pode ser entendida através de sua dependência em "problemas de logaritmo discreto", "problemas de fatoração de inteiros grandes" ou outros problemas de teoria dos números que são difíceis de resolver com as capacidades matemáticas e computacionais atuais. Por exemplo, o design de alguns algoritmos de hash pode depender indiretamente da dificuldade computacional desses problemas, garantindo assim sua irreversibilidade.</li>
+                </ul>
+                <figure>
+                    <img src="./images/Irreversibility.jpg" alt="Irreversibilidade das Funções de Hash" />
+                    <figcaption class="Irreversibility">Irreversibilidade das Funções de Hash</figcaption>
+                </figure>
+            </div>
+            
+            <div>
+                <h3>Sensibilidade à Entrada e o Efeito Avalanche</h3>
+                <p>
+                    No design das funções de hash, operações matemáticas e lógicas complexas (como operações bitwise, operações de módulo, etc.) são utilizadas para garantir que a saída seja altamente sensível à entrada. 
+                    Mesmo pequenas alterações na entrada (por exemplo, mudar um único bit) resultarão em mudanças significativas e imprevisíveis na saída (o valor de hash), um fenômeno conhecido como "efeito avalanche".
+                    <a href="javascript:void(0);" class="learnMore" data-target="moreContent2">[Saiba Mais]</a>
+                </p>
+            </div>
+            
+            <div id="moreContent2" class="moreContent" style="display:none;">
+                <p>O <a href="https://en.wikipedia.org/wiki/Avalanche_effect" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">efeito avalanche</a> pode ter diferentes interpretações em vários campos:</p>
+                <ul>
+                    <li><strong>Em criptografia: </strong> O efeito avalanche é uma propriedade desejável de algoritmos de criptografia (especialmente cifras de bloco e funções de hash criptográficas). Ele ocorre quando a menor mudança na entrada (por exemplo, inverter um bit binário) leva a mudanças indistinguíveis na saída (com uma probabilidade de 50% de inverter cada bit binário na saída). Esse atributo ajuda a melhorar a segurança da criptografia porque mudanças significativas na saída podem ocorrer mesmo com pequenas mudanças na entrada, tornando mais difícil quebrar a criptografia analisando a relação entre entrada e saída.</li>
+                    <li><strong>Nos negócios e na tecnologia: </strong> O efeito avalanche refere-se ao fenômeno em que uma energia significativa pode ser liberada desmontando e recombinando adequadamente a estrutura e o sistema inerentes aos negócios e à tecnologia. Essa energia pode destruir sistemas industriais antigos como uma avalanche, ou até mesmo fazer uma indústria inteira desaparecer. Sob a imensa pressão da avalanche, a conexão inerente entre negócios e tecnologia é completamente interrompida, exigindo a aceitação de novas transformações e integrações. Esse efeito acaba desencadeando uma série de inovações revolucionárias.</li>
+                    <li><strong>Na arquitetura de microsserviços: </strong> O efeito avalanche descreve o cenário em que, devido às dependências entre serviços, uma falha ou indisponibilidade em um serviço pode se propagar pela cadeia de chamadas, levando à paralisia de todo o sistema. As causas do efeito avalanche podem incluir falhas de hardware, picos de tráfego, penetração de cache, bugs de programa e bloqueios do JVM, entre outros.</li>
+                    <li><strong>No mundo natural: </strong> O efeito avalanche refere-se ao fenômeno em que uma pequena pedra rolando por uma montanha de neve pode desencadear uma avalanche. Isso ocorre porque o impacto da pequena pedra faz com que as camadas de neve ao redor se soltem e deslizem, levando a uma avalanche em maior escala. Esse fenômeno também pode descrever metaforicamente como eventos ou fatores menores podem desencadear reações em cadeia massivas.</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3>Resistência a Colisões em Criptografia</h3>
+                <p>
+                    A resistência a colisões de uma função de hash é um conceito crucial em criptografia, indicando o nível de segurança de uma função de hash contra ataques de colisão. Essa propriedade implica que, para qualquer função de hash <strong>H</strong>, encontrar duas entradas distintas <strong>x</strong> e <strong>y</strong> (<strong>x ≠ y</strong>) tal que <strong>H(x) = H(y)</strong> é computacionalmente inviável. Uma função de hash com robusta resistência a colisões torna extremamente desafiador encontrar duas entradas diferentes que levem ao mesmo valor de saída.
+                </p>
+                <figure>
+                    <img src="./images/Collision Resistance.jpg" alt="Ilustração da Resistência à Colisão">
+                    <figcaption class="Resistance">Ilustração da Resistência à Colisão</figcaption>
+                </figure>
+                <p>
+                    A resistência a colisões desempenha um papel vital na manutenção da integridade e verificação dos dados. Ao transformar informações de entrada em uma saída de tamanho fixo (ou resumo), as funções de hash garantem que duas entradas diferentes não produzam a mesma saída. Essa característica única permite que o valor de hash identifique com precisão o valor original.
+                </p>
+                <p>
+                    Durante a criação ou armazenamento de dados, um valor de hash (ou resumo) é gerado usando uma função de hash. Este valor é armazenado ou transmitido juntamente com os dados originais. Por exemplo, sites de download de software frequentemente exibem valores de hash de arquivos para verificação de integridade. Os destinatários podem recalcular independentemente o valor de hash dos dados recebidos para confirmar sua integridade. Se os valores de hash original e recalculado coincidirem, a integridade dos dados é verificada. Caso contrário, os dados podem ter sido adulterados ou corrompidos durante a transmissão ou armazenamento.
+                </p>
+                <p>
+                    Comparar valores de hash também oferece a vantagem de verificar a integridade dos dados sem exigir espaço de armazenamento significativo. Este método permite que os destinatários confirmem a autenticidade dos dados simplesmente comparando os valores de hash antes e após a transmissão.
+                </p>
+                <figure>
+                    <img src="./images/Compare Hash.jpg" alt="Processo de Comparação de Valores de Hash">
+                    <figcaption class="Compare">Processo de Comparação de Valores de Hash</figcaption>
+                </figure>
+            </div>
+            
+            <div>
+                <h2>É possível encontrar colisões de hash?</h2>
+                <p>
+                    Através das características das funções de hash mencionadas acima, compreendemos a resistência a colisões. Mas é possível que colisões de hash existam, ou seja, que duas entradas diferentes produzam a mesma saída? 
+                    A resposta é afirmativa, colisões realmente existem. De acordo com o <a href="https://en.wikipedia.org/wiki/Pigeonhole_principle" target="_blank" style="color: #007bff; font-size: 1.0em;">princípio da gaveta de pombos</a>, enquanto o espaço de entrada for suficientemente grande, há uma possibilidade de colisões de hash. 
+                    Isso ocorre porque o espaço de saída das funções de hash geralmente é muito menor que o espaço de entrada, levando inevitavelmente a múltiplas entradas diferentes mapeadas para a mesma saída.
+                </p>
+                
+                <p>
+                    O princípio da gaveta de pombos é um princípio simples e intuitivo da matemática combinatória, afirmando que se mais do que n objetos forem colocados em n contêineres, então pelo menos um contêiner conterá dois ou mais objetos. 
+                    Este princípio também pode ser usado para explicar problemas como o paradoxo do aniversário.
+                </p>
+                <p>
+                    A aplicação do princípio da gaveta de pombos é muito ampla, com usos importantes em campos como criptografia, ciência da computação e matemática. Por exemplo, em ciência da computação, o princípio da gaveta de pombos é usado para provar a correção de certos algoritmos ou para analisar a complexidade temporal de algoritmos. 
+                    Na criptografia, o princípio da gaveta de pombos também é usado para projetar certos métodos de ataque criptográfico, como o ataque do aniversário.
+                </p>
+                <p>
+                    O paradoxo do aniversário é uma aplicação clássica do princípio da gaveta de pombos. Suponha que haja n pessoas em uma sala. 
+                    Se quisermos que a probabilidade de pelo menos duas pessoas compartilharem o mesmo aniversário seja maior que 50%, quantas pessoas são necessárias? De acordo com o princípio da gaveta de pombos, 
+                    se 367 pessoas (assumindo que existam 366 dias em um ano, mais um dia extra para 29 de fevereiro em um ano bissexto) forem colocadas em 366 "gavetas de pombos" (ou seja, aniversários), então pelo menos uma "gaveta de pombos" conterá duas pessoas, significando que pelo menos duas pessoas compartilham o mesmo aniversário. Isso ilustra o paradoxo do aniversário.
+                </p>
+                <p>
+                    É importante observar que, embora o princípio da gaveta de pombos seja simples e intuitivo, sua aplicação deve considerar o contexto específico. 
+                    Por exemplo, ao aplicar o princípio da gaveta de pombos, é necessário garantir que as variáveis aleatórias envolvidas sejam independentes entre si; caso contrário, pode levar a conclusões incorretas. Além disso, em alguns casos, também é necessário considerar fatores como o tamanho e a forma das gavetas de pombos.
+                </p>
+            </div>
+            
+            <div>
+                <p>
+                    No entanto, tentar encontrar colisões de hash simplesmente percorrendo o espaço de entrada pode não ser prático, principalmente por duas razões:
+                </p>
+                <ul>
+                    <li><strong>Complexidade computacional: </strong> Para a maioria das funções de hash, o espaço de entrada é vasto. Tome SHA-256 como exemplo; sua saída é um valor de hash de 256 bits, o que significa que possui 2^256 saídas possíveis. Uma vez que um dos objetivos de design das funções de hash é minimizar as colisões tanto quanto possível, teoricamente, 
+                            encontrar uma colisão de hash para SHA-256 exigiria percorrer cerca de 2^(256/2) = 2^128 entradas, de acordo com o paradoxo do aniversário, que é o número aproximado esperado de entradas para encontrar uma colisão. Mesmo com os supercomputadores mais poderosos atualmente disponíveis, levaria muito além de uma vida humana para concluir uma tarefa dessas. 
+                            tornando considerado impossível encontrar uma colisão de hash SHA-256 através de uma simples travessia.</li>
+                    <li><strong>Design de funções de hash: </strong> As funções de hash geralmente são projetadas para tornar a descoberta de colisões computacionalmente inviável. Isso significa que, embora as colisões teoricamente existam, elas são praticamente impossíveis de encontrar na prática. Esta é uma característica importante das funções de hash criptográficas (como SHA-256), 
+                            que são amplamente utilizadas em áreas como assinaturas digitais, armazenamento de senhas e outros.</li>
+                </ul>
+                <p>
+                    Claro, também podemos usar algoritmos específicos para tentar encontrar colisões de hash. Esses algoritmos frequentemente exploram algumas propriedades ou fraquezas conhecidas das funções de hash para encontrar colisões. Aqui estão algumas técnicas e métodos comuns para encontrar colisões de hash:
+                </p>
+                <ul>
+                    <li><strong>Ataque do Aniversário: </strong> Este é um método simples baseado em probabilidade usado para estimar o tempo necessário para encontrar uma colisão quando as entradas são escolhidas aleatoriamente. O princípio do ataque do aniversário é que se houver muitas pessoas em uma sala, a probabilidade de duas pessoas terem o mesmo aniversário aumenta com o número de pessoas. 
+                            Da mesma forma, em funções de hash, se um número suficiente de entradas for selecionado aleatoriamente, é provável que duas entradas eventualmente produzam a mesma saída de hash.</li>
+                    <li><strong>Ataque de Força Bruta: </strong> Este é o método mais direto, que envolve percorrer todas as entradas possíveis para encontrar uma colisão. No entanto, este método é impraticável para funções de hash com grandes espaços de entrada devido aos enormes recursos computacionais e tempo necessários.</li>
+                    <li><strong>Tabelas Arco-Íris:</strong> Esta técnica é usada para pré-calcular e armazenar um grande número de valores de hash e suas entradas correspondentes. As tabelas arco-íris são especialmente úteis para quebrar senhas que não utilizaram ofuscação de dados aleatórios ou têm uma função de hash conhecida. Ao procurar na tabela arco-íris, um atacante pode rapidamente encontrar uma entrada que corresponda a um valor de hash específico.</li>
+                    <li><strong>Ataques de Extensão de Hash: </strong> Certas funções de hash permitem que os atacantes combinem dados adicionais com um valor de hash conhecido sem conhecer a entrada original, gerando assim um novo valor de hash. Este ataque pode ser usado para construir colisões ou realizar outros tipos de ataques.</li>
+                    <li><strong>Entradas Especialmente Construídas: </strong> Às vezes, os atacantes podem explorar fraquezas específicas ou comportamentos não lineares em funções de hash para construir entradas especiais que são mais propensas a produzir colisões na função de hash.</li>
+                </ul>                
+            </div>
+
+            <div>
+                <h2>Quais são as funções de hash comumente usadas?</h2>
+                <h3>MD5 (Message Digest Algorithm 5)</h3>
+                <p>
+                    MD5 é uma função de hash criptográfica amplamente utilizada, projetada por Ronald Rivest na década de 1990 para substituir o antigo algoritmo MD4. Ele pode converter uma mensagem de qualquer comprimento em um valor de hash de comprimento fixo (128 bits, ou 16 bytes). 
+                    O objetivo de design do MD5 era fornecer uma maneira rápida e relativamente segura de gerar uma impressão digital digital de dados. No entanto, foram descobertos métodos de colisão para <a href="https://en.wikipedia.org/wiki/MD5" target="_blank" style="color: #007bff; font-size: 1.0em;"> MD5 </a>, tornando o algoritmo inseguro, mas ainda amplamente utilizado em situações onde a segurança não é uma preocupação primária.
+                <br>
+                <br>O processo de cálculo do MD5 envolve as seguintes etapas:
+                </p>
+                <ul>
+                    <li><strong>Preenchimento: </strong> Inicialmente, os dados originais são preenchidos para que seu comprimento em bytes seja um múltiplo de 512. O preenchimento começa com um 1, seguido de 0s até que o requisito de comprimento seja atendido.</li>
+                    <li><strong>Adição de Comprimento: </strong> Um valor de comprimento de 64 bits, que é a representação binária do comprimento da mensagem original, é adicionado à mensagem preenchida, tornando o comprimento final da mensagem um múltiplo de 512 bits.</li>
+                    <li><strong>Inicialização do Buffer MD: </strong> Quatro registradores de 32 bits (A, B, C, D) são inicializados para armazenar os valores de hash intermediários e finais.</li> 
+                    <li><strong>Processamento de Blocos de Mensagem: </strong> A mensagem preenchida e processada em termos de comprimento é dividida em blocos de 512 bits, e cada bloco é processado através de quatro rodadas de operação. Cada rodada inclui 16 operações semelhantes baseadas em funções não lineares (F, G, H, I), operações de deslocamento circular à esquerda e adição módulo 32.</li> 
+                    <li><strong>Saída: </strong> O valor de hash final é o conteúdo do último estado dos quatro registradores A, B, C, D concatenados juntos (cada registro tem 32 bits), formando um valor de hash de 128 bits.</li> 
+                </ul>
+                
+                <h3>SHA-1 (Secure Hash Algorithm 1)</h3>
+                <p>
+                    SHA-1 foi projetado pela Agência de Segurança Nacional dos Estados Unidos (NSA) e lançado como um Padrão de Processamento de Informações Federais (FIPS PUB 180-1) pelo Instituto Nacional de Padrões e Tecnologia (NIST) em 1995. 
+                    SHA-1 destina-se a ser utilizado em assinaturas digitais e outras aplicações criptográficas, gerando um valor de hash de 160 bits (20 bytes) conhecido como digest de mensagem. Embora seja agora conhecido que <a href="https://en.wikipedia.org/wiki/SHA-1" target="_blank" style="color: #007bff; font-size: 1.0em;"> SHA-1 </a> tem vulnerabilidades de segurança e foi substituído por algoritmos mais seguros como SHA-256 e SHA-3, 
+                    entender seu princípio de funcionamento ainda possui valor educacional e histórico.
+                <br>
+                <br>O propósito de design do SHA-1 é pegar uma mensagem de comprimento arbitrário e produzir um digest de mensagem de 160 bits para verificar a integridade dos dados. Seu processo de computação pode ser dividido nas seguintes etapas:
+                </p>
+                <ul>
+                    <li><strong>Preenchimento: </strong> Inicialmente, a mensagem original é preenchida para que seu comprimento (em bits) módulo 512 seja igual a 448. O preenchimento sempre começa com um bit "1", seguido por vários bits "0", até que a condição de comprimento acima seja atendida.</li>
+                    <li><strong>Adição de Comprimento: </strong> Um bloco de 64 bits é adicionado à mensagem preenchida, representando o comprimento da mensagem original (em bits), tornando o comprimento final da mensagem um múltiplo de 512 bits.</li>
+                    <li><strong>Inicialização do Buffer: </strong> O algoritmo SHA-1 usa um buffer de 160 bits, dividido em cinco registradores de 32 bits (A, B, C, D, E), para armazenar os valores de hash intermediários e finais. Esses registradores são inicializados com valores constantes específicos no início do algoritmo.</li>
+                    <li><strong>Processamento de Blocos de Mensagem: </strong> A mensagem pré-processada é dividida em blocos de 512 bits. Para cada bloco, o algoritmo executa um loop principal contendo 80 etapas semelhantes. Essas 80 etapas são divididas em quatro rodadas, cada uma com 20 etapas. Cada etapa usa uma função não linear diferente (F, G, H, I) e uma constante (K). Essas funções são projetadas para aumentar a complexidade e segurança das operações. Nestas etapas, o algoritmo usa operações bitwise (como AND, OR, XOR, NOT) e adição módulo 32, bem como deslocamentos circulares à esquerda.</li>
+                    <li><strong>Saída: </strong> Após processar todos os blocos, os valores acumulados nos cinco registradores são concatenados para formar o valor de hash final de 160 bits.</li>
+                </ul>
+                
+                <h3>SHA-2 (Secure Hash Algorithm 2)</h3>
+                <p>
+                    SHA-2 é uma família de funções de hash criptográficas, incluindo várias versões diferentes, consistindo principalmente de seis variantes: SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224 e SHA-512/256. 
+                    SHA-2 foi projetado pela Agência de Segurança Nacional dos Estados Unidos (NSA) e publicado como um Padrão Federal de Processamento de Informações (FIPS) pelo Instituto Nacional de Padrões e Tecnologia (NIST). Comparado ao seu antecessor, SHA-1, SHA-2 oferece segurança aprimorada, principalmente refletida em valores de hash mais longos e maior resistência a ataques de colisão.
+                <br>
+                <br>O funcionamento da família <a href="https://en.wikipedia.org/wiki/SHA-2" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">SHA-2</a> é semelhante ao SHA-1 em muitos aspectos, mas fornece maior segurança através do uso de valores de hash mais longos e um procedimento de processamento mais complexo. Aqui estão as principais etapas do algoritmo SHA-2:
+                </p>
+                <ul>
+                    <li><strong>Preenchimento: </strong> A mensagem de entrada é primeiro preenchida para que seu comprimento, menos 64 bits, seja igual a 448 ou 896 em uma base módulo 512 (para SHA-224 e SHA-256) ou módulo 1024 (para SHA-384 e SHA-512). O método de preenchimento é o mesmo que o SHA-1, que envolve adicionar um "1" no final da mensagem, seguido por vários "0"s, e finalmente uma representação binária de 64 bits (para SHA-224 e SHA-256) ou 128 bits (para SHA-384 e SHA-512) do comprimento original da mensagem em bits.</li>
+                    <li><strong>Inicialização do Buffer: </strong> O algoritmo SHA-2 usa um conjunto de valores de hash inicializados como o buffer de início, dependendo da variante SHA-2 escolhida. Por exemplo, SHA-256 usa oito registradores de 32 bits, enquanto SHA-512 usa oito registradores de 64 bits. Esses registradores são inicializados com valores constantes específicos.</li>
+                    <li><strong>Processamento de Blocos de Mensagem: </strong> A mensagem preenchida é dividida em blocos de 512 ou 1024 bits, e cada bloco passa por múltiplas rodadas de operações criptográficas. SHA-256 e SHA-224 realizam 64 rodadas de operações, enquanto SHA-512, SHA-384, SHA-512/224 e SHA-512/256 realizam 80 rodadas. Cada rodada de operação inclui uma série de operações bitwise complexas, incluindo operações lógicas, adição modular e condicional, baseadas em diferentes funções não lineares e constantes predefinidas. Essas operações aumentam a complexidade e a segurança do algoritmo.</li>
+                    <li><strong>Saída: </strong> Finalmente, após processar todos os blocos, os valores no buffer são combinados para formar o valor de hash final. Dependendo da variante SHA-2, este valor de hash pode ter 224, 256, 384 ou 512 bits de comprimento.</li>
+                </ul>
+                <P>
+                    Você pode estar curioso para saber por que a entrada para uma função de hash pode ter um comprimento arbitrário, mas a saída é fixa. A razão é que a família SHA-2 usa a transformação Merkle-Damgård, que permite a construção de funções de hash que podem processar mensagens de qualquer comprimento a partir de uma função de compressão de comprimento fixo. A transformação Merkle-Damgård é adotada em muitas funções de hash tradicionais, incluindo MD5 e SHA-1.
+                </P>
+                <p>
+                    A ideia central da transformação Merkle-Damgård é dividir a mensagem de entrada em blocos de tamanho fixo e, em seguida, processar esses blocos um por um, com cada etapa de processamento dependendo do resultado da anterior, produzindo finalmente um valor de hash de tamanho fixo. A etapa de preenchimento do SHA-256 incorpora os princípios básicos da transformação Merkle-Damgård, ou seja, preenchendo adequadamente para processar mensagens de qualquer comprimento e garantindo que o comprimento da mensagem processada final atenda a certas condições (como ser um múltiplo de um comprimento fixo). Portanto, pode-se dizer que a etapa de preenchimento do SHA-256 segue o método de transformação Merkle-Damgård.
+                </p>
+                <figure>
+                    <img src="./images/Merkle-Damgård Padding.jpg" alt="Princípio de preenchimento Merkle-Damgård">
+                    <figcaption class="Merkle-Damgård">Princípio de preenchimento Merkle-Damgård</figcaption>
+                </figure>
+                <p>
+                    No entanto, o SHA-256 não é apenas uma implementação direta da transformação Merkle-Damgård. Ele também inclui uma série de etapas computacionais complexas (como expansão de mensagem, múltiplas rodadas de funções de compressão, etc.), que são designs exclusivos do SHA-256, com o objetivo de melhorar sua segurança. Portanto, embora o SHA-256 siga os princípios da transformação Merkle-Damgård em sua etapa de preenchimento, ele aumenta a segurança geral introduzindo outros mecanismos de segurança, tornando-o não apenas limitado ao esquema básico da transformação Merkle-Damgård.
+                </p>
+                
+                <h3>SHA-3 (Secure Hash Algorithm 3) </h3>
+                <p>
+                    SHA-3 é o mais recente padrão de hash seguro, oficialmente aprovado pelo Instituto Nacional de Padrões e Tecnologia (NIST) em 2015 como um Padrão Federal de Processamento de Informações (FIPS 202). SHA-3 não se destina a substituir o SHA-1 ou SHA-2 anteriores (já que o SHA-2 ainda é considerado seguro), 
+                    mas sim complementar e oferecer uma opção alternativa dentro da família SHA, fornecendo um algoritmo de hash criptográfico diferente. SHA-3 é baseado no algoritmo Keccak, projetado por Guido Bertoni e outros, e foi o vencedor da competição SHA-3 realizada pelo NIST em 2012.
+                <br>
+                <br>O princípio de funcionamento do SHA-3 difere significativamente do SHA-2, principalmente porque utiliza um método conhecido como "<strong>construção de esponja</strong>" para absorver e espremer dados, produzindo o valor de hash final. Este método permite ao SHA-3 produzir flexivelmente valores de hash de diferentes comprimentos, oferecendo assim uma gama mais ampla de aplicações do que o SHA-2. As principais etapas do SHA-3 são as seguintes:
+                </p>
+                <figure>
+                    <img src="./images/sponge construction.jpg" alt="Diagrama Esquemático da Construção Esponja">
+                    <figcaption class="sponge">Diagrama Esquemático da Construção Esponja</figcaption>
+                </figure>
+                <h4>Fase de absorção: </h4>
+                <p>
+                    Na fase de absorção, a estrutura de esponja divide primeiro os dados de entrada em blocos de tamanho fixo. Esses blocos de dados são "absorvidos" sequencialmente no estado interno da esponja, que é tipicamente maior do que um único bloco de dados, para garantir que uma grande quantidade de dados possa ser processada sem transbordamento. 
+                    Especificamente, cada bloco de dados é mesclado com uma parte do estado interno de alguma maneira (como por uma operação XOR), seguido pela aplicação de uma função de permutação fixa (no SHA-3, isso é <a href="https://en.wikipedia.org/wiki/SHA-3" target="_blank" style="color: #007bff; font-size: 1.0em;">Keccak-f</a>) para transformar o estado inteiro, evitando assim a interferência entre diferentes blocos de dados de entrada. Esse processo é repetido até que todos os blocos de dados de entrada tenham sido processados.
+                </p>
+                <p>
+                    Keccak-f é a função de permutação central usada no algoritmo de hash criptográfico SHA-3. É um componente central da família de algoritmos Keccak. O SHA-3 é baseado no algoritmo Keccak, que venceu a competição de algoritmos de hash criptográfico realizada pelo NIST e foi selecionado como o padrão para o SHA-3. A função Keccak-f tem várias variantes, 
+                    sendo a mais comumente usada a Keccak-f[1600], onde o número indica a largura de bits em que opera. 
+                </p>
+                <p>
+                    Keccak-f é composto por várias rodadas da mesma operação (chamadas de rodadas). Para Keccak-f[1600], há um total de 24 rodadas de operações. Cada rodada inclui cinco etapas básicas: <em>θ (Theta), ρ (Rho), π (Pi), χ (Chi) e ι (Iota)</em>. Essas etapas atuam em conjunto no array de estado, transformando gradualmente seu conteúdo, 
+                    aumentando a confusão e a difusão para aumentar a segurança. Abaixo está uma breve descrição dessas etapas:
+                </p>
+                <ul>
+                    <li><strong>Etapa θ (Theta): </strong> Realiza operações XOR em todos os bits de cada coluna, em seguida, XORs o resultado em colunas adjacentes, fornecendo difusão entre colunas.</li>
+                    <li><strong>Etapa ρ (Rho): </strong> Operação de rotação de bits, onde cada bit é rotacionado um número diferente de bits de acordo com regras predeterminadas, aumentando a complexidade dos dados.</li>
+                    <li><strong>Etapa π (Pi): </strong> Rearranja os bits no array de estado, mudando a posição dos bits para alcançar difusão entre linhas e colunas.</li>
+                    <li><strong>Etapa χ (Chi): </strong> Uma etapa não linear que realiza operações XOR em cada bit de cada linha, incluindo ele mesmo, seu vizinho imediato e o complemento do vizinho. Esta é uma operação local que aumenta as características não lineares do algoritmo criptográfico.</li>
+                    <li><strong>Etapa ι (Iota): </strong> Introduz uma constante de rodada em parte do array de estado, com a constante diferindo em cada rodada, para evitar que todas as rodadas operem de forma idêntica, introduzindo imprevisibilidade.</li>
+                </ul>
+                <p>
+                    Keccak-f fornece um alto nível de segurança através dessas etapas. Seu design garante que mesmo mudanças mínimas na entrada levem a mudanças generalizadas e imprevisíveis no array de estado, alcançado através dos princípios de confusão (tornando difícil para os atacantes inferir a entrada a partir da saída) e difusão (onde mudanças mínimas na entrada afetam várias partes da saída).
+                </p>
+                <p>
+                    O design de Keccak-f permite o ajuste de parâmetros (como tamanho de estado e número de rodadas) em diferentes níveis de segurança e cenários de aplicação, oferecendo grande flexibilidade. Keccak-f[1600] é renomado por sua implementação eficiente, alcançando altas velocidades de processamento tanto em hardware quanto em software, especialmente ao lidar com grandes quantidades de dados.
+                </p>
+                
+                <h4>Fase de Espremer: </h4>
+                <p>
+                    Uma vez que todos os blocos de dados de entrada foram absorvidos no estado interno, a estrutura de esponja entra na fase de espremer. Nesta etapa, partes do estado interno são progressivamente produzidas como resultado da função de hash. Se o comprimento de saída necessário exceder a quantidade que pode ser espremida de uma vez, a estrutura de esponja aplica a função de permutação para transformar o estado interno novamente e depois continua a produzir mais dados. Este processo é realizado até que o comprimento de saída desejado seja alcançado.
+                </p>
+                
+                <p>
+                    O objetivo do design do SHA-3 é fornecer uma segurança mais alta do que o SHA-2 e uma melhor resistência contra ataques de computação quântica. Graças à sua estrutura de esponja única, o SHA-3 é teoricamente capaz de resistir a todos os métodos de ataque criptográfico atualmente conhecidos, incluindo ataques de colisão, ataques de pré-imagem e ataques de segunda pré-imagem.
+                </p>
+                
+                <h3>RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest)</h3>
+                <p>
+                    RIPEMD-160 é uma função de hash criptográfica projetada para fornecer um algoritmo de hash seguro. Foi desenvolvido em 1996 por Hans Dobbertin e outros, e é membro da família RIPEMD (RACE Integrity Primitives Evaluation Message Digest).
+                </p>
+                <p>
+                    RIPEMD-160 produz um valor de hash de 160 bits (20 bytes), que é a origem do "160" em seu nome. É baseado no design de MD4 e influenciado por outros algoritmos de hash como MD5 e SHA-1. RIPEMD-160 inclui duas operações paralelas e semelhantes que processam os dados de entrada separadamente e depois combinam os resultados desses dois processos para gerar o valor de hash final. Este design visa aumentar a segurança.
+                <br>
+                <br>O processo de computação do <a href="https://en.wikipedia.org/wiki/RIPEMD" target="_blank" style="color: #007bff; font-size: 1.0em;">RIPEMD-160</a> inclui várias etapas básicas: preenchimento, processamento de bloco e compressão:
+                </p>
+                <ul>
+                    <li><strong>Preenchimento: </strong> A mensagem de entrada é primeiro preenchida para garantir que seu comprimento módulo 512 bits seja igual a 448 bits. O preenchimento sempre começa com um único bit de 1 seguido de uma série de bits 0, terminando com uma representação de 64 bits do comprimento da mensagem original.</li>
+                    <li><strong>Processamento de Bloco: </strong> A mensagem preenchida é dividida em blocos de 512 bits.</li>
+                    <li><strong>Inicialização: </strong> Usa cinco registros de 32 bits (A, B, C, D, E), que são inicializados com valores específicos.</li>
+                    <li><strong>Função de Compressão: </strong> Cada bloco é processado por vez, atualizando os valores desses cinco registros por meio de uma série de operações complexas. Este processo inclui operações bitwise (como adição, AND, OR, NOT, deslocamentos circulares para a esquerda) e o uso de um conjunto de constantes fixas.</li>
+                    <li><strong>Saída: </strong> Após todos os blocos terem sido processados, os valores desses cinco registros são concatenados para formar o valor de hash final de 160 bits.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. Todos os direitos reservados.</p>
+            <p>
+                <a href="https://chatcipherai.com/pt/Privacy_Policy.html" title="Privacy Policy">Política de Privacidade</a>
+                |
+                <a href="https://chatcipherai.com/pt/Terms_of_Use.html" title="Terms of Use">Termos de Uso</a>
+                |
+                <a href="https://chatcipherai.com/pt/About_Us.html" title="About Us">Sobre Nós</a>
+                |
+                <a href="https://chatcipherai.com/pt/Disclaimer.html" title="Disclaimer">Aviso Legal</a>
+            </p>
+            <button id="backToTop" onclick="scrollToTop()">Voltar ao Topo</button>
+        </div>
+    </footer>
+
+    <script>
+        let shortcutsEnabled = true;
+
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Ensure all handlers are set up once the DOM is fully loaded
+            document.addEventListener('keydown', handleKeyPress);
+
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+            
+            setupEventListeners(); // Setup other event listeners
+            adjustButton();
+        });
+
+        let generatedTextHash = '';
+        let generatedFileHash = '';
+
+        async function generateHash() {
+            const text = document.getElementById('textInput').value;
+            document.getElementById('processOutput').textContent = text.length ? "Calculando o valor do hash..." : '';
+            const msgUint8 = new TextEncoder().encode(text);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            document.getElementById('hashOutput').textContent = `Valor de hash (SHA-256): ${hashHex}`;
+            generatedTextHash = hashHex;
+            document.getElementById('processOutput').textContent = "";
+        }
+
+        async function generateFileHash() {
+            const fileInput = document.getElementById('fileInput');
+            if (!fileInput.files.length) {
+                alert("Selecione um arquivo.");
+                return;
+            }
+            document.getElementById('fileHashOutput').textContent = "Calculando o valor do hash do arquivo...";
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function (event) {
+                const arrayBuffer = event.target.result;
+                const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                document.getElementById('fileHashOutput').textContent = `Valor de hash (SHA-256): ${hashHex}`;
+                generatedFileHash = hashHex;
+            };
+            reader.onerror = function () {
+                alert("Erro de leitura de arquivo.");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function compareTextHash() {
+            const compareHash = document.getElementById('hashCompareInput').value;
+            if (!generatedTextHash) {
+                alert('Por favor, gere um hash do texto primeiro.');
+                return;
+            }
+            const resultText = generatedTextHash === compareHash ? "<strong>Conclusão: </strong>Os hashes correspondem e os dados não foram adulterados." : "<strong>Conclusão: </strong>Os hashes não correspondem e os dados podem ter sido adulterados em trânsito ou ocorreu um erro durante o armazenamento.";
+            document.getElementById('textCompareResult').innerHTML = resultText;
+            document.getElementById('textCompareResult').style.color = generatedTextHash === compareHash ? "black" : "red";
+        }
+
+        async function compareFileHash() {
+            const fileInput = document.getElementById('compareFileInput');
+            if (!fileInput.files.length) {
+                alert("Selecione um arquivo para comparar.");
+                return;
+            }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function (event) {
+                const arrayBuffer = event.target.result;
+                const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                document.getElementById('fileCompareResult').textContent = `Valor de hash (SHA-256): ${hashHex}`;
+
+                if (generatedFileHash === hashHex) {
+                    document.getElementById('fileCompareResult').innerHTML += "<br><strong>Conclusão:  </strong>Os hashes correspondem e os dados não foram adulterados.";
+                    document.getElementById('fileCompareResult').style.color = "black";
+                } else {
+                    document.getElementById('fileCompareResult').innerHTML += "<br><strong>Conclusão:  </strong>Os hashes não correspondem e os dados podem ter sido adulterados em trânsito ou ocorreu um erro durante o armazenamento.";
+                    document.getElementById('fileCompareResult').style.color = "red";
+                }
+            };
+            reader.onerror = function () {
+                alert("Erro de leitura de arquivo.");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function copyTextHash() {
+            const hashValue = document.getElementById('hashOutput').textContent;
+            const hash = hashValue.split(": ")[1];
+            if (hash) {
+                navigator.clipboard.writeText(hash).then(() => {
+                }, () => {
+                    console.error("Falha ao copiar o hash de texto.");
+                });
+            }
+        }
+
+        function compareHashValues() {
+            var hashValue1 = document.getElementById('hashInput1').value.trim();
+            var hashValue2 = document.getElementById('hashInput2').value.trim();
+
+            var resultDisplay = document.getElementById('hashComparisonResult');
+
+            resultDisplay.style.fontWeight = 'bold';
+
+            if (hashValue1 === "" || hashValue2 === "") {
+                resultDisplay.textContent = 'Ambos os valores de hash devem ser inseridos.';
+                resultDisplay.style.color = 'black';
+            } else if (hashValue1 === hashValue2) {
+                resultDisplay.textContent = 'Os valores de hash correspondem!';
+                resultDisplay.style.color = 'black';
+            } else {
+                resultDisplay.textContent = 'Os valores de hash não correspondem.';
+                resultDisplay.style.color = 'red';
+            }
+        }
+
+        function copyFileHash() {
+            const hashValue = document.getElementById('fileHashOutput').textContent;
+            const hash = hashValue.split(": ")[1];
+            if (hash) {
+                navigator.clipboard.writeText(hash).then(() => {
+                }, () => {
+                    console.error("Falha ao copiar o hash do arquivo.");
+                });
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('hashOutput').textContent = '';
+            document.getElementById('hashCompareInput').value = '';
+            document.getElementById('textCompareResult').textContent = '';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileHashOutput').textContent = '';
+            document.getElementById('compareFileInput').value = '';
+            document.getElementById('fileCompareResult').textContent = '';
+            document.getElementById('hashInput1').value = '';
+            document.getElementById('hashInput2').value = '';
+            document.getElementById('hashComparisonResult').textContent = '';
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .menuUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var navbarUl = document.querySelector('.navbar ul');
+
+            if (!menuIcon.contains(event.target) && !navbarUl.contains(event.target)) {
+                navbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.9)' : 'rgba(255, 255, 255, 0.9)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.addEventListener('click', function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none" || moreContent.style.display === "") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Fecho]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Saber mais]";
+                }
+            });
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'Voltar ao Topo(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+
+</html>

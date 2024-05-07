@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar-Chiffre-Explorer: Antike Verschlüsselungstechnik</title>
+    <meta name="description" content="Begib dich auf eine Reise mit dem Caesar-Chiffre-Explorer, einem fesselnden Tool, das der antiken Kunst der Verschlüsselung Leben einhaucht und die Geheimnisse einer Methode enthüllt, die so alt ist wie Julius Caesars zeitloses Vermächtnis.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }  
+
+        #menuIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+        }
+        #menuIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 20px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column; 
+            position: absolute;
+            top: 35px; 
+            left: 10px;
+            width: 15%; 
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0; 
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px; 
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0; 
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px; 
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 75%;
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        #inputMessage, #shiftValue {
+            width: 60%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #eae6e6;
+            font-size: 1em;
+            font-family: Arial, sans-serif;
+        }
+
+        #inputMessage {
+            min-height: 100px;
+            max-height: 300px;
+            resize: vertical; 
+            overflow: auto;   
+            text-align: left;   
+            white-space: pre-wrap;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 120px;
+            margin-left: 300px;
+        }
+
+        .sections-container h2, .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        #result {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #0A0F24;
+        }
+
+        p {  
+            margin-bottom: 30px;  
+            text-align: left; 
+            font-size: 1.2em; 
+            line-height: 1.6; 
+            text-align: center; 
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            margin-top: 50px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white; 
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3); 
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206); 
+            color: #0A0F24; 
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24; 
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container {
+            margin-right: 5px; 
+            margin-left: 0; 
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .copy-button {
+            cursor: pointer;
+            padding: 8px 15px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.8em;
+        }
+
+        .copy-button:hover {
+            background-color: #45a049;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {  
+            background-color: #0A0F24;  
+            color: white;  
+        }  
+        .light-mode {  
+            background-color: #fff;  
+            color: #0A0F24; 
+        }  
+
+        .light-mode .navbar, .light-mode .container {
+            background-color: #FFFFFF; 
+            color: #0A0F24; 
+        }
+        .light-mode .navbar ul {
+            background-color: transparent; 
+            color: #0A0F24; 
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded; 
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24; 
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+        
+        .navbar {
+            justify-content: flex-start; 
+        }
+
+        .table-container {
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px; 
+        }
+
+        .footer {
+            position: relative; 
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        #moreContent1 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 74%;
+        }
+
+        #moreContent2 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 74%;
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.caesar,
+        figcaption.frequency {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        section pre{
+            background-color: #e9f4f4;
+            width: 74%;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 1.6em;
+            padding: 1em 1.5em;
+        }
+
+        section code{
+            color: #0A0F24;
+            border-radius: 5px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .language-list{
+            float: right;
+        }
+
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+    @media screen and (max-width: 768px) {
+        .navbar h1 {
+            font-size: 18px;
+            position: absolute;
+            top: -25px; 
+        }
+
+        .sections-container {
+            margin-left: auto;
+            margin-right: auto;
+            align-items: center;
+            width: 100%;
+        }
+
+        .section {
+            width: 100%;
+            padding: 10px;
+        }
+
+        .section h2 {
+            font-size: 1.2em;
+            margin-left: 20px;  
+        }
+
+        .section h3 {
+            font-size: 0.9em;
+            margin-left: 20px; 
+        }
+
+        .section p {
+            font-size: 0.9em;
+            margin-left: 20px; 
+        }
+
+        section li {
+            font-size: 14px;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -60px;
+        }
+
+        figcaption.caesar,
+        figcaption.frequency {
+            width: 100%;
+            margin-left: -70px;
+            color: #007bff;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 10px;
+        }
+
+        pre {
+            display: none;
+        }
+
+        .copy-button {
+            display: none;
+        }
+
+        #backToTop {
+            content: '▲';
+            padding: 4px 5px;
+            font-size: 14px;
+            right: 10px;
+            bottom: 0px;
+        }
+
+        .navbar ul {
+            width: 25%;
+        }
+
+        .navbar ul li {
+            padding: 0 5px 0 0;
+        }
+
+        .navbar li a {
+            padding: 5px;
+        }
+
+        .navbar li a {
+            font-size: 10px;
+            width: 100%;
+            padding: 5px 0px 5px 5px;
+        }
+
+        .navbar .submenu {
+            left: 100%;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 50%;
+            padding: 0 5px 0 0;
+        }
+
+        .navbar .submenu li a {
+            padding: 5px 0px 5px 5px;
+        }
+
+        #menuIcon {
+            font-size: 0; /* Hide text */
+        }
+        #menuIcon::before {
+            content: '\2630'; /* Unicode character for ☰ */
+            font-size: 16px; /* Or any other size you prefer */
+        }
+
+        #languageIcon {
+            font-size: 0;
+        }
+
+        #languageIcon::before {
+            content: '\2637'; /* Unicode character for ☰ */
+            font-size: 16px; /* Or any other size you prefer */
+        }
+
+        .navbar .langUl {
+            left: 42px;
+            width: 65px;
+        }
+
+        #darkStyle {
+            font-size: 0;
+            margin-left: 10px;
+            padding: 5px 8px;
+        }
+
+        #lightStyle {
+            font-size: 0;
+            margin-right: -10px;
+        }
+
+        #darkStyle::before {
+            font-size: 9px;
+        }
+
+        #lightStyle::before {
+            font-size: 10px;
+        }
+
+        #darkStyle::before {
+            content: "🌙";
+        }
+
+        #lightStyle::before {
+            content: "☀";
+        }
+
+        .social-links i {
+            font-size: 12px;
+        }
+        }   
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; Menü</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/de/chatcipherai.html">Kryptosystem-Welt</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/de/Caesar_Cipher.html">Caesar-Chiffre</a></li>
+                        <li><a href="https://chatcipherai.com/de/Playfair_Cipher.html">Playfair-Chiffre</a></li>
+                        <li><a href="https://chatcipherai.com/de/Hill_Cipher.html">Hill-Chiffre</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/de/Hash_value_test.html">Hashwert-Test</a></li>
+                <li><a href="https://chatcipherai.com/de/Morsecode_main.html">Morsecode-Übersetzer</a></li>
+                <li><a href="https://chatcipherai.com/de/Shortcut_Key_Description.html">Tastenkombinationen Erklärung</a></li>
+            </ul>  
+
+            <div id="languageIcon">&#x2637; Sprache</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Caesar_Cipher.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Caesar_Cipher.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Caesar_Cipher.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Caesar_Cipher.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Caesar_Cipher.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Caesar_Cipher.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Caesar_Cipher.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Caesar_Cipher.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Caesar_Cipher.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Caesar_Cipher.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Caesar_Cipher.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+
+            <h1>Caesar-Chiffre-Explorer</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 Dunkler Stil(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ Heller Stil(<span class="highlight-key">L</span>)</button>
+            </div> 
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <section class="section interactive-tool">
+            <h2>Probieren Sie den Caesar-Chiffre aus</h2>
+            <p>Verwenden Sie das Tool unten, um eine Nachricht zu verschlüsseln oder zu entschlüsseln:</p>
+            <input type="number" id="shiftValue" placeholder="Verschiebung (z.B. 3)">
+            <textarea id="inputMessage" placeholder="Hier Nachricht eingeben"></textarea>
+            
+            <button onclick="encode()">Verschlüsseln(<span class="highlight-key">E</span>)</button>
+            <button onclick="decode()">Entschlüsseln(<span class="highlight-key">D</span>)</button>
+            <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">Alles löschen(<span class="highlight-key">A</span>)</button>
+            
+            <p>Ergebnis: <span id="result"></span></p>
+        </section>
+        
+        <section class="section">
+            <h2>Willkommen in der Welt des Caesar-Chiffre</h2>
+            <p>Dieses Reich verwebt Einfachheit und Intrige in der Kunst der Kryptographie. Entstanden aus den Praktiken von <a href="https://de.wikipedia.org/wiki/Gaius_Iulius_Caesar" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;"> Julius Caesar</a> dient dieser Chiffre als Beweis für die zeitlose Anziehungskraft geheimer Kommunikation. Sie basiert auf einem einfachen, aber genialen Prinzip – dem Verschieben der Buchstaben des Alphabets um eine feste Anzahl. Diese Verschiebung verwandelt gewöhnliche Nachrichten in kryptische Texte und hüllt Wörter in einen Schleier des Geheimnisvollen. Während wir in diese Welt eintauchen, entschlüsseln wir die Eleganz ihrer Einfachheit und die Freude daran, Nachrichten zu entschlüsseln, die einst undurchdringlich schienen. Der Caesar-Chiffre öffnet, obwohl einfach, das Tor zur breiteren, faszinierenden Welt der Kryptographie, in der jeder Buchstabe und jede Verschiebung eine wichtige Rolle im Tanz von Geheimhaltung und Entdeckung spielen.</p>
+            
+            <h2>Was ist der Caesar-Chiffre?</h2>
+            <p>Der Caesar-Chiffre, eine alte Verschlüsselungstechnik, erlangte durch Julius Caesar, den renommierten römischen General und Politiker, Berühmtheit. Er verwendete diese Methode, um wichtige militärische Kommunikationen zu schützen. Als Substitutionschiffre klassifiziert, nutzt sie speziell eine alphabetische Verschiebung. Das grundlegende Prinzip des Caesar-Chiffre besteht darin, jeden Buchstaben im Alphabet um eine vorher festgelegte Anzahl zu verschieben. Zum Beispiel wird mit einer Verschiebung von 3 das Alphabet so verschoben, dass 'A' zu 'D' wird, 'B' zu 'E' und dieses Muster setzt sich fort. Wenn das Ende des Alphabets erreicht ist, kehrt die Sequenz zum Anfang zurück.</p>
+            
+            <p>Obwohl der Caesar-Chiffre oft als grundlegendes Element in komplexeren Verschlüsselungsmethoden dient, macht ihn seine Einfachheit anfällig. Wie alle auf alphabetischer Substitution basierenden Chiffren ist er relativ einfach zu entschlüsseln und bietet daher nur begrenzte Sicherheit für praktische Kommunikationsbedürfnisse.</p>
+            <figure>
+                <img src="./images/figure 1-Caesar cipher schematic diagram.jpg" alt="Schematische Darstellung des Caesar-Verschlüsselungsverfahrens"> <!-- Verwenden Sie einen beschreibenden Alternativtext und eine relative URL für das Bild -->
+                <figcaption class="caesar">Schematische Darstellung des Caesar-Verschlüsselungsverfahrens</figcaption> <!-- Fügen Sie eine Bildunterschrift für einen besseren Kontext hinzu -->
+            </figure>
+            
+            <h2>Welche spezifischen Caesar-Verschlüsselungen gibt es?</h2>
+            <p>Die Caesar-Verschlüsselung ist eine Methode zur Verschlüsselung, die auf der Verschiebung von Buchstaben im Alphabet basiert, wobei die einfachste Form darin besteht, jeden Buchstaben um eine feste Anzahl von Stellen nach hinten (oder vorne) zu verschieben. Abgesehen von dieser grundlegenden Form gibt es hier einige interessante Varianten:</p>
+            <ul>
+                <li><strong>ROT13:</strong> Eine spezielle Form der Caesar-Verschlüsselung mit einer Verschiebung um 13. Da es 26 Buchstaben im englischen Alphabet gibt, verwendet die Verschlüsselung und Entschlüsselung denselben Satz von Regeln.</li>
+                <li><strong>Atbash Cipher:</strong> Dies ist ein spezieller Fall, der als Caesar-Verschlüsselung für Hebräisch betrachtet werden kann. Es kehrt das Alphabet um, so dass der erste Buchstabe zum letzten wird, der zweite zum vorletzten und so weiter.</li>
+                <li><strong>Vigenère Cipher:</strong> Obwohl es streng genommen nicht zur Caesar-Verschlüsselung gehört, basiert es auf den Prinzipien der Caesar-Verschlüsselung. Es verwendet eine Reihe von Schlüsselwörtern als Verschiebungswert für die Verschlüsselung, was eine höhere Sicherheit im Vergleich zur Verschiebung eines einzelnen Buchstabens bietet.</li>
+                <li><strong>Affine Cipher:</strong> Basierend auf dem Gedanken der Caesar-Verschlüsselung, aber die Verschlüsselung beinhaltet eine Multiplikation. Die Position jedes Buchstabens im Alphabet wird zunächst mit einer Zahl multipliziert (die teilerfremd zur Länge des Alphabets ist), dann wird eine Verschiebung hinzugefügt, und zuletzt wird der Modulus der Alphabetlänge genommen, um den verschlüsselten Buchstaben zu erhalten.</li>
+                <li><strong>ROT5, ROT18, ROT47:</strong> Diese sind Varianten von ROT13, werden aber zur Verschlüsselung von Zahlen und anderen Zeichen verwendet. ROT5 wird nur für Zahlen verwendet, ROT18 kombiniert ROT5 und ROT13, und ROT47 kann die meisten druckbaren Zeichen in der ASCII-Tabelle verschlüsseln.</li>
+                <li><strong>Doppelte Caesar-Verschlüsselung:</strong> Dies ist eine einfache Erweiterung der Caesar-Verschlüsselung, indem die Caesar-Verschlüsselung zweimal angewendet wird, möglicherweise mit unterschiedlichen Verschiebungswerten, um die Komplexität der Verschlüsselung zu erhöhen.</li>
+            </ul>
+            <p>Diese Varianten und verwandten Techniken haben jeweils ihre eigenen Merkmale, die darauf abzielen, die Sicherheit von Verschlüsselungsmethoden zu verbessern oder sich an spezifische Verschlüsselungsanforderungen anzupassen.</p>           
+            
+            <h2>Wie implementiert man Caesar-Chiffre in Python?</h2>
+            <p>In Python können Sie dies erreichen, indem Sie durch jeden Buchstaben des Originaltextes iterieren und dann die verschlüsselte Version jedes Buchstabens basierend auf dem Alphabet und einem gegebenen Offset berechnen. Dies wird bequem mit einer ASCII-Tabelle erreicht, indem beispielsweise die Differenz zwischen dem ASCII-Wert des Buchstabens und dem ASCII-Wert von 'a' plus einem Offset genommen wird und das Ergebnis dann wieder in den Buchstaben konvertiert wird.</p>
+            <h3>Python-Code für Caesar-Chiffre</h3>
+            <p>Unten finden Sie eine Python-Funktion, die zeigt, wie man Text mit der Caesar-Chiffre-Technik verschlüsselt und entschlüsselt. Der Code enthält Kommentare für besseres Verständnis und Anpassung.</p>
+            
+            <button class="copy-button" onclick="copyCode('codeBlock1')">Kopieren</button>            
+            <pre><code id="codeBlock1">
+            def caesar_cipher_enhanced(text, shift, encrypt=True):
+                """
+                Encrypts or decrypts text using Caesar-Chiffre.
+                
+                Parameters:
+                text (str): The text to encrypt or decrypt.
+                shift (int): The number of positions to shift the letters by.
+                encrypt (bool): True for encryption, False for decryption.
+                
+                Returns:
+                str: The transformed text.
+                """
+                transformed_text = ""
+                for char in text:
+                    if char.isalpha():
+                        start = ord('A') if char.isupper() else ord('a')
+                        shift_adjusted = shift if encrypt else -shift
+                        transformed_char = chr((ord(char) - start + shift_adjusted) % 26 + start)
+                        transformed_text += transformed_char
+                    else:
+                        transformed_text += char
+                return transformed_text
+
+            # Example usage
+            user_input = input("Enter the text: ")
+            shift = int(input("Enter the shift value: "))
+            encrypt_decrypt = input("Encrypt or Decrypt (E/D): ").strip().upper()
+
+            if encrypt_decrypt == 'E':
+                result = caesar_cipher_enhanced(user_input, shift, encrypt=True)
+                print("Encrypted:", result)
+            elif encrypt_decrypt == 'D':
+                result = caesar_cipher_enhanced(user_input, shift, encrypt=False)
+                print("Decrypted:", result)
+            else:
+                print("Invalid option. Please enter 'E' for Encrypt or 'D' for Decrypt.")
+            </code></pre>
+
+            <h2>Wie knackt man den Caesar-Chiffre?</h2>
+            <p>Das Knacken eines Caesar-Chiffre kann relativ einfach sein aufgrund der begrenzten Anzahl möglicher Verschiebungen (26 im Fall des englischen Alphabets). Eine häufige Methode, um diesen Cipher zu brechen, ist Brute-Force, was bedeutet, dass man jede mögliche Verschiebung ausprobiert, bis man eine findet, die Sinn ergibt. Dies ist praktisch, weil es nur 26 mögliche Verschiebungen im englischen Alphabet gibt, was die Anzahl der Kombinationen klein genug macht, um jede manuell zu überprüfen.</p>
+            <p>Eine weitere raffiniertere Methode besteht darin, Frequenzanalyse zu verwenden. Da Buchstaben in der englischen Sprache unterschiedliche Häufigkeiten des Auftretens haben (zum Beispiel ist 'e' häufiger als 'z'), können Sie die Häufigkeit der Buchstaben in der codierten Nachricht mit typischen Buchstabenhäufigkeiten im Englischen vergleichen. Auf diese Weise können Sie die wahrscheinlichste Verschiebung identifizieren, die verwendet wurde, um die Nachricht zu verschlüsseln.</p>
+            <p>Da die Zuordnung jedes Zeichens im Caesar-Chiffre festgelegt ist, wenn "b" auf "e" abgebildet wird, wird "e" jedes Mal im Ciphertext erscheinen, wenn "b" im Klartext erscheint. Es ist nun bekannt, dass die Wahrscheinlichkeitsverteilung jedes Buchstabens im Englischen bekannt ist. Die durchschnittliche Wahrscheinlichkeit des Auftretens verschiedener Buchstaben in verschiedenen Texten ist normalerweise die gleiche, und je länger der Text ist, desto näher kommt die Frequenzberechnung dem Durchschnitt. Dies ist ein Frequenzdiagramm von 26 Buchstaben. Natürlich wird die Frequenz jedes Buchstabens leicht unterschiedlich sein, wenn sich die Anzahl der Stichproben ändert.</p>
+            <p>Zum Beispiel geben Sie den ersten Absatz des Textes "This realm intertwines simplicity and intrigue..." ein, und durch den Konverter oben erhalten wir den Ciphertext. Aber für andere, die nicht wissen, was der geheime Schlüssel ist, können wir einen geheimen Schlüssel durch den Code erhalten, der der Versatz ist.</p>
+            <p>Der englische Text lautet wie folgt:</p>
+            <p>"This realm intertwines simplicity and intrigue in the art of cryptography. Originating from the practices of Julius Caesar, this cipher serves as a testament to the timeless allure of secret communications. It operates on a straightforward yet ingenious principle – shifting the letters of the alphabet by a fixed number. This shift transforms ordinary messages into cryptic texts, cloaking words in a veil of mystery. As we delve into this world, we unravel the elegance of its simplicity and the joy of decoding messages that once seemed impenetrable. The Caesar Cipher, though elementary, opens the gateway to the broader, fascinating world of cryptography, where every letter and shift play a crucial role in the dance of secrecy and discovery."</p>
+            <figure>
+                <img src="./images/figure 2-Alphabet frequency diagram.jpg" alt="Verteilung der Häufigkeit englischer Buchstaben"> <!-- Verwenden Sie einen beschreibenden Alternativtext und eine relative URL für das Bild -->
+                <figcaption class="frequency">Verteilung der Häufigkeit englischer Buchstaben</figcaption> <!-- Fügen Sie eine Bildunterschrift für einen besseren Kontext hinzu -->
+            </figure>
+            
+            <p>Das folgende Python-Codebeispiel zeigt, wie Frequenzanalyse durchgeführt wird, um einen Caesar-Chiffre zu brechen. Diese Technik basiert auf der statistischen Analyse der Buchstabenhäufigkeiten im Englischen.</p>
+            <button class="copy-button" onclick="copyCode('codeBlock2')">Kopieren</button>            
+            <pre><code id="codeBlock2">
+
+            import string
+            def count_frequencies_from_file(path):
+                count_dict = dict.fromkeys(string.ascii_lowercase, 0)
+                total_chars = 0
+            
+                with open(path, 'r', encoding='utf-8') as file:
+                    for line in file:
+                        for char in line.lower():
+                            if char in count_dict:
+                                count_dict[char] += 1
+                                total_chars += 1
+            
+                for char in count_dict:
+                    count_dict[char] /= total_chars
+                return count_dict
+            
+            def frequency_analysis(known_frequencies, count_dict):
+                eps = float('inf')
+                key = 0
+                cipher_frequencies = list(count_dict.values())
+            
+                for shift in range(26):
+                    s = 0
+                    for i in range(26):
+                        s += known_frequencies[i] * cipher_frequencies[(i + shift) % 26]
+                    temp = abs(s - 0.065379)
+                    if temp < eps:
+                        eps = temp
+                        key = shift
+            
+                return key
+            # Known letter frequencies in English
+            known_freqs = [0.086,0.014,0.030,0.038,0.130,0.029,0.020,0.053,0.063,0.001,0.004,0.034,0.025,0.071,0.080,
+                                0.020,0.001,0.068,0.061,0.105,0.025,0.009,0.015,0.002,0.020,0.001]
+            
+            file_path = "Your_Path"
+            cipher_count_dict = count_frequencies_from_file(file_path)
+            key = frequency_analysis(known_freqs, cipher_count_dict)
+            print("The key is: " + str(key))
+            </code></pre>
+            <p>Versuchen Sie, Ihren eigenen Dateipfad zu verwenden und diesen Code auszuführen, um zu sehen, ob Sie eine mit einem Caesar-Chiffre verschlüsselte Nachricht entschlüsseln können.</p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a>  
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. Alle Rechte vorbehalten.</p>
+            <p>
+                <a href="https://chatcipherai.com/de/Privacy_Policy.html" title="Privacy Policy">Datenschutzrichtlinie</a>
+                |
+                <a href="https://chatcipherai.com/de/Terms_of_Use.html" title="Terms of Use">Nutzungsbedingungen</a>
+                |
+                <a href="https://chatcipherai.com/de/About_Us.html" title="About Us">Über uns</a>
+                |
+                <a href="https://chatcipherai.com/de/Disclaimer.html" title="Disclaimer">Haftungsausschluss</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">Zurück nach oben(<span class="highlight-key">B</span>)</button>
+        </div>   
+    </footer>
+
+    <script>
+        function caesarCipher(str, shift) {
+        if (shift < 0) {
+            return caesarCipher(str, shift + 26);
+        }
+
+        let output = '';
+            for (let i = 0; i < str.length; i++) {
+                let char = str[i];
+                if (char.match(/[a-z]/i)) {
+                    let code = str.charCodeAt(i);
+
+                    if (code >= 65 && code <= 90) {
+                        char = String.fromCharCode(((code - 65 + shift) % 26) + 65);
+                    } else if (code >= 97 && code <= 122) {
+                        char = String.fromCharCode(((code - 97 + shift) % 26) + 97);
+                    }
+                }
+                output += char;
+            }
+            return output;
+        }
+        let encodedMessage = caesarCipher('Hello World!', 3);
+        console.log('Encoded:', encodedMessage);
+
+        // Decoding
+        let decodedMessage = caesarCipher(encodedMessage, -3);
+        console.log('Decoded:', decodedMessage);
+
+        function encode() {
+            let message = document.getElementById('inputMessage').value;
+            let shift = parseInt(document.getElementById('shiftValue').value);
+            let resultElement = document.getElementById('result');
+            resultElement.textContent = caesarCipher(message, shift);
+            resultElement.style.color = 'blue';
+        }
+
+        function decode() {
+            let message = document.getElementById('inputMessage').value;
+            let shift = parseInt(document.getElementById('shiftValue').value);
+            document.getElementById('result').textContent = caesarCipher(message, -shift);
+            document.getElementById('result').style.color = "#0A0F24";
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function() {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function() {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+            updateTableStyle(style);
+            updateInteractiveToolStyle(style);
+        }
+
+        function updateInteractiveToolStyle(style) {
+            var interactiveTool = document.querySelector('.section.interactive-tool');
+            if (style === 'dark-mode') {
+                interactiveTool.style.backgroundColor = '#ffffff'; // 设置为深色背景
+            } else {
+                interactiveTool.style.backgroundColor = '#f0f0f0'; // 设置为浅色背景
+            }
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function(link) {
+            link.addEventListener('click', function() {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none" || moreContent.style.display === "") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            });
+        });
+
+        function clearAll() {
+            var inputMessage = document.getElementById('inputMessage');
+            var shiftValue = document.getElementById('shiftValue');
+            var result = document.getElementById('result');
+
+            inputMessage.value = '';
+            shiftValue.value = '';
+            result.textContent = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function() {
+                if(window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'Zurück nach oben(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+        function copyCode(elementId) {
+            var text = document.getElementById(elementId).innerText;
+            var elem = document.createElement("textarea");
+            document.body.appendChild(elem);
+            elem.value = text;
+            elem.select();
+            document.execCommand("copy");
+            document.body.removeChild(elem);
+        }
+
+        let shortcutsEnabled = true;
+
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'E':
+                    encode();
+                    console.log('Encode triggered');
+                    break;
+                case 'D':
+                    decode();
+                    console.log('Decode triggered');
+                    break;
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    setStyle('light-mode');
+                    console.log('Light style activated');
+                    break;
+                case 'N':
+                    setStyle('dark-mode');
+                    console.log('Dark style activated');
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('#inputMessage, #shiftValue');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+    </script>
+</body>
+</html>
+
+ 

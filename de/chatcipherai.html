@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welt der Kryptosysteme: Bekanntes Kryptosystem</title>
+    <meta name="description" content="Entdecken wir gemeinsam die erstaunliche Welt der Kryptographie, wo Sie über weltbekannte Kryptographiesysteme lernen werden.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 20px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            background-color: #eeeeee;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 20px;
+            margin-left: 250px;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        .sections-container h2,
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        p {
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-top: 80px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            
+            font-size: 22px;
+        }
+
+        h4 {
+            
+            font-size: 20px;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: #fff;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: rgba(10, 15, 36, 0.0);
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar ul {
+            background-color: rgba(255, 255, 255, 0);
+            color: #0A0F24;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100vw;
+            height: 750px;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            opacity: 0.8;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            z-index: 5;
+        }
+
+        #togglePlay {
+            background-color: transparent;
+        }
+
+        #togglePlay:hover{
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.Compare,
+        figcaption.caesar,
+        figcaption.playfair {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #start {
+            font-family: 'Arial', sans-serif;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+            
+        #start p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        #end {
+            font-family: 'Arial', sans-serif;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+            
+        #end p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 100%;
+                padding: 10px;
+            }
+
+            .sections-container h2 {
+                font-size: 1.2em;
+            }
+
+            .sections-container p {
+                font-size: 0.9em;
+            }
+
+            .video-container {
+                width: 110%;
+            }
+
+            video {
+                width: 1200px;
+                height: auto;
+            }
+
+            .video-overlay {
+                font-size: 18px;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .section h2 {
+                font-size: 1.2em; 
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .section p {
+                font-size: 0.9em; 
+            }
+
+            section li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -80px;
+            }
+
+            figcaption.Compare,
+            figcaption.caesar,
+            figcaption.playfair {
+                width: 100%;
+                margin-left: -90px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+            
+            .sections-container {
+                margin-left: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; Menü</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/de/chatcipherai.html">Kryptosystem-Welt</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/de/Caesar_Cipher.html">Caesar-Chiffre</a></li>
+                        <li><a href="https://chatcipherai.com/de/Playfair_Cipher.html">Playfair-Chiffre</a></li>
+                        <li><a href="https://chatcipherai.com/de/Hill_Cipher.html">Hill-Chiffre</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/de/Hash_value_test.html">Hashwert-Test</a></li>
+                <li><a href="https://chatcipherai.com/de/Morsecode_main.html">Morsecode-Übersetzer</a></li>
+                <li><a href="https://chatcipherai.com/de/Shortcut_Key_Description.html">Tastenkombinationen Erklärung</a></li>
+            </ul>   
+
+            <div id="languageIcon">&#x2637; Sprache</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/chatcipherai.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/chatcipherai.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/chatcipherai.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/chatcipherai.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/chatcipherai.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/chatcipherai.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/chatcipherai.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/chatcipherai.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/chatcipherai.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/chatcipherai.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/chatcipherai.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>            
+                     
+            <h1>Bekanntes Kryptosystem</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 Dunkler Stil(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ Heller Stil(<span class="highlight-key">L</span>)</button>
+            </div>            
+        </nav>
+    </header>
+
+    <div class="video-container">
+        <video id="myVideo" autoplay loop muted playsinline style="opacity: 0.8;">
+            <source src="./video/Sunset.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay">Erkunde die faszinierende Welt der Kryptographie</div>
+    </div>
+    
+    <main class="sections-container">
+        <button id="togglePlay" style="position: absolute; top: 680px; right: 20px;cursor: pointer;">Abspielen/Pausieren</button>
+        
+        <section id="start" font-family: 'Arial', sans-serif;">
+            <p style=" font-size: 18px; line-height: 1.6;">
+                In den Abgründen der digitalen Welt gleicht die Verschlüsselungstechnologie einer blendenden magischen Barriere, die unsere kostbarsten Geheimnisse mit komplexen und eleganten Mechanismen schützt. Tief verwurzelt im fruchtbaren Boden der Mathematik und Logik zeigt diese Technologie den Gipfel menschlichen Intellekts. Sie ist nicht nur eine Sammlung von Codes und Algorithmen, sondern eine Kunstform, eine tiefgründige Philosophie...
+            </p>            
+        </section>
+
+        <section id="hash-sha-256">
+            <h2>Das Verständnis von SHA-256: Ein sicheres Hash-Algorithmus</h2>
+            <p>
+                <strong>SHA-256</strong>, Teil der <strong>SHA-2 (Secure Hash Algorithm 2) Familie</strong>, ist eine Verschlüsselungsfunktion, die von der National Security Agency (NSA) entworfen und vom National Institute of Standards and Technology (NIST) veröffentlicht wurde. Ziel ist es, das ältere SHA-1 zu ersetzen. SHA-256 bietet verbesserte Sicherheit und ist entscheidend in verschiedenen Anwendungen wie TLS/SSL, PGP, SSH, IPsec und Blockchain-Technologien wie Bitcoin.
+            </p>
+            <p>
+                Als einer der sichersten Hash-Algorithmen spielt <strong>SHA-256</strong> eine entscheidende Rolle in der digitalen Sicherheit und Integritätsprüfungen. Trotz der theoretischen Möglichkeit von Kollisionen ist es praktisch nahezu unmöglich, zwei verschiedene Eingaben zu finden, die denselben Ausgabe-Hash erzeugen, was SHA-256 zu einem robusten Werkzeug gegen Angriffe macht.
+            </p>
+            <p>
+                Mit der Weiterentwicklung der Technologie wird die kontinuierliche Bewertung der Sicherheit von SHA-256 unerlässlich. Unser Leitfaden taucht in die komplexen Details von SHA-256 ein und stellt sicher, dass die Leser die Bedeutung dieses Algorithmus für die Aufrechterhaltung der digitalen Sicherheit erfassen. Natürlich können Sie die Seite auch verwenden, um<a href="https://chatcipherai.com/de/Hash_value_test.html" id="hash-value-test-link" class="hash-test-link" style="color: #007bff; font-size: 1.0em;" target="_blank" rel="noopener noreferrer"> Ihr Hash-Wissen zu testen</a>.
+            </p>
+            
+            <h3>Wichtige Vorteile und Anwendungen des Hash-Wert-Tests</h3>
+            <ul>
+                <li>Verständnis der Eigenschaften und Anwendungsbereiche von Hash-Funktionen.</li>
+                <li>Einsichten in weit verbreitete Hash-Funktionen und ihre Funktionsprinzipien.</li>
+                <li>Praktischer Leitfaden zur Verwendung von SHA-256 zur Überprüfung der Integrität und Echtheit digitaler Dateien.</li>
+                <li>Erkundung anderer weit verbreiteter Hash-Funktionen und ihrer Mechanismen.</li>
+            </ul>
+            <figure>
+                <img src="./images/Compare Hash.jpg" alt="Prozess des Vergleichens von Hash-Werten" />
+                <figcaption class="Compare">Prozess des Vergleichens von Hash-Werten</figcaption>
+            </figure>
+        </section>
+        
+        <section id="introduction-to-morse-code">
+            <h2>Morse-Code: Das wegweisende Kommunikationssystem des 19. Jahrhunderts</h2>
+            <p><strong>Morse-Code</strong>, entwickelt in den 1830er Jahren vom amerikanischen Künstler und Erfinder Samuel Morse, revolutionierte die Telekommunikation, indem er ein Codierungssystem einführte, das Punkte (kurze Signale) und Striche (lange Signale) zur Kodierung von Buchstaben, Zahlen und Satzzeichen verwendet. Diese Innovation erleichterte die Übertragung über Telegrafenleitungen und wurde besonders im maritimen Bereich während des 19. und frühen 20. Jahrhunderts zu einem Eckpfeiler der Fernkommunikation.</p>
+        
+            <p>Für eine umfassende Erkundung des Morse-Codes besuchen Sie die <a href="https://chatcipherai.com/de/Morsecode_main.html" title="Umfassender Leitfaden zum Morse-Code" style="color: #007bff; font-size: 1.0em;" target="_blank" rel="noopener noreferrer">Morsecode-Übersetzer</a>-Seite.</p>
+        
+            <h3>Dekodierung von Morse-Code-Signalen</h3>
+            <p>Die einzigartige Darstellung von Zeichen im Morse-Code durch kurze und lange Signale sowie spezifische Intervalle ermöglicht eine klare Kommunikation über verschiedene Plattformen:</p>
+            <ul>
+                <li><strong>Punkt (".")</strong>: Stellt ein kurzes Signal dar.</li>
+                <li><strong>Strich ("-")</strong>: Stellt ein langes Signal dar.</li>
+                <li><strong>Intra-Zeichen-Pause</strong>: Unterscheidet zwischen Punkten und Strichen innerhalb eines Zeichens.</li>
+                <li><strong>Inter-Buchstaben-Pause</strong>: Trennt Buchstaben zur besseren Lesbarkeit.</li>
+                <li><strong>Worttrennungspause</strong>: Unterscheidet Wörter während der Kommunikation.</li>
+            </ul>
+        
+            <h3>Anhaltender Einfluss des Morse-Codes</h3>
+            <p>Trotz des Aufkommens fortschrittlicherer Kommunikationstechnologien bleibt der Morse-Code eine emblematische Figur in der Geschichte der Kommunikation, die zahlreiche nachfolgende Technologien beeinflusst und einen besonderen Platz unter Funkbegeisterten und Fachleuten in bestimmten Bereichen behält.</p>
+        
+            <p>Durch seine Einfachheit und Effizienz ist der Morse-Code eine zuverlässige Alternative in Szenarien, in denen moderne Kommunikationsinfrastrukturen nicht verfügbar sind, und überbrückt die Kluft zwischen historischen Innovationen und aktuellen Praktiken für Historiker und Technikenthusiasten gleichermaßen.</p>
+        
+            <h3>Erkundung des Morse-Codes</h3>
+            <p>Diese Seite bietet Einblicke in:</p>
+            <ul>
+                <li>Die historische Entwicklung und Bedeutung des Morse-Codes.</li>
+                <li>Das Verständnis der operationellen Dynamik des Morse-Codes.</li>
+                <li>Technische Aspekte und Anwendungen des Morse-Codes, einschließlich seines Alphabets.</li>
+            </ul>
+        </section>
+        
+        <section id="caesar-cipher">
+            <h2>Das Verständnis des Caesar-Chiffre: Verschlüsselung, Entschlüsselung und Knacken</h2> <!-- Ändern Sie die Überschrift auf H1 für das Hauptthema und fügen Sie relevante Schlüsselwörter hinzu -->
+            <p>
+                Der <a href="https://chatcipherai.com/de/Caesar_Cipher.html" id="caesarCipherLink" title="Erfahren Sie mehr über die Caesar-Chiffre" style="color: #007bff;" target="_blank" rel="noopener noreferrer">Caesar-Chiffre</a>,
+                benannt nach Julius Caesar für seine Verwendung in sicheren militärischen Kommunikationen, repräsentiert eine grundlegende Substitutionschiffre-Technik.
+                Bei dieser Methode werden Buchstaben im Klartext durch einen Buchstaben ersetzt, der eine feste Anzahl von Positionen im Alphabet nach unten oder oben steht.
+                Trotz seiner Einfachheit war die Caesar-Chiffre in einer Ära unter spezifischen historischen Bedingungen und grundlegenden kryptoanalytischen Techniken äußerst effektiv.
+            </p>
+            <p>
+                Heutzutage dient die Caesar-Chiffre, obwohl leicht zu lösen, als wichtiges Lehrmittel in der Kryptographie, das grundlegende Verschlüsselungstechniken wie Buchstabenschiebung demonstriert.
+                Sie ist ein wesentlicher Schritt zum Verständnis komplexerer kryptografischer Systeme und bleibt aufgrund ihrer historischen Bedeutung und Einfachheit von Interesse.
+            </p>
+            <p>
+                Diese Seite wird Folgendes erkunden:
+                <ul>
+                    <li>Die Prinzipien der Verschlüsselung und Entschlüsselung der Caesar-Chiffre.</li>
+                    <li>Die Verwendung von Online-Tools zur Verschlüsselung oder Entschlüsselung von Text.</li>
+                    <li>Techniken zum Knacken der Caesar-Chiffre mit Python.</li>
+                </ul>
+            </p>
+            <figure>
+                <img src="./images/figure 1-Caesar cipher schematic diagram.jpg" alt="Schematische Darstellung des Caesar-Verschlüsselungsverfahrens"> <!-- Verwenden Sie einen beschreibenden Alt-Text und eine relative URL für das Bild -->
+                <figcaption class="caesar">Schematische Darstellung des Caesar-Verschlüsselungsverfahrens</figcaption> <!-- Fügen Sie eine Bildunterschrift für einen besseren Kontext hinzu -->
+            </figure>
+        </section>
+        
+        <section id="playfair-cipher-introduction">
+            <h2>Das Verständnis des Playfair-Chiffre: Ein Verschlüsselungswunder des 19. Jahrhunderts</h2>
+            <p>Der <strong>Playfair-Chiffre</strong>, eine bahnbrechende <a href="https://chatcipherai.com/de/Playfair_Cipher.html" style="color: #007bff;" target="_blank" rel="noopener noreferrer">manuelle symmetrische Verschlüsselungsmethode</a>, wurde von <a href="https://de.wikipedia.org/wiki/Charles_Wheatstone" style="color: #007bff;" target="_blank">Charles Wheatstone</a> im Jahr 1854 entwickelt. Er war der erste, der eine Digraphen-Substitutionschiffre verwendete, was die Sicherheit der telegrafischen Kommunikation verbesserte. Obwohl Wheatstone der Erfinder war, trägt sie stolz den Namen von Lord Playfair, der entscheidend zu ihrer Förderung beitrug.</p>
+        </section>
+        
+        <section id="playfair-cipher-application">
+            <h3>Globale Übernahme und Bedeutung in militärischen Strategien</h3>
+            <p>Zu Beginn vom britischen Außenministerium als zu kompliziert angesehen, erlangte die <strong>Playfair-Chiffre</strong> weite Akzeptanz innerhalb des britischen Militärs während entscheidender Momente wie dem Zweiten Burenkrieg und dem Ersten Weltkrieg. Bis in die 1940er Jahre wurde sie international von Ländern wie Australien, Deutschland und Neuseeland eingesetzt und erwies sich im Zweiten Weltkrieg als unverzichtbar.</p>
+        </section>
+        
+        <section id="playfair-cipher-modern-use">
+            <h3>Zeitgemäße Verwendung: Bildungs- und Unterhaltungszwecke</h3>
+            <p>Die Entwicklung moderner Computertechnologien hat die Sicherheit und Effektivität der <strong>Playfair-Chiffre</strong> verringert. Heutzutage dient sie hauptsächlich als Werkzeug für Bildungszwecke und Unterhaltungskryptographie und bietet einen Einstieg in die faszinierende Welt der Chiffriertechniken. Dabei werden Sie:</p>
+            <ul>
+                <li>Die operationellen Prinzipien hinter der Playfair-Chiffre entdecken.</li>
+                <li>Schritt-für-Schritt-Anleitung zur Nutzung der Playfair-Chiffre, um Ihren persönlichen Verschlüsselungsschlüssel zu erstellen.</li>
+                <li>Unsere Website-Ressourcen nutzen, um Ihre Verschlüsselungs- und Entschlüsselungsbemühungen zu validieren.</li>
+            </ul>
+            <figure>
+                <img src="./images/figure 1-playfair cipher encryption.jpg" alt="Detaillierte Ansicht der Schlüsselmatrix des Playfair-Verschlüsselungsverfahrens"> <!-- Aktualisiert mit einem relativen Pfad und beschreibendem Alt-Text -->
+                <figcaption class="playfair">Detaillierte Ansicht der Schlüsselmatrix des Playfair-Verschlüsselungsverfahrens</figcaption>
+            </figure>
+        </section>
+        
+        <section id="hill-cipher" itemscope itemtype="http://schema.org/EducationalOrganization">
+            <h2 itemprop="name">Das Verständnis des Hill-Chiffre: Ein umfassender Leitfaden</h2>
+        
+            <article itemprop="description">
+                <p>Der <strong>Hill-Chiffre</strong>, eine wegweisende Verschlüsselungstechnik, entwickelt von Lester S. Hill im Jahr 1929, zeichnet sich in der Welt der klassischen Chiffren durch seine einzigartige Anwendung von <strong>linearer Algebra</strong> und <strong>Matrixtheorie</strong> aus. Im Gegensatz zu seinen Vorgängern verwendet die Hill-Chiffre Matrixmultiplikation zur Verschlüsselung und erfordert einen invertierbaren Schlüssel: eine Matrix, damit der Algorithmus effektiv funktioniert.</p>
+        
+                <p>Diese <a href="https://chatcipherai.com/de/Hill_Cipher.html" id="HillCipherLink" target="_blank" style="color: #007bff;" target="_blank" rel="noopener noreferrer">fortgeschrittene Chiffrentechnik</a> verschlüsselt Buchstabenblöcke als einzelne Einheiten, was ihre Komplexität erhöht und sie von traditionellen Substitutionschiffren deutlich abhebt. Im Folgenden gehen wir auf die mathematischen Grundlagen und die Betriebsmechanismen der Hill-Chiffre ein:</p>
+        
+                <ul>
+                    <li><strong>Matrixdarstellung von Zeichen:</strong> Weist Buchstaben numerische Werte zu (z. B. A=0, B=1, ..., Z=25) und teilt Nachrichten in Blöcke auf, die als n-dimensionale Vektoren dargestellt werden.</li>
+                    <li><strong>Schlüsselmatrix:</strong> Eine n x n-Matrix, die modulo 26 invertierbar sein muss, um die Entzifferbarkeit sicherzustellen.</li>
+                    <li><strong>Verschlüsselungsprozess:</strong> Umfasst die Multiplikation der Schlüsselmatrix mit Klartextblockvektoren, modulo 26.</li>
+                    <li><strong>Entschlüsselungsprozess:</strong> Wird erreicht, indem die verschlüsselten Vektoren mit dem Inversen der Schlüsselmatrix multipliziert werden, modulo 26.</li>
+                </ul>
+        
+                <p>Die Sicherheit der Hill-Chiffre hängt hauptsächlich von der Komplexität der Durchführung der Matrixinversion modulo 26 ab. Dennoch ist sie anfällig für Angriffe mit bekanntem Klartext und erfordert eine Anpassung der Klartextlänge, um zur Größe der Matrix zu passen, was häufig zusätzliche Polsterung erfordert.</p>
+        
+                <p>Trotz dieser Schwachstellen wird die Hill-Chiffre für ihren Bildungswert in der Vermittlung der Grundlagen der Kryptographie gefeiert. Obwohl ihr praktischer Einsatz in zeitgenössischen Anwendungen begrenzt sein kann, dient sie als entscheidender Meilenstein in der kryptographischen Ausbildung und Forschung.</p>
+        
+                <section>
+                    <h3>Lernergebnisse:</h3>
+                    <ul>
+                        <li>Die Arbeitsprinzipien der Hill-Chiffre und ihre Verschlüsselungsschritte beherrschen.</li>
+                        <li>Die Anwendung der Hill-Chiffre bei der Verschlüsselung und Entschlüsselung von Nachrichten erlernen.</li>
+                        <li>Die wesentliche Rolle linearer Algebra und Matrixtheorie bei der Hill-Chiffre verstehen.</li>
+                        <li>Die Unterschiede zwischen der Hill-Chiffre und der Playfair-Chiffre verstehen.</li>
+                    </ul>
+                </section>
+            </article>
+        </section>
+        
+        <section id="end" font-family: 'Arial', sans-serif;">
+            <p style="font-size: 18px; line-height: 1.6;">
+                Der wahre Reiz der Verschlüsselungstechnologie liegt in ihrer Verkörperung des unermüdlichen Strebens der Menschheit nach Freiheit und Privatsphäre. In dieser von Daten geprägten Welt erinnert sie uns daran, dass wir trotz der Vielzahl von Herausforderungen, solange wir Weisheit und Mut besitzen, unsere kostbarsten Schätze im digitalen Zeitalter schützen können.
+            </p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a>            
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. Alle Rechte vorbehalten.</p>
+            <p>
+                <a href="https://chatcipherai.com/de/Privacy_Policy.html" title="Privacy Policy">Datenschutzrichtlinie</a>
+                |
+                <a href="https://chatcipherai.com/de/Terms_of_Use.html" title="Terms of Use">Nutzungsbedingungen</a>
+                |
+                <a href="https://chatcipherai.com/de/About_Us.html" title="About Us">Über uns</a>
+                |
+                <a href="https://chatcipherai.com/de/Disclaimer.html" title="Disclaimer">Haftungsausschluss</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">Zurück nach oben(<span class="highlight-key">B</span>)</button>
+        </div>   
+    </footer>
+    
+    <script>
+        let shortcutsEnabled = true;
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'L':
+                    setStyle('light-mode');
+                    console.log('Light style activated');
+                    break;
+                case 'N':
+                    setStyle('dark-mode');
+                    console.log('Dark style activated');
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('#inputMessage, #shiftValue');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'Zurück nach oben(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onresize = function () {
+            adjustButton()
+        };
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'light-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+        document.addEventListener('scroll', function () {
+            let scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+            var savedStyle = localStorage.getItem('style')
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            if (scrollHeight > 60) {
+                navbar.style.backgroundColor = savedStyle === 'dark-mode' ? '#0a0f24' : '#fff';
+                ul.style.backgroundColor = savedStyle === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+
+            } else {
+                navbar.style.backgroundColor = savedStyle === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.backgroundColor = savedStyle === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+            }
+        });
+
+        document.getElementById('togglePlay').addEventListener('click', function () {
+            var video = document.getElementById('myVideo');
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        });
+        document.getElementById('inputText').addEventListener('input', function () {
+            document.getElementById('morseCode').value = encodeToMorse(document.getElementById('inputText').value);
+        });
+
+        document.getElementById('inputMorse').addEventListener('input', function () {
+            document.getElementById('decodedText').value = decodeMorse(document.getElementById('inputMorse').value);
+        });
+
+        document.addEventListener('click', function (event) {
+            var navbar = document.querySelector('.navbar');
+            var menuIcon = document.getElementById('menuIcon');
+
+            if (menuIcon.contains(event.target)) {
+                navbar.classList.toggle('active');
+            } else {
+                navbar.classList.remove('active');
+            }
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            // updateButtonStyles();
+            updateNavbarStyles(style);
+            // updateTableStyle(style);
+            updateIntroduceStyle(style);
+        }
+
+        function updateIntroduceStyle(style) {
+            var introduces = document.querySelectorAll('.introduce');
+            introduces.forEach(function (introduce) {
+                if (style === 'dark-mode') {
+                    introduce.style.color = '#FFFFFF'; // White text for dark mode
+                } else {
+                    introduce.style.color = '#0A0F24'; // Black text for light mode
+                }
+            });
+        }
+
+        function updateNavbarStyles(style) {
+            let scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            if (scrollHeight > 60) {
+                navbar.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : '#fff';
+                ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+            } else {
+                navbar.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+            }
+
+        }
+
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId);
+            copyText.select();
+            document.execCommand('copy');
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.onclick = function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Schließung]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Erfahren Sie mehr]";
+                }
+            };
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

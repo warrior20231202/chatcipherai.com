@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hill-Chiffre-Explorer: Begleitet von Mathematik, einhergehend mit Kryptographie.</title>
+    <meta name="description" content="Der Hill-Chiffre ist ein klassischer kryptographischer Algorithmus, der zur Kategorie der Mehrbuchstaben-Substitutionschiffren gehört. Das Besondere daran ist, dass er lineare Algebra und Matrixmultiplikation verwendet, um Verschlüsselungs- und Entschlüsselungsvorgänge durchzuführen.">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }   
+
+        #menuIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+        }
+        #menuIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column; 
+            position: absolute;
+            top: 35px; 
+            left: 10px;
+            width: 15%; 
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0; 
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px; 
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0; 
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            margin-top: 80px;
+            margin-bottom: 150px;
+        }
+
+        #inputMessage, #shiftValue {
+            width: 100%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            font-size: 1em;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 70%;
+        }
+
+        .section {
+            width: 110%;
+            margin-bottom: 30px; 
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        .section label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .matrix-display {
+            text-align: center;
+            padding: 20px;
+            background-color: #7fbef5;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .matrix-display p {
+            margin: 10px 5px;
+            font-size: 1em;
+        }
+
+        #matrixInputs {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-left: 0;
+        }
+
+        .sections-container h2, .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        .section.interactive-tool label, 
+        .section.interactive-tool p {
+            font-size: 1.2em;
+        }
+
+        .section input[type="text"], 
+        .section textarea {
+            width: 700px;  
+            padding: 10px;   
+            margin-bottom: 20px; 
+            border: 1px solid #eae6e6;
+            border-radius: 5px;  
+            font-size: 0.9em;       
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #inputText {
+            min-height: 100px;
+            max-height: 300px;
+            resize: vertical;
+            padding: 10px;   
+        }
+
+        #key {
+            height: auto; 
+        }
+
+        #result {
+            font-weight: bold;
+            color: #0A0F24;
+            font-family: 'Arial', sans-serif;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+            text-align: left;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            resize: vertical;
+            font-size: 18px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            width: 698px;
+            line-height: 26px;
+        }
+
+        p {  
+            margin-bottom: 30px;  
+            text-align: left; 
+            font-size: 1.2em; 
+            line-height: 1.6; 
+            margin-bottom: 15px; 
+        }
+
+        h2 {  
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        h3 {
+            margin-top: 50px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: #F5F5F5; 
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3); 
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206); 
+            color: #0A0F24; 
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24; 
+        }
+
+        p { 
+            text-align: center;  
+            margin-bottom: 30px;
+            font-size: 1.2em;  
+        }
+
+        h2 {  
+            margin-bottom: 10px;  
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {  
+            background-color: #0A0F24;  
+            color: white;  
+        }
+
+        .light-mode {  
+            background-color: white;  
+            color: #0A0F24; 
+        } 
+
+        .light-mode .navbar, .light-mode .container {
+            background-color: #FFFFFF; 
+            color: #0A0F24; 
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent; 
+            color: #0A0F24; 
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded; 
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24; 
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start; 
+        }
+
+        #languageIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+        }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px; 
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            width: 100%;    
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .button-container button {
+            margin-right: 0px; 
+        }
+
+        .footer {
+            position: relative; 
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        #moreContent2 { 
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 74%;
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .form-group {
+            padding: 20px;
+            margin: 20px auto;
+            border: 1px solid #eae6e6;
+            border-radius: 10px;
+            background-color: #1C3A70;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 80%; 
+        }
+
+        .form-group button {
+            background-color: #0A0F24;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        .form-group button:hover {
+            background-color: #c0c0c0;
+            color: #0A0F24;
+        }
+
+        .form-group #matrixDisplay {
+            padding: 15px;
+            background-color: #f7cb95;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 15px;
+            color: #0A0F24;
+        }
+
+        .dark-mode .matrix-dark {
+            background-color: #2F4F4F;  
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .light-mode .matrix-display {
+            color: #f9be77;
+        }
+
+        .form-group #toggleMatrixDisplay {
+            background-color: #0A0F24;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            width: 150px;
+        }
+
+        .form-group #toggleMatrixDisplay:hover {
+            background-color: #c0c0c0;
+            color: #0A0F24;
+        }
+
+        .right-shifted-paragraph {
+            margin-left: 220px;
+            width: 110%;
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px; 
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 90%;
+            }
+
+            .sections-container h2{
+                font-size: 1.2em;
+                margin-top: -10px;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .right-shifted-paragraph {
+                margin-left: 80px;
+                width: 110%;
+            }
+
+            .right-shifted-paragraph h2 {
+                font-size: 1.2em;
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            p {
+                font-size: 0.9em; 
+            }
+
+            section li {
+                font-size: 14px;
+                margin-left: -15px;
+            }
+
+            figcaption {
+                margin-top: -40px;
+                margin-bottom: 40px;
+                margin-left: 20px;
+                font-size: 10px;
+                color: #007bff;
+                font-weight: bold;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .section input[type="text"], 
+            .section textarea {
+                width: 100%;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+            
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            #result {
+                width: 72vw;
+                font-size: 15px;
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; Menü</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/de/chatcipherai.html">Kryptosystem-Welt</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/de/Caesar_Cipher.html">Caesar-Chiffre</a></li>
+                        <li><a href="https://chatcipherai.com/de/Playfair_Cipher.html">Playfair-Chiffre</a></li>
+                        <li><a href="https://chatcipherai.com/de/Hill_Cipher.html">Hill-Chiffre</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/de/Hash_value_test.html">Hashwert-Test</a></li>
+                <li><a href="https://chatcipherai.com/de/Morsecode_main.html">Morsecode-Übersetzer</a></li>
+                <li><a href="https://chatcipherai.com/de/Shortcut_Key_Description.html">Tastenkombinationen Erklärung</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; Sprache</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Hill_Cipher.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Hill_Cipher.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Hill_Cipher.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Hill_Cipher.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Hill_Cipher.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Hill_Cipher.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Hill_Cipher.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Hill_Cipher.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Hill_Cipher.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Hill_Cipher.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Hill_Cipher.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+            
+            <h1>Hill-Chiffre-Explorer</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 Dunkler Stil(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ Heller Stil(<span class="highlight-key">L</span>)</button>
+            </div> 
+        </nav>
+    </header>
+
+    <main class="sections-container">           
+        <section class="section interactive-tool">
+            <h2>Probieren Sie den Hill-Chiffre aus</h2>
+        
+            <div id="matrixInputs">
+                <label for="key">Matrixschlüssel eingeben: 2x2-Matrix</label>
+                <input type="text" id="key" placeholder="z. B., 1,2,3,4">
+                <label for="inputText">Text eingeben:</label>
+                <textarea id="inputText" placeholder="Hier Text eingeben"></textarea>
+                <label>Ergebnis:</label>
+                <div id="result" ></div>
+            </div>
+        
+            <div id="button-group">
+                <button onclick="encrypt()">Verschlüsseln(<span class="highlight-key">E</span>)</button>
+                <button onclick="decrypt()">Entschlüsseln(<span class="highlight-key">D</span>)</button>
+                <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">Alles löschen(<span class="highlight-key">A</span>)</button>
+            </div>
+        </section>
+        
+        <section class="form-group">
+            <button onclick="generateMatrix()">Generieren Sie eine 2x2 invertierbare Matrix(<span class="highlight-key">G</span>)</button>
+            <button id="copyMatrix" onclick="copyMatrixToClipboard()">Matrix kopieren(<span class="highlight-key">C</span>)</button>
+            <button id="toggleMatrixDisplay" onclick="toggleMatrixDisplay()">Schließen(<span class="highlight-key">o</span>)</button>
+            <div id="matrixDisplay"></div>
+        </section>        
+
+        <section class="right-shifted-paragraph">
+            <h2>Wie benutze ich den Hill-Chiffre?</h2>
+            <p>
+                Die Verwendung des Hill-Chiffre erfordert grundlegende Kenntnisse in linearer Algebra, hauptsächlich in Matrixoperationen. Dieser Prozess kann in mehrere Schritte unterteilt werden: Schlüsselauswahl, Verschlüsselung und Entschlüsselung.
+            </p>
+            
+            <h3>Schlüsselauswahl:</h3>
+            <p>
+                Zuerst müssen Sie einen Schlüssel wählen, der eine invertierbare Matrix ist. Im Hill-Chiffre ist der Schlüssel eine n×n-Matrix, wobei n eine beliebige Zahl ist, die Sie wählen. Diese Matrix muss insbesondere invertierbar sein (d. h. sie muss eine Inverse haben), da ihre Inverse während des Entschlüsselungsvorgangs benötigt wird.
+            </p>
+            
+            <h3>Textvorbereitung:</h3>
+            <p>
+                Teilen Sie Ihren Klartext (die Nachricht, die verschlüsselt werden soll) in Blöcke der Länge n auf. Wenn der letzte Block kürzer als n Zeichen ist, können Sie ihn mit einigen Füllzeichen (wie dem Buchstaben X) füllen. Jedes Zeichen sollte einer Zahl zugeordnet werden; Sie können beispielsweise die Zuordnung A=0, B=1, C=2, ..., Z=25 verwenden.
+            </p>
+            
+            <h3>Verschlüsselungsprozess:</h3>
+            <p>
+                Für jeden Block des Klartextes der Länge n behandeln Sie ihn als Spaltenvektor und multiplizieren ihn mit der Schlüsselmatrix. Das Ergebnis wird dann modulo 26 genommen (da das Alphabet 26 Buchstaben hat). Diese Modulo-26-Operation wird auf jedes Element der Matrixmultiplikation angewendet. Der resultierende neue Spaltenvektor entspricht dem Geheimtextblock.
+            </p>
+            
+            <h3>Entschlüsselungsprozess:</h3>
+            <p>
+                Um zu entschlüsseln, müssen Sie zunächst die Inverse der Schlüsselmatrix berechnen, wobei sichergestellt wird, dass alle Elemente in der Inverse ganzzahlig sind. Dies beinhaltet typischerweise das Finden der Adjunktenmatrix und der Determinante der Schlüsselmatrix und dann die Inversion der Determinante modulo 26. Unter Verwendung dieser Inversen Matrix wird der ursprüngliche Klartextblock durch Multiplikation des Geheimtextblocks mit ihr und der Modulo-26-Operation des Ergebnisses erhalten.
+            </p>
+            
+            <h4>Was ist eine Modulo-26-Operation?</h4>
+            <p>
+                "Modulo-26-Operationen" beziehen sich auf eine Art mathematischer Berechnung, die häufig bei Problemen innerhalb einer endlichen Menge verwendet wird, insbesondere in der Kryptographie und Zahlentheorie. Die Modulo-Operation ist eine Art Division, die anstelle des Quotienten den Rest der Division liefert, und modulo 26 bezieht sich speziell auf <strong>den Rest</strong> nach der Division durch 26.
+            </p>
+            
+            <p>
+                Für jede ganze Zahl 'a' ist das Ergebnis einer Modulo-26-Operation der Rest nach der Division von 'a' durch 26. Dies wird mathematisch als 'a mod 26' angegeben und als " 'a' modulo 26" gelesen. Das Ergebnis einer <a href="https://en.wikipedia.org/wiki/Modulo" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;"> Modulo</a>-26-Operation ist immer eine ganze Zahl zwischen 0 und 25, die 26 mögliche Ergebnisse umfasst. Im Kontext des Hill-Chiffre stellen Modulo-26-Operationen sicher, dass alle berechneten Ergebnisse im Bereich von 0 bis 25 liegen und den 26 Buchstaben des Alphabets entsprechen. Zum Beispiel wird 'A' als 0 betrachtet, 'B' als 1 und so weiter bis 'Z', das 25 ist.
+            </p>
+            
+            <p>
+                Bei der Verschlüsselung von Text mit dem <a href="https://en.wikipedia.org/wiki/Hill_cipher" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;"> Hill-Chiffre</a> wird jeder Buchstabe zunächst in seine entsprechende Zahl umgewandelt (A=0, B=1, ..., Z=25). Nach der Matrixmultiplikation und anderen Operationen werden die endgültigen numerischen Werte einer Modulo-26-Operation unterzogen, um sie wieder in den Bereich von 0 bis 25 zurückzuführen, und dann wieder in Buchstaben. Dies dient dazu, sicherzustellen, dass die Ergebnisse nach jeder Operation gültige Buchstaben bleiben. Wenn Sie einen numerischen Wert von 29 haben und eine Modulo-26-Operation durchführen, ist das Ergebnis der Rest von 29 geteilt durch 26, was 3 ist. Im Kontext des Hill-Chiffre bedeutet dies, dass der numerische Wert 29 dem Buchstaben 'D' entspricht.
+            </p>
+            
+            <p>
+                Im Hill-Chiffre ist der Schlüssel eine invertierbare Matrix, und der Klartext wird als eine Reihe von Vektoren dargestellt. Der Verschlüsselungsprozess beinhaltet die lineare Transformation (Matrixmultiplikation) der Klartextvektoren mit der Schlüsselmatrix, gefolgt von der Anwendung von Modulo-26-Operationen, um sicherzustellen, dass jedes Element eine ganze Zahl zwischen 0 und 25 ist und somit in Buchstaben zurückgemappt werden kann.
+            </p>
+                
+            <p>
+                Zusammenfassend sind Modulo-26-Operationen ein wesentlicher Schritt im Hill-Chiffre, der sicherstellt, dass berechnete Ergebnisse innerhalb der Grenzen des Alphabets bleiben, was es dem Verschlüsselungsalgorithmus ermöglicht, innerhalb eines begrenzten Satzes von Buchstaben zu operieren, während Symmetrie im Verschlüsselungs- und Entschlüsselungsprozess erhalten bleibt.
+            </p>
+            
+            <h3>Beispiel :</h3>
+            <p>
+                Angenommen, wir wählen eine 2×2-Schlüsselmatrix und unser Klartext lautet "HELLOWORLD". Wir verwenden die Schlüsselmatrix [[3,3],[2,5]] und segmentieren die verschlüsselte Nachricht 'HELLOWORLD' in Blöcke von jeweils zwei Buchstaben. Zeichen werden gemäß der Sequenz, in der A=0, B=1, C=2 usw. numerisch abgebildet.
+            </p>
+            <p>1. Für den Block [7,4] (entsprechend "HE") :
+
+            </p>
+            <p>
+                • Matrixmultiplikation unter Verwendung der Schlüsselmatrix :
+            </p>
+            
+            <p>
+                $$
+                \left[
+                \begin{array}{cc}
+                3 & 3 \\
+                2 & 5 \\
+                \end{array}
+                \right]
+                \left[
+                \begin{array}{c}
+                7 \\
+                4 \\
+                \end{array}
+                \right]
+                =
+                \left[
+                \begin{array}{c}
+                3 \cdot 7 + 3 \cdot 4 \\
+                2 \cdot 7 + 5 \cdot 4 \\
+                \end{array}
+                \right]
+                =
+                \left[
+                \begin{array}{c}
+                21 + 12 \\
+                14 + 20 \\
+                \end{array}
+                \right]
+                =
+                \left[
+                \begin{array}{c}
+                33 \\
+                34 \\
+                \end{array}
+                \right]
+                $$
+            </p>
+
+            <p>
+                • Nehmen Sie jedes Element Modulo 26:
+                $$
+                \left[
+                \begin{array}{c}
+                33 \\
+                34 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                7 \\
+                8 \\
+                \end{array}
+                \right]
+                $$
+                • Konvertieren Sie die Zahlen zurück in Buchstaben: 7->H,8->I. Daher wird "HE" zu "HI" verschlüsselt.
+            </p>
+
+            <p>2. Für den Block [11,11] (entsprechend "LL") :
+                <br>
+                • Nehmen Sie jedes Element modulo 26 :
+            </p>
+
+            <p>
+                $$
+                \left[
+                \begin{array}{c}
+                66 \\
+                77 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                14 \\
+                25 \\
+                \end{array}
+                \right]
+                $$
+                • Konvertieren Sie die Zahlen zurück in Buchstaben: 14->O, 25->Z. Daher wird "LL" zu "OZ" verschlüsselt.
+            </p>
+
+            <p>3. Für den Block [14,22] (entsprechend "OW") :</p>
+                <br>
+                • Nehmen Sie jedes Element modulo 26 :
+            </p>
+
+            <p>
+                $$
+                \left[
+                \begin{array}{c}
+                108 \\
+                138 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                4 \\
+                8 \\
+                \end{array}
+                \right]
+                $$
+                • Konvertieren Sie die Zahlen zurück in Buchstaben: 4->E, 8->I. Daher wird "OW" zu "EI" verschlüsselt.
+            </p>
+
+            <p>4. Für den Block [14,17] (entsprechend "OR") :
+                <br>
+                • Nehmen Sie jedes Element modulo 26 :
+            </p>
+
+            <p>
+                $$
+                \left[
+                \begin{array}{c}
+                93 \\
+                113 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                15 \\
+                9 \\
+                \end{array}
+                \right]
+                $$
+                • Konvertieren Sie die Zahlen zurück in Buchstaben: 15->P, 9->J. Daher wird "OR" zu "PJ" verschlüsselt.
+            </p>
+
+            <p>5. Für den Block [11,3] (entsprechend "LD") :
+                <br>
+                • Nehmen Sie jedes Element modulo 26 :
+            </p>
+
+            <p>
+                $$
+                \left[
+                \begin{array}{c}
+                42 \\
+                37 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                16 \\
+                11 \\
+                \end{array}
+                \right]
+                $$
+                • Konvertieren Sie die Zahlen zurück in Buchstaben: 16->Q, 11->L. Daher wird "LD" zu "QL" verschlüsselt.
+            </p>
+
+            <p>Durch Verketten dieser verschlüsselten Blöcke erhalten wir den endgültigen Geheimtext: <strong>"HIOZEIPJQL" </strong>. Dieser Prozess zeigt, wie die Hill-Chiffre Matrixoperationen aus der linearen Algebra verwendet, um Text zu verschlüsseln.</p>
+
+            <h2>Hill-Chiffre: Verständnis ihrer Schlüsselfunktionen und des Verschlüsselungsmechanismus</h2>
+            <p>
+                Die <strong>Hill-Chiffre</strong> ist bekannt für ihre Abhängigkeit von <em>Matrixoperationen</em> in den Verschlüsselungs- und Entschlüsselungsprozessen. Ein entscheidender Aspekt ihrer Funktionalität ist die <strong>Umkehrbarkeit der Schlüsselmatrix</strong>. Ohne eine invertierbare Schlüsselmatrix, die eine nicht-null Determinante und ein modulares Inverses erfordert, ist eine Entschlüsselung unmöglich.
+            </p>
+            <h3>Entscheidende Aspekte der Verschlüsselungs- und Entschlüsselungsprozesse</h3>
+            <p>
+                Die Effizienz der Verschlüsselung und Entschlüsselung der Hill-Chiffre hängt von der <strong>Umkehrbarkeit der Schlüsselmatrix</strong> ab. Dieser Prozess beinhaltet die Umwandlung von Textdaten in numerische Vektoren, die dann mittels Matrixmultiplikation transformiert werden.
+            </p>
+            <ul>
+                <li><strong>Umkehrbarkeit der Matrix:</strong> Eine invertierbare Matrix oder nicht-singulär paart sich mit einer inversen Matrix, um die Identitätsmatrix zu erzeugen - ein entscheidender Faktor für die Entschlüsselung.</li>
+                <li><strong>Determinante und modulares Inverses:</strong> Die Determinante liefert Einblicke in die Umkehrbarkeit der Matrix, die für effektive Entschlüsselungsvorgänge im Rahmen der modularen Arithmetik der Hill-Chiffre unerlässlich sind.</li>
+            </ul>
+            <p>
+                Zusammenfassend ist die Auswahl einer invertierbaren Schlüsselmatrix für die Hill-Chiffre entscheidend, um sicherzustellen, dass die verschlüsselten Informationen erfolgreich entschlüsselt werden können. Dies unterstreicht die Bedeutung des Verständnisses von Matrixoperationen und modularen Arithmetik in der Kryptographie.
+            </p>
+            
+            <h2>Kann die Hill-Chiffre eine 3x3-Matrix oder Matrizen höherer Ordnung verwenden?</h2>
+            <p>
+                Die Antwort lautet ja. Ein wichtiges Merkmal der Hill-Chiffre ist, dass sie quadratische Matrizen beliebiger Größe als Schlüsselmatrix verwenden kann, vorausgesetzt, die Matrix ist invertierbar (d. h., sie hat eine inverse Matrix unter dem verwendeten Modul).
+            </p>
+            
+            <p>
+                Die Verwendung einer 3x3- oder höheren Matrix kann die Sicherheit erhöhen, da sie die Komplexität des Schlüssels erhöht. Mit zunehmender Größe der Matrix werden jedoch die für die Verschlüsselung und Entschlüsselung erforderlichen Berechnungen komplexer und zeitaufwändiger. Darüber hinaus muss bei größerer Matrixgröße auch die Größe der Textblöcke erhöht werden, was möglicherweise die Verwendung von mehr Auffüllzeichen erfordert, um die Verschlüsselung des letzten Blocks anzupassen.
+            </p>
+            
+            <p>
+                So würde beispielsweise die Verwendung einer 3x3-Schlüsselmatrix erfordern, dass der Text in Blöcke von jeweils drei Zeichen aufgeteilt wird. Jedes Zeichen wird in einen numerischen Wert umgewandelt, und dann werden diese drei Werte zu einem Vektor angeordnet, der mit der Schlüsselmatrix multipliziert wird. Diese Methode erhöht die möglichen Kombinationen für den Schlüssel und verbessert damit die Sicherheit des Verschlüsselungsalgorithmus.
+            </p>
+            <p>
+                Die Flexibilität der Hill-Chiffre ermöglicht die Verwendung von Schlüsselmatrizen verschiedener Größen, einschließlich 3x3-Matrizen und Matrizen höherer Ordnung. Die Wahl von Matrizen höherer Ordnung kann die Verschlüsselung stärken, erfordert jedoch auch mehr Rechenressourcen und geeignete Textverarbeitungsstrategien.
+            </p>
+            
+            <h2>Unterschiede zwischen Hill-Chiffre und Playfair-Chiffre in der Kryptographie</h2>
+            <p>
+                Sowohl die <strong>Hill-Chiffre als auch die Playfair-Chiffre</strong> sind klassische Verschlüsselungstechniken mit einzigartigen Ansätzen zur Buchstabensubstitution. Trotz ihres gemeinsamen Ziels, Klartextnachrichten zu sichern, unterscheiden sie sich erheblich in ihrer Funktionsweise. Das Verständnis dieser Unterschiede ist sowohl für Kryptografie-Enthusiasten als auch für Fachleute von entscheidender Bedeutung.
+            </p>
+            <h3>Prinzipien und Methoden</h3>
+            <ul>
+                <li><strong>Hill-Chiffre:</strong> Funktioniert durch Aufteilen des Klartextes in Blöcke fester Länge und Verschlüsseln mit einer Schlüsselmatrix unter Verwendung modularer Arithmetik zur Erzeugung des Geheimtextes. Die Entschlüsselung beruht auf der Inversen der Schlüsselmatrix.</li>
+                <li><strong>Playfair-Chiffre:</strong> Verschlüsselt Buchstabenpaare unter Verwendung einer 5x5-Schlüsselmatrix basierend auf einem Schlüsselwort und wendet spezifische Regeln für wiederholte Buchstaben und ungerade Buchstabenpaare an, wobei die Entschlüsselung die Umkehrung dieser Regeln folgt.</li>
+            </ul>
+            <h3>Schlüssellänge und Konstruktion</h3>
+            <ul>
+                <li><strong>Hill-Chiffre:</strong> Verwendet eine Schlüsselmatrix, deren Größe von der Blockgröße abhängt (z. B. 2x2, 3x3).</li>
+                <li><strong>Playfair-Chiffre:</strong> Verwendet ein Schlüsselwort zur Konstruktion einer 5x5-Matrix für Verschlüsselungs- und Entschlüsselungsvorgänge.</li>
+            </ul>
+            <h3>Gruppierung des Klartexts und Erzeugung des Geheimtextes</h3>
+            <ul>
+                <li><strong>Hill-Chiffre:</strong> Teilt den Klartext in gleich große Blöcke auf und verwendet mathematische Operationen zur Verschlüsselung.</li>
+                <li><strong>Playfair-Chiffre:</strong> Trennt den Klartext in Paare und verwendet Schlüsselmatrixregeln zur Erstellung des Geheimtextes.</li>
+            </ul>
+            
+            <h2>Wie behandelt die Hill-Chiffre die Verschlüsselung und Entschlüsselung von Texten mit einer ungeraden Anzahl von Buchstaben?</h2>
+            <p>
+                Beim Umgang mit einem Text ungerader Länge benötigt die Hill-Chiffre, ähnlich wie die Playfair-Chiffre, auch eine Methode, um mit dem letzten unvollständigen Block umzugehen. Hier sind mehrere Methoden aufgeführt, um Texte ungerader Länge zu behandeln:
+            </p>
+            <ul>
+                <li><strong>Polsterung:</strong> Die häufigste Methode besteht darin, am Ende des Textes ein oder mehrere vordefinierte Zeichen (wie X oder 0) hinzuzufügen, um die Anforderung der Matrix zu erfüllen. Dies stellt sicher, dass alle Zeichen verschlüsselt werden können. Wenn beispielsweise eine 2x2-Matrix verwendet wird und die Textlänge ungerade ist, kann am Ende des Textes ein Zeichen hinzugefügt werden, um seine Länge gerade zu machen. Dies ist auch die auf dieser Webseite verwendete Methode.</li>
+                <li><strong>Besondere Behandlung des letzten Zeichens:</strong> Eine weitere Methode besteht darin, das letzte Zeichen separat zu verarbeiten. Beispielsweise könnte das letzte Zeichen einfach unverändert belassen oder mit einer einfachen Verschlüsselungsmethode anstelle der Hill-Verschlüsselungsmethode verschlüsselt werden.</li>
+                <li><strong>Anpassung der Matrixgröße:</strong> Wenn möglich, könnte man sich auch für eine anders dimensionierte Matrix entscheiden, um den letzten Block zu verschlüsseln. Wenn beispielsweise normalerweise eine 3x3-Matrix verwendet wird, aber nur ein oder zwei Zeichen übrig sind, könnte eine 2x2- oder 1x1-Matrix verwendet werden, um die verbleibenden Zeichen zu behandeln. Diese Methode erfordert eine zusätzliche Matrix und könnte den Verschlüsselungsprozess komplizieren.</li>
+            </ul>
+            <p>
+                Die Wahl der Methode hängt vom spezifischen Anwendungsszenario und den Sicherheitsanforderungen ab. Normalerweise ist die Polsterung die einfachste und geradlinigste Methode, aber jede Herangehensweise hat ihre Vor- und Nachteile. Wichtig ist, dass die Verschlüsselungs- und Entschlüsselungsprozesse konsistent bleiben und dass beide Parteien klar darüber sind, wie der Text korrekt behandelt werden soll.
+            </p>            
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. Alle Rechte vorbehalten.</p>
+            <p>
+                <a href="https://chatcipherai.com/de/Privacy_Policy.html" title="Privacy Policy">Datenschutzrichtlinie</a>
+                |
+                <a href="https://chatcipherai.com/de/Terms_of_Use.html" title="Terms of Use">Nutzungsbedingungen</a>
+                |
+                <a href="https://chatcipherai.com/de/About_Us.html" title="About Us">Über uns</a>
+                |
+                <a href="https://chatcipherai.com/de/Disclaimer.html" title="Disclaimer">Haftungsausschluss</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">Zurück nach oben(<span class="highlight-key">B</span>)</button>
+        </div>  
+    </footer>
+
+    <script>
+        let shortcutsEnabled = true;
+
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'E':
+                    encrypt();
+                    console.log('Encode triggered');
+                    break;
+                case 'D':
+                    decrypt();
+                    console.log('Decode triggered');
+                    break;
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+                case 'G':
+                    generateMatrix();
+                    console.log('Matrix generation triggered');
+                    break;
+                case 'C':
+                    copyMatrixToClipboard();
+                    console.log('Copy matrix triggered');
+                    break;
+                case 'O':
+                    toggleMatrixDisplay();
+                    console.log('Toggle matrix display triggered');
+                    break;
+                case 'S':
+                    showMatrix();
+                    console.log('Show matrix triggered');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        function textToNumbers(text) {
+            return text.split('').map(char => {
+                const charCode = char.charCodeAt(0);
+                if (/[a-z]/.test(char)) {
+                    return charCode - 'a'.charCodeAt(0);
+                } else if (/[A-Z]/.test(char)) {
+                    return charCode - 'A'.charCodeAt(0);
+                } else {
+                    return charCode;
+                }
+            });
+        }
+
+        function numbersToText(numbers) {
+            return numbers.map(num => {
+                if (num >= 0 && num < 26) {
+                    return String.fromCharCode(mod(num, 26) + 'A'.charCodeAt(0));
+                } else {
+                    return String.fromCharCode(num);
+                }
+            }).join('');
+        }
+
+        function parseKey(keyString) {
+            return keyString.split(',').map(Number);
+        }
+
+        function mod(n, m) {
+            return ((n % m) + m) % m;
+        }
+
+        function multiplyMatrixAndVector(matrix, vector, modValue) {
+            const result = [];
+            for (let i = 0; i < matrix.length; i++) {
+                let sum = 0;
+                for (let j = 0; j < vector.length; j++) {
+                    sum += matrix[i][j] * vector[j];
+                }
+                result.push(mod(sum, modValue));
+            }
+            return result;
+        }
+
+        function padText(text) {
+            if (text.length % 2 !== 0) {
+                text += 'X'; // Append 'X' if text length is odd
+            }
+            return text;
+        }
+
+        function encrypt() {
+            let text = document.getElementById('inputText').value.replace(/[^a-zA-Z]/g, ''); 
+            text = padText(text); // Ensure text length is even for the matrix operations
+            const keyNumbers = parseKey(document.getElementById('key').value);
+            if (keyNumbers.length !== 4) {
+                document.getElementById('result').textContent = 'Key format error. Please enter four comma-separated numbers.';
+                return;
+            }
+            const keyMatrix = [[keyNumbers[0], keyNumbers[1]], [keyNumbers[2], keyNumbers[3]]];
+            const det = keyNumbers[0] * keyNumbers[3] - keyNumbers[1] * keyNumbers[2];
+            if (det === 0 || !hasModularInverse(det, 26)) {
+                document.getElementById('result').textContent = 'Invalid matrix key. No inverse exists.';
+                return;
+            }
+            const textNumbers = textToNumbers(text);
+            let encryptedNumbers = [];
+            for (let i = 0; i < textNumbers.length; i += 2) {
+                encryptedNumbers.push(...multiplyMatrixAndVector(keyMatrix, [textNumbers[i], textNumbers[i + 1]], 26));
+            }
+            const encryptedText = numbersToText(encryptedNumbers);
+            let resultElement = document.getElementById('result');
+            resultElement.textContent = encryptedText;
+            resultElement.style.color = "blue"; // Set text color to blue
+        }
+
+        function modInverse(a, m) {
+            for (let i = 1; i < m; i++) {
+                if ((a * i) % m === 1) {
+                    return i;
+                }
+            }
+            return null;
+        }
+
+        function removePaddingX(decryptedText) {
+            let chars = decryptedText.split('');
+            for (let i = 1; i < chars.length - 1; i++) {
+                // Remove 'X' if it is between two identical letters
+                if (chars[i] === 'X' && chars[i - 1] === chars[i + 1]) {
+                    chars.splice(i, 1);
+                    i--; // Adjust index after removing 'X'
+                }
+            }
+            // Check if the last character is 'X' and if so, it is highlighted in red
+            if (chars[chars.length - 1] === 'X') {
+                return chars.join('').slice(0, -1) + '<span style="color: red;">X</span>';
+            }
+            return chars.join('');
+        }
+
+        function decrypt() {
+            let text = document.getElementById('inputText').value.replace(/[^a-zA-Z]/g, '');  
+            const keyNumbers = parseKey(document.getElementById('key').value);
+
+            const det = keyNumbers[0] * keyNumbers[3] - keyNumbers[1] * keyNumbers[2];
+            const invDet = modInverse(det, 26);
+
+            if (invDet === null) {
+                document.getElementById('result').innerHTML = "Invalid Key for Decryption (No Modular Inverse)";
+                document.getElementById('result').style.color = "#0A0F24"; // Set the color of the error message
+                return;
+            }
+
+            const keyMatrixInverse = [
+                [mod(invDet * keyNumbers[3], 26), mod(-invDet * keyNumbers[1], 26)],
+                [mod(-invDet * keyNumbers[2], 26), mod(invDet * keyNumbers[0], 26)]
+            ];
+
+            const textNumbers = textToNumbers(text);
+
+            let decryptedNumbers = [];
+            for (let i = 0; i < textNumbers.length; i += 2) {
+                decryptedNumbers.push(...multiplyMatrixAndVector(keyMatrixInverse, [textNumbers[i], textNumbers[i + 1]], 26));
+            }
+
+            let decryptedText = numbersToText(decryptedNumbers);
+
+            decryptedText = removePaddingX(decryptedText); // Use the updated removePaddingX function
+
+            let resultElement = document.getElementById('result');
+            resultElement.innerHTML = decryptedText; // Set the HTML content
+            resultElement.style.color = "#0A0F24"; // Set the color of the decryption result
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function() {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function() {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+            updateTableStyle(style);
+            updateInteractiveToolStyle(style);
+        }
+
+        function updateInteractiveToolStyle(style) {
+            var interactiveTool = document.querySelector('.section.interactive-tool');
+            if (style === 'dark-mode') {
+                interactiveTool.style.backgroundColor = '#ffffff';
+            } else {
+                interactiveTool.style.backgroundColor = '#f0f0f0';
+            }
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function(link) {
+            link.addEventListener('click', function() {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none" || moreContent.style.display === "") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            });
+        });
+
+        function clearAll() {
+            var inputText = document.getElementById('inputText');
+            var result = document.getElementById('result');
+            var key = document.getElementById('key');
+
+            inputText.value = ''; // Clears the textarea
+            key.value = ''; // Clears the input for key
+            result.innerHTML = ''; // Clears the content of the div#result
+
+            // Optionally reset the style or other properties if needed
+            result.style.color = ""; // Resets the text color to default
+        }
+
+        function generateMatrix() {
+            let a, b, c, d, det;
+            do {
+                a = Math.floor(Math.random() * 20) - 10;
+                b = Math.floor(Math.random() * 20) - 10;
+                c = Math.floor(Math.random() * 20) - 10;
+                d = Math.floor(Math.random() * 20) - 10;
+                det = a * d - b * c;
+            } while (det === 0 || !hasModularInverse(det, 26));
+
+            const matrixDisplay = document.getElementById('matrixDisplay');
+            matrixDisplay.innerHTML = 
+                '<p>Generierte Matrix:</p>' +
+                '<p>[' + a + ' ' + b + ']</p>' +
+                '<p>[' + c + ' ' + d + ']</p>' +
+                '<p>Determinante: ' + det + ' (mod 26)</p>';
+
+            if (document.body.classList.contains('dark-mode')) {
+                matrixDisplay.classList.add('matrix-dark');
+            } else {
+                matrixDisplay.classList.remove('matrix-dark');
+            }
+        }
+
+        function hasModularInverse(n, m) {
+            n = n % m;
+            for (let x = 1; x < m; x++) {
+                if ((n * x) % m === 1) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function toggleMatrixDisplay() {
+            var matrixDisplay = document.getElementById('matrixDisplay');
+            var toggleButton = document.getElementById('toggleMatrixDisplay');
+
+            // Check if the display style of matrixDisplay is not set or set to 'none'
+            if (!matrixDisplay.style.display || matrixDisplay.style.display === 'none') {
+                matrixDisplay.style.display = 'block'; // Show the matrix display
+                toggleButton.innerHTML = 'Schließen(<span class="highlight-key">o</span>)'; // Update button text to show "Close Matrix"
+            } else {
+                matrixDisplay.style.display = 'none'; // Hide the matrix display
+                toggleButton.innerHTML = 'Matrix anzeigen(<span class="highlight-key">o</span>)'; // Update button text to show "Show Matrix"
+            }
+        }
+
+        function copyMatrixToClipboard() {
+            const matrixDisplay = document.getElementById('matrixDisplay');
+            const copyStatus = document.getElementById('copyStatus');
+            const matrixParagraphs = matrixDisplay.getElementsByTagName('p');
+            if (matrixParagraphs.length >= 3) {
+                const matrixRow1 = matrixParagraphs[1].innerText.match(/[-\d]+/g);
+                const matrixRow2 = matrixParagraphs[2].innerText.match(/[-\d]+/g);
+                if (matrixRow1 && matrixRow2) {
+                    const matrixString = matrixRow1.concat(matrixRow2).join(',');
+                    navigator.clipboard.writeText(matrixString).then(function() {
+                        copyStatus.innerText = 'Matrix copied to clipboard: ' + matrixString;
+                        copyStatus.style.display = 'block';
+                    }, function() {
+                        copyStatus.innerText = 'Failed to copy matrix.';
+                        copyStatus.style.display = 'block'; 
+                    });
+                } else {
+                    copyStatus.innerText = 'No matrix to copy.';
+                    copyStatus.style.display = 'block'; 
+                }
+            } else {
+                copyStatus.innerText = 'No matrix to copy.';
+                copyStatus.style.display = 'block';
+            }
+        }
+
+        function hideCopyStatus() {
+            const copyStatus = document.getElementById('copyStatus');
+            if (copyStatus) {
+                copyStatus.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('click', function() {
+            hideCopyStatus();
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function() {
+                if(window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'Zurück nach oben(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+</html>
+

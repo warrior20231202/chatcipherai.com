@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>प्लेफेयर साइफर एक्सप्लोरर: क्लासिक 5x5 एन्क्रिप्शन मैट्रिक्स</title>
+    <meta name="description" content="प्लेफेयर साइफर की दुनिया में, शब्द प्राचीन प्रदर्शनकारियों की तरह एक 5x5 कक्ष के भीतर नृत्य करते हैं, जोड़ों में कृपापूर्वक कूदते हैं, करीब से आपस में उलझे हुए, प्रत्येक कहानी को एक रहस्यमय साइफर में बुनते हैं जिसे आसानी से डिसाइफर नहीं किया जा सकता।">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+            }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }   
+
+        #menuIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column; 
+            position: absolute;
+            top: 35px; 
+            left: 10px;
+            width: 15%; 
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0; 
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px; 
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0; 
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px; 
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        #inputMessage, #shiftValue {
+            width: 60%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            font-size: 1em;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 120px;
+            margin-left: 180px;
+            width: 80%;
+        }
+
+        .sections-container h2, .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        #processedPlaintext, #result {
+            font-weight: bold;
+            color: #0A0F24;
+            word-wrap: break-word; 
+        }
+
+        #processedPlaintextParagraph, #resultParagraph {
+            margin-bottom: 5px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 70%; 
+            color: #ffffff; 
+            margin-left: 5%;
+            margin-top: 30px;
+            margin-bottom: 200px;
+        }
+            
+        input[type="text"], textarea {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 字体样式 */
+            font-size: 15px; 
+            color: #0A0F24; 
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            resize: none;
+        }
+
+        input[type="text"] {
+            width: 65%;
+        }
+
+        .container h2 {
+            margin-top: -7px; 
+            text-align: left;
+            margin-left: -50px;
+        }
+
+        .container p {
+            margin-left: -50px;
+            color: #0A0F24;
+        }
+
+        #inputText {
+            width: 65%; 
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            min-height: 100px;
+        }
+
+        #inputText::-moz-placeholder {
+            font-weight: bold;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 40px;
+            max-height: 300px;
+        }
+
+        .section {
+            margin-left: 60px;
+        }
+
+        p {  
+            margin-bottom: 30px;  
+            text-align: left; 
+            font-size: 1.2em; 
+            line-height: 1.6; 
+            margin-bottom: 15px; 
+        }
+
+        h2 {  
+            margin-bottom: 10px;
+            font-size: 28px;  
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white; 
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3); 
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206); 
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24; 
+        }
+
+        p { 
+            text-align: center;  
+            margin-bottom: 30px;  
+        }
+
+        h2 {  
+            margin-bottom: 10px;  
+        }
+
+        h3 {
+            margin-top: 50px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px; 
+            margin-left: 0; 
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {  
+            background-color: #0A0F24;  
+            color: white;  
+        }  
+
+        .light-mode {  
+            background-color: white;  
+            color: #0A0F24; 
+        }
+
+        .dark-mode .container p{
+            color: #FFFFFF;
+        }
+
+
+        .light-mode .container {
+            color: #0A0F24; 
+        }
+
+        .light-mode .navbar, .light-mode {
+            background-color: #FFFFFF; 
+            color: #0A0F24; 
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent;
+            color: #0A0F24; 
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded; 
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24; 
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start; 
+        }
+
+        #languageIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+            }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px; 
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            width: 100%;   
+            }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px; 
+        }
+
+        .footer {
+            position: relative; 
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: -25px;
+        }
+            
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.playfair,
+        figcaption.padding_rules {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative; 
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .cipher-matrix {
+            font-size: 20px;
+            letter-spacing: 5px; 
+            line-height: 1.5;
+            margin-left: -100px;
+        }
+
+        .highlight {
+            color: red; 
+            font-weight: bold; 
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .cipher-matrix {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+        
+        figcaption {
+            margin-top: -40px;
+            margin-bottom: 40px;
+            margin-left: 280px;
+            font-size: 18px;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px; 
+            }
+                
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 80%;
+            }
+
+            .section {
+                width: 120%;
+                padding: 10px;
+            }
+
+            .section h2 {
+                font-size: 1.2em; 
+            }
+
+            .section h3 {
+                font-size: 0.9em; 
+            }
+
+            .section h4 {
+                font-size: 0.8em; 
+            }
+
+            .section p {
+                font-size: 0.9em; 
+            }
+
+            .section li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            .container {
+                width: 100%; 
+                padding: 20px; 
+                font-size: 0.8em;
+            }
+
+            .container h2{
+                font-size: 1.5em;
+                margin-top: 10px;
+            }
+
+            input[type="text"] {
+                width: 78%; 
+            }
+
+            textarea {
+                width: 60%; 
+            }
+
+            .cipher-matrix {
+                margin-left: -210px;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -80px;
+            }
+
+            figcaption.playfair,
+            figcaption.padding_rules {
+                width: 100%;
+                margin-left: -90px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            #inputText {
+                width: 78%; 
+            }
+
+            #processedPlaintext, #result {
+                font-weight: bold;
+                color: #0A0F24;
+                word-wrap: break-word; 
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; मेनू</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/hi/chatcipherai.html">क्रिप्टोसिस्टम वर्ल्ड</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/hi/Caesar_Cipher.html">सीज़र सिफर</a></li>
+                        <li><a href="https://chatcipherai.com/hi/Playfair_Cipher.html">प्लेफेयर सिफर</a></li>
+                        <li><a href="https://chatcipherai.com/hi/Hill_Cipher.html">हिल सिफर</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/hi/Hash_value_test.html">हैश मूल्य परीक्षण</a></li>
+                <li><a href="https://chatcipherai.com/hi/Morsecode_main.html">मोर्स कोड अनुवादक</a></li>
+                <li><a href="https://chatcipherai.com/hi/Shortcut_Key_Description.html">शॉर्टकट कुंजियाँ विवरण</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; भाषा</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Playfair_Cipher.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Playfair_Cipher.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Playfair_Cipher.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Playfair_Cipher.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Playfair_Cipher.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Playfair_Cipher.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Playfair_Cipher.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Playfair_Cipher.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Playfair_Cipher.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Playfair_Cipher.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Playfair_Cipher.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+
+            <h1>प्लेफेयर साइफर एक्सप्लोरर</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 डार्क स्टाइल(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ लाइट स्टाइल(<span class="highlight-key">L</span>)</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <section class="container">
+            <h2>प्लेफेयर साइफर आजमाएं</h2>
+            <p>नीचे दिए गए उपकरण का उपयोग करके संदेश को एन्क्रिप्ट या डिक्रिप्ट करें:</p>
+            <input type="text" id="key" placeholder="कुंजी दर्ज करें" />
+            <textarea id="inputText" placeholder="यहाँ पाठ दर्ज करें"></textarea>
+
+            <button id="encryptButton">एन्क्रिप्ट(<span class="highlight-key">E</span>)</button>
+            <button id="decryptButton">डिक्रिप्ट(<span class="highlight-key">D</span>)</button>
+            <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">सभी साफ़ करें(<span class="highlight-key">A</span>)</button>
+
+            <p>परिवर्तन : <span id="processedPlaintext"></span></p>
+            <p>परिणाम : <span id="result"></span></p>
+        </section>        
+
+        <section class="section">
+            <h2>प्लेफेयर साइफर का अतीत और वर्तमान</h2>
+            <p>
+                <a href="https://en.wikipedia.org/wiki/Playfair_cipher" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;"> प्लेफेयर साइफर</a>, एक क्लासिकल एन्क्रिप्शन विधि, एक अनूठा इतिहास और मूल रखती है। 1854 में चार्ल्स व्हीटस्टोन द्वारा आविष्कारित, एक ब्रिटिश वैज्ञानिक जो विद्युत और प्रकाशिकी में अपने योगदान के लिए प्रसिद्ध थे, इसका नाम इसके आविष्कारक के बजाय उनके मित्र, ल्योन प्लेफेयर के नाम पर रखा गया था। बाद वाले, जो उस समय ब्रिटिश विदेश सचिव थे, ने साइफर को सक्रिय रूप से बढ़ावा दिया और सरकारी संचार में इसके व्यावहारिक कार्यान्वयन को सुविधाजनक बनाया।
+            </p>
+            
+            <p>
+                19वीं और 20वीं शताब्दी के आरंभ में व्यापक रूप से उपयोग किया गया प्लेफेयर साइफर, विशेष रूप से सैन्य संचार में, प्रथम विश्व युद्ध के दौरान ब्रिटिश सेना द्वारा उल्लेखनीय उपयोग प्राप्त किया, उस युग की सबसे प्रचलित मैनुअल एन्क्रिप्शन प्रणालियों में से एक बन गया। अन्य क्लासिकल एन्क्रिप्शन विधियों से भिन्न, प्लेफेयर साइफर व्यक्तिगत अक्षरों के बजाय अक्षरों की जोड़ी, जिन्हें डाइग्राफ्स के रूप में जाना जाता है, को एन्क्रिप्ट करता है, इसकी सुरक्षा को साधारण प्रतिस्थापन साइफरों की तुलना में अधिक बढ़ाता है।
+            </p>            
+
+            <p>
+                प्लेफेयर साइफर अपनी एन्क्रिप्शन प्रक्रिया के लिए एक 5x5 मैट्रिक्स का उपयोग करता है। आमतौर पर, यह मैट्रिक्स एक कीवर्ड का उपयोग करके भरा जाता है, जिसके बाद शेष वर्णमाला अक्षर क्रम में व्यवस्थित किए जाते हैं। एन्क्रिप्शन प्रक्रिया में, प्लेनटेक्स्ट को अक्षर जोड़ियों में विभाजित किया जाता है, प्रत्येक को फिर विशिष्ट नियमों के आधार पर प्रतिस्थापित किया जाता है जो मैट्रिक्स के भीतर उनके संबंधित स्थानों पर विचार करते हैं।
+            </p>
+            
+            <p>
+                प्लेफेयर साइफर का इतिहास और मूल 19वीं शताब्दी के मध्य में क्रिप्टोग्राफी और संचार प्रौद्योगिकी में महत्वपूर्ण उन्नतियों का दर्पण है। इसकी शुरुआत ने क्रिप्टोग्राफी के क्षेत्र में बाद के विकासों को प्रभावित किया, विशेष रूप से डबल-लेटर प्रतिस्थापन के प्रारंभिक उदाहरणों में से एक के रूप में। आधुनिक सुरक्षा प्रासंगिकता की कमी के बावजूद, प्लेफेयर साइफर क्लासिकल एन्क्रिप्शन तकनीकों के अध्ययन में एक महत्वपूर्ण विषय बना हुआ है।
+            </p>            
+
+            <p>
+                हालांकि आधुनिक समय में सुरक्षित संचार के लिए अब इसका उपयोग नहीं किया जाता है, प्लेफेयर साइफर क्रिप्टोग्राफी के इतिहास में अपनी महत्वपूर्णता बनाए रखता है और आमतौर पर एक प्रारंभिक शिक्षण उपकरण के रूप में उपयोग किया जाता है, उदाहरण के लिए, छात्रों को एन्क्रिप्शन विधियों के विकास को समझने में मदद करने के लिए। इसके अलावा, इसकी लोकप्रियता पहेली खेलों, एस्केप रूम्स, और ऑनलाइन चुनौतियों तक फैली हुई है, जहां प्रतिभागी क्रिप्टोग्राफिक पहेलियों को हल करने का आनंद लेते हैं। जियोकैशिंग की दुनिया में, यह रहस्य कैशेस में उपयोग किया जाता है, जहां सॉल्वर्स संकेतों को डिक्रिप्ट करके जियोकैश के भौतिक स्थान का पता लगाते हैं।
+            </p>
+            
+            <h2>मैं प्लेफेयर साइफर कैसे बनाऊँ?</h2>
+            <p> एक कुंजी चुनें, 5x5 मैट्रिक्स भरें, और एन्क्रिप्शन और डिक्रिप्शन के लिए विशिष्ट नियमों का पालन करें।</p>
+            
+            <h3>कुंजी मैट्रिक्स बनाएं:</h3>            
+            <ul>
+                <li>एक कुंजी चुनें (आमतौर पर एक शब्द या वाक्यांश)।</li>
+                <li>कुंजी से किसी भी दोहराए गए अक्षरों को हटा दें।</li>
+                <li>कुंजी के अक्षरों को क्रम में एक 5x5 मैट्रिक्स में भरें।</li>
+                <li>कुंजी में भरने के बाद, बचे हुए अक्षरों को (जो पहले से कुंजी में नहीं हैं) क्रम में मैट्रिक्स में भरें।</li>
+                <li>प्लेफेयर साइफर के अंग्रेजी संस्करण में, अक्सर 'I' और 'J' अक्षरों को 25 स्थानों में 26 अक्षरों को फिट करने के लिए एक ही चरित्र के रूप में माना जाता है।</li>
+            </ul>            
+
+            <p>मान लीजिए हमारे पास निम्नलिखित शर्तें हैं:</p>
+            <ul>
+                <li>कुंजी:<strong> PLAYFAIR EXAMPLE</strong></li>
+                <li>एन्क्रिप्ट करने के लिए पाठ:<strong> Hello World</strong></li>
+            </ul>
+            
+            <h3>एन्क्रिप्शन प्रक्रिया:</h3>
+            <p>
+                सबसे पहले, गुप्त कुंजी से किसी भी <strong>दोहराए गए अक्षरों को हटा दें</strong> और उसके बाद कुंजी मैट्रिक्स में 'PLAYFIR EXM' को क्रमानुसार ऊपरी मामले में दर्ज करें। फिर, 'PLAYFIR EXM' में शामिल नहीं किए गए 25-अक्षर वर्णमाला ( 'J' को 'I' द्वारा प्रतिस्थापित करते हुए) से अक्षरों को भरकर 5x5 मैट्रिक्स को पूरा करें।
+            </p>
+            
+            <h4>कुंजी मैट्रिक्स:</h4>            
+            <pre class="cipher-matrix">
+                <span class="highlight">P</span> <span class="highlight">L</span> <span class="highlight">A</span> <span class="highlight">Y</span> <span class="highlight">F</span> 
+                <span class="highlight">I</span> <span class="highlight">R</span> <span class="highlight">E</span> <span class="highlight">X</span> <span class="highlight">M</span> 
+                B C D G H
+                K N O Q S
+                T U V W Z
+            </pre>
+            
+            <p>
+                इसके बाद, प्लेनटेक्स्ट को व्यवस्थित करें। हर दो अक्षरों के साथ जोड़ी बनाएं। यदि एक जोड़ी में दो समान अक्षर आमने-सामने होते हैं, या यदि अंतिम अक्षर जोड़ी नहीं बनाता है, तो 'X' डालकर समस्या का समाधान करें। दिए गए उदाहरण में, वाक्यांश 'Hello World' को प्लेनटेक्स्ट के रूप में 'HE LX LO WO RL DX' में परिवर्तित किया गया है।
+            </p>
+            
+            <h3>एन्क्रिप्शन नियम:</h3>
+            <ul>
+                <li>यदि दो अक्षर एक ही पंक्ति या स्तंभ में नहीं हैं, तो एन्क्रिप्टेड अक्षर एक-दूसरे के विपरीत विकर्ण पर होते हैं।</li>
+                <li>यदि दो अक्षर एक ही स्तंभ में हैं, तो एन्क्रिप्टेड अक्षर प्रत्येक के नीचे सीधे होते हैं। यदि कोई अक्षर पांचवीं पंक्ति में है, तो यह पहली पंक्ति में लपेटता है।</li>
+                <li>यदि दो अक्षर एक ही पंक्ति में हैं, तो एन्क्रिप्टेड अक्षर तुरंत दाईं ओर होते हैं। इसी तरह, यदि कोई अक्षर पांचवें स्तंभ में है, तो यह पहले स्तंभ में लपेटता है।</li>
+            </ul>
+            <p>
+                निश्चित रूप से, एन्क्रिप्शन प्रक्रिया को चित्र के माध्यम से दर्शाना सलाह दी जाती है। वैकल्पिक रूप से, आप ऊपर दिए गए प्लेफेयर साइफर टूल का उपयोग करके सुविधाजनक और कुशलतापूर्वक प्लेनटेक्स्ट और साइफरटेक्स्ट उत्पन्न कर सकते हैं।
+            </p>            
+
+            <figure>
+                <img src="./images/figure 1-playfair cipher encryption.jpg" alt="प्लेफेयर सिफर कुंजी मैट्रिक्स का विस्तृत दृश्य">
+                <figcaption class="playfair">प्लेफेयर सिफर कुंजी मैट्रिक्स का विस्तृत दृश्य</figcaption>
+            </figure>
+
+            <h3>डिक्रिप्शन प्रक्रिया:</h3>
+            <p>
+                डिक्रिप्शन के लिए, हम एन्क्रिप्टेड पाठ को इनपुट करते हैं और प्लेफेयर साइफर के नियमों को उलटे तरीके से लागू करते हैं। `PLAYFAIR EXAMPLE` कुंजी का उपयोग करके मैट्रिक्स बनाया जाता है। एन्क्रिप्टेड पाठ का सीधे डिक्रिप्शन के लिए उपयोग किया जाता है बिना अतिरिक्त पूर्व-संसाधन के। डिक्रिप्शन प्रत्येक एन्क्रिप्टेड अक्षर जोड़ी के लिए एक गुप्त कुंजी मैट्रिक्स का उपयोग करके किया जाता है। उदाहरण के लिए, पहली एन्क्रिप्टेड जोड़ी `DM` के साथ, हम उनके स्थानों को मैट्रिक्स में खोजते हैं और मूल जोड़ी `HE` प्राप्त करने के लिए एन्क्रिप्शन नियमों को उलट देते हैं। इस तरह से सभी एन्क्रिप्टेड अक्षर जोड़ियों को डिक्रिप्ट करके, हम मूल पाठ का पुनर्निर्माण करते हैं।
+            </p>
+            
+            <h2>क्या प्लेफेयर साइफर के बारे में कोई फिल्में या टीवी शो हैं?</h2>
+            <p>
+                प्लेफेयर साइफर एक प्रकार की एन्क्रिप्शन प्रौद्योगिकी है जिसका एक समय में व्यापक रूप से उपयोग किया जाता था। हालांकि यह इतिहास में काफी प्रसिद्ध है, वर्तमान में प्लेफेयर साइफर पर विशेष रूप से केंद्रित कोई विशेष रूप से प्रसिद्ध फिल्में या टीवी शो नहीं हैं।
+            </p>            
+
+            <p>
+                फिर भी, क्रिप्टोग्राफी के बारे में फिल्में और टीवी शो असामान्य नहीं हैं, अक्सर विभिन्न प्रकार की एन्क्रिप्शन तकनीकों को शामिल करते हैं और जासूसी, सैन्य खुफिया, जासूसी कहानियां, या खजाने की खोज जैसी थीम्स का पता लगाते हैं।
+            </p>
+            
+            <p>
+                हालांकि प्लेफेयर साइफर के बारे में सीधे तौर पर कई फिल्में या श्रृंखलाएँ नहीं हो सकती हैं, क्रिप्टोग्राफी, पहेलियों, और खजाने की खोज की कहानियों में रुचि रखने वाले दर्शक कई कार्यों को पा सकते हैं जिसमें समान थीम्स होती हैं, जहाँ एन्क्रिप्शन प्रौद्योगिकी अक्सर कथानक में एक महत्वपूर्ण भूमिका निभाती है। यदि आप क्रिप्टोग्राफी और कोड-ब्रेकिंग के इतिहास में रुचि रखते हैं, तो आप उन फिल्मों और शोज़ का आनंद ले सकते हैं जिसमें जटिल पहेलियाँ और एन्कोडेड संदेश शामिल होते हैं।
+            </p>
+            
+            <h2>"I" और "J" अक्षरों में अंतर कैसे करें</h2>
+            <p>
+                मूल प्लेयर फेयर सिफर में, "I" और "J" अक्षर आमतौर पर एक ही वर्ण माने जाते हैं। यह दृष्टिकोण मुख्य रूप से इसलिए है क्योंकि प्लेयर फेयर सिफर को अक्षरों को समायोजित करने के लिए 5x5 मैट्रिक्स की आवश्यकता होती है, और चूंकि अंग्रेजी वर्णमाला में 26 अक्षर होते हैं, इसलिए इस 25-सेल मैट्रिक्स में फिट होने के लिए दो अक्षरों को समान माना जाना चाहिए।
+            </p>
+            <h3>"I" और "J" को कैसे संभालें:</h3>
+            <p>
+                <strong>विलय:</strong> सिफर मैट्रिक्स बनाते समय, एक सामान्य प्रथा है "I" और "J" को एक ही वर्ण के रूप में व्यवहार करना, आमतौर पर "I" को दोनों अक्षरों का प्रतिनिधित्व करने के लिए चुना जाता है। इसका मतलब है कि कोडिंग या डिकोडिंग प्रक्रिया के दौरान, चाहे मूल पाठ "I" था या "J," इसे "I" से बदल दिया जाएगा।
+            </p>
+            <p>
+                <strong>कोडिंग और डिकोडिंग:</strong> प्लेयर फेयर सिफर का उपयोग करके संदेशों को एन्क्रिप्ट करते या डिक्रिप्ट करते समय, यदि संदेश में "J" होता है, तो इसे "I" से बदल दिया जाएगा। इसी तरह, जब किसी संदेश को डिक्रिप्ट करते समय "I" से मुलाकात होती है, तो डिकोडर को संदर्भ के आधार पर निर्धारित करना होगा कि यह मूल रूप से "I" या "J" का प्रतिनिधित्व करता था।
+            </p>
+
+            <h3>संदर्भ की भूमिका:</h3>
+            <p>
+                <strong>डिकोडिंग लचीलापन:</strong> डिक्रिप्शन के दौरान, प्राप्तकर्ता आमतौर पर सूचना की सही व्याख्या करने के लिए संदर्भ पर निर्भर करता है। उदाहरण के लिए, यदि डिक्रिप्ट किया गया पाठ "INDIA" है, और संदर्भ किसी देश को संदर्भित करता है, तो प्राप्तकर्ता आसानी से पहचान सकता है कि शब्द सही रूप से "INDIA" है न कि "JNDJA"।
+            </p>
+            <p>
+                <strong>स्पष्ट निर्देश:</strong> कभी-कभी, भ्रम से बचने के लिए, प्रेषक संदेश में निर्दिष्ट कर सकता है कि कैसे कुछ शब्दों या वर्णों की व्याख्या की जानी चाहिए, विशेष रूप से महत्वपूर्ण या संभावित भ्रामक स्थितियों में।
+            </p>
+
+            <h3>आधुनिक अनुप्रयोग:</h3>
+            <p>
+                आधुनिक अनुप्रयोगों में, इस प्रकार की समस्या को संबोधित करने के लिए अधिक जटिल विधियाँ या मानकों का उपयोग किया जा सकता है, जैसे कि एक विस्तारित मैट्रिक्स का उपयोग करना या विभिन्न चरित्र प्रतिस्थापन रणनीतियों का उपयोग करना। हालांकि, पारंपरिक प्लेयर फेयर सिफर का पालन करने वाले कार्यान्वयनों के लिए, "I" और "J" का विलय एक प्रभावी और समय-सिद्ध विधि बनी हुई है।
+            </p>
+
+            <h2>प्लेफ़ेयर सिफर के "X" डिक्रिप्शन नियम</h2>
+            <p>
+                प्लेफ़ेयर सिफर को जोड़ीदार अक्षर इनपुट की आवश्यकता होती है, इसलिए जब पाठ की लंबाई विषम होती है, तो आम तौर पर एक पैडिंग अक्षर जोड़ा जाता है ताकि अंतिम अक्षर जोड़ी पूरी हो सके। सबसे आम रूप से इस्तेमाल किया जाने वाला पैडिंग अक्षर "X" होता है। प्लेफ़ेयर सिफर की डिक्रिप्शन प्रक्रिया में इन पैडिंग अक्षरों को सही ढंग से संभालना एक चुनौती है।
+            </p>
+            <h3>डिक्रिप्शन के बाद की प्रक्रिया:</h3>
+            <p>
+                <strong>स्वचालित हटाना:</strong> आदर्श रूप से, यदि एन्क्रिप्शन प्रक्रिया के दौरान जोड़ा गया "X" मूल पाठ का हिस्सा नहीं है (उदाहरण के लिए, यह केवल डुप्लिकेट अक्षरों के बीच या पाठ के अंत में दिखाई देता है), तो इसे डिक्रिप्शन के दौरान स्वचालित रूप से हटाया जा सकता है। यह रणनीति आमतौर पर पाठ के बीच में पैडिंग "X" को अच्छी तरह से संभालती है लेकिन शब्द के अंत में एक "X" को गलती से हटा सकती है।
+            </p>
+            <p>
+                <strong>शर्तीय हटाना:</strong> गलती से अंत "X" को हटाए जाने की समस्या को संबोधित करने के लिए, यह वेबपेज एक शर्तीय हटाने की विधि अपनाता है, अंत में "X" को बनाए रखता है और इसे <strong>लाल</strong> में चिह्नित करता है, उपयोगकर्ताओं को संदर्भ या अतिरिक्त जानकारी के आधार पर इसे हटाने का निर्णय लेने की अनुमति देता है। उदाहरण के लिए, यदि डिक्रिप्ट किया गया पाठ "X" के साथ समाप्त होता है, और इस "X" से पहले की अक्षर जोड़ी एक वैध एन्क्रिप्शन जोड़ी नहीं बना सकती है, तो इस "X" को एक पैडिंग अक्षर माना जा सकता है।
+            </p>
+            <figure>
+                <img src="./images/The X decryption rule in the Playfair Cipher.jpg" alt="'X' डिक्रिप्शन नियम प्लेफ़ेयर सिफर में">
+                <figcaption class="padding_rules">"X" डिक्रिप्शन नियम प्लेफ़ेयर सिफर में</figcaption>
+            </figure>
+
+            <h3>प्रोटोकॉल और मानकीकरण:</h3>
+            <p>
+                आधुनिक एन्क्रिप्टेड संचार में, आमतौर पर जटिल प्रोटोकॉल अपनाए जाते हैं जो डेटा के प्रारूप और संरचना को सटीक रूप से नियंत्रित करते हैं, जिसमें स्पष्ट पैडिंग रणनीतियाँ और अनपैडिंग तंत्र शामिल होते हैं। उदाहरण के लिए, कुछ एन्क्रिप्शन मानकों में डिक्रिप्शन के बाद मूल संदेश को सटीक रूप से पुनः प्राप्त करने के लिए संदेश की लंबाई का संकेत देने वाला एक क्षेत्र जोड़ा जाता है। वैकल्पिक रूप से, उन्नत प्राकृतिक भाषा प्रसंस्करण तंत्र का उपयोग किया जाता है जो स्वचालित रूप से प्रत्येक शब्द को अलग करता है, जिससे यह निर्धारित किया जा सकता है कि "X" को बनाए रखना चाहिए या नहीं।
+            </p>
+            <h3>स्वचालन और एल्गोरिथम:</h3>
+            <p>
+                आधुनिक एन्क्रिप्शन एल्गोरिथम, जैसे कि PKCS#7 पैडिंग, में जटिल पैडिंग और अनपैडिंग तर्क शामिल हैं जो एन्क्रिप्शन और डिक्रिप्शन प्रक्रियाओं के दौरान स्वचालित रूप से निष्पादित होते हैं, जो डेटा की अखंडता और सटीकता सुनिश्चित करते हैं। ये एल्गोरिथम स्वचालित रूप से पैडिंग अक्षरों की पहचान करके उन्हें बिना मानवीय हस्तक्षेप के हटा सकते हैं।
+            </p>
+        </section>
+    </main>
+   
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. सभी अधिकार सुरक्षित।.</p>
+            <p>
+                <a href="https://chatcipherai.com/hi/Privacy_Policy.html" title="Privacy Policy">गोपनीयता नीति</a>
+                |
+                <a href="https://chatcipherai.com/hi/Terms_of_Use.html" title="Terms of Use">उपयोग की शर्तें</a>
+                |
+                <a href="https://chatcipherai.com/hi/About_Us.html" title="About Us">हमारे बारे में</a>
+                |
+                <a href="https://chatcipherai.com/hi/Disclaimer.html" title="Disclaimer">अस्वीकरण</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">शीर्ष पर वापस जाएँ(<span class="highlight-key">B</span>)</button>
+        </div> 
+    </footer>
+
+    <script>
+        let shortcutsEnabled = true;
+
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'E':
+                    encrypt();
+                    console.log('Encode triggered');
+                    break;
+                case 'D':
+                    decrypt();
+                    console.log('Decode triggered');
+                    break;
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        function generateMatrix(key) {
+            const alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+            let matrix = new Set(key.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, ''));
+            alphabet.split('').forEach(char => matrix.has(char) || matrix.add(char));
+            return Array.from(matrix).join('').match(/.{1,5}/g).map(row => row.split(''));
+        }
+
+        function preprocessText(text, isEncrypting) {
+            text = text.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+            let processedText = "";
+
+            for (let i = 0; i < text.length; i += 2) {
+                let pair = text[i];
+                if (text[i] === text[i + 1]) {
+                    pair += 'X';
+                    i--;
+                } else {
+                    pair += text[i + 1] || 'X';
+                }
+                processedText += pair;
+            }
+
+            if (isEncrypting && processedText.length % 2 !== 0) {
+                processedText += 'X';
+            }
+
+            return processedText;
+        }
+
+        function findPosition(letter, matrix) {
+            for (let row = 0; row < matrix.length; row++) {
+                for (let col = 0; col < matrix[row].length; col++) {
+                    if (matrix[row][col] === letter) {
+                        return { row, col };
+                    }
+                }
+            }
+            return { row: -1, col: -1 };
+        }
+
+        function transformPair(pair, matrix, mode) {
+            let pos1 = findPosition(pair[0], matrix);
+            let pos2 = findPosition(pair[1], matrix);
+            let transformedPair = '';
+
+            if (pos1.row === pos2.row) {
+                // Same row
+                pos1.col = (pos1.col + mode + 5) % 5;
+                pos2.col = (pos2.col + mode + 5) % 5;
+            } else if (pos1.col === pos2.col) {
+                // Same column
+                pos1.row = (pos1.row + mode + 5) % 5;
+                pos2.row = (pos2.row + mode + 5) % 5;
+            } else {
+                // Rectangle
+                [pos1.col, pos2.col] = [pos2.col, pos1.col];
+            }
+
+            transformedPair += matrix[pos1.row][pos1.col];
+            transformedPair += matrix[pos2.row][pos2.col];
+
+            return transformedPair;
+        }
+
+        function transformText(text, matrix, mode) {
+            let transformedText = "";
+            for (let i = 0; i < text.length; i += 2) {
+                transformedText += transformPair(text.substr(i, 2), matrix, mode);
+            }
+            return transformedText;
+        }
+
+        function encrypt() {
+            const key = document.getElementById('key').value;
+            const inputText = document.getElementById('inputText').value;
+            const processedText = preprocessText(inputText, true);
+            document.getElementById('processedPlaintext').innerText = processedText;
+
+            const matrix = generateMatrix(key);
+            const encryptedText = transformText(processedText, matrix, 1);
+            document.getElementById('result').innerText = encryptedText;
+            document.getElementById("result").style.color = "blue";
+        }
+
+        function removePaddingX(decryptedText) {
+            let chars = decryptedText.split('');
+            for (let i = 1; i < chars.length - 1; i++) {
+                // Remove 'X' if it is between two identical letters
+                if (chars[i] === 'X' && chars[i - 1] === chars[i + 1]) {
+                    chars.splice(i, 1);
+                    i--; // Adjust index after removing 'X'
+                }
+            }
+            // Check if the last character is 'X' and if so, it is highlighted in red
+            if (chars[chars.length - 1] === 'X') {
+                return chars.join('').slice(0, -1) + '<span style="color: red;">X</span>';
+            }
+            return chars.join('');
+        }
+
+        function decrypt() {
+            const key = document.getElementById('key').value;
+            const inputText = document.getElementById('inputText').value.replace(/[^A-Z]/g, '');
+            const matrix = generateMatrix(key);
+            let decryptedText = transformText(inputText, matrix, -1);
+            decryptedText = removePaddingX(decryptedText); // Remove unnecessary 'X' characters
+            document.getElementById('result').innerHTML = decryptedText; // Use innerHTML to allow HTML rendering
+            document.getElementById("result").style.color = "#0A0F24"; // Set the default text color
+        }
+
+        document.getElementById('encryptButton').addEventListener('click', encrypt);
+        document.getElementById('decryptButton').addEventListener('click', decrypt);
+
+        document.getElementById('clearAllButton').addEventListener('click', clearAll);
+        function clearAll() {
+            document.getElementById('key').value = ''; 
+            document.getElementById('inputText').value = ''; 
+            document.getElementById('result').innerText = '';
+            document.getElementById('processedPlaintext').innerText = ''; 
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function() {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function() {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function(link) {
+            link.addEventListener('click', function() {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none" || moreContent.style.display === "") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            });
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function() {
+                if(window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'शीर्ष पर वापस जाएँ(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+</html>

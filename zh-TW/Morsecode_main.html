@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摩爾斯電碼：這個頁面不僅僅是編碼</title>
+    <meta name="description"
+        content="就像浩瀚星空中的燈塔，摩爾斯電碼使用點和劃來在無線電波的廣闊中編織古老的秘密，橫跨時間和空間的維度，連接過去與未來。">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>         
+        html {
+            height: 100%;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: -36px;
+            right: 1px;
+            margin-left: 0;
+            background-color: #0a0f24;
+            padding: 5px 8px;
+        }
+
+        .copy-button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .navbar ul li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        .textarea-light {
+            background-color: #bbbaba;
+        }
+
+        .textarea-dark-text {
+            color: #0A0F24;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-right: 20px;
+            margin-left: 20px;
+            text-align: center;
+            flex-wrap: wrap;
+            min-height: 600px;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            margin-top: 50px;
+        }
+
+        h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        h3 {
+            margin-top: 20px;
+            font-size: 22px;
+        }
+
+        h4 { 
+            font-size: 20px;
+        }
+
+        .textarea-container {
+            width: 150%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 40px;
+            position: relative;
+        }
+        
+        textarea {
+            font-weight: 500;
+            width: 100%;
+            max-height: 400px;
+            min-height: 150px;
+            margin: 10px;
+            padding: 10px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #0A0F24;
+            resize: vertical;
+            font-size: 15px;
+            font-family: 'Segoe UI', Tahoma,  sans-serif;
+        }
+
+        textarea::placeholder {
+            color: #0A0F24;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #c0c0c0;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: #0A0F24;
+        }
+
+        body {
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: white;
+            color: #000000;
+        }
+
+        .light-mode .navbar ul {
+            background-color: rgba(255, 255, 255, 0);
+            color: #000000;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #000000;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+        }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px;
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 5px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .play-button {
+            position: absolute;
+            left: 5px;
+            top: 190px;
+        }
+
+        #playStopButton {
+            padding: 6px 10px;
+            margin: 5px;
+            border: none;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #playStopButton:hover {
+            background-color: #F5F5F5;
+            color: #0a0f24;
+        }
+
+        #morseAlphabetTable tr:hover {
+            background-color: #ddd !important;
+        }
+
+        #morseAlphabetTable {
+            border-collapse: collapse;
+            margin: 0 auto;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #morseAlphabetTable th,
+        #morseAlphabetTable td {
+            padding: 8px;
+            text-align: center;
+            border: 0 solid #eae6e6;
+            font-weight: bold;
+        }
+
+        #morseAlphabetTable th {
+            background-color: #7fbef5;
+            color: white;
+            font-size: 16px;
+        }
+
+        #morseAlphabetTable td {
+            color: #333;
+            font-size: 16px;
+        }
+
+        .dark-mode #morseAlphabetTable {
+            background-color: #e9f1f4;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .button-container :hover{
+            color: #0A0F24;
+        }
+
+        .icon-alphabet::before {
+            content: "\1F4D5";
+            margin-right: 5px;
+        }
+
+        .icon-sos::before {
+            content: "\25B6";
+            margin-right: 5px;
+        }
+
+        .icon-copy::before {
+            content: "\1F4CB";
+            margin-right: 5px;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .icon-play::before {
+            content: "\25B6";
+            margin-right: 5px;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .icon-stop::before {
+            content: "\25A0";
+            margin-right: 5px;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 26px;
+        }
+
+        .introduce {
+            text-align: left;
+            width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+            margin-top: 100px;
+        }
+
+        .introduce li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 100%;
+            padding-bottom: 10px; 
+        }
+
+        .introduce p {
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        .clear-all-button {
+            padding: 7px 10px;
+            margin-top: 20px;
+            background-color: #47d7ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            position: absolute;
+            top: -46px;
+            left: 5px;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .textarea-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                margin: 20px 0;
+            }
+
+            textarea {
+                width: 90%;
+                min-height: 100px;
+                margin: 10px 0;
+            }
+
+            .container {
+                align-items: center;
+            }
+
+            #morseAlphabetTable {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .introduce {
+                width: 100%;
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .introduce p {
+                font-size: 0.9em;
+            }
+
+            .copy-button {
+                padding: 4px 8px;
+                font-size: 0.6em;
+            }
+
+            #clearAllButton {
+                padding: 8px 8px;
+                font-size: 0.8em;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .introduce h2 {
+                font-size: 1.2em; 
+            }
+
+            .introduce li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            figcaption {
+                margin-top: -40px;
+                margin-bottom: 40px;
+                margin-left: 20px;
+                font-size: 10px;
+                color: #007bff;
+                font-weight: bold;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+                line-height: 16px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .navbar ul li a {
+                font-size: 10px;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 105%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 52%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            .play-button {
+                margin-top: -42px;
+                margin-left: 1px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px; /* 缩小图标大小 */
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; 菜單</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/zh-TW/chatcipherai.html">密碼世界</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/zh-TW/Caesar_Cipher.html">凱撒密碼</a></li>
+                        <li><a href="https://chatcipherai.com/zh-TW/Playfair_Cipher.html">普萊菲爾密碼</a></li>
+                        <li><a href="https://chatcipherai.com/zh-TW/Hill_Cipher.html">希爾密碼</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/zh-TW/Hash_value_test.html">哈希值測試</a></li>
+                <li><a href="https://chatcipherai.com/zh-TW/Morsecode_main.html">摩爾斯電碼編譯器</a></li>
+                <li><a href="https://chatcipherai.com/zh-TW/Shortcut_Key_Description.html">快捷鍵說明</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; 語言</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Morsecode_main.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Morsecode_main.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Morsecode_main.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Morsecode_main.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Morsecode_main.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Morsecode_main.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Morsecode_main.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Morsecode_main.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Morsecode_main.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Morsecode_main.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Morsecode_main.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+
+            <h1>摩爾斯電碼編譯器</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 暗色風格(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ 亮色風格(<span class="highlight-key">L</span>)</button>
+            </div>          
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <h2>編碼器</h2>
+            <div class="textarea-container">
+                <textarea id="inputText" class="textarea-light" placeholder="輸入文本進行編碼"></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('inputText')">複製</button>
+                <button id="clearAllButton" class="clear-all-button">清除全部(<span class="highlight-key">A</span>)</button>
+                <div class="play-button">
+                    <button id="playStopButton"><span class="icon-play"></span>播放</button>
+                </div>
+            </div>
+            <button id="encodeButton" style="display: none;">編碼</button>
+    
+            <div class="textarea-container">
+                <textarea id="morseCode" class="textarea-light" placeholder="摩爾斯電碼輸出" readonly></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('morseCode')">複製</button>
+            </div>
+        </div>
+    
+        <div class="section">
+            <h2>解碼器</h2>
+            <div class="textarea-container">
+                <textarea id="inputMorse" class="textarea-light" placeholder="輸入摩爾斯電碼進行解碼"></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('inputMorse')">複製</button>
+            </div>
+            <button id="decodeButton" style="display: none;">解碼</button>
+            <div class="textarea-container">
+                <textarea id="decodedText" class="textarea-light" placeholder="解碼文本輸出" readonly></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('decodedText')">複製</button>
+            </div>
+        </div>
+    </div>      
+
+    <div class="button-container">
+        <button id="toggleAlphabetButton" class="icon-alphabet">電碼字母表(<span class="highlight-key">M</span>)</button>
+        <button id="playSosButton" class="icon-sos">播放SOS(<span class="highlight-key">P</span>)</button>
+    </div>
+    <div class="table-container" style="display: none;">
+        <table id="morseAlphabetTable">
+            <tr>
+                <th>字母</th>
+                <th>摩爾斯電碼</th>
+                <th>字母</th>
+                <th>摩爾斯電碼</th>
+                <th>字母</th>
+                <th>摩爾斯電碼</th>
+                <th>字母</th>
+                <th>摩爾斯電碼</th>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>.-</td>
+                <td>B</td>
+                <td>-...</td>
+                <td>C</td>
+                <td>-.-.</td>
+                <td>D</td>
+                <td>-..</td>
+            </tr>
+            <tr>
+                <td>E</td>
+                <td>.</td>
+                <td>F</td>
+                <td>..-.</td>
+                <td>G</td>
+                <td>--.</td>
+                <td>H</td>
+                <td>....</td>
+            </tr>
+            <tr>
+                <td>I</td>
+                <td>..</td>
+                <td>J</td>
+                <td>.---</td>
+                <td>K</td>
+                <td>-.-</td>
+                <td>L</td>
+                <td>.-..</td>
+            </tr>
+            <tr>
+                <td>M</td>
+                <td>--</td>
+                <td>N</td>
+                <td>-.</td>
+                <td>O</td>
+                <td>---</td>
+                <td>P</td>
+                <td>.--.</td>
+            </tr>
+            <tr>
+                <td>Q</td>
+                <td>--.-</td>
+                <td>R</td>
+                <td>.-.</td>
+                <td>S</td>
+                <td>...</td>
+                <td>T</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>U</td>
+                <td>..-</td>
+                <td>V</td>
+                <td>...-</td>
+                <td>W</td>
+                <td>.--</td>
+                <td>X</td>
+                <td>-..-</td>
+            </tr>
+            <tr>
+                <td>Y</td>
+                <td>-.--</td>
+                <td>Z</td>
+                <td>--..</td>
+            </tr>
+            <tr>
+                <th>數字</th>
+                <th>摩爾斯電碼</th>
+                <th>數字</th>
+                <th>摩爾斯電碼</th>
+                <th>數字</th>
+                <th>摩爾斯電碼</th>
+                <th>數字</th>
+                <th>摩爾斯電碼</th>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>-----</td>
+                <td>1</td>
+                <td>.----</td>
+                <td>2</td>
+                <td>..---</td>
+                <td>3</td>
+                <td>...--</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>....-</td>
+                <td>5</td>
+                <td>.....</td>
+                <td>6</td>
+                <td>-....</td>
+                <td>7</td>
+                <td>--...</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>---..</td>
+                <td>9</td>
+                <td>----.</td>
+            </tr>
+            <tr>
+                <th>標點符號</th>
+                <th>摩爾斯電碼</th>
+                <th>標點符號</th>
+                <th>摩爾斯電碼</th>
+                <th>標點符號</th>
+                <th>摩爾斯電碼</th>
+                <th>標點符號</th>
+                <th>摩爾斯電碼</th>
+            </tr>            
+            <tr>
+                <td>.</td>
+                <td>.-.-.-</td>
+                <td>,</td>
+                <td>--..--</td>
+                <td>?</td>
+                <td>..--..</td>
+                <td>'</td>
+                <td>.----.</td>
+            </tr>
+            <tr>
+                <td>!</td>
+                <td>-.-.--</td>
+                <td>/</td>
+                <td>-..-.</td>
+                <td>(</td>
+                <td>-.--.</td>
+                <td>)</td>
+                <td>-.--.-</td>
+            </tr>
+            <tr>
+                <td>&</td>
+                <td>.-...</td>
+                <td>:</td>
+                <td>---...</td>
+                <td>;</td>
+                <td>-.-.-.</td>
+                <td>=</td>
+                <td>-...-</td>
+            </tr>
+            <tr>
+                <td>+</td>
+                <td>.-.-.</td>
+                <td>-</td>
+                <td>-....-</td>
+                <td>_</td>
+                <td>..--.-</td>
+                <td>"</td>
+                <td>.-..-.</td>
+            </tr>
+            <tr>
+                <td>$</td>
+                <td>...-..-</td>
+                <td>@</td>
+                <td>.--.-.</td>
+            </tr>
+        </table>
+    </div>    
+
+    <div class="introduce">
+        <h2>摩爾斯電碼：永恆的數位通訊密碼</h2>
+        <p>摩爾斯電碼，一種創新性的數位通訊方法，利用獨特的間歇信號來編碼信息。發明於1830年代，它今天仍適用於專門的應用。其獨特之處在於其簡單性——僅使用兩種信號和可變的間隔來代表字母、數字和標點符號。</p>
+        <p>摩爾斯電碼的核心是點（Di）和劃（Dah）信號，它們在持續時間上有所不同，以便於不同字符的表示。這一二進制系統允許對整個英文字母表等進行編碼。例如，'A' 由一個點後跟一個劃表示（·-），而'B' 表示為一個劃後跟三個點（−···）。</p>
+        <p>除了基本信號，摩爾斯電碼利用時間間隔來區分字符、單詞和句子，確保消息清晰傳達。這些策略性的暫停增強了代碼傳輸複雜訊息的能力。</p>
+        <p>最初為電報設計的摩爾斯電碼的應用擴展到了無線電和其他通訊形式，證明了其適應性和持久的相關性。儘管通訊技術取得了進步，但摩爾斯電碼在現代方法不可行的情況下，如緊急通訊中，仍然具有實際價值。</p>
+        <p>此外，摩爾斯電碼超越了其實用性根源，成為愛好者的愛好或技能，證明了其獨特的吸引力和溝通力。雖然現代技術在日常使用中已大部分取代了摩爾斯電碼，但它作為一種文化和歷史意義重大的通訊方式仍然持續存在。</p>
+        
+        <h2>理解摩爾斯電碼的功能性</h2>
+        <p>摩爾斯電碼作為一個複雜的時空調製編碼系統運行，通過短信號（Di）和長信號（Dah）及其間隔來區分字母、數字和標點符號。這種編碼系統以其簡單性和多功能性而聞名，能夠通過各種媒介進行通訊。摩爾斯電碼通訊中的一些關鍵步驟包括：</p>
+        <ul>
+            <li><strong>編碼：</strong>每個字符被賦予唯一的點（Di）和劃（Dah）序列。</li>
+            <li><strong>傳輸：</strong>信號通過聲音、光或電的方式傳達，要求發送者熟練掌握摩爾斯電碼以確保消息的準確編碼。</li>
+            <li><strong>計時：</strong>摩爾斯電碼的關鍵在於間隔的管理 - 區分點和劃、字符和單詞以保持消息的清晰度。</li>
+            <li><strong>接收：</strong>接收者將信號序列解碼成預期的消息，需要熟悉摩爾斯電碼的點劃系統。</li>
+            <li><strong>解碼：</strong>成功解釋的信號被接收者翻譯回原始的文本格式。</li>
+        </ul>
+        <p>摩爾斯電碼持久的優勢在於其適應性和簡單性，在傳統通信渠道受損的情況下顯示出無價的價值。例如，在緊急情況下，摩爾斯電碼可以通過簡單的敲擊或光信號促成救命的通訊，展示了其永恆的相關性。</p>
+        
+        <h2>誰發明了摩爾斯電碼？</h2>
+        <p>摩爾斯電碼由美國發明家薩繆爾·F·B·摩爾斯在1830年代發明，因此他被稱為摩爾斯電碼的創始人。1848年，摩爾斯電碼由弗里德里希·克萊門斯·格爾克改進發明，成為現代國際摩爾斯電碼，並在德國漢堡和庫克斯港之間的電報通訊中正式使用。</p>
+        
+        <h2>摩爾斯電碼中最常用的字母是什麼？</h2>
+        <p>在摩爾斯電碼中，字母"E"（由"."表示）和"T"（由"-"表示）是最常用的，因為它們在英語中出現的頻率最高。</p>
+        
+        <h2>如何在沒有電報機的情況下發送摩爾斯電碼？</h2>
+        <p>實際上，您可以使用任何能產生兩種明顯不同信號的設備來發送摩爾斯電碼。例如，您可以使用手電筒（閃爍表示Di，持續亮表示Dah），或者您可以使用聲音（短聲表示Di，長聲表示Dah）。</p>
+
+        
+        <h2>如何使用摩爾斯電碼發送SOS信號？</h2>
+        <p>SOS是國際公認的求救信號，在摩爾斯電碼中表示為“...---...”（三個Di，三個Dah，然後是三個Di），或點擊上面的“播放SOS”按鈕。</p>
+        
+        <h2>摩爾斯電碼中間隔時間的關鍵作用</h2>
+        <p>在摩爾斯電碼中，信號之間的時間間隔——稱為“間隔時間”——在確保清晰通信中起著關鍵作用。它幫助接收者區分不同的字符和單詞，增強了信息的整體可讀性和理解度。間隔時間在摩爾斯電碼中的重要性可以分為三個主要類別：</p>
+        
+        <ul>
+            <li><strong>點和劃之間：</strong> 單個字符內的點（.）和劃（-）之間的短暫停頓對於區分組成字符的各個元素至關重要。</li>
+            <li><strong>字符之間：</strong> 單詞內字符之間需要稍長的停頓，以清楚地標明一個字符的結束和下一個字符的開始。</li>
+            <li><strong>單詞間隔：</strong> 單詞之間發生的最長停頓對於指示摩爾斯電碼消息中單詞的分隔至關重要。</li>
+        </ul>
+        <p>這些間隔是摩爾斯電碼傳輸清晰度和有效性的基礎。這些時間間隔的準確性和一致性對於消息的準確解釋和理解至關重要，確保了有效的通信。</p>
+        
+        <h2>為什麼摩爾斯電碼被認為是“可變長度編碼”？</h2>
+        <p>摩爾斯電碼被稱為“可變長度編碼”系統，因為它為不同字符分配不同長度的代碼。與為每個符號分配相同數量比特的固定長度編碼不同，可變長度編碼系統如<a href="https://en.wikipedia.org/wiki/Morse_code" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">摩爾斯電碼</a>使用不同數量的比特——或更準確地說，點和劃——來表示不同的符號。</p>
+        <p>摩爾斯電碼的定義特點包括：</p>
+        <ul>
+            <li><strong>可變長度表示：</strong> 經常使用的字母如“E”由更短的代碼表示，如單個點（"."），而不常見的字符如“Q”則由較長的序列表示（"--.-"）。這種以效率為驅動的方法為更常用的字符分配較短的代碼，從而減少平均消息長度並提高傳輸速度。</li>
+            <li><strong>優化效率：</strong> 為更頻繁使用的字母使用較短的代碼使摩爾斯電碼成為傳輸英語等語言的高效系統。</li>
+            <li><strong>不同的間隔間隔：</strong> 摩爾斯電碼使用可變間隔來區分字母和單詞。單詞內字母間的空間比單詞間的暫停短，有助於在傳輸過程中清晰地區分字母和單詞。</li>
+        </ul>
+        <p>鑒於其為每個字符分配不同長度代碼的獨特方法，摩爾斯電碼作為一種可變長度編碼系統脫穎而出，與現代數位通信中使用的固定長度編碼系統（如ASCII）形成對比，其中每個字符由一致數量的比特表示。</p>
+        
+        <h2>霍夫曼編碼與摩爾斯電碼：比較分析</h2>
+        <section>
+            <h3>霍夫曼編碼和摩爾斯電碼概述</h3>
+            <p><strong>霍夫曼編碼</strong>和<strong>摩爾斯電碼</strong>都是旨在高效傳輸信息的創新編碼系統。<a href="https://en.wikipedia.org/wiki/Huffman_coding" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">霍夫曼編碼</a>在數據壓縮方面表現出色，根據字符頻率分配可變長度的代碼，而摩爾斯電碼則通過其獨特的點劃系統簡化了電報通信。</p>
+        </section>
+        
+        <section>
+            <h3>設計理念和應用的比較</h3>
+            <p><strong>霍夫曼編碼</strong>是一個為數據壓縮優化的複雜算法，使用二叉樹結構為更常見的字符分配較短的代碼。相反，<strong>摩爾斯電碼</strong>利用簡單的點劃方法來表示字符，優先考慮傳輸的簡易性而非數據壓縮。</p>
+        </section>        
+
+        <section>
+            <h3>霍夫曼編碼和摩爾斯電碼的相似之處</h3>
+            <p>儘管它們存在差異，但兩種系統都採用可變長度編碼，並考慮字符頻率以確定代碼長度。這種共同的方法強調了它們在通信中追求效率和有效性的承諾。</p>
+        </section>
+
+        <section>
+            <h3>突出的關鍵差異</h3>
+            <p>霍夫曼編碼是現代數據壓縮的基石，而摩爾斯電碼仍是電報和無線電通信的歷史遺迹。前者依賴於二叉樹進行代碼分配，與後者預定義的代碼集形成鮮明對比，展示了從19世紀到20世紀中葉編碼技術的演變。</p>
+        </section>
+
+        <h2>如何在摩爾斯電碼中表示空格和換行符？</h2>
+        <P>在摩爾斯電碼中，空格（即單詞之間的間隔）通常由無信號的時間段表示。這段時間大約是一個字符長度的三倍。至於換行，摩爾斯電碼最初設計用於連續的電報通信，並沒有特別的換行符。當然，換行符也可以根據通信雙方約定的符號來表示。</P>
+
+        <h2>摩爾斯電碼區分大小寫嗎？</h2>
+        <P>摩爾斯電碼不區分大小寫。所有字母都以相同的方式編碼。然而，在實際應用中，通信雙方可以約定使用某種方式來表示大寫，如在每個單詞的首字母前添加特定的符號。</P>
+
+        <h2>通過科赫方法高效掌握摩爾斯電碼</h2>
+        <p>想要迅速而有效地<strong>學習摩爾斯電碼</strong>嗎？科赫方法提供了一個經過驗證的途徑來輕鬆<strong>記憶摩爾斯電碼</strong>。這種技術由德國心理學家路德維希·科赫開發，專為通過逐步練習快速學習和記憶而設計。</p>
+        <h3>什麼是科赫方法？</h3>
+        <p>科赫方法是一種著名的學習摩爾斯電碼策略，強調從一開始就以目標速度逐漸引入和練習字符。它旨在模仿真實通信場景，使其成為最有效的摩爾斯電碼學習技術之一。</p>
+        <h3>科赫方法的主要特點</h3>
+        <ul>
+            <li><strong>起始字符：</strong>從易於識別的字符開始，例如"K" (-.-) 和 "M" (--)，以建立熟悉感和信心。</li>
+            <li><strong>恆定速度：</strong>從一開始就以您的目標速度練習，適應真實通信速度，無需在以後以更快的速度重新學習。</li>
+            <li><strong>增量學習：</strong>只有在當前字符達到至少90%的準確率後才添加新字符，確保在繼續之前牢固掌握。</li>
+            <li><strong>實際應用：</strong>練習短語、單詞和句子，以提高在實際通信中的理解和應用。</li>
+            <li><strong>重複以掌握：</strong>持續的練習和複習對於記憶和技能提升至關重要。</li>
+            <li><strong>專注於聽力：</strong>優先考慮耳朵訓練而不是視覺識別，以提高接收消息的速度和準確性。</li>
+        </ul>
+        
+        <h3>科赫方法的好處</h3>
+        <p>採用科赫方法，學習者可以以他們期望的速度流利掌握摩爾斯電碼，逐漸擴展他們的字符知識。這種方法不僅增強了信心，而且確保了在實際場景中對摩爾斯電碼的全面理解和應用。欲瞭解更多關於科赫方法和掌握摩爾斯電碼的技巧，請訪問<a href="https://en.wikipedia.org/wiki/Morse_code#Learning_methods" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">這裡</a>。</p>
+        
+        <h2>與摩爾斯電碼相關的著名歷史事件或人物有哪些？</h2>
+        <p>與摩爾斯電碼相關的著名歷史事件和人物有很多。例如，鐵達尼號沉沒時發送的求救信號就是摩爾斯電碼。此外，在第二次世界大戰期間，盟軍也通過摩爾斯電碼傳遞了一些重要信息。在人物方面，艾倫·圖靈是一位著名的英國計算機科學家和密碼學家。他在破解德國軍隊使用的摩爾斯電碼方面做出了重要貢獻。</p>
+        
+        <h2>如果發送的摩爾斯電碼有誤應該怎麼辦？</h2>
+        <p>在摩爾斯電碼通信中，如果發送了錯誤的信號，通常會使用特定的符號來表示錯誤，並重新發送正確的消息。這個符號被稱為“錯誤”信號或“取消”信號。在摩爾斯電碼中，錯誤信號通常由六個連續的點組成，表示為".........."（點一下），有時也簡寫為"EEEEEE"。</p>
+        
+        <h2>讓我們開始旅程吧！</h2>
+        <p>.... . .-.. .-.. ---   .-- --- .-. .-.. -.. -.-.--</p>             
+    </div>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. 版權所有</p>
+            <p>
+                <a href="https://chatcipherai.com/zh-TW/Privacy_Policy.html" title="Privacy Policy">隱私政策</a>
+                |
+                <a href="https://chatcipherai.com/zh-TW/Terms_of_Use.html" title="Terms of Use">使用條款</a>
+                |
+                <a href="https://chatcipherai.com/zh-TW/About_Us.html" title="About Us">關於我們</a>
+                |
+                <a href="https://chatcipherai.com/zh-TW/Disclaimer.html" title="Disclaimer">免責聲明</a>
+            </p>       
+            <button id="backToTop" onclick="scrollToTop()">回到頂端</button>   
+        </div>
+    </footer>
+
+    <script>
+        let shortcutsEnabled = true;
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            // Ensure focus is not inside input or textarea fields
+            if (document.activeElement.type === 'text' || document.activeElement.tagName === 'TEXTAREA') {
+                return; // Skip shortcut if inside input or textarea
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'A':
+                    clearAllTextAreas(); // Corrected to a proper function call
+                    console.log('Clear All triggered');
+                    break;
+                case 'M':
+                    toggleMorseTable(); // Function to toggle Morse code table display
+                    console.log('Toggled Morse Code Table');
+                    break;
+                case 'P':
+                    playSOS(); // Function to play SOS Morse Code
+                    console.log('SOS Morse Code Played');
+                    break;
+                case 'L':
+                    setStyle('light-mode');
+                    console.log('Light style activated');
+                    break;
+                case 'N':
+                    setStyle('dark-mode');
+                    console.log('Dark style activated');
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        // Ensure these functions are defined somewhere in your script or linked script files
+        function clearAllTextAreas() {
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.value = '';
+            });
+            console.log('All text areas cleared.');
+        }
+
+        function toggleMorseTable() {
+            var tableContainer = document.querySelector('.table-container');
+            tableContainer.style.display = (tableContainer.style.display === 'none' || tableContainer.style.display === '') ? 'block' : 'none';
+        }
+
+        function playSOS() {
+            var morseCode = document.getElementById('morseCode');
+            morseCode.value = '... --- ...'; // SOS Morse Code
+            playMorseAudio(morseCode.value);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'light-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+
+        document.getElementById('inputText').addEventListener('input', function () {
+            document.getElementById('morseCode').value = encodeToMorse(document.getElementById('inputText').value);
+        });
+
+        document.getElementById('inputMorse').addEventListener('input', function () {
+            document.getElementById('decodedText').value = decodeMorse(document.getElementById('inputMorse').value);
+        });
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+            updateTableStyle(style);
+            updateIntroduceStyle(style);
+        }
+
+        function updateIntroduceStyle(style) {
+            var introduces = document.querySelectorAll('.introduce');
+            introduces.forEach(function (introduce) {
+                if (style === 'dark-mode') {
+                    introduce.style.color = '#FFFFFF'; // White text for dark mode
+                } else {
+                    introduce.style.color = '#000000'; // Black text for light mode
+                }
+            });
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#000000';
+        }
+
+
+        document.getElementById('playSosButton').addEventListener('click', function () {
+            var inputText = document.getElementById('inputText');
+            var morseCode = document.getElementById('morseCode');
+            inputText.value = 'SOS';
+            morseCode.value = encodeToMorse('SOS');
+            playMorseAudio(morseCode.value);
+        });
+
+        function encodeToMorse(text) {
+            if (text.toUpperCase() === 'SOS') {
+                return '... --- ...';
+            }
+            const morseCodeDict = {
+                'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+                'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+                'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+                'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+                'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--',
+                '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+                '9': '----.', '0': '-----', ' ': ' ', '.': '.-.-.-', ',': '--..--', '?': '..--..',
+                "'": '.----.', '!': '-.-.--', '/': '-..-.', '(': '-.--.', ')': '-.--.-',
+                '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.',
+                '-': '-....-', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.', '！': '-.-.--'
+            };
+            return text.toUpperCase().split('').map(function (char) {
+                return morseCodeDict[char] ? morseCodeDict[char] : char;
+            }).join(' ');
+        }
+
+        function decodeMorse(morseCode) {
+            const textDict = {
+                '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E', '..-.': 'F',
+                '--.': 'G', '....': 'H', '..': 'I', '.---': 'J', '-.-': 'K', '.-..': 'L',
+                '--': 'M', '-.': 'N', '---': 'O', '.--.': 'P', '--.-': 'Q', '.-.': 'R',
+                '...': 'S', '-': 'T', '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X',
+                '-.--': 'Y', '--..': 'Z', '.----': '1', '..---': '2', '...--': '3',
+                '....-': '4', '.....': '5', '-....': '6', '--...': '7', '---..': '8',
+                '----.': '9', '-----': '0', '.-.-.-': '.', '--..--': ',', '..--..': '?',
+                '.----.': "'", '-.-.--': '!', '-..-.': '/', '-.--.': '(', '-.--.-': ')',
+                '.-...': '&', '---...': ':', '-.-.-.': ';', '-...-': '=', '.-.-.': '+',
+                '-....-': '-', '..--.-': '_', '.-..-.': '"', '...-..-': '$', '.--.-.': '@'
+            };
+            return morseCode.split('   ').map(function (word) {
+                return word.split(' ').map(function (code) {
+                    return textDict[code] || (code === '' ? ' ' : '?');
+                }).join('');
+            }).join(' ');
+        }
+
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId);
+            copyText.select();
+            document.execCommand('copy');
+        }
+
+        let isPlaying = false;
+        let audioCtx;
+        let timeoutHandles = [];
+
+        document.getElementById('playStopButton').addEventListener('click', function () {
+            isPlaying = !isPlaying;
+            var iconSpan = this.querySelector('span');
+            if (isPlaying) {
+                playMorseAudio(document.getElementById('morseCode').value);
+                this.textContent = '';
+                iconSpan.className = 'icon-stop';
+                this.appendChild(iconSpan);
+                this.appendChild(document.createTextNode('停止'));
+            } else {
+                stopMorseAudio();
+                this.textContent = '';
+                iconSpan.className = 'icon-play';
+                this.appendChild(iconSpan);
+                this.appendChild(document.createTextNode('播放'));
+            }
+        });
+
+        function playMorseAudio(morseCode) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const dotDuration = 0.1;
+            let currentTime = audioCtx.currentTime;
+            morseCode.split('').forEach(symbol => {
+                if (symbol === '.') {
+                    scheduleTone(currentTime, dotDuration);
+                    currentTime += dotDuration;
+                } else if (symbol === '-') {
+                    scheduleTone(currentTime, dotDuration * 3);
+                    currentTime += dotDuration * 3;
+                }
+                currentTime += dotDuration;
+            });
+        }
+
+        function scheduleTone(startTime, duration) {
+            const oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(440, startTime);
+            oscillator.connect(audioCtx.destination);
+
+            const handle = setTimeout(() => {
+                oscillator.start(startTime);
+                oscillator.stop(startTime + duration);
+            }, startTime * 1000);
+
+            timeoutHandles.push(handle);
+        }
+
+        function stopMorseAudio() {
+            timeoutHandles.forEach(handle => clearTimeout(handle));
+            timeoutHandles = [];
+            if (audioCtx) {
+                audioCtx.close();
+                audioCtx = null;
+            }
+        }
+
+        document.getElementById('toggleAlphabetButton').addEventListener('click', function () {
+            var tableContainer = document.querySelector('.table-container');
+            var button = this;
+            if (tableContainer.style.display === 'none' || tableContainer.style.display === '') {
+                tableContainer.style.display = 'flex';
+                button.textContent = '隱藏字母表';
+            } else {
+                tableContainer.style.display = 'none';
+                button.textContent = '電碼字母表';
+            }
+        });
+
+        function updateTableStyle(style) {
+            var table = document.getElementById('morseAlphabetTable');
+            if (style === 'dark-mode') {
+                table.style.color = '#FFFFFF';
+            } else {
+                table.style.color = '#000000';
+            }
+        }
+
+        document.getElementById('toggleAlphabetButton').addEventListener('click', function () {
+            document.querySelector('.table-container').classList.toggle('active');
+        });
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.onclick = function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            };
+        });
+
+        document.getElementById("clearAllButton").addEventListener("click", function () {
+            var textareas = document.querySelectorAll("textarea");
+            textareas.forEach(function (textarea) {
+                textarea.value = '';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function() {
+                if(window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = '回到頂端(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+</html>

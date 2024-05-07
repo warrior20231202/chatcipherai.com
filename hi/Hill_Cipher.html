@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>हिल साइफर एक्सप्लोरर: गणित के साथ साथ, क्रिप्टोग्राफी के संग चलते हुए।</title>
+    <meta name="description" content="हिल साइफर एक क्लासिक क्रिप्टोग्राफिक एल्गोरिथ्म है जो मल्टी-लेटर सब्सटीट्यूशन साइफर्स की श्रेणी में आता है। इसके बारे में जो अनूठा है वह यह है कि यह एन्क्रिप्शन और डिक्रिप्शन प्रक्रियाओं को प्रदर्शन करने के लिए रैखिक बीजगणित और मैट्रिक्स गुणन का उपयोग करता है।">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }   
+
+        #menuIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+        }
+        #menuIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column; 
+            position: absolute;
+            top: 35px; 
+            left: 10px;
+            width: 15%; 
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0; 
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px; 
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0; 
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            margin-top: 80px;
+            margin-bottom: 150px;
+        }
+
+        #inputMessage, #shiftValue {
+            width: 100%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            font-size: 1em;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 70%;
+        }
+
+        .section {
+            width: 110%;
+            margin-bottom: 30px; 
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        .section label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .matrix-display {
+            text-align: center;
+            padding: 20px;
+            background-color: #7fbef5;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .matrix-display p {
+            margin: 10px 5px;
+            font-size: 1em;
+        }
+
+        #matrixInputs {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-left: 0;
+        }
+
+        .sections-container h2, .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        .section.interactive-tool label, 
+        .section.interactive-tool p {
+            font-size: 1.2em;
+        }
+
+        .section input[type="text"], 
+        .section textarea {
+            width: 700px;  
+            padding: 10px;   
+            margin-bottom: 20px; 
+            border: 1px solid #eae6e6;
+            border-radius: 5px;  
+            font-size: 0.9em;       
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #inputText {
+            min-height: 100px;
+            max-height: 300px;
+            resize: vertical;
+            padding: 10px;   
+        }
+
+        #key {
+            height: auto; 
+        }
+
+        #result {
+            font-weight: bold;
+            color: #0A0F24;
+            font-family: 'Arial', sans-serif;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+            text-align: left;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            resize: vertical;
+            font-size: 18px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            width: 698px;
+            line-height: 26px;
+        }
+
+        p {  
+            margin-bottom: 30px;  
+            text-align: left; 
+            font-size: 1.2em; 
+            line-height: 1.6; 
+            margin-bottom: 15px; 
+        }
+
+        h2 {  
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        h3 {
+            margin-top: 50px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: #F5F5F5; 
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3); 
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206); 
+            color: #0A0F24; 
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24; 
+        }
+
+        p { 
+            text-align: center;  
+            margin-bottom: 30px;
+            font-size: 1.2em;  
+        }
+
+        h2 {  
+            margin-bottom: 10px;  
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {  
+            background-color: #0A0F24;  
+            color: white;  
+        }
+
+        .light-mode {  
+            background-color: white;  
+            color: #0A0F24; 
+        } 
+
+        .light-mode .navbar, .light-mode .container {
+            background-color: #FFFFFF; 
+            color: #0A0F24; 
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent; 
+            color: #0A0F24; 
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded; 
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24; 
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start; 
+        }
+
+        #languageIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+        }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px; 
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            width: 100%;    
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .button-container button {
+            margin-right: 0px; 
+        }
+
+        .footer {
+            position: relative; 
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        #moreContent2 { 
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 74%;
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .form-group {
+            padding: 20px;
+            margin: 20px auto;
+            border: 1px solid #eae6e6;
+            border-radius: 10px;
+            background-color: #1C3A70;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 80%; 
+        }
+
+        .form-group button {
+            background-color: #0A0F24;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        .form-group button:hover {
+            background-color: #c0c0c0;
+            color: #0A0F24;
+        }
+
+        .form-group #matrixDisplay {
+            padding: 15px;
+            background-color: #f7cb95;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 15px;
+            color: #0A0F24;
+        }
+
+        .dark-mode .matrix-dark {
+            background-color: #2F4F4F;  
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .light-mode .matrix-display {
+            color: #f9be77;
+        }
+
+        .form-group #toggleMatrixDisplay {
+            background-color: #0A0F24;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            width: 150px;
+        }
+
+        .form-group #toggleMatrixDisplay:hover {
+            background-color: #c0c0c0;
+            color: #0A0F24;
+        }
+
+        .right-shifted-paragraph {
+            margin-left: 220px;
+            width: 110%;
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px; 
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 90%;
+            }
+
+            .sections-container h2{
+                font-size: 1.2em;
+                margin-top: -10px;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .right-shifted-paragraph {
+                margin-left: 80px;
+                width: 110%;
+            }
+
+            .right-shifted-paragraph h2 {
+                font-size: 1.2em;
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            p {
+                font-size: 0.9em; 
+            }
+
+            section li {
+                font-size: 14px;
+                margin-left: -15px;
+            }
+
+            figcaption {
+                margin-top: -40px;
+                margin-bottom: 40px;
+                margin-left: 20px;
+                font-size: 10px;
+                color: #007bff;
+                font-weight: bold;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .section input[type="text"], 
+            .section textarea {
+                width: 100%;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+            
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            #result {
+                width: 72vw;
+                font-size: 15px;
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; मेनू</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/hi/chatcipherai.html">क्रिप्टोसिस्टम वर्ल्ड</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/hi/Caesar_Cipher.html">सीज़र सिफर</a></li>
+                        <li><a href="https://chatcipherai.com/hi/Playfair_Cipher.html">प्लेफेयर सिफर</a></li>
+                        <li><a href="https://chatcipherai.com/hi/Hill_Cipher.html">हिल सिफर</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/hi/Hash_value_test.html">हैश मूल्य परीक्षण</a></li>
+                <li><a href="https://chatcipherai.com/hi/Morsecode_main.html">मोर्स कोड अनुवादक</a></li>
+                <li><a href="https://chatcipherai.com/hi/Shortcut_Key_Description.html">शॉर्टकट कुंजियाँ विवरण</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; भाषा</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Hill_Cipher.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Hill_Cipher.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Hill_Cipher.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Hill_Cipher.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Hill_Cipher.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Hill_Cipher.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Hill_Cipher.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Hill_Cipher.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Hill_Cipher.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Hill_Cipher.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Hill_Cipher.html" title="Nederlands">Nederlands</a></li>
+                </ul>
+            </div>
+            
+            <h1>हिल साइफर एक्सप्लोरर</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 डार्क स्टाइल(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ लाइट स्टाइल(<span class="highlight-key">L</span>)</button>
+            </div>  
+        </nav>
+    </header>
+
+    <main class="sections-container">           
+        <section class="section interactive-tool">
+            <h2>हिल साइफर आजमाएं</h2>
+        
+            <div id="matrixInputs">
+                <label for="key">मैट्रिक्स कुंजी दर्ज करें: 2x2 मैट्रिक्स</label>
+                <input type="text" id="key" placeholder="उदा., 1,2,3,4">
+                <label for="inputText">पाठ दर्ज करें:</label>
+                <textarea id="inputText" placeholder="पाठ यहां लिखें"></textarea>
+                <label>परिणाम:</label>
+                <div id="result" ></div>
+            </div>
+        
+            <div id="button-group">
+                <button onclick="encrypt()">एन्क्रिप्ट करें(<span class="highlight-key">E</span>)</button>
+                <button onclick="decrypt()">डिक्रिप्ट करें(<span class="highlight-key">D</span>)</button>
+                <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">सभी साफ़ करें(<span class="highlight-key">A</span>)</button>
+            </div>
+        </section>        
+        
+        <section class="form-group">
+            <button onclick="generateMatrix()">2x2 उलटने योग्य मैट्रिक्स जनरेट करें(<span class="highlight-key">G</span>)</button>
+            <button id="copyMatrix" onclick="copyMatrixToClipboard()">मैट्रिक्स कॉपी करें(<span class="highlight-key">C</span>)</button>
+            <button id="toggleMatrixDisplay" onclick="toggleMatrixDisplay()">बंद करें(<span class="highlight-key">o</span>)</button>
+            <div id="matrixDisplay"></div>
+        </section>        
+
+        <section class="right-shifted-paragraph">
+            <h2>मैं हिल साइफर का उपयोग कैसे करूं?</h2>
+            <p>
+                हिल साइफर का उपयोग करना कुछ बुनियादी रैखिक बीजगणित ज्ञान की मांग करता है, मुख्यतः मैट्रिक्स ऑपरेशन। यह प्रक्रिया कई चरणों में बांटी जा सकती है: कुंजी चयन, एन्क्रिप्शन, और डिक्रिप्शन।
+            </p>
+            
+            <h3>कुंजी चयन: </h3>
+            <p>
+                सबसे पहले, आपको एक कुंजी चुनने की आवश्यकता है, जो एक उलटने योग्य मैट्रिक्स है। हिल साइफर में, कुंजी एक n×n मैट्रिक्स है, जहां n आपके द्वारा चुनी गई कोई भी संख्या हो सकती है। महत्वपूर्ण रूप से, यह मैट्रिक्स उलटने योग्य होना चाहिए (अर्थात्, इसका विलोम होना चाहिए) क्योंकि डिक्रिप्शन प्रक्रिया के दौरान इसके विलोम की आवश्यकता होती है।
+            </p>
+            
+            <h3>पाठ तैयारी: </h3>
+            <p>
+                अपने प्लेनटेक्स्ट (वह संदेश जिसे एन्क्रिप्ट किया जाना है) को n की लंबाई वाले ब्लॉक्स में विभाजित करें। यदि अंतिम ब्लॉक n अक्षरों से छोटा है, तो आप इसे कुछ फिलर अक्षरों (जैसे कि अक्षर X) से पैड कर सकते हैं। प्रत्येक अक्षर को एक संख्या से मैप किया जाना चाहिए; उदाहरण के लिए, आप मैपिंग A=0, B=1, C=2, ..., Z=25 का उपयोग कर सकते हैं।
+            </p>            
+
+            <h3>एन्क्रिप्शन प्रक्रिया: </h3>
+            <p>
+                प्रत्येक n लंबाई के प्लेनटेक्स्ट ब्लॉक के लिए, इसे एक कॉलम वेक्टर के रूप में मानें और इसे कुंजी मैट्रिक्स से गुणा करें। फिर परिणाम को 26 से मोडुलो लिया जाता है (चूंकि वर्णमाला में 26 अक्षर होते हैं)। यह मोडुलो 26 संचालन प्रत्येक मैट्रिक्स गुणन के तत्व पर लागू किया जाता है। परिणामस्वरूप नया कॉलम वेक्टर साइफरटेक्स्ट ब्लॉक के अनुरूप होता है।
+            </p>
+                        
+            <h3>डिक्रिप्शन प्रक्रिया: </h3>
+            <p>
+                डिक्रिप्ट करने के लिए, सबसे पहले आपको कुंजी मैट्रिक्स का उलटा गणना करनी होगी, सुनिश्चित करते हुए कि उलटे में सभी तत्व पूर्णांक हैं। इसमें आमतौर पर कुंजी मैट्रिक्स के संयुक्त मैट्रिक्स और निर्णायक को खोजना, और फिर 26 से निर्णायक के उलटे को लेना शामिल होता है। इस उलटे मैट्रिक्स का उपयोग करके, मूल प्लेनटेक्स्ट ब्लॉक को साइफरटेक्स्ट ब्लॉक से गुणा करके और परिणाम को 26 से मोडुलो लेकर प्राप्त किया जाता है।
+            </p>
+            
+            <h4>मोडुलो 26 संचालन क्या है?</h4>
+            <p>
+                "मोडुलो 26 संचालन" एक प्रकार की गणितीय गणना को संदर्भित करता है जो अक्सर एक सीमित सेट के भीतर समस्याओं से निपटने में, विशेष रूप से क्रिप्टोग्राफी और संख्या सिद्धांत में, उपयोग की जाती है। मोडुलो संचालन एक प्रकार का विभाजन है जो कोटि के बजाय, विभाजन का शेष देता है, और विशेष रूप से मोडुलो 26 26 से विभाजन के बाद <strong> शेष </strong> को संदर्भित करता है।
+            </p>
+            
+            <p>
+                किसी भी पूर्णांक 'a' के लिए, मोडुलो 26 संचालन का परिणाम 26 से 'a' को विभाजित करने के बाद का शेष होता है। इसे गणितीय रूप से 'a mod 26' के रूप में दर्शाया जाता है, जिसे "'a' मोडुलो 26" के रूप में पढ़ा जाता है। एक <a href="https://en.wikipedia.org/wiki/Modulo" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;"> मोडुलो</a> 26 संचालन का परिणाम हमेशा 0 और 25 के बीच एक पूर्णांक होता है, जिसमें 26 संभावित परिणाम होते हैं। हिल साइफर के संदर्भ में, मोडुलो 26 संचालन सुनिश्चित करता है कि सभी गणितीय परिणाम 0 से 25 की सीमा के भीतर आते हैं, जो वर्णमाला के 26 अक्षरों के अनुरूप होते हैं। उदाहरण के लिए, 'A' को 0 माना जाता है, 'B' 1 है, और इसी तरह 'Z' जो 25 है।
+            </p>            
+
+            <p>
+                <a href="https://en.wikipedia.org/wiki/Hill_cipher" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;"> हिल साइफर</a> के साथ पाठ को एन्क्रिप्ट करते समय, प्रत्येक अक्षर को पहले इसके संबंधित संख्या में परिवर्तित किया जाता है (A=0, B=1, ..., Z=25)। मैट्रिक्स गुणन और अन्य संचालनों के बाद, अंतिम संख्यात्मक मानों को मोडुलो 26 संचालनों के अधीन किया जाता है ताकि उन्हें 0 से 25 की सीमा में वापस मैप किया जा सके, और फिर वापस अक्षरों में। यह सुनिश्चित करने के लिए कि प्रत्येक संचालन के बाद परिणाम मान्य अक्षर रहें। यदि आपके पास 29 का संख्यात्मक मान है, और आप इस पर मोडुलो 26 संचालन करते हैं, तो परिणाम 26 से 29 के विभाजन का शेष होगा, जो 3 है। हिल साइफर के संदर्भ में, इसका मतलब है कि संख्यात्मक मान 29 अक्षर 'D' के अनुरूप होगा।
+            </p>
+            
+            <p>
+                हिल साइफर में, कुंजी एक उलटने योग्य मैट्रिक्स है, और प्लेनटेक्स्ट को वेक्टर्स की एक श्रृंखला के रूप में प्रस्तुत किया जाता है। एन्क्रिप्शन प्रक्रिया में प्लेनटेक्स्ट वेक्टर्स का कुंजी मैट्रिक्स के साथ रैखिक परिवर्तन (मैट्रिक्स गुणन) शामिल है, इसके बाद मोडुलो 26 संचालनों का अनुप्रयोग सुनिश्चित करने के लिए कि प्रत्येक तत्व 0 से 25 के बीच का एक पूर्णांक है, इस प्रकार इसे वापस अक्षरों में मैप करने में सक्षम है।
+            </p>            
+                
+            <p>
+                संक्षेप में, मोडुलो 26 संचालन हिल साइफर में एक महत्वपूर्ण चरण है जो सुनिश्चित करता है कि गणितीय परिणाम वर्णमाला की सीमाओं के भीतर बने रहें, जिससे एन्क्रिप्शन एल्गोरिथम को सीमित अक्षरों के एक सेट के भीतर काम करने की अनुमति मिलती है जबकि एन्क्रिप्शन और डिक्रिप्शन प्रक्रिया में समरूपता बनाए रखी जाती है।
+            </p>
+            
+            <h3>उदाहरण :</h3>
+            <p>
+                मान लीजिए हम एक 2×2 कुंजी मैट्रिक्स चुनते हैं और हमारा प्लेनटेक्स्ट "HELLOWORLD" है। हम कुंजी मैट्रिक्स [[3,3],[2,5]] का उपयोग करते हैं और एन्क्रिप्टेड संदेश 'HELLOWORLD' को दो अक्षरों के ब्लॉक में विभाजित करते हैं। अक्षरों को संख्यात्मक रूप से उस क्रम में मैप किया जाता है जहां A=0, B=1, C=2, ..., और Z=25 है।
+            </p>
+            <p>1. ब्लॉक [7,4] के लिए (जो "HE" के अनुरूप है) :
+            <br>
+                • कुंजी मैट्रिक्स का उपयोग करके मैट्रिक्स गुणा :
+            </p>
+            
+            <p>
+                $$
+                \left[
+                \begin{array}{cc}
+                3 & 3 \\
+                2 & 5 \\
+                \end{array}
+                \right]
+                \left[
+                \begin{array}{c}
+                7 \\
+                4 \\
+                \end{array}
+                \right]
+                =
+                \left[
+                \begin{array}{c}
+                3 \cdot 7 + 3 \cdot 4 \\
+                2 \cdot 7 + 5 \cdot 4 \\
+                \end{array}
+                \right]
+                =
+                \left[
+                \begin{array}{c}
+                21 + 12 \\
+                14 + 20 \\
+                \end{array}
+                \right]
+                =
+                \left[
+                \begin{array}{c}
+                33 \\
+                34 \\
+                \end{array}
+                \right]
+                $$
+            </p>
+
+            <p>
+                • प्रत्येक तत्व मॉड्यूलो 26 लें:
+                $$
+                \left[
+                \begin{array}{c}
+                33 \\
+                34 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                7 \\
+                8 \\
+                \end{array}
+                \right]
+                $$
+                • संख्याओं को वापस अक्षरों में परिवर्तित करें: 7->H, 8->I। इस प्रकार, "HE" को "HI" में एन्क्रिप्ट किया गया है।
+            </p>
+            
+            <p>2. ब्लॉक [11,11] के लिए (जो "LL" के अनुरूप है) :
+                <br>
+                • प्रत्येक तत्व को मोडुलो 26 लें :
+            </p>
+        
+            <p>
+                $$
+                \left[
+                \begin{array}{c}
+                66 \\
+                77 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                14 \\
+                25 \\
+                \end{array}
+                \right]
+                $$
+                • संख्याओं को वापस अक्षरों में परिवर्तित करें: 14->O, 25->Z। इस प्रकार, "LL" को "OZ" में एन्क्रिप्ट किया गया है।
+            </p>
+            
+            <p>3. ब्लॉक [14,22] के लिए (जो "OW" के अनुरूप है) :
+                <br>
+                • प्रत्येक तत्व को मोडुलो 26 लें :
+            </p>            
+
+            <p>
+                $$
+                \left[
+                \begin{array}{c}
+                108 \\
+                138 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                4 \\
+                8 \\
+                \end{array}
+                \right]
+                $$
+                • संख्याओं को वापस अक्षरों में परिवर्तित करें: 4->E, 8->I। इस प्रकार, "OW" को "EI" में एन्क्रिप्ट किया गया है।
+            </p>
+            
+            <p>4. ब्लॉक [14,17] के लिए (जो "OR" के अनुरूप है) :
+                <br>
+                • प्रत्येक तत्व को मोडुलो 26 लें :
+            </p>            
+
+            <p>
+                $$
+                \left[
+                \begin{array}{c}
+                93 \\
+                113 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                15 \\
+                9 \\
+                \end{array}
+                \right]
+                $$
+                • संख्याओं को वापस अक्षरों में परिवर्तित करें: 15->P, 9->J। इस प्रकार, "OR" को "PJ" में एन्क्रिप्ट किया गया है।
+            </p>
+            
+            <p>5. ब्लॉक [11,3] के लिए (जो "LD" के अनुरूप है):
+                <br>
+                • प्रत्येक तत्व को मोडुलो 26 लें :
+            </p>
+            
+            <p>
+                $$
+                \left[
+                \begin{array}{c}
+                42 \\
+                37 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                16 \\
+                11 \\
+                \end{array}
+                \right]
+                $$
+                • संख्याओं को वापस अक्षरों में परिवर्तित करें: 16->Q, 11->L। इस प्रकार, "LD" को "QL" में एन्क्रिप्ट किया गया है।
+            </p>
+            
+            <p>
+                इन एन्क्रिप्टेड ब्लॉक्स को जोड़कर, हमें अंतिम साइफरटेक्स्ट मिलता है: <strong>"HIOZEIPJQL" </strong>. 
+                यह प्रक्रिया दर्शाती है कि कैसे हिल साइफर पाठ को एन्क्रिप्ट करने के लिए रैखिक बीजगणित से मैट्रिक्स संचालन का उपयोग करता है।
+            </p>            
+
+            <h2>हिल साइफर: इसकी प्रमुख विशेषताओं और एन्क्रिप्शन मैकेनिज़्म को समझना</h2>
+            <p>
+                <strong>हिल साइफर</strong> एन्क्रिप्शन और डिक्रिप्शन प्रक्रियाओं में <em>मैट्रिक्स संचालन</em> पर निर्भरता के लिए प्रसिद्ध है। इसकी कार्यक्षमता का एक महत्वपूर्ण पहलू <strong>कुंजी मैट्रिक्स की उलटनीयता</strong> है। एक उलटने योग्य कुंजी मैट्रिक्स के बिना, जिसके लिए शून्य से अधिक निर्धारक और एक मॉड्यूलर उलटा आवश्यक है, डिक्रिप्शन असंभव हो जाता है।
+            </p>
+            <h3>एन्क्रिप्शन और डिक्रिप्शन प्रक्रियाओं के महत्वपूर्ण पहलू</h3>
+            <p>
+                हिल साइफर की एन्क्रिप्शन और डिक्रिप्शन दक्षता <strong>कुंजी मैट्रिक्स की प्रतिवर्तीयता</strong> पर निर्भर करती है। यह प्रक्रिया टेक्स्टुअल डेटा को संख्यात्मक वेक्टरों में परिवर्तित करने, जिन्हें फिर मैट्रिक्स गुणा का उपयोग करके परिवर्तित किया जाता है।
+            </p>
+            <ul>
+                <li><strong>मैट्रिक्स की उलटनीयता:</strong> एक उलटने योग्य मैट्रिक्स, या गैर-एकल, एक उलटा मैट्रिक्स के साथ जोड़ती है ताकि पहचान मैट्रिक्स उत्पन्न हो सके—डिक्रिप्शन के लिए एक महत्वपूर्ण कारक।</li>
+                <li><strong>निर्धारक और मॉड्यूलर उलटा:</strong> निर्धारक मैट्रिक्स उलटनीयता के बारे में अंतर्दृष्टि प्रदान करता है, हिल साइफर के मॉड्यूलर अंकगणितीय ढांचे के भीतर प्रभावी डिक्रिप्शन संचालनों के लिए आवश्यक।</li>
+            </ul>
+            <p>
+                संक्षेप में, एक उलटने योग्य कुंजी मैट्रिक्स का चयन हिल साइफर के लिए महत्वपूर्ण है, यह सुनिश्चित करता है कि एन्क्रिप्टेड जानकारी को सफलतापूर्वक डिक्रिप्ट किया जा सके। यह क्रिप्टोग्राफी में मैट्रिक्स संचालनों और मॉड्यूलर अंकगणित को समझने के महत्व को उजागर करता है।
+            </p>            
+
+            <h2>क्या हिल साइफर एक 3x3 मैट्रिक्स या उच्च-क्रम के मैट्रिक्स का उपयोग कर सकता है?</h2>
+            <p>
+                उत्तर सकारात्मक है। हिल साइफर की एक प्रमुख विशेषता यह है कि यह किसी भी आकार के वर्ग मैट्रिक्स को कुंजी मैट्रिक्स के रूप में उपयोग कर सकता है, बशर्ते कि मैट्रिक्स उलटने योग्य हो (अर्थात्, इसका एक उलटा मैट्रिक्स हो जिस मॉड्यूलस का उपयोग किया जा रहा है)।
+            </p>
+            
+            <p>
+                3x3 या उच्च-क्रम के मैट्रिक्स का उपयोग सुरक्षा को बढ़ा सकता है क्योंकि वे कुंजी की जटिलता को बढ़ाते हैं। हालाँकि, जैसे-जैसे मैट्रिक्स का आकार बढ़ता है, एन्क्रिप्शन और डिक्रिप्शन के लिए आवश्यक गणनाएँ अधिक जटिल और समय लेने वाली हो जाती हैं। इसके अलावा, कुंजी मैट्रिक्स के आकार से मेल खाने के लिए, पाठ ब्लॉक्स के आकार को भी बढ़ाना होगा, जिसके लिए अंतिम ब्लॉक के एन्क्रिप्शन के लिए अधिक पैडिंग अक्षरों की आवश्यकता हो सकती है।
+            </p>
+            
+            <p>
+                उदाहरण के लिए, एक 3x3 कुंजी मैट्रिक्स का उपयोग करने से आवश्यक होगा कि पाठ को तीन अक्षरों के ब्लॉक्स में विभाजित किया जाए। प्रत्येक अक्षर को एक संख्यात्मक मूल्य में परिवर्तित किया जाता है, और फिर इन तीन मूल्यों को कुंजी मैट्रिक्स से गुणा करने के लिए एक वेक्टर में व्यवस्थित किया जाता है। इस विधि से कुंजी के संभावित संयोजनों को बढ़ाया जाता है, जिससे एन्क्रिप्शन एल्गोरिथम की सुरक्षा में सुधार होता है।
+            </p>
+            <p>
+                हिल साइफर की लचीलापन विभिन्न आकारों के कुंजी मैट्रिक्स, जिसमें 3x3 मैट्रिक्स और उच्च-क्रम के मैट्रिक्स शामिल हैं, के उपयोग की अनुमति देती है। उच्च-क्रम के मैट्रिक्स का चयन करने से एन्क्रिप्शन मजबूत हो सकता है लेकिन यह अधिक गणनात्मक संसाधनों और उपयुक्त पाठ प्रसंस्करण रणनीतियों की भी मांग करता है।
+            </p>            
+
+            <h2>क्रिप्टोग्राफी में हिल साइफर और प्लेफेयर साइफर के बीच अंतर</h2>
+            <p>
+                <strong>हिल साइफर और प्लेफेयर साइफर</strong> दोनों ही क्लासिकल एन्क्रिप्शन तकनीकें हैं जिनमें अक्षर प्रतिस्थापन के अनूठे तरीके हैं। अपने सामान्य लक्ष्य, प्लेनटेक्स्ट संदेशों की सुरक्षा के बावजूद, उनके संचालन में काफी भिन्नता होती है। इन अंतरों को समझना क्रिप्टोग्राफी के उत्साही लोगों और पेशेवरों दोनों के लिए महत्वपूर्ण है।
+            </p>
+            <h3>सिद्धांत और विधियाँ</h3>
+            <ul>
+                <li><strong>हिल साइफर:</strong> प्लेनटेक्स्ट को निश्चित-लंबाई के ब्लॉकों में विभाजित करके और एक कुंजी मैट्रिक्स का उपयोग करके उन्हें एन्क्रिप्ट करके काम करता है, साइफरटेक्स्ट उत्पन्न करने के लिए मॉड्यूलर अंकगणित का उपयोग करता है। डिक्रिप्शन कुंजी मैट्रिक्स के उलटे पर निर्भर करता है।</li>
+                <li><strong>प्लेफेयर साइफर:</strong> एक कीवर्ड के आधार पर 5x5 कुंजी मैट्रिक्स का उपयोग करके अक्षर जोड़े को एन्क्रिप्ट करता है, दोहराए गए अक्षरों और विषम अक्षर जोड़ों के लिए विशेष नियम लागू करता है, जिसके बाद डिक्रिप्शन इन नियमों के उलट का पालन करता है।</li>
+            </ul>            
+
+            <h3>कुंजी की लंबाई और निर्माण</h3>
+            <ul>
+                <li><strong>हिल साइफर:</strong> एक मैट्रिक्स कुंजी का उपयोग करता है, आकार ब्लॉक आकार पर निर्भर करता है (जैसे, 2x2, 3x3)।</li>
+                <li><strong>प्लेफेयर साइफर:</strong> एन्क्रिप्शन और डिक्रिप्शन प्रक्रियाओं के लिए एक 5x5 मैट्रिक्स निर्माण करने के लिए एक कीवर्ड का उपयोग करता है।</li>
+            </ul>
+            <h3>प्लेनटेक्स्ट समूहन और साइफरटेक्स्ट उत्पन्न</h3>
+            <ul>
+                <li><strong>हिल साइफर:</strong> प्लेनटेक्स्ट को समान आकार के ब्लॉकों में विभाजित करता है, एन्क्रिप्शन के लिए गणितीय संचालनों का उपयोग करता है।</li>
+                <li><strong>प्लेफेयर साइफर:</strong> प्लेनटेक्स्ट को जोड़ों में अलग करता है, साइफरटेक्स्ट निर्माण के लिए कुंजी मैट्रिक्स नियमों का उपयोग करता है।</li>
+            </ul>            
+
+            <h2>हिल साइफर विषम संख्या में अक्षरों वाले पाठों के एन्क्रिप्शन और डिक्रिप्शन को कैसे संभालता है?</h2>
+            <p>
+                विषम लंबाई वाले पाठ से सामना करते समय, प्लेफेयर साइफर के समान, हिल साइफर को भी अंतिम अपूर्ण ब्लॉक से निपटने के लिए एक विधि की आवश्यकता होती है। यहां विषम लंबाई वाले पाठों को संभालने के लिए कई विधियां सूचीबद्ध हैं:
+            </p>
+            <ul>
+                <li><strong>पैडिंग:</strong> सबसे आम विधि मैट्रिक्स आवश्यकता को पूरा करने के लिए पाठ के अंत में एक या अधिक पूर्व निर्धारित अक्षर (जैसे X या 0) जोड़ना है। यह सुनिश्चित करता है कि सभी अक्षरों को एन्क्रिप्ट किया जा सके। उदाहरण के लिए, यदि 2x2 मैट्रिक्स का उपयोग करते हुए और पाठ की लंबाई विषम है, तो पाठ की लंबाई को सम बनाने के लिए पाठ के अंत में एक अक्षर जोड़ा जा सकता है। यह इस वेबपेज पर भी उपयोग की जाने वाली विधि है।</li>
+                <li><strong>अंतिम अक्षर की विशेष संभाल:</strong> एक और विधि अंतिम अक्षर को अलग से संसाधित करना है। उदाहरण के लिए, आप अंतिम अक्षर को अपरिवर्तित छोड़ सकते हैं या इसे कुछ सरल एन्क्रिप्शन विधि का उपयोग करके एन्क्रिप्ट कर सकते हैं, हिल एन्क्रिप्शन विधि का उपयोग करने के बजाय।</li>
+                <li><strong>मैट्रिक्स आकार को समायोजित करना:</strong> संभव हो तो, अंतिम ब्लॉक को एन्क्रिप्ट करने के लिए एक अलग आकार के मैट्रिक्स का विकल्प भी चुना जा सकता है। उदाहरण के लिए, यदि आमतौर पर 3x3 मैट्रिक्स का उपयोग किया जाता है, लेकिन केवल एक या दो अक्षर शेष हैं, तो शेष अक्षरों को संभालने के लिए 2x2 या 1x1 मैट्रिक्स का उपयोग किया जा सकता है। इस विधि में एक अतिरिक्त मैट्रिक्स की आवश्यकता होती है और यह एन्क्रिप्शन प्रक्रिया को जटिल बना सकता है।</li>
+            </ul>
+            <p>
+                विधि का चयन विशिष्ट अनुप्रयोग परिदृश्य और सुरक्षा आवश्यकताओं पर निर्भर करता है। आमतौर पर, पैडिंग सबसे सरल और सीधी विधि है, लेकिन प्रत्येक दृष्टिकोण के अपने लाभ और हानियां होती हैं। मुख्य बात यह है कि एन्क्रिप्शन और डिक्रिप्शन प्रक्रियाओं को सुसंगत रखना है और दोनों पक्षों को यह स्पष्ट होना चाहिए कि पाठ को सही ढंग से कैसे संभालना है।
+            </p>            
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. सभी अधिकार सुरक्षित।.</p>
+            <p>
+                <a href="https://chatcipherai.com/hi/Privacy_Policy.html" title="Privacy Policy">गोपनीयता नीति</a>
+                |
+                <a href="https://chatcipherai.com/hi/Terms_of_Use.html" title="Terms of Use">उपयोग की शर्तें</a>
+                |
+                <a href="https://chatcipherai.com/hi/About_Us.html" title="About Us">हमारे बारे में</a>
+                |
+                <a href="https://chatcipherai.com/hi/Disclaimer.html" title="Disclaimer">अस्वीकरण</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">शीर्ष पर वापस जाएँ(<span class="highlight-key">B</span>)</button>
+        </div>  
+    </footer>
+
+    <script>
+        let shortcutsEnabled = true;
+
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'E':
+                    encrypt();
+                    console.log('Encode triggered');
+                    break;
+                case 'D':
+                    decrypt();
+                    console.log('Decode triggered');
+                    break;
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+                case 'G':
+                    generateMatrix();
+                    console.log('Matrix generation triggered');
+                    break;
+                case 'C':
+                    copyMatrixToClipboard();
+                    console.log('Copy matrix triggered');
+                    break;
+                case 'O':
+                    toggleMatrixDisplay();
+                    console.log('Toggle matrix display triggered');
+                    break;
+                case 'S':
+                    showMatrix();
+                    console.log('Show matrix triggered');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        function textToNumbers(text) {
+            return text.split('').map(char => {
+                const charCode = char.charCodeAt(0);
+                if (/[a-z]/.test(char)) {
+                    return charCode - 'a'.charCodeAt(0);
+                } else if (/[A-Z]/.test(char)) {
+                    return charCode - 'A'.charCodeAt(0);
+                } else {
+                    return charCode;
+                }
+            });
+        }
+
+        function numbersToText(numbers) {
+            return numbers.map(num => {
+                if (num >= 0 && num < 26) {
+                    return String.fromCharCode(mod(num, 26) + 'A'.charCodeAt(0));
+                } else {
+                    return String.fromCharCode(num);
+                }
+            }).join('');
+        }
+
+        function parseKey(keyString) {
+            return keyString.split(',').map(Number);
+        }
+
+        function mod(n, m) {
+            return ((n % m) + m) % m;
+        }
+
+        function multiplyMatrixAndVector(matrix, vector, modValue) {
+            const result = [];
+            for (let i = 0; i < matrix.length; i++) {
+                let sum = 0;
+                for (let j = 0; j < vector.length; j++) {
+                    sum += matrix[i][j] * vector[j];
+                }
+                result.push(mod(sum, modValue));
+            }
+            return result;
+        }
+
+        function padText(text) {
+            if (text.length % 2 !== 0) {
+                text += 'X'; // Append 'X' if text length is odd
+            }
+            return text;
+        }
+
+        function encrypt() {
+            let text = document.getElementById('inputText').value.replace(/[^a-zA-Z]/g, ''); 
+            text = padText(text); // Ensure text length is even for the matrix operations
+            const keyNumbers = parseKey(document.getElementById('key').value);
+            if (keyNumbers.length !== 4) {
+                document.getElementById('result').textContent = 'Key format error. Please enter four comma-separated numbers.';
+                return;
+            }
+            const keyMatrix = [[keyNumbers[0], keyNumbers[1]], [keyNumbers[2], keyNumbers[3]]];
+            const det = keyNumbers[0] * keyNumbers[3] - keyNumbers[1] * keyNumbers[2];
+            if (det === 0 || !hasModularInverse(det, 26)) {
+                document.getElementById('result').textContent = 'Invalid matrix key. No inverse exists.';
+                return;
+            }
+            const textNumbers = textToNumbers(text);
+            let encryptedNumbers = [];
+            for (let i = 0; i < textNumbers.length; i += 2) {
+                encryptedNumbers.push(...multiplyMatrixAndVector(keyMatrix, [textNumbers[i], textNumbers[i + 1]], 26));
+            }
+            const encryptedText = numbersToText(encryptedNumbers);
+            let resultElement = document.getElementById('result');
+            resultElement.textContent = encryptedText;
+            resultElement.style.color = "blue"; // Set text color to blue
+        }
+
+        function modInverse(a, m) {
+            for (let i = 1; i < m; i++) {
+                if ((a * i) % m === 1) {
+                    return i;
+                }
+            }
+            return null;
+        }
+
+        function removePaddingX(decryptedText) {
+            let chars = decryptedText.split('');
+            for (let i = 1; i < chars.length - 1; i++) {
+                // Remove 'X' if it is between two identical letters
+                if (chars[i] === 'X' && chars[i - 1] === chars[i + 1]) {
+                    chars.splice(i, 1);
+                    i--; // Adjust index after removing 'X'
+                }
+            }
+            // Check if the last character is 'X' and if so, it is highlighted in red
+            if (chars[chars.length - 1] === 'X') {
+                return chars.join('').slice(0, -1) + '<span style="color: red;">X</span>';
+            }
+            return chars.join('');
+        }
+
+        function decrypt() {
+            let text = document.getElementById('inputText').value.replace(/[^a-zA-Z]/g, '');  
+            const keyNumbers = parseKey(document.getElementById('key').value);
+
+            const det = keyNumbers[0] * keyNumbers[3] - keyNumbers[1] * keyNumbers[2];
+            const invDet = modInverse(det, 26);
+
+            if (invDet === null) {
+                document.getElementById('result').innerHTML = "Invalid Key for Decryption (No Modular Inverse)";
+                document.getElementById('result').style.color = "#0A0F24"; // Set the color of the error message
+                return;
+            }
+
+            const keyMatrixInverse = [
+                [mod(invDet * keyNumbers[3], 26), mod(-invDet * keyNumbers[1], 26)],
+                [mod(-invDet * keyNumbers[2], 26), mod(invDet * keyNumbers[0], 26)]
+            ];
+
+            const textNumbers = textToNumbers(text);
+
+            let decryptedNumbers = [];
+            for (let i = 0; i < textNumbers.length; i += 2) {
+                decryptedNumbers.push(...multiplyMatrixAndVector(keyMatrixInverse, [textNumbers[i], textNumbers[i + 1]], 26));
+            }
+
+            let decryptedText = numbersToText(decryptedNumbers);
+
+            decryptedText = removePaddingX(decryptedText); // Use the updated removePaddingX function
+
+            let resultElement = document.getElementById('result');
+            resultElement.innerHTML = decryptedText; // Set the HTML content
+            resultElement.style.color = "#0A0F24"; // Set the color of the decryption result
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function() {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function() {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+            updateTableStyle(style);
+            updateInteractiveToolStyle(style);
+        }
+
+        function updateInteractiveToolStyle(style) {
+            var interactiveTool = document.querySelector('.section.interactive-tool');
+            if (style === 'dark-mode') {
+                interactiveTool.style.backgroundColor = '#ffffff';
+            } else {
+                interactiveTool.style.backgroundColor = '#f0f0f0';
+            }
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function(link) {
+            link.addEventListener('click', function() {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none" || moreContent.style.display === "") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            });
+        });
+
+        function clearAll() {
+            var inputText = document.getElementById('inputText');
+            var result = document.getElementById('result');
+            var key = document.getElementById('key');
+
+            inputText.value = ''; // Clears the textarea
+            key.value = ''; // Clears the input for key
+            result.innerHTML = ''; // Clears the content of the div#result
+
+            // Optionally reset the style or other properties if needed
+            result.style.color = ""; // Resets the text color to default
+        }
+
+        function generateMatrix() {
+            let a, b, c, d, det;
+            do {
+                a = Math.floor(Math.random() * 20) - 10;
+                b = Math.floor(Math.random() * 20) - 10;
+                c = Math.floor(Math.random() * 20) - 10;
+                d = Math.floor(Math.random() * 20) - 10;
+                det = a * d - b * c;
+            } while (det === 0 || !hasModularInverse(det, 26));
+
+            const matrixDisplay = document.getElementById('matrixDisplay');
+            matrixDisplay.innerHTML = 
+                '<p>उत्पन्न मैट्रिक्स:</p>' +
+                '<p>[' + a + ' ' + b + ']</p>' +
+                '<p>[' + c + ' ' + d + ']</p>' +
+                '<p>निर्धारक:' + det + ' (आधुनिक 26)</p>';
+
+            if (document.body.classList.contains('dark-mode')) {
+                matrixDisplay.classList.add('matrix-dark');
+            } else {
+                matrixDisplay.classList.remove('matrix-dark');
+            }
+        }
+
+        function hasModularInverse(n, m) {
+            n = n % m;
+            for (let x = 1; x < m; x++) {
+                if ((n * x) % m === 1) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function toggleMatrixDisplay() {
+            var matrixDisplay = document.getElementById('matrixDisplay');
+            var toggleButton = document.getElementById('toggleMatrixDisplay');
+
+            // Check if the display style of matrixDisplay is not set or set to 'none'
+            if (!matrixDisplay.style.display || matrixDisplay.style.display === 'none') {
+                matrixDisplay.style.display = 'block'; // Show the matrix display
+                toggleButton.innerHTML = 'बंद करें(<span class="highlight-key">o</span>)'; // Update button text to show "Close Matrix"
+            } else {
+                matrixDisplay.style.display = 'none'; // Hide the matrix display
+                toggleButton.innerHTML = 'डिस्प्ले मैट्रिक्स(<span class="highlight-key">o</span>)'; // Update button text to show "Show Matrix"
+            }
+        }
+
+        function copyMatrixToClipboard() {
+            const matrixDisplay = document.getElementById('matrixDisplay');
+            const copyStatus = document.getElementById('copyStatus');
+            const matrixParagraphs = matrixDisplay.getElementsByTagName('p');
+            if (matrixParagraphs.length >= 3) {
+                const matrixRow1 = matrixParagraphs[1].innerText.match(/[-\d]+/g);
+                const matrixRow2 = matrixParagraphs[2].innerText.match(/[-\d]+/g);
+                if (matrixRow1 && matrixRow2) {
+                    const matrixString = matrixRow1.concat(matrixRow2).join(',');
+                    navigator.clipboard.writeText(matrixString).then(function() {
+                        copyStatus.innerText = 'Matrix copied to clipboard: ' + matrixString;
+                        copyStatus.style.display = 'block';
+                    }, function() {
+                        copyStatus.innerText = 'Failed to copy matrix.';
+                        copyStatus.style.display = 'block'; 
+                    });
+                } else {
+                    copyStatus.innerText = 'No matrix to copy.';
+                    copyStatus.style.display = 'block'; 
+                }
+            } else {
+                copyStatus.innerText = 'No matrix to copy.';
+                copyStatus.style.display = 'block';
+            }
+        }
+
+        function hideCopyStatus() {
+            const copyStatus = document.getElementById('copyStatus');
+            if (copyStatus) {
+                copyStatus.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('click', function() {
+            hideCopyStatus();
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function() {
+                if(window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'शीर्ष पर वापस जाएँ(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+</html>
+

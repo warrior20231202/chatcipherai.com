@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptosystemen Wereld: Bekende cryptosystemen</title>
+    <meta name="description"
+        content="Laten we samen de verbazingwekkende wereld van cryptografie verkennen, waar je zult leren over wereldberoemde cryptografiesystemen.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">    
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 20px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            background-color: #eeeeee;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 20px;
+            margin-left: 250px;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        .sections-container h2,
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        p {
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-top: 80px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            
+            font-size: 22px;
+        }
+
+        h4 {
+            
+            font-size: 20px;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: #fff;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: rgba(10, 15, 36, 0.0);
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar ul {
+            background-color: rgba(255, 255, 255, 0);
+            color: #0A0F24;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100vw;
+            height: 750px;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            opacity: 0.8;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            z-index: 5;
+        }
+
+        #togglePlay {
+            background-color: transparent;
+        }
+
+        #togglePlay:hover{
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.Compare,
+        figcaption.caesar,
+        figcaption.playfair {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #start {
+            font-family: 'Arial', sans-serif;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+            
+        #start p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        #end {
+            font-family: 'Arial', sans-serif;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+            
+        #end p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 100%;
+                padding: 10px;
+            }
+
+            .sections-container h2 {
+                font-size: 1.2em;
+            }
+
+            .sections-container p {
+                font-size: 0.9em;
+            }
+
+            .video-container {
+                width: 110%;
+            }
+
+            video {
+                width: 1200px;
+                height: auto;
+            }
+
+            .video-overlay {
+                font-size: 18px;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .section h2 {
+                font-size: 1.2em; 
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .section p {
+                font-size: 0.9em; 
+            }
+
+            section li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -80px;
+            }
+
+            figcaption.Compare,
+            figcaption.caesar,
+            figcaption.playfair {
+                width: 100%;
+                margin-left: -90px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+            
+            .sections-container {
+                margin-left: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; menu</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/nl/chatcipherai.html">Wereld van Cryptosystemen</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/nl/Caesar_Cipher.html">Caesar-cijfer</a></li>
+                        <li><a href="https://chatcipherai.com/nl/Playfair_Cipher.html">Playfair-cijfer</a></li>
+                        <li><a href="https://chatcipherai.com/nl/Hill_Cipher.html">Hill-cijfer</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/nl/Hash_value_test.html">Hashwaarde Test</a></li>
+                <li><a href="https://chatcipherai.com/nl/Morsecode_main.html">Morsecode Vertaler</a></li>
+                <li><a href="https://chatcipherai.com/nl/Shortcut_Key_Description.html">Sneltoetsbeschrijving</a></li>
+            </ul>            
+
+            <div id="languageIcon">&#x2637; taal</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/chatcipherai.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/chatcipherai.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/chatcipherai.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/chatcipherai.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/chatcipherai.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/chatcipherai.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/chatcipherai.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/chatcipherai.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/chatcipherai.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/chatcipherai.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/chatcipherai.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+                     
+            <h1>bekend cryptosysteem</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 Donkere Stijl(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ Lichte Stijl(<span class="highlight-key">L</span>)</button>
+            </div>            
+        </nav>
+    </header>
+
+    <div class="video-container">
+        <video id="myVideo" autoplay loop muted playsinline style="opacity: 0.8;">
+            <source src="./video/Sunset.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay">Verken de fascinerende wereld van cryptografie</div>        
+    </div>
+
+    <main class="sections-container">
+        <button id="togglePlay" style="position: absolute; top: 680px; right: 20px;cursor: pointer;">Speel/Pauze</button>
+        
+        <section id="start" font-family: 'Arial', sans-serif;">
+            <p style=" font-size: 18px; line-height: 1.6;">
+                In de afgrond van de digitale wereld is encryptietechnologie als een schitterende magische barrière, die onze meest kostbare geheimen beschermt met complexe en elegante mechanismen. Diep geworteld in de vruchtbare bodem van wiskunde en logica, toont deze technologie het hoogtepunt van menselijk intellect. Het is niet slechts een verzameling van codes en algoritmen, maar een kunstvorm, een diepe filosofie......
+            </p>            
+        </section>
+
+        <section id="hash-sha-256">
+            <h2>SHA-256 begrijpen: Een Veilig Hash Algoritme</h2>
+            <p>
+                <strong>SHA-256</strong>, onderdeel van de <strong>SHA-2 (Secure Hash Algorithm 2) familie</strong>, is een encryptie hash-functie ontworpen door het National Security Agency (NSA) en gepubliceerd door het National Institute of Standards and Technology (NIST). Met als doel het oudere SHA-1 te vervangen, biedt SHA-256 verbeterde beveiliging en speelt het een cruciale rol in verschillende toepassingen inclusief TLS/SSL, PGP, SSH, IPsec, en blockchain technologieën zoals Bitcoin.
+            </p>
+            <p>
+                Beschouwd als een van de meest veilige hash algoritmen, speelt <strong>SHA-256</strong> een kritieke rol in digitale beveiliging en integriteitscontroles. Ondanks de theoretische mogelijkheid van botsingen, is het praktisch gezien bijna onmogelijk om twee verschillende invoeren te vinden die dezelfde uitvoer hash opleveren, wat SHA-256 een robuust hulpmiddel tegen aanvallen maakt.
+            </p>
+            <p>
+                Naarmate de technologie evolueert, wordt de continue evaluatie van SHA-256's beveiliging essentieel. Onze gids duikt in de ingewikkelde details van SHA-256, om ervoor te zorgen dat lezers het belang van dit algoritme in het handhaven van digitale beveiliging begrijpen. Uiteraard kunt u ook de pagina gebruiken om <a href="https://chatcipherai.com/nl/Hash_value_test.html" id="hash-value-test-link" class="hash-test-link" style="color: #007bff; font-size: 1.0em;" target="_blank" rel="noopener noreferrer">uw Hash kennis te testen</a>.
+            </p>
+            
+            <h3>Belangrijkste Voordelen en Toepassingen van Hash Waarde Test</h3>
+            <ul>
+                <li>Het begrijpen van de kenmerken en toepassingsdomeinen van hash-functies.</li>
+                <li>Inzichten in veelgebruikte hash-functies en hun operationele principes.</li>
+                <li>Praktische gids voor het gebruik van SHA-256 voor het verifiëren van de integriteit en authenticiteit van digitale bestanden.</li>
+                <li>Verkenning van andere mainstream hash-functies en hun mechanismen.</li>
+            </ul>
+            
+            <figure>
+                <img src="./images/Compare Hash.jpg" alt="Proces voor het vergelijken van hashwaarden" />
+                <figcaption class="Compare">Proces voor het vergelijken van hashwaarden</figcaption>
+            </figure>
+        </section>
+
+        <section id="introduction-to-morse-code">
+            <h2>Morsecode: Het Pionierende Communicatiesysteem van de 19e Eeuw</h2>
+            <p><strong>Morsecode</strong>, ontwikkeld in de jaren 1830 door de Amerikaanse kunstenaar en uitvinder Samuel Morse, heeft de telecommunicatie gerevolutioneerd door een coderingssysteem te introduceren dat gebruik maakt van punten (korte signalen) en strepen (lange signalen) om letters, cijfers en leestekens te coderen. Deze innovatie vergemakkelijkte de transmissie over telegraaflijnen en werd een hoeksteen voor communicatie op lange afstand, vooral in de maritieme communicatie gedurende de 19e en begin 20e eeuw.</p>
+            
+            <p>Voor een uitgebreide verkenning van morsecode, bezoek de <a href="https://chatcipherai.com/nl/Morsecode_main.html" title="Uitgebreide Gids tot Morsecode" style="color: #007bff; font-size: 1.0em;" target="_blank" rel="noopener noreferrer">Morsecode Vertaler</a> pagina.</p>
+            
+            <h3>Het Decoderen van Morsecode Signalen</h3>
+            <p>De unieke representatie van karakters in morsecode, door middel van korte en lange signalen, samen met specifieke intervallen, maakt duidelijke communicatie mogelijk over diverse platformen:</p>
+            <ul>
+                <li><strong>Punt (".")</strong>: Representeert een kort signaal.</li>
+                <li><strong>Streep ("-")</strong>: Representeert een lang signaal.</li>
+                <li><strong>Pauze binnen een karakter</strong>: Onderscheidt tussen punten en strepen binnen een karakter.</li>
+                <li><strong>Pauze tussen letters</strong>: Scheidt letters voor leesbaarheid.</li>
+                <li><strong>Pauze voor woordscheiding</strong>: Differentieert woorden tijdens communicatie.</li>
+            </ul>
+            
+            <h3>De Blijvende Impact van Morsecode</h3>
+            <p>Ondanks de komst van geavanceerdere communicatietechnologieën, blijft morsecode een embleemfiguur in de communicatiegeschiedenis, met invloed op tal van latere technologieën en behoudt het een speciale plaats onder radio-enthousiastelingen en professionals in specifieke velden.</p>
+            
+            <p>De eenvoud en efficiëntie maken morsecode een betrouwbaar alternatief in scenario's waar moderne communicatie-infrastructuur niet beschikbaar is, en overbrugt de kloof tussen historische innovaties en huidige praktijken voor historici en technologie-enthousiastelingen.</p>
+            
+            <h3>Verkenning van Morsecode</h3>
+            <p>Deze pagina biedt inzichten in:</p>
+            <ul>
+                <li>De historische evolutie en betekenis van morsecode.</li>
+                <li>Het begrijpen van de operationele dynamiek van morsecode.</li>
+                <li>Technische aspecten en toepassingen van morsecode, inclusief het alfabet ervan.</li>
+            </ul>            
+        </section>
+        
+        <section id="caesar-cipher">
+            <h2>Het Begrijpen van de Caesar Cipher: Encryptie, Decryptie en Kraken</h2> <!-- Verander de kop naar H1 voor het hoofdonderwerp en voeg relevante trefwoorden in -->
+            <p>
+                De <a href="https://chatcipherai.com/nl/Caesar_Cipher.html" id="caesarCipherLink" title="Leer meer over de Caesar Cipher" style="color: #007bff;" target="_blank" rel="noopener noreferrer">Caesar Cipher</a>,
+                vernoemd naar Julius Caesar vanwege zijn gebruik in beveiligde militaire communicatie, vertegenwoordigt een fundamentele substitutie cipher techniek.
+                In deze methode worden letters in de plaintext vervangen door een letter een vast aantal posities omlaag of omhoog in het alfabet.
+                Ondanks zijn eenvoud was de Caesar Cipher zeer effectief in een tijdperk van specifieke historische omstandigheden en basale cryptanalytische technieken.
+            </p>
+            <p>
+                Vandaag de dag, hoewel gemakkelijk op te lossen, dient de Caesar Cipher als een cruciaal leermiddel in cryptografie, dat basis ciphering technieken zoals letter verschuiving demonstreert.
+                Het is een essentiële stapsteen voor het begrijpen van meer complexe cryptografische systemen en blijft een punt van interesse vanwege zijn historische betekenis en eenvoud.
+            </p>
+            <p>
+                Deze pagina zal verkennen:
+                <ul>
+                    <li>De principes van Caesar cipher encryptie en decryptie.</li>
+                    <li>Hoe online tools te gebruiken voor het encrypten of decrypten van tekst.</li>
+                    <li>Technieken voor het kraken van de Caesar cipher met Python.</li>
+                </ul>
+            </p>            
+            <figure>
+                <img src="./images/figure 1-Caesar cipher schematic diagram.jpg" alt="Schematisch diagram van het Caesarcijfer"> <!-- Use a descriptive alt text and a relative URL for the image -->
+                <figcaption class="caesar">Schematisch diagram van het Caesarcijfer</figcaption> <!-- Add a caption for better context -->
+            </figure>
+        </section>
+        
+        <section id="playfair-cipher-introduction">
+            <h2>Het Begrijpen van de Playfair Cipher: Een 19e Eeuws Encryptie Wonder</h2>
+            <p>De <strong>Playfair Cipher</strong>, een baanbrekende <a href="https://chatcipherai.com/nl/Playfair_Cipher.html" style="color: #007bff;" target="_blank" rel="noopener noreferrer">handmatige symmetrische encryptiemethode</a>, werd in 1854 ontworpen door <a href="https://en.wikipedia.org/wiki/Charles_Wheatstone" style="color: #007bff;" target="_blank">Charles Wheatstone</a>. Het onderscheidde zich als de eerste die een digraaf substitutie cipher gebruikte, waardoor de veiligheid van telegrafische communicatie werd verbeterd. Hoewel Wheatstone de uitvinder was, draagt het met trots de naam van Lord Playfair, die een cruciale rol speelde in de promotie ervan.</p>
+        </section>        
+        
+        <section id="playfair-cipher-application">
+            <h3>Wereldwijde Adoptie en Betekenis in Militaire Strategieën</h3>
+            <p>Aanvankelijk als te ingewikkeld beschouwd door het Britse Buitenlandse Kantoor, kreeg de <strong>Playfair Cipher</strong> brede acceptatie binnen het Britse leger tijdens cruciale momenten zoals de Tweede Boerenoorlog en de Eerste Wereldoorlog. Tegen de jaren 1940 zag het internationaal gebruik door landen zoals Australië, Duitsland en Nieuw-Zeeland, essentieel blijken tijdens de Tweede Wereldoorlog.</p>
+        </section>
+        
+        <section id="playfair-cipher-modern-use">
+            <h3>Hedendaags Gebruik: Educatieve en Amusement Doeleinden</h3>
+            <p>De komst van moderne computing heeft de veiligheid en effectiviteit van de <strong>Playfair Cipher</strong> verminderd. Vandaag de dag dient het voornamelijk als een hulpmiddel voor educatieve doeleinden en entertainmentcryptografie, als een poort naar de intrigerende wereld van cipher technieken. In het proces zal je:</p>
+            <ul>
+                <li>De operationele principes achter de Playfair Cipher ontdekken.</li>
+                <li>Stap-voor-stap begeleiding bij het gebruik van de Playfair Cipher om je gepersonaliseerde encryptiesleutel te creëren.</li>
+                <li>Gebruikmaken van de middelen op onze site om je encryptie- en decryptie-inspanningen te valideren.</li>
+            </ul>
+            <figure>
+                <img src="./images/figure 1-playfair cipher encryption.jpg" alt="Illustratie van Playfair Cipher Sleutelmatrix"> <!-- Bijgewerkt met een relatief pad en beschrijvende alt-tekst -->
+                <figcaption class="playfair">Gedetailleerde Weergave van Playfair Cipher Sleutelmatrix</figcaption>
+            </figure>
+        </section>        
+        
+        <section id="hill-cipher" itemscope itemtype="http://schema.org/EducationalOrganization">
+            <h2 itemprop="name">Het Begrijpen van de Hill Cipher: Een Uitgebreide Gids</h2>
+        
+            <article itemprop="description">
+                <p>De <strong>Hill Cipher</strong>, een cruciale encryptietechniek bedacht door Lester S. Hill in 1929, onderscheidt zich in het domein van klassieke ciphers door zijn unieke toepassing van <strong>lineaire algebra</strong> en <strong>matrixtheorie</strong>. In tegenstelling tot zijn voorgangers, maakt de Hill Cipher gebruik van matrixvermenigvuldiging voor encryptie, waarbij de sleutel: een matrix, omkeerbaar moet zijn opdat het algoritme effectief functioneert.</p>
+        
+                <p>Deze <a href="https://chatcipherai.com/nl/Hill_Cipher.html" id="HillCipherLink" target="_blank" style="color: #007bff;" target="_blank" rel="noopener noreferrer">geavanceerde cipher techniek</a> codeert blokken letters als enkele eenheden, wat de complexiteit verhoogt en het een aanzienlijke afwijking maakt van traditionele substitutie ciphers. Hieronder verdiepen we ons in de wiskundige fundamenten en operationele mechanica van de Hill Cipher:</p>
+        
+                <ul>
+                    <li><strong>Matrixrepresentatie van Karakters:</strong> Kent numerieke waarden toe aan letters (bijv. A=0, B=1, ..., Z=25) en verdeelt berichten in blokken, vertegenwoordigd als n-dimensionale vectoren.</li>
+                    <li><strong>Sleutelmatrix:</strong> Een n x n matrix die omkeerbaar modulo 26 moet zijn om ontcijferbaarheid te waarborgen.</li>
+                    <li><strong>Encryptieproces:</strong> Involves de sleutelmatrix vermenigvuldigen met platte tekstblok vectoren, modulo 26.</li>
+                    <li><strong>Decryptieproces:</strong> Wordt bereikt door de gecodeerde vectoren te vermenigvuldigen met de inverse van de sleutelmatrix, modulo 26.</li>
+                </ul>
+        
+                <p>De veiligheid van de Hill Cipher hangt voornamelijk af van de complexiteit van het uitvoeren van matrixinversie modulo 26. Echter, het blijft vatbaar voor bekende-plaintext aanvallen en vereist aanpassing van de lengte van de plaintext om overeen te komen met de matrixgrootte, vaak noodzakelijk extra opvulling.</p>
+        
+                <p>Ondanks deze kwetsbaarheden wordt de Hill Cipher gevierd om zijn educatieve waarde bij het onderwijzen van de fundamenten van cryptografie. Hoewel het praktische gebruik in hedendaagse toepassingen beperkt kan zijn, dient het als een cruciale opstap in het onderwijs en onderzoek van cryptografie.</p>
+        
+                <section>
+                    <h3>Leerresultaten:</h3>
+                    <ul>
+                        <li>Beheers het werkingsprincipe van de Hill cipher en de encryptiestappen.</li>
+                        <li>Leer de toepassing van de Hill cipher bij het coderen en decoderen van berichten.</li>
+                        <li>Begrijp de integrale rol van lineaire algebra en matrixtheorie in de Hill cipher.</li>
+                        <li>Begrijp de verschillen tussen de Hill cipher en de Playfair cipher.</li>
+                    </ul>
+                </section>
+            </article>
+        </section>
+        
+        <section id="end" style="font-family: 'Arial', sans-serif;">
+            <p style="font-size: 18px; line-height: 1.6;">
+                De ware aantrekkingskracht van encryptietechnologie ligt in haar belichaming van de onophoudelijke zoektocht van de mensheid naar vrijheid en privacy. In deze wereld gebouwd op data,
+                herinnert het ons eraan dat, ondanks de talloze uitdagingen, zolang we wijsheid en moed bezitten, we onze meest kostbare schatten in het digitale tijdperk kunnen beschermen.
+            </p>
+        </section>        
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a>            
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. Alle rechten voorbehouden.</p>
+            <p>
+                <a href="https://chatcipherai.com/nl/Privacy_Policy.html" title="Privacy Policy">Privacybeleid</a>
+                |
+                <a href="https://chatcipherai.com/nl/Terms_of_Use.html" title="Terms of Use">Gebruiksvoorwaarden</a>
+                |
+                <a href="https://chatcipherai.com/nl/About_Us.html" title="About Us">Over ons</a>
+                |
+                <a href="https://chatcipherai.com/nl/Disclaimer.html" title="Disclaimer">Disclaimer</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">Terug naar Boven(<span class="highlight-key">B</span>)</button>
+        </div>           
+    </footer>
+    
+    <script>
+        let shortcutsEnabled = true;
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'L':
+                    setStyle('light-mode');
+                    console.log('Light style activated');
+                    break;
+                case 'N':
+                    setStyle('dark-mode');
+                    console.log('Dark style activated');
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('#inputMessage, #shiftValue');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'Terug naar Boven(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onresize = function () {
+            adjustButton()
+        };
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'light-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+        document.addEventListener('scroll', function () {
+            let scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+            var savedStyle = localStorage.getItem('style')
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            if (scrollHeight > 60) {
+                navbar.style.backgroundColor = savedStyle === 'dark-mode' ? '#0a0f24' : '#fff';
+                ul.style.backgroundColor = savedStyle === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+
+            } else {
+                navbar.style.backgroundColor = savedStyle === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.backgroundColor = savedStyle === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+            }
+        });
+
+        document.getElementById('togglePlay').addEventListener('click', function () {
+            var video = document.getElementById('myVideo');
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        });
+        document.getElementById('inputText').addEventListener('input', function () {
+            document.getElementById('morseCode').value = encodeToMorse(document.getElementById('inputText').value);
+        });
+
+        document.getElementById('inputMorse').addEventListener('input', function () {
+            document.getElementById('decodedText').value = decodeMorse(document.getElementById('inputMorse').value);
+        });
+
+        document.addEventListener('click', function (event) {
+            var navbar = document.querySelector('.navbar');
+            var menuIcon = document.getElementById('menuIcon');
+
+            if (menuIcon.contains(event.target)) {
+                navbar.classList.toggle('active');
+            } else {
+                navbar.classList.remove('active');
+            }
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            // updateButtonStyles();
+            updateNavbarStyles(style);
+            // updateTableStyle(style);
+            updateIntroduceStyle(style);
+        }
+
+        function updateIntroduceStyle(style) {
+            var introduces = document.querySelectorAll('.introduce');
+            introduces.forEach(function (introduce) {
+                if (style === 'dark-mode') {
+                    introduce.style.color = '#FFFFFF'; // White text for dark mode
+                } else {
+                    introduce.style.color = '#0A0F24'; // Black text for light mode
+                }
+            });
+        }
+
+        function updateNavbarStyles(style) {
+            let scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            if (scrollHeight > 60) {
+                navbar.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : '#fff';
+                ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+            } else {
+                navbar.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+            }
+
+        }
+
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId);
+            copyText.select();
+            document.execCommand('copy');
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.onclick = function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            };
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

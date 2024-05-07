@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>希尔密码探索器：与数学相伴，与密码学共行。</title>
+    <meta name="description" content="希尔密码是一种经典的密码学算法，属于多字母替换密码的范畴。其独特之处在于它使用线性代数和矩阵乘法来执行加密和解密过程。">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }   
+
+        #menuIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+        }
+        #menuIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column; 
+            position: absolute;
+            top: 35px; 
+            left: 10px;
+            width: 15%; 
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0; 
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px; 
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0; 
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            margin-top: 80px;
+            margin-bottom: 150px;
+        }
+
+        #inputMessage, #shiftValue {
+            width: 60%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            font-size: 1em;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 70%;
+        }
+
+        .section {
+            width: 110%;
+            margin-bottom: 30px; 
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        .section label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .matrix-display {
+            text-align: center;
+            padding: 20px;
+            background-color: #7fbef5;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .matrix-display p {
+            margin: 10px 5px;
+            font-size: 1em;
+        }
+
+        #matrixInputs {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-left: 0;
+        }
+
+        .sections-container h2, .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        .section.interactive-tool label, 
+        .section.interactive-tool p {
+            font-size: 1.2em;
+        }
+
+        .section input[type="text"], 
+        .section textarea {
+            width: 700px;  
+            padding: 10px;   
+            margin-bottom: 20px; 
+            border: 1px solid #eae6e6;
+            border-radius: 5px;  
+            font-size: 0.9em;       
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #inputText {
+            min-height: 100px;
+            max-height: 300px;
+            resize: vertical;
+            padding: 10px;   
+        }
+
+        #key {
+            height: auto; 
+        }
+
+        #result {
+            font-weight: bold;
+            color: #0A0F24;
+            font-family: 'Arial', sans-serif;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+            text-align: left;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            resize: vertical;
+            font-size: 18px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            width: 698px;
+            line-height: 26px;
+        }
+
+        p {  
+            margin-bottom: 30px;  
+            text-align: left; 
+            font-size: 1.2em; 
+            line-height: 1.6; 
+            margin-bottom: 15px; 
+        }
+
+        h2 {  
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        h3 {
+            margin-top: 50px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: #F5F5F5; 
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3); 
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206); 
+            color: #0A0F24; 
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24; 
+        }
+
+        p { 
+            text-align: center;  
+            margin-bottom: 30px;
+            font-size: 1.2em;  
+        }
+
+        h2 {  
+            margin-bottom: 10px;  
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {  
+            background-color: #0A0F24;  
+            color: white;  
+        }
+
+        .light-mode {  
+            background-color: white;  
+            color: #0A0F24; 
+        } 
+
+        .light-mode .navbar, .light-mode .container {
+            background-color: #FFFFFF; 
+            color: #0A0F24; 
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent; 
+            color: #0A0F24; 
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded; 
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24; 
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start; 
+        }
+
+        #languageIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+        }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px; 
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            width: 100%;    
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .button-container button {
+            margin-right: 0px; 
+        }
+
+        .footer {
+            position: relative; 
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 26px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        #moreContent2 { 
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 74%;
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        img {
+            display: block;
+            width: 75%;
+            margin-bottom: 50px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .form-group {
+            padding: 20px;
+            margin: 20px auto;
+            border: 1px solid #eae6e6;
+            border-radius: 10px;
+            background-color: #1C3A70;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 80%; 
+        }
+
+        .form-group button {
+            background-color: #0A0F24;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        .form-group button:hover {
+            background-color: #c0c0c0;
+            color: #0A0F24;
+        }
+
+        .form-group #matrixDisplay {
+            padding: 15px;
+            background-color: #f7cb95;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 15px;
+            color: #0A0F24;
+        }
+
+        .dark-mode .matrix-dark {
+            background-color: #2F4F4F;  
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .light-mode .matrix-display {
+            color: #f9be77;
+        }
+
+        .form-group #toggleMatrixDisplay {
+            background-color: #0A0F24;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            width: 150px;
+        }
+
+        .form-group #toggleMatrixDisplay:hover {
+            background-color: #c0c0c0;
+            color: #0A0F24;
+        }
+
+        .right-shifted-paragraph {
+            margin-left: 220px;
+            width: 110%;
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px; 
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 90%;
+            }
+
+            .sections-container h2{
+                font-size: 1.2em;
+                margin-top: -10px;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .right-shifted-paragraph {
+                margin-left: 80px;
+                width: 110%;
+            }
+
+            .right-shifted-paragraph h2 {
+                font-size: 1.2em;
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            p {
+                font-size: 0.9em; 
+            }
+
+            section li {
+                font-size: 14px;
+                margin-left: -15px;
+            }
+
+            figcaption {
+                margin-top: -40px;
+                margin-bottom: 40px;
+                margin-left: 20px;
+                font-size: 10px;
+                color: #007bff;
+                font-weight: bold;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+                line-height: 16px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .section input[type="text"], 
+            .section textarea {
+                width: 100%;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+            font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            #result {
+                width: 72vw;
+                font-size: 15px;
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; 菜单</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/zh-CN/chatcipherai.html">密码世界</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/zh-CN/Caesar_Cipher.html">恺撒密码</a></li>
+                        <li><a href="https://chatcipherai.com/zh-CN/Playfair_Cipher.html">普莱菲尔密码</a></li>
+                        <li><a href="https://chatcipherai.com/zh-CN/Hill_Cipher.html">希尔密码</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/zh-CN/Hash_value_test.html">哈希值测试</a></li>
+                <li><a href="https://chatcipherai.com/zh-CN/Morsecode_main.html">摩尔斯电码编译器</a></li>
+                <li><a href="https://chatcipherai.com/zh-CN/Shortcut_Key_Description.html">快捷键说明</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; 语言</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Hill_Cipher.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Hill_Cipher.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Hill_Cipher.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Hill_Cipher.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Hill_Cipher.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Hill_Cipher.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Hill_Cipher.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Hill_Cipher.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Hill_Cipher.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Hill_Cipher.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Hill_Cipher.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+
+            <h1>希尔密码探索器</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 暗色风格(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ 亮色风格(<span class="highlight-key">L</span>)</button>
+            </div> 
+        </nav>
+    </header>
+
+    <main class="sections-container">           
+        <section class="section interactive-tool">
+            <h2>尝试希尔密码</h2>
+
+            <div id="matrixInputs">
+                <label for="key">输入矩阵密钥：2x2矩阵</label>
+                <input type="text" id="key" placeholder="例如, 1,2,3,4">
+                <label for="inputText">输入文本：</label>
+                <textarea id="inputText" placeholder="这里输入文本："></textarea>
+                <label>结果：</label>
+                <div id="result" ></div>
+            </div>
+
+            <div id="button-group">
+                <button onclick="encrypt()">加密(<span class="highlight-key">E</span>)</button>
+                <button onclick="decrypt()">解密(<span class="highlight-key">D</span>)</button>
+                <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">清除全部(<span class="highlight-key">A</span>)</button>
+            </div>
+        </section>
+        
+        <section class="form-group">
+            <button onclick="generateMatrix()">生成2x2可逆矩阵(<span class="highlight-key">G</span>)</button>
+            <button id="copyMatrix" onclick="copyMatrixToClipboard()">复制矩阵(<span class="highlight-key">C</span>)</button>
+            <button id="toggleMatrixDisplay" onclick="toggleMatrixDisplay()">关闭(<span class="highlight-key">o</span>)</button>
+            <div id="matrixDisplay"></div>
+        </section>
+
+        <section class="right-shifted-paragraph">
+            <h2>如何使用希尔密码？</h2>
+            <p>
+                使用希尔密码需要一些基本的线性代数知识，主要是矩阵运算。这个过程可以分解为几个步骤：密钥选择、加密和解密。
+            </p>
+
+            
+            <h3>密钥选择：</h3>
+            <p>
+                首先，你需要选择一个密钥，这是一个可逆矩阵。在希尔密码中，密钥是一个n×n矩阵，n是你选择的任何数字。重要的是，这个矩阵必须是可逆的（即它必须有一个逆矩阵），因为在解密过程中需要其逆矩阵。
+            </p>
+
+            <h3>文本准备：</h3>
+            <p>
+                将你的明文（需要加密的信息）分割成n个字符的块。如果最后一个块的字符少于n个，你可以用一些填充字符（例如字母X）来填充。每个字符应该映射到一个数字；例如，你可以使用映射A=0, B=1, C=2, ..., Z=25。
+            </p>
+        
+            <h3>加密过程：</h3>
+            <p>
+                对于每个长度为n的明文块，将其视为一个列向量，并将其乘以密钥矩阵。然后取模26的结果（因为字母表有26个字母）。这个模26操作应用于矩阵乘法的每个元素。得到的新列向量对应于密文块。
+            </p>
+        
+            <h3>解密过程：</h3>
+            <p>
+                要解密，你首先需要计算密钥矩阵的逆，确保逆中的所有元素都是整数。这通常涉及寻找密钥矩阵的伴随矩阵和行列式，然后取模26的行列式的逆。使用这个逆矩阵，原始明文块是通过将密文块乘以它并取模26的结果获得的。
+            </p>
+
+            <h4>什么是模26运算？</h4>
+            <p>
+                “模26运算”指的是一种常用于处理有限集合问题的数学计算，特别是在密码学和数论中。模运算是一种除法，不过它给出的是除法的余数，而模26特指除以26的余数。
+            </p>
+            
+            <p>
+                对于任何整数'a'，a模26的结果是a除以26后的余数。这在数学上表示为 'a mod 26'，读作“a模26”。<a href="https://en.wikipedia.org/wiki/Modulo" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">模 </a> 26运算的结果始终是0到25之间的整数，包含26种可能的结果。在希尔密码的上下文中，模26运算确保所有计算结果都落在0到25的范围内，对应于字母表的26个字母。例如，'A'被认为是0，'B'是1，依此类推，直到'Z'是25。
+            </p>
+            
+            <p>
+                在使用<a href="https://en.wikipedia.org/wiki/希尔_cipher" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">希尔密码</a>加密文本时，每个字母首先被转换成对应的数字（A=0, B=1, ..., Z=25）。在矩阵乘法和其他操作之后，最终的数值会进行模26运算，以将它们映射回0到25的范围，然后再转换回字母。这确保了每次操作后的结果仍然是有效的字母。如果你有一个数值29，并对它进行模26运算，结果将是29除以26的余数，即3。在希尔密码的背景下，这意味着数值29对应于字母'D'。
+            </p>
+            
+            <p>
+                在希尔密码中，密钥是一个可逆矩阵，明文表示为一系列向量。加密过程涉及使用密钥矩阵对明文向量进行线性变换（矩阵乘法），随后进行模26运算以确保每个元素都是0到25之间的整数，因此能够被映射回字母。
+            </p>
+                
+            <p>
+                总结来说，模26运算是希尔密码中的一个关键步骤，它确保计算结果保持在字母表的边界内，允许加密算法在有限的字母集内操作，同时保持加密和解密过程的对称性。
+            </p>            
+
+            <h3>示例：</h3>
+            <p>
+                假设我们选择一个2×2的密钥矩阵，我们的明文是"HELLOWORLD"。我们使用密钥矩阵[[3,3],[2,5]]，并将加密消息'HELLOWORLD'分割成每两个字母一组的块。字符按照A=0, B=1, C=2, ..., Z=25的顺序进行数字映射。
+            </p>
+            <p>1. 对于块[7,4]（对应"HE"）：
+            <br>
+                • 使用密钥矩阵进行矩阵乘法：
+            </p>
+
+            <p>
+                $$
+                \left[
+                \begin{array}{cc}
+                3 & 3 \\
+                2 & 5 \\
+                \end{array}
+                \right]
+                \left[
+                \begin{array}{c}
+                7 \\
+                4 \\
+                \end{array}
+                \right]
+                =
+                \left[
+                \begin{array}{c}
+                3 \cdot 7 + 3 \cdot 4 \\
+                2 \cdot 7 + 5 \cdot 4 \\
+                \end{array}
+                \right]
+                =
+                \left[
+                \begin{array}{c}
+                21 + 12 \\
+                14 + 20 \\
+                \end{array}
+                \right]
+                =
+                \left[
+                \begin{array}{c}
+                33 \\
+                34 \\
+                \end{array}
+                \right]
+                $$
+            </p>
+
+            <p>
+                • 对每个元素取模26：
+                $$
+                \left[
+                \begin{array}{c}
+                33 \\
+                34 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                7 \\
+                8 \\
+                \end{array}
+                \right]
+                $$
+                • 将数字转换回字母：7->H, 8->I。因此，"HE"被加密为"HI"。
+            </p>
+            
+            <p>2. 对于块 [11,11]（对应"LL"）：
+                <br>
+                • 对每个元素取模26：
+            </p>            
+
+            <p>
+                $$
+                \left[
+                \begin{array}{c}
+                66 \\
+                77 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                14 \\
+                25 \\
+                \end{array}
+                \right]
+                $$
+                • 将数字转换回字母：14->O, 25->Z。因此，"LL"被加密为"OZ"。
+            </p>
+            
+            <p>3. 对于块 [14,22]（对应"OW"）：
+                <br>
+                • 对每个元素取模26：
+            </p>
+            
+            <p>
+                $$
+                \left[
+                \begin{array}{c}
+                108 \\
+                138 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                4 \\
+                8 \\
+                \end{array}
+                \right]
+                $$
+                • 将数字转换回字母：4->E, 8->I。因此，"OW"被加密为"EI"。
+            </p>
+            
+            <p>4. 对于块 [14,17]（对应"OR"）：
+                <br>
+                • 对每个元素取模26：
+            </p>
+            
+            <p>
+                $$
+                \left[
+                \begin{array}{c}
+                93 \\
+                113 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                15 \\
+                9 \\
+                \end{array}
+                \right]
+                $$
+                • 将数字转换回字母：15->P, 9->J。因此，"OR"被加密为"PJ"。
+            </p>
+            
+            <p>5. 对于块 [11,3]（对应"LD"）：
+                <br>
+                • 对每个元素取模26：
+            </p>
+            
+            <p>
+                $$
+                \left[
+                \begin{array}{c}
+                42 \\
+                37 \\
+                \end{array}
+                \right]
+                \mod 26
+                =
+                \left[
+                \begin{array}{c}
+                16 \\
+                11 \\
+                \end{array}
+                \right]
+                $$
+                • 将数字转换回字母：16->Q, 11->L。因此，"LD"被加密为"QL"。
+            </p>
+            
+            <p>
+                连接这些加密块，我们得到最终的密文：<strong>"HIOZEIPJQL"</strong>。这个过程展示了希尔密码如何使用线性代数中的矩阵运算来加密文本。
+            </p>
+            
+            <h2>希尔密码：理解其关键特性和加密机制</h2>
+            <p>
+                <strong>希尔密码</strong>因其在加密和解密过程中依赖<em>矩阵运算</em>而闻名。其功能的关键方面是<strong>密钥矩阵的可逆性</strong>。如果没有可逆的密钥矩阵（需要非零行列式和模逆元），解密就变得不可能。
+            </p>
+            <h3>加密和解密过程的关键方面</h3>
+            <p>
+                希尔密码的加密和解密效率取决于<strong>密钥矩阵的可逆性</strong>。这一过程涉及将文本数据转换为数字向量，然后使用矩阵乘法进行转换。
+            </p>
+            <ul>
+                <li><strong>矩阵的可逆性：</strong>可逆矩阵（或非奇异矩阵）与逆矩阵配对产生单位矩阵——解密的关键因素。</li>
+                <li><strong>行列式和模逆元：</strong>行列式提供了矩阵可逆性的洞见，这对于希尔密码在模算术框架内有效解密操作至关重要。</li>
+            </ul>
+            <p>
+                总而言之，选择一个可逆的密钥矩阵对于希尔密码至关重要，确保可以成功解密加密信息。这突显了理解矩阵运算和模算术在密码学中的重要性。
+            </p>
+            
+            <h2>希尔密码可以使用3x3矩阵或更高阶矩阵吗？</h2>
+            <p>
+                答案是肯定的。希尔密码的一个关键特点是它可以使用任何大小的方阵作为密钥矩阵，只要该矩阵是可逆的（即，在所使用的模下具有逆矩阵）。
+            </p>
+            
+            <p>
+                使用3x3或更高阶矩阵可以增强安全性，因为它们增加了密钥的复杂性。然而，随着矩阵大小的增加，加密和解密所需的计算变得更加复杂和耗时。此外，为了匹配密钥矩阵的大小，文本块的大小也需要增加，这可能需要使用更多的填充字符以适应最后一个块的加密。
+            </p>
+            
+            <p>
+                例如，使用3x3密钥矩阵将要求将文本划分为每个三个字符的块。每个字符被转换为一个数值，然后这三个值被组织成一个向量，以乘以密钥矩阵。这种方法增加了密钥的可能组合，从而增强了加密算法的安全性。
+            </p>
+            <p>
+                希尔密码的灵活性允许使用各种大小的密钥矩阵，包括3x3矩阵和更高阶的矩阵。选择更高阶的矩阵可以加强加密，但也需要更多的计算资源和适当的文本处理策略。
+            </p>
+            
+            <h2>密码学中希尔密码与普莱菲尔密码的区别</h2>
+            <p>
+                <strong>希尔密码和普莱菲尔密码</strong>都是经典的加密技术，它们采用独特的字母替换方法。尽管它们的共同目标是保护明文消息，但它们在操作上有显著的不同。理解这些差异对于密码学爱好者和专业人士都至关重要。
+            </p>
+            <h3>原理和方法</h3>
+            <ul>
+                <li><strong>希尔密码：</strong>通过将明文分成固定长度的块并使用密钥矩阵进行加密，使用模运算生成密文。解密依赖于密钥矩阵的逆。</li>
+                <li><strong>普莱菲尔密码：</strong>使用基于关键词的5x5密钥矩阵加密字母对，对重复字母和奇数字母对应用特定规则，解密遵循这些规则的逆过程。</li>
+            </ul>
+            <h3>密钥长度和构造</h3>
+            <ul>
+                <li><strong>希尔密码：</strong>使用矩阵密钥，大小取决于块大小（例如，2x2, 3x3）。</li>
+                <li><strong>普莱菲尔密码：</strong>利用关键词构造一个5x5矩阵，用于加密和解密过程。</li>
+            </ul>
+            <h3>明文分组和密文生成</h3>
+            <ul>
+                <li><strong>希尔密码：</strong>将明文分成等大小的块，使用数学运算进行加密。</li>
+                <li><strong>普莱菲尔密码：</strong>将明文分成对，利用密钥矩阵规则创建密文。</li>
+            </ul>
+            
+            <h2>希尔密码如何处理奇数字母的加密和解密？</h2>
+            <p>
+                当遇到奇数长度的文本时，和普莱菲尔密码类似，希尔密码也需要一种方法来处理最后一个不完整的块。这里列举了处理奇数长度文本的几种方法：
+            </p>
+            <ul>
+                <li><strong>填充: </strong> 最常见的方法是在文本的末尾添加一个或多个预定义的字符（如X或0），使其长度符合矩阵的要求。这样可以确保所有的字符都能被加密。例如，如果使用一个2x2矩阵，而文本长度是奇数，则可以在文本末尾添加一个字符，使其长度变为偶数。这也是在本网页中使用的方法。</li>
+                <li><strong>特殊处理最后一个字符: </strong>另一种方法是单独处理最后一个字符。例如，你可以简单地将最后一个字符保留不变或用某种简单的加密方法加密它，而不是使用希尔密码的加密方法。</li>
+                <li><strong>调整矩阵大小: </strong>如果可能，还可以选择一个大小不同的矩阵来加密最后一个块。例如，如果通常使用3x3的矩阵，但最后剩下一个或两个字符，则可以使用2x2或1x1的矩阵来处理剩余的字符。这种方法需要额外的矩阵，并且可能会使加密过程复杂化。</li>
+            </ul>
+            <p>
+                选择哪种方法取决于具体的应用场景和安全需求。通常，填充是最简单和最直接的方法，但是每种方法都有其优点和缺点。关键是确保加密和解密过程保持一致，且双方都明确知道如何正确处理文本。
+            </p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. 版权所有</p>
+            <p>
+                <a href="https://chatcipherai.com/zh-CN/Privacy_Policy.html" title="Privacy Policy">隐私政策</a>
+                |
+                <a href="https://chatcipherai.com/zh-CN/Terms_of_Use.html" title="Terms of Use">使用条款</a>
+                |
+                <a href="https://chatcipherai.com/zh-CN/About_Us.html" title="About Us">关于我们</a>
+                |
+                <a href="https://chatcipherai.com/zh-CN/Disclaimer.html" title="Disclaimer">免责声明</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">回到顶端</button>
+        </div>
+    </footer>
+
+    <script>
+        let shortcutsEnabled = true;
+
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'E':
+                    encrypt();
+                    console.log('Encode triggered');
+                    break;
+                case 'D':
+                    decrypt();
+                    console.log('Decode triggered');
+                    break;
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+                case 'G':
+                    generateMatrix();
+                    console.log('Matrix generation triggered');
+                    break;
+                case 'C':
+                    copyMatrixToClipboard();
+                    console.log('Copy matrix triggered');
+                    break;
+                case 'O':
+                    toggleMatrixDisplay();
+                    console.log('Toggle matrix display triggered');
+                    break;
+                case 'S':
+                    showMatrix();
+                    console.log('Show matrix triggered');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+        function textToNumbers(text) {
+            return text.split('').map(char => {
+                const charCode = char.charCodeAt(0);
+                if (/[a-z]/.test(char)) {
+                    return charCode - 'a'.charCodeAt(0);
+                } else if (/[A-Z]/.test(char)) {
+                    return charCode - 'A'.charCodeAt(0);
+                } else {
+                    return charCode;
+                }
+            });
+        }
+
+        function numbersToText(numbers) {
+            return numbers.map(num => {
+                if (num >= 0 && num < 26) {
+                    return String.fromCharCode(mod(num, 26) + 'A'.charCodeAt(0));
+                } else {
+                    return String.fromCharCode(num);
+                }
+            }).join('');
+        }
+
+        function parseKey(keyString) {
+            return keyString.split(',').map(Number);
+        }
+
+        function mod(n, m) {
+            return ((n % m) + m) % m;
+        }
+
+        function multiplyMatrixAndVector(matrix, vector, modValue) {
+            const result = [];
+            for (let i = 0; i < matrix.length; i++) {
+                let sum = 0;
+                for (let j = 0; j < vector.length; j++) {
+                    sum += matrix[i][j] * vector[j];
+                }
+                result.push(mod(sum, modValue));
+            }
+            return result;
+        }
+
+        function padText(text) {
+            if (text.length % 2 !== 0) {
+                text += 'X'; // Append 'X' if text length is odd
+            }
+            return text;
+        }
+
+        function encrypt() {
+            let text = document.getElementById('inputText').value.replace(/[^a-zA-Z]/g, ''); 
+            text = padText(text); // Ensure text length is even for the matrix operations
+            const keyNumbers = parseKey(document.getElementById('key').value);
+            if (keyNumbers.length !== 4) {
+                document.getElementById('result').textContent = 'Key format error. Please enter four comma-separated numbers.';
+                return;
+            }
+            const keyMatrix = [[keyNumbers[0], keyNumbers[1]], [keyNumbers[2], keyNumbers[3]]];
+            const det = keyNumbers[0] * keyNumbers[3] - keyNumbers[1] * keyNumbers[2];
+            if (det === 0 || !hasModularInverse(det, 26)) {
+                document.getElementById('result').textContent = 'Invalid matrix key. No inverse exists.';
+                return;
+            }
+            const textNumbers = textToNumbers(text);
+            let encryptedNumbers = [];
+            for (let i = 0; i < textNumbers.length; i += 2) {
+                encryptedNumbers.push(...multiplyMatrixAndVector(keyMatrix, [textNumbers[i], textNumbers[i + 1]], 26));
+            }
+            const encryptedText = numbersToText(encryptedNumbers);
+            let resultElement = document.getElementById('result');
+            resultElement.textContent = encryptedText;
+            resultElement.style.color = "blue"; // Set text color to blue
+        }
+
+        function modInverse(a, m) {
+            for (let i = 1; i < m; i++) {
+                if ((a * i) % m === 1) {
+                    return i;
+                }
+            }
+            return null;
+        }
+
+        function removePaddingX(decryptedText) {
+            let chars = decryptedText.split('');
+            for (let i = 1; i < chars.length - 1; i++) {
+                // Remove 'X' if it is between two identical letters
+                if (chars[i] === 'X' && chars[i - 1] === chars[i + 1]) {
+                    chars.splice(i, 1);
+                    i--; // Adjust index after removing 'X'
+                }
+            }
+            // Check if the last character is 'X' and if so, it is highlighted in red
+            if (chars[chars.length - 1] === 'X') {
+                return chars.join('').slice(0, -1) + '<span style="color: red;">X</span>';
+            }
+            return chars.join('');
+        }
+
+        function decrypt() {
+            let text = document.getElementById('inputText').value.replace(/[^a-zA-Z]/g, '');  
+            const keyNumbers = parseKey(document.getElementById('key').value);
+
+            const det = keyNumbers[0] * keyNumbers[3] - keyNumbers[1] * keyNumbers[2];
+            const invDet = modInverse(det, 26);
+
+            if (invDet === null) {
+                document.getElementById('result').innerHTML = "Invalid Key for Decryption (No Modular Inverse)";
+                document.getElementById('result').style.color = "#0A0F24"; // Set the color of the error message
+                return;
+            }
+
+            const keyMatrixInverse = [
+                [mod(invDet * keyNumbers[3], 26), mod(-invDet * keyNumbers[1], 26)],
+                [mod(-invDet * keyNumbers[2], 26), mod(invDet * keyNumbers[0], 26)]
+            ];
+
+            const textNumbers = textToNumbers(text);
+
+            let decryptedNumbers = [];
+            for (let i = 0; i < textNumbers.length; i += 2) {
+                decryptedNumbers.push(...multiplyMatrixAndVector(keyMatrixInverse, [textNumbers[i], textNumbers[i + 1]], 26));
+            }
+
+            let decryptedText = numbersToText(decryptedNumbers);
+
+            decryptedText = removePaddingX(decryptedText); // Use the updated removePaddingX function
+
+            let resultElement = document.getElementById('result');
+            resultElement.innerHTML = decryptedText; // Set the HTML content
+            resultElement.style.color = "#0A0F24"; // Set the color of the decryption result
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function() {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function() {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+            updateTableStyle(style);
+            updateInteractiveToolStyle(style);
+        }
+
+        function updateInteractiveToolStyle(style) {
+            var interactiveTool = document.querySelector('.section.interactive-tool');
+            if (style === 'dark-mode') {
+                interactiveTool.style.backgroundColor = '#ffffff';
+            } else {
+                interactiveTool.style.backgroundColor = '#f0f0f0';
+            }
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        function clearAll() {
+            var inputText = document.getElementById('inputText');
+            var result = document.getElementById('result');
+            var key = document.getElementById('key');
+
+            inputText.value = ''; // Clears the textarea
+            key.value = ''; // Clears the input for key
+            result.innerHTML = ''; // Clears the content of the div#result
+
+            // Optionally reset the style or other properties if needed
+            result.style.color = ""; // Resets the text color to default
+        }
+
+        function generateMatrix() {
+            let a, b, c, d, det;
+            do {
+                a = Math.floor(Math.random() * 20) - 10;
+                b = Math.floor(Math.random() * 20) - 10;
+                c = Math.floor(Math.random() * 20) - 10;
+                d = Math.floor(Math.random() * 20) - 10;
+                det = a * d - b * c;
+            } while (det === 0 || !hasModularInverse(det, 26));
+
+            const matrixDisplay = document.getElementById('matrixDisplay');
+            matrixDisplay.innerHTML = 
+                '<p>生成的矩阵：</p>' +
+                '<p>[' + a + ' ' + b + ']</p>' +
+                '<p>[' + c + ' ' + d + ']</p>' +
+                '<p>行列式： ' + det + ' (模 26)</p>';
+
+            if (document.body.classList.contains('dark-mode')) {
+                matrixDisplay.classList.add('matrix-dark');
+            } else {
+                matrixDisplay.classList.remove('matrix-dark');
+            }
+        }
+
+        function hasModularInverse(n, m) {
+            n = n % m;
+            for (let x = 1; x < m; x++) {
+                if ((n * x) % m === 1) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function toggleMatrixDisplay() {
+            var matrixDisplay = document.getElementById('matrixDisplay');
+            var toggleButton = document.getElementById('toggleMatrixDisplay');
+
+            // Check if the display style of matrixDisplay is not set or set to 'none'
+            if (!matrixDisplay.style.display || matrixDisplay.style.display === 'none') {
+                matrixDisplay.style.display = 'block'; // Show the matrix display
+                toggleButton.innerHTML = '关闭(<span class="highlight-key">o</span>)'; // Update button text to show "Close Matrix"
+            } else {
+                matrixDisplay.style.display = 'none'; // Hide the matrix display
+                toggleButton.innerHTML = '展示矩阵(<span class="highlight-key">o</span>)'; // Update button text to show "Show Matrix"
+            }
+        }
+
+        function copyMatrixToClipboard() {
+            const matrixDisplay = document.getElementById('matrixDisplay');
+            const copyStatus = document.getElementById('copyStatus');
+            const matrixParagraphs = matrixDisplay.getElementsByTagName('p');
+            if (matrixParagraphs.length >= 3) {
+                const matrixRow1 = matrixParagraphs[1].innerText.match(/[-\d]+/g);
+                const matrixRow2 = matrixParagraphs[2].innerText.match(/[-\d]+/g);
+                if (matrixRow1 && matrixRow2) {
+                    const matrixString = matrixRow1.concat(matrixRow2).join(',');
+                    navigator.clipboard.writeText(matrixString).then(function() {
+                        copyStatus.innerText = 'Matrix copied to clipboard: ' + matrixString;
+                        copyStatus.style.display = 'block';
+                    }, function() {
+                        copyStatus.innerText = 'Failed to copy matrix.';
+                        copyStatus.style.display = 'block'; 
+                    });
+                } else {
+                    copyStatus.innerText = 'No matrix to copy.';
+                    copyStatus.style.display = 'block'; 
+                }
+            } else {
+                copyStatus.innerText = 'No matrix to copy.';
+                copyStatus.style.display = 'block';
+            }
+        }
+
+        function hideCopyStatus() {
+            const copyStatus = document.getElementById('copyStatus');
+            if (copyStatus) {
+                copyStatus.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('click', function() {
+            hideCopyStatus();
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function() {
+                if(window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = '回到顶端(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+</html>
+

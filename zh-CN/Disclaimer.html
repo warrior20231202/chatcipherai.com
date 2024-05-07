@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>密码系统世界：免责条款</title>
+    <meta name="description" content="本网站免责声明的说明。">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }  
+
+        #menuIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+        }
+        #menuIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column; 
+            position: absolute;
+            top: 35px; 
+            left: 10px;
+            width: 15%; 
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0; 
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px; 
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0; 
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 13%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px; 
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 75%;
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        #inputMessage, #shiftValue {
+            width: 60%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #eae6e6;
+            font-size: 1em;
+            font-family: Arial, sans-serif;
+        }
+
+        #inputMessage {
+            min-height: 100px;
+            max-height: 300px;
+            resize: vertical; 
+            overflow: auto;   
+            text-align: left;   
+            white-space: pre-wrap;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 120px;
+            margin-left: 300px;
+        }
+
+        .sections-container h2 , 
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        #Well-Known-Cryptosystem ,
+        #Hash-SHA-256 ,
+        #Morse-Code-Translator ,
+        #Caesar-Cipher ,
+        #Playfair-Cipher ,
+        #Hill-Cipher {  
+            width: 100%;
+        } 
+
+        #result {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #0A0F24;
+        }
+
+        p {  
+            margin-bottom: 30px;  
+            text-align: left; 
+            font-size: 1.2em; 
+            line-height: 1.6; 
+            text-align: center; 
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            margin-top: 50px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white; 
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3); 
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206); 
+            color: #0A0F24; 
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24; 
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container {
+            margin-right: 5px; 
+            margin-left: 0; 
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .copy-button {
+            cursor: pointer;
+            padding: 8px 15px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.8em;
+        }
+
+        .copy-button:hover {
+            background-color: #45a049;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {  
+            background-color: #0A0F24;  
+            color: white;  
+        }  
+        .light-mode {  
+            background-color: #fff;  
+            color: #0A0F24; 
+        }  
+
+        .light-mode .navbar, .light-mode .container {
+            background-color: #FFFFFF; 
+            color: #0A0F24; 
+        }
+        .light-mode .navbar ul {
+            background-color: transparent; 
+            color: #0A0F24; 
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded; 
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24; 
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+        
+        #languageIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+            margin-left: 30px;
+        }
+        #languageIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        .navbar {
+            justify-content: flex-start; 
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+        }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px; 
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 5px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px; 
+        }
+
+        .footer {
+            position: relative; 
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        #moreContent1 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 74%;
+        }
+
+        #moreContent2 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 74%;
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -250px;
+        }
+
+        figcaption.caesar,
+        figcaption.frequency {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 85%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        section pre{
+            background-color: #e9f4f4;
+            width: 74%;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 1.6em;
+            padding: 1em 1.5em;
+        }
+
+        section code{
+            color: #0A0F24;
+            border-radius: 5px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        .code-style {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-left: 3px solid #f36d33;
+            padding: 10px;
+            font-family: 'Arial', sans-serif;
+            font-size: 18px;
+            color: #333;
+            border-radius: 4px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            text-align: center;
+            white-space: nowrap;
+            width: 80%;
+        }
+
+        @media screen and (max-width: 768px) {
+            .code-style {
+                font-size: 13px;
+                height: 20px;
+            }
+
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px; 
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 100%;
+                padding: 10px;
+            }
+
+            .sections-container h2 {
+                font-size: 1.2em;
+            }
+
+            .sections-container p {
+                font-size: 0.9em;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .section h2 {
+                font-size: 1.2em;
+                margin-left: 20px;  
+            }
+
+            .section h3 {
+                font-size: 0.9em;
+                margin-left: 20px; 
+            }
+
+            .section p {
+                font-size: 0.9em;
+                margin-left: 20px; 
+            }
+
+            section li {
+                font-size: 14px;
+            }
+
+            figure {
+                display: flex;
+                flex-direction: column;
+                align-items: center; 
+                justify-content: center; 
+                text-align: center;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            img {
+                max-width: 75%;
+                height: auto;
+                margin-left: -60px;
+            }
+
+            figcaption.caesar,
+            figcaption.frequency {
+                width: 100%;
+                margin-left: -70px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            pre {
+                display: none;
+            }
+
+            .copy-button {
+                display: none;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .navbar ul {
+                width: 26%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 55%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+        }     
+    </style>
+
+</head>
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; 菜单</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/zh-CN/chatcipherai.html">密码世界</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/zh-CN/Caesar_Cipher.html">恺撒密码</a></li>
+                        <li><a href="https://chatcipherai.com/zh-CN/Playfair_Cipher.html">普莱菲尔密码</a></li>
+                        <li><a href="https://chatcipherai.com/zh-CN/Hill_Cipher.html">希尔密码</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/zh-CN/Hash_value_test.html">哈希值测试</a></li>
+                <li><a href="https://chatcipherai.com/zh-CN/Morsecode_main.html">摩尔斯电码编译器</a></li>
+                <li><a href="https://chatcipherai.com/zh-CN/Shortcut_Key_Description.html">快捷键说明</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; 语言</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Disclaimer.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Disclaimer.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Disclaimer.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Disclaimer.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Disclaimer.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Disclaimer.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Disclaimer.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Disclaimer.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Disclaimer.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Disclaimer.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Disclaimer.html" title="Nederlands">Nederlands</a></li>
+                </ul>            
+            </div>
+
+            <h1>免责声明</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 暗色风格(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ 亮色风格(<span class="highlight-key">L</span>)</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <section id="Introduction">
+            <p>
+                重要提示：在您访问和使用本网站的过程中，请您仔细阅读并理解以下免责声明。访问本网站的行为以及通过各类方式利用本网站的行为，即视为您已同意并接受以下条款和条件：
+            </p>
+            <p>
+                第一条 访问者在从事与本网站相关的所有行为（包括但不限于访问浏览、利用）时，必须以善意且谨慎的态度行事;访问者不得故意或者过失的损害或者弱化本网站的各类合法权利与利益，不得利用本网站以任何方式直接或者间接的从事违反中国法律、国际公约以及社会公德的行为，且访问者应当恪守下述承诺：
+            </p>
+            <ul>
+                <li>符合中国法律、国际公约的规定、符合公序良俗;</li>
+                <li>不将本网站以及与之相关的网络服务用作非法用途以及非正当用途;</li>
+                <li>不干扰和扰乱本网站以及与之相关的网络服务;</li>
+                <li>遵守与本网站以及与之相关的网络服务的协议、规定、程序和惯例等。</li>
+            </ul>
+
+            <p>
+                第二条 本网站郑重提醒访问者：请在使用软件时务必尊重该软件著作权。
+            </p>
+            <p>
+                第三条 除我们另有明确说明或者中国法律有强制性规定外，本网站软件，本网站享有版权，其他网站如需使用，须取得本网站的书面授权，未经授权严禁转载或用于其它商业用途，经授权使用时必须注明本网站网址。
+            </p>
+            <P>
+                第四条 未经本网站同意，其他任何机构不得以任何形式侵犯软件著作权，包括但不限于：擅自复制、链接、非法使用。
+            </P>
+            <p>
+                第五条 当本网站以链接形式推荐其他网站内容时，本网站并不对这些网站或资源的可用性负责，且不保证从这些网站获取的任何内容、产品、服务或其他材料的真实性、合法性，对于任何因使用或信赖从此类网站或资源上获取的内容、产品、服务或其他材料而造成（或声称造成）的任何直接或间接损失，本网站均不承担任何责任。
+            </p>
+            <p>
+                第六条 当政府部门、司法机关等依照法定程序要求本网站披露个人查询资料时，本网站将根据执法单位之要求或为公共安全之目的提供个人查询资料。在此情况下之任何披露，本网站均得免责。
+            </p>
+            <p>
+                第七条 用户因第三方（包括但不限于电信部门）的通讯线路故障、技术问题、网络、电脑故障、系统不稳定性及其他各种不可抗力原因而遭受的一切损失，本网站不承担责任。
+            </p>
+            <p>
+                第八条 本网站服务同大多数互联网服务一样，受包括但不限于用户原因、网络服务质量、社会环境等因素的差异影响，可能受到各种安全问题的侵扰，如他人利用用户的资料，造成现实生活中的骚扰；用户下载安装的其它软件或访问的其他网站中含有“特洛伊木马”等病毒，威胁到用户的计算机信息和数据的安全，继而影响本服务的正常使用等等。用户应加强信息安全及使用者资料的保护意识，以免遭致损失和骚扰。
+            </p>
+            <p>
+                第九条 使用本服务因涉及Internet服务，可能会受到各个环节不稳定因素的影响。因此，本服务存在因不可抗力、计算机病毒或黑客攻击、系统不稳定、用户所在位置、用户关机以及其他任何技术、互联网络、通信线路原因等造成的服务中断或不能满足用户要求的风险。用户须承担以上风险，本网站不作担保。对因此导致用户不能接受阅读信息、或接发错信息，本网站不承担任何责任。
+            </p>
+            <p>
+                第十条 鉴于本网站对技术的理解能力并考虑到本网站收集获取信息的多样性，建议用户在应用此处找到的任何信息之前仔细考虑。
+            </p>
+            <p>
+                第十一条 以上声明内容的最终解释权归本网站所有。
+            </p>
+            <p>
+                第十二条 本免责条款的解释、适用及争议解决均适用中华人民共和国法律。
+            </p>
+            <p>
+                第十三条 本声明条款的效力以中文解释为主，其他语言为参考。
+            </p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. 版权所有</p>
+            <p>
+                <a href="https://chatcipherai.com/zh-CN/Privacy_Policy.html" title="Privacy Policy">隐私政策</a>
+                |
+                <a href="https://chatcipherai.com/zh-CN/Terms_of_Use.html" title="Terms of Use">使用条款</a>
+                |
+                <a href="https://chatcipherai.com/zh-CN/About_Us.html" title="About Us">关于我们</a>
+                |
+                <a href="https://chatcipherai.com/zh-CN/Disclaimer.html" title="Disclaimer">免责声明</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">回到顶端(<span class="highlight-key">B</span>)</button>
+        </div>
+    </footer> 
+
+    <script>
+        function caesarCipher(str, shift) {
+        if (shift < 0) {
+            return caesarCipher(str, shift + 26);
+        }
+        let output = '';
+            for (let i = 0; i < str.length; i++) {
+                let char = str[i];
+                if (char.match(/[a-z]/i)) {
+                    let code = str.charCodeAt(i);
+
+                    if (code >= 65 && code <= 90) {
+                        char = String.fromCharCode(((code - 65 + shift) % 26) + 65);
+                    } else if (code >= 97 && code <= 122) {
+                        char = String.fromCharCode(((code - 97 + shift) % 26) + 97);
+                    }
+                }
+                output += char;
+            }
+            return output;
+        }
+        let encodedMessage = caesarCipher('Hello World!', 3);
+        console.log('Encoded:', encodedMessage);
+
+        // Decoding
+        let decodedMessage = caesarCipher(encodedMessage, -3);
+        console.log('Decoded:', decodedMessage);
+
+        function encode() {
+            let message = document.getElementById('inputMessage').value;
+            let shift = parseInt(document.getElementById('shiftValue').value);
+            let resultElement = document.getElementById('result');
+            resultElement.textContent = caesarCipher(message, shift);
+            resultElement.style.color = 'blue';
+        }
+
+        function decode() {
+            let message = document.getElementById('inputMessage').value;
+            let shift = parseInt(document.getElementById('shiftValue').value);
+            document.getElementById('result').textContent = caesarCipher(message, -shift);
+            document.getElementById('result').style.color = "#0A0F24";
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function() {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function() {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+            updateTableStyle(style);
+            updateInteractiveToolStyle(style);
+        }
+
+        function updateInteractiveToolStyle(style) {
+            var interactiveTool = document.querySelector('.section.interactive-tool');
+            if (style === 'dark-mode') {
+                interactiveTool.style.backgroundColor = '#ffffff'; // 设置为深色背景
+            } else {
+                interactiveTool.style.backgroundColor = '#f0f0f0'; // 设置为浅色背景
+            }
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function(link) {
+            link.addEventListener('click', function() {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none" || moreContent.style.display === "") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            });
+        });
+
+        function clearAll() {
+            var inputMessage = document.getElementById('inputMessage');
+            var shiftValue = document.getElementById('shiftValue');
+            var result = document.getElementById('result');
+
+            inputMessage.value = '';
+            shiftValue.value = '';
+            result.textContent = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function() {
+                if(window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = '回到顶端(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+        function copyCode(elementId) {
+            var text = document.getElementById(elementId).innerText;
+            var elem = document.createElement("textarea");
+            document.body.appendChild(elem);
+            elem.value = text;
+            elem.select();
+            document.execCommand("copy");
+            document.body.removeChild(elem);
+        }
+
+        let shortcutsEnabled = true;
+
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'E':
+                    encode();
+                    console.log('Encode triggered');
+                    break;
+                case 'D':
+                    decode();
+                    console.log('Decode triggered');
+                    break;
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    setStyle('light-mode');
+                    console.log('Light style activated');
+                    break;
+                case 'N':
+                    setStyle('dark-mode');
+                    console.log('Dark style activated');
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('#inputMessage, #shiftValue');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+    </script>
+</body>
+</html>
+
+    

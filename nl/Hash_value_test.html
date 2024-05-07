@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash SHA-256 Verkenner: De onomkeerbare beeldhouwer van de digitale wereld.</title>
+    <meta name="description"
+        content="Het unieke vingerafdruk van informatie smeden met 256-bits encryptie, bewaakt de integriteit en authenticiteit van gegevens.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 1000px;
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 120px;
+            margin-right: -10px;
+        }
+
+        .sections-container h2,
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        p {
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: center; 
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            margin-top: 50px;
+        }
+
+        h3 {
+            margin-top: 50px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #c0c0c0;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: #FFFFFF;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent;
+            color: #0A0F24;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+        }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px;
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent {
+            width: 80%;
+            margin: auto;
+            text-align: left;
+            padding: 10px;
+            display: none;
+            margin-left: 0px;
+        }
+
+        .moreContent p {
+            margin-bottom: 16px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            padding-bottom: 5px;
+        }
+
+        #moreContent1 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 77%;
+        }
+
+        #moreContent1 ul li {
+            margin-bottom: 15px; /* This adds 15px of space below each list item */
+        }
+
+        #moreContent2 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 77%;
+        }
+
+        #moreContent2 ul li {
+            margin-bottom: 15px; /* This adds 15px of space below each list item */
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -290px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.workflow,
+        figcaption.Irreversibility,
+        figcaption.Resistance,
+        figcaption.Merkle-Damgård,
+        figcaption.Compare,
+        figcaption.sponge {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .input-group {
+            display: flex;
+            width: 80%;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 40px;
+        }
+
+        .input-group>div {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .input-group>div:last-child {
+            margin-right: 0;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 15px 10px 5px;
+            border: 1px solid #eae6e6;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button,
+        input[type="submit"],
+        input[type="file"]::file-selector-button {
+            background-color: #0a0f24;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        button:hover,
+        input[type="submit"]:hover,
+        input[type="file"]::file-selector-button:hover {
+            background-color: #c0c0c0;
+            color: #0A0F24;
+        }
+
+        .compare-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            display: block;
+        }
+
+        .outPut {
+            width: 100%;
+            white-space: normal;
+            word-break: break-all;
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .introduce {
+            margin-left: 220px;
+        }
+
+        .introduce li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .attention {
+            margin-top: 20px;
+            font-size: 0.8em;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 100%;
+            }
+
+            .sections-container h2 {
+                font-size: 1.2em;
+            }
+
+            .sections-container p {
+                font-size: 0.9em;
+            }
+            
+            .introduce {
+                width: 100%;
+                padding: 10px;
+                margin-left: 90px;
+            }
+
+            .introduce h2 {
+                font-size: 1.2em; 
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .introduce p {
+                font-size: 0.9em; 
+            }
+
+            .introduce li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            figure {
+                display: flex;
+                flex-direction: column;
+                align-items: center; 
+                justify-content: center; 
+                text-align: center;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -90px;
+                margin-top: 20px;
+            }
+
+            figcaption.workflow,
+            figcaption.Irreversibility,
+            figcaption.Resistance,
+            figcaption.Merkle-Damgård,
+            figcaption.Compare,
+            figcaption.sponge {
+                width: 100%;
+                margin-left: -100px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            pre {
+                display: none;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+   
+            .input-group {
+                flex-direction: column;
+            }
+
+            .section.interactive-tool {
+                width: 320px;
+            }
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0;
+            }
+
+            #languageIcon::before {
+                content: '\2637'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            #hashCompareInput {
+                width: 240px;
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+
+            .attention {
+                margin-top: 10px;
+                font-size: 0.5em;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; menu</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/nl/chatcipherai.html">Wereld van Cryptosystemen</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/nl/Caesar_Cipher.html">Caesar-cijfer</a></li>
+                        <li><a href="https://chatcipherai.com/nl/Playfair_Cipher.html">Playfair-cijfer</a></li>
+                        <li><a href="https://chatcipherai.com/nl/Hill_Cipher.html">Hill-cijfer</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/nl/Hash_value_test.html">Hashwaarde Test</a></li>
+                <li><a href="https://chatcipherai.com/nl/Morsecode_main.html">Morsecode Vertaler</a></li>
+                <li><a href="https://chatcipherai.com/nl/Shortcut_Key_Description.html">Sneltoetsbeschrijving</a></li>
+            </ul> 
+
+            <div id="languageIcon">&#x2637; taal</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Hash_value_test.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Hash_value_test.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Hash_value_test.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Hash_value_test.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Hash_value_test.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Hash_value_test.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Hash_value_test.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Hash_value_test.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Hash_value_test.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Hash_value_test.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Hash_value_test.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+
+            <h1>Hash SHA-256 Verkenner</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 Donkere Stijl(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ Lichte Stijl(<span class="highlight-key">L</span>)</button>
+            </div>              
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <section class="section interactive-tool">
+            <h2>Hash Waarde Test</h2>
+            <p>Voer tekst in om het proces van het omzetten naar een hashwaarde in real-time te bekijken,
+                <br>
+                of selecteer een bestand om de hashwaarde van het bestand te berekenen.
+            </p>
+            
+            <div class="input-group">
+                <div>
+                    <p>Genereer Tekst Hash Waarde</p>
+                    <input type="text" class="input_value" id="textInput" placeholder="Voer tekst in" oninput="generateHash()" />
+                    <button onclick="copyTextHash()">Kopieer tekst hash</button>
+                    <div id="processOutput"></div>
+                    <div id="hashOutput" class="outPut"></div>
+                </div>
+                <div>
+                    <p>Vergelijk Tekst Hash Waarde</p>
+                    <input type="text" class="input_value" id="hashCompareInput"
+                        placeholder="Voer de hashwaarde in voor vergelijking" />
+                    <button onclick="compareTextHash()">Vergelijk</button>
+                    <div id="textCompareResult"></div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div>
+                    <p>Genereer Bestand Hash Waarde</p>
+                    <input type="file" id="fileInput" onchange="generateFileHash()" />
+                    <button onclick="copyFileHash()">Kopieer bestand hash</button>
+                    <div id="fileHashOutput" class="outPut"></div>
+                </div>
+                <div>
+                    <p>Vergelijk Bestand Hash Waarde</p>
+                    <input type="file" id="compareFileInput" onchange="compareFileHash()" />
+                    <div id="fileCompareResult" class="outPut"></div>
+                </div>
+            </div>            
+
+            <div class="input-group">
+                <div>
+                    <p>Voer Hash Waarde 1 in</p>
+                    <input type="text" class="input_value" id="hashInput1" placeholder="Voer hash waarde 1 in" />
+                </div>
+                <div>
+                    <p>Voer Hash Waarde 2 in</p>
+                    <input type="text" class="input_value" id="hashInput2" placeholder="Voer hash waarde 2 in" />
+                    <button onclick="compareHashValues()">Vergelijk</button>
+                    <div id="hashComparisonResult" class="outPut"></div>
+                </div>
+            </div>
+            
+            <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">Alles Wissen(<span class="highlight-key">A</span>)</button>
+            <div class="attention">
+                Warme herinnering: Controleer zorgvuldig de nauwkeurigheid en gevoeligheid van de informatie voordat u gegevens invoert. We raden u aan om belangrijke gegevens voorzichtig te uploaden, aangezien dit helpt uw privacy en veiligheid beter te beschermen.
+            </div>            
+        </section>
+        
+        <section class="introduce">
+            <p><strong><em>"In het digitale tijdperk van vandaag is gegevensbeveiliging niet alleen de hoeksteen voor het beschermen van persoonlijke privacy en bedrijfsgeheimen, maar ook de sleutel tot het behouden van maatschappelijk vertrouwen en economische stabiliteit."</em></strong></p>
+            <div>
+                <h2>Wat is een Hash Waarde?</h2>
+                <p>
+                    Een hash waarde is een vaste grootte string of nummer gegenereerd vanuit elk formaat van invoergegevens door een hashfunctie.
+                    Deze functies accepteren diverse invoeren zoals tekst, afbeeldingen en video's, waarbij een vaste lengte, onomkeerbare hash waarde wordt geproduceerd.
+                    Hash waarden zijn deterministisch, wat betekent dat identieke invoeren altijd hetzelfde resultaat opleveren. Ze beschikken ook over collision resistance,
+                    waardoor het moeilijk is om verschillende invoeren te vinden die hetzelfde resultaat opleveren.
+                </p>
+            </div>
+            
+            <div>
+                <h2>Functies van Hash Waarde</h2>
+                <p>
+                    Hash waarden vervullen essentiële rollen in de informatica en IT, door een vaste lengte samenvatting van gegevens te bieden, ongeacht de grootte. Deze functies vergemakkelijken diverse toepassingen:
+                </p>
+                <ul>
+                    <li><strong>Verificatie van Data Integriteit:</strong> Gebruikt om te controleren of gegevens ongewijzigd blijven tijdens transmissie, om de integriteit van gedownloade bestanden te waarborgen.</li>
+                    <li><strong>Opslag van Wachtwoorden:</strong> Wachtwoorden worden opgeslagen als hash waarden voor beveiliging, waardoor het moeilijk wordt om originele wachtwoorden te herstellen uit gecompromitteerde databases.</li>
+                    <li><strong>Snelle Data Ophaling:</strong> Hash waarden fungeren als indices in hash tabellen, waardoor efficiënte data operaties mogelijk zijn.</li>
+                    <li><strong>Data Deduplicatie:</strong> Helpt bij het identificeren en verwijderen van dubbele data items door het vergelijken van hash waarden.</li>
+                    <li><strong>Digitale Handtekening en Verificatie:</strong> Zorgt voor data integriteit en herkomst door middel van publieke sleutel cryptografie en hash functies.</li>
+                    <li><strong>Blockchain Technologie:</strong> Gebruikt hash waarden om transactierecords te beveiligen en data onveranderlijkheid te waarborgen.</li>
+                    <li><strong>Onvervalsbaar Tijdstempels:</strong> Voorziet een onomkeerbare tijdstempel voor data, nuttig in juridische en auteursrechten bescherming.</li>
+                </ul>
+                <p>
+                    De reden dat hash waarden effectief zijn in deze gebieden is vanwege hun sleutelkenmerken van snelheid, determinisme, onomkeerbaarheid en collision resistance. Correct gebruikt, kunnen hash functies robuuste ondersteuning bieden in het beveiligen van data,
+                    het verhogen van de efficiëntie, en het verifiëren van de authenticiteit van informatie.
+                </p>
+            </div>            
+
+            <div>
+                <h2>Wat is een Hashfunctie?</h2>
+                <p>Een hashfunctie is een wiskundige constructie die invoergegevens (of "bericht") in kaart brengt naar een vaste grootte string, typisch een numerieke waarde, zoals geïllustreerd in de onderstaande diagram. Breed gebruikt in gegevensbeheer en informatiebeveiliging, 
+                    wordt een hashfunctie gekenmerkt door zijn efficiënte computationele prestaties, consistente uitvoerlengte, onomkeerbaarheid, gevoeligheid voor invoervariaties, en weerstand tegen botsingen.
+                </p>
+                <figure>
+                    <img src="./images/Hash input output.jpg" alt="Werkstroomdiagram van de hashfunctie" />
+                    <figcaption class="workflow">Werkstroomdiagram van de hashfunctie</figcaption>
+                </figure>
+            </div>            
+
+            <div>
+                <h3>Efficiënte Computationele Prestaties</h3>
+                <p>
+                    Hashfuncties kunnen snel hashwaarden berekenen van gegevens in elke vorm, ongeacht de grootte van de gegevens. Deze eigenschap is cruciaal voor toepassingen die snelle toegang tot gegevens vereisen, zoals hashtabellen.
+                    Dit komt omdat, wanneer gegevens in hashtabellen worden opgeslagen, de snelheid van de hashfunctie de snelheid van gegevensopvraging bepaalt. Hashtabellen gebruiken hashfuncties om snel de opslaglocatie van de gegevens te vinden, waarbij ze vertrouwen op de snelle computationele capaciteit van hashfuncties.
+                </p>
+            
+                <p>
+                    Bovendien, in systemen die grote hoeveelheden gegevens moeten verwerken, heeft de efficiëntie van hashfuncties directe impact op de algehele systeemprestaties. Als een hashfunctie langzaam werkt, zal het een knelpunt in systeemprestaties worden. Sommige real-time systemen,
+                    zoals pakketfiltering in netwerkapparaten, vereisen onmiddellijke berekening van hashwaarden voor gegevens om snel beslissingen te nemen. In deze gevallen is de efficiëntie van hashfuncties even cruciaal.
+                </p>
+            
+                <p>
+                    Neem bijvoorbeeld een online e-commerce platform waar gebruikers productnamen in de zoekbalk kunnen invoeren om producten te vinden. Het backend systeem kan hashfuncties gebruiken om snel productinformatie opgeslagen in hashtabellen te lokaliseren.
+                    Als het berekeningsproces van de hashfunctie traag is, zal de gebruikerservaring ernstig worden beïnvloed, omdat ze langer moeten wachten om zoekresultaten te krijgen. In deze situatie zorgt de efficiënte computationele prestatie van hashfuncties voor snelle reactietijden, waardoor de gebruikerservaring verbetert.
+                    <a href="javascript:void(0);" class="learnMore" data-target="moreContent1">[Kom meer te weten]</a>
+                </p>
+            </div>            
+
+            <div id="moreContent1" class="moreContent" style="display:none;" style="color: #007bff; font-size: 1.0em;">
+                <p>De redenen waarom hashfuncties de computationele efficiëntie kunnen verbeteren zijn voornamelijk te danken aan de volgende ontwerpkarakteristieken:</p>
+                <ul>
+                    <li><strong>Eenvoudige Operaties:</strong> Hashfuncties maken doorgaans gebruik van eenvoudige wiskundige en bitwise operaties, die zeer snel uitgevoerd worden dankzij directe CPU-hardware ondersteuning.</li>
+                    <li><strong>Vermijden van Lusafhankelijkheden:</strong> Door lusafhankelijkheden te vermijden, laten hashfuncties pipelined verwerking toe, waardoor de snelheid toeneemt.</li>
+                    <li><strong>Parallelle Verwerking:</strong> Moderne hashfuncties zijn ontworpen voor parallelle verwerking, wat de efficiëntie op multicore-processors verbetert.</li>
+                    <li><strong>Vaste Uitvoergrootte:</strong> De vaste lengte uitvoer vereenvoudigt geheugentoewijzing en gegevensvergelijking, wat het programmeringsmodel en de efficiëntie verbetert.</li>
+                    <li><strong>Pre-processing en Post-processing:</strong> Hashfuncties kunnen grote gegevens verwerken door deze in blokken te verdelen, hashwaarden afzonderlijk te berekenen en ze vervolgens te combineren, wat de efficiëntie verhoogt.</li>
+                    <li><strong>Geoptimaliseerde Algoritmepaden:</strong> Het verminderen van vertakkingen tijdens de uitvoering verhoogt de nauwkeurigheid van instructievoorspelling op CPU's, waardoor de snelheid toeneemt.</li>
+                    <li><strong>Cache-vriendelijk:</strong> Het ontwerpen van hashfuncties om cache misses te minimaliseren verhoogt de verwerkingssnelheid aanzienlijk.</li>
+                    <li><strong>Hardware-optimalisatie:</strong> Specifieke hardwareversnellers kunnen de snelheid van hashberekeningen aanzienlijk verhogen, vooral voor cryptografische hashfuncties zoals de SHA-serie.</li>
+                    <li><strong>Statusloosheid:</strong> Hashfuncties behouden geen statusinformatie, wat een lichte verwerking van elke nieuwe invoer mogelijk maakt.</li>
+                    <li><strong>Universaliteit:</strong> Hashfuncties zijn universeel voor alle soorten invoergegevens, waardoor de noodzaak voor aangepaste algoritmen voor verschillende gegevenstypen wordt geëlimineerd.</li>
+                </ul>
+            </div>            
+            
+            <div>
+                <h3>Consistentie van de Uitvoerlengte in Hashfuncties</h3>
+                <p>
+                    Hashfuncties zetten invoer van elke lengte om in een uitvoer met een vaste lengte door een complexe reeks berekeningen. Dit proces omvat vaak het verdelen van de invoergegevens in blokken van vaste grootte (voor die invoeren die de grootte van de verwerkingseenheid overschrijden),
+                    het toepassen van een reeks wiskundige en logische operaties op elk blok, en vervolgens op een bepaalde manier combineren of accumuleren van de resultaten van deze operaties om uiteindelijk een hashwaarde met een vaste grootte te produceren.
+                </p>
+                <p>
+                    <strong>Waarom is het belangrijk?</strong>
+                    De consistentie van de uitvoerlengte helpt de veiligheid van hashfuncties te waarborgen. Als de lengte van de hashuitvoer zou kunnen variëren, zou dit informatie kunnen lekken over de grootte van de oorspronkelijke gegevens, wat potentieel zou kunnen worden gebruikt om het systeem in sommige scenario's aan te vallen.
+                    Bovendien maakt een vaste uitvoerlengte het ook moeilijk voor aanvallers om kenmerken van de invoergegevens af te leiden door de uitvoerlengte te analyseren. Tegelijkertijd vereenvoudigen uitvoeren met een vaste lengte de opslag en vergelijking van hashwaarden.
+                    Systeemontwerpers kunnen van tevoren weten hoeveel ruimte elke hashwaarde in beslag zal nemen, wat erg belangrijk is voor scenario's zoals databaseontwerp en netwerktransmissie. Verder wordt de consistentie van de uitvoerlengte zeer efficiënt voor het vergelijken of hashwaarden gelijk zijn omdat het alleen het vergelijken van gegevens van een vaste lengte vereist.
+                    Dit is vooral belangrijk bij het gebruik van hashtabellen voor snelle gegevensopvraging.
+                </p>
+                <p>
+                    SHA-256 als voorbeeld nemend, produceert deze veelgebruikte cryptografische hashfunctie altijd een 256-bits (d.w.z. 32-byte) hashwaarde, ongeacht of de invoergegevens één byte of enkele miljoenen bytes zijn. Deze consistentie zorgt ervoor dat SHA-256 hashwaarden kunnen worden gebruikt voor verschillende beveiligingstoepassingen,
+                    zoals digitale handtekeningen en Message Authentication Codes (MAC's), terwijl het de workflow van gegevensverwerking en -opslag vereenvoudigt.
+                </p>
+            </div>            
+
+            <div>
+                <h3>Onomkeerbaarheid van Hashfuncties</h3>
+                <p>
+                    Hashfuncties zijn unidirectioneel, wat betekent dat het onmogelijk is om de originele gegevens vanuit de hashwaarde te achterhalen. Deze eigenschap is vooral belangrijk bij het opslaan van wachtwoorden, aangezien zelfs als de database gecompromitteerd is, aanvallers de wachtwoorden niet kunnen herstellen vanuit de hashwaarden.
+                    De onomkeerbaarheid van hashfuncties is voornamelijk gebaseerd op de volgende principes en kenmerken:
+                </p>
+                <ul>
+                    <li><strong>Compressie:</strong> Hashfuncties kunnen invoer van elke lengte (die in de praktijk erg groot kan zijn) omzetten naar een uitvoer van vaste lengte. Dit betekent dat er oneindig veel mogelijke invoeren zijn die naar een eindig aantal uitvoeren worden gemapt. Aangezien de uitvoerruimte (hashwaarden) veel kleiner is dan de invoerruimte, zullen verschillende invoeren onvermijdelijk dezelfde uitvoer produceren, een fenomeen dat bekend staat als een "botsing." Door deze compressie is het onmogelijk om de specifieke invoer van een gegeven uitvoer (hashwaarde) te bepalen.</li>
+                    <li><strong>Hoge Non-lineariteit en Complexiteit:</strong> Hashfuncties zijn ontworpen met behulp van complexe wiskundige en logische operaties (zoals bitwise operaties, modulo operaties, etc.), om ervoor te zorgen dat de uitvoer zeer gevoelig is voor de invoer. Zelfs kleine wijzigingen in de invoer (bijvoorbeeld het veranderen van één bit) kunnen significante en onvoorspelbare veranderingen in de uitvoer (hashwaarde) veroorzaken. Deze hoge mate van non-lineariteit en de willekeur van de uitvoer maken het uiterst moeilijk om de originele invoer vanuit de hashwaarde af te leiden.</li>
+                    <li><strong>Unidirectionality:</strong> Het ontwerp van hashfuncties zorgt ervoor dat hun werking eenrichtingsverkeer is; dat wil zeggen, terwijl het berekenen van de hashwaarde eenvoudig is, is het omgekeerde proces (het herstellen van de originele gegevens vanuit de hashwaarde) niet haalbaar. Dit komt omdat het berekeningsproces van hashfuncties een reeks onomkeerbare operaties omvat (zoals de onomkeerbaarheid van modulo operaties), ervoor zorgend dat zelfs met de hashwaarde, het onmogelijk is om de originele gegevens reverse-engineeren.</li>
+                    <li><strong>Willekeurige Mapping:</strong> Een ideale hashfunctie zou moeten fungeren als een "willekeurige mapper," wat betekent dat elke mogelijke invoer even waarschijnlijk is om naar elk punt in de uitvoerruimte te worden gemapt. Deze eigenschap zorgt ervoor dat er geen haalbare manier is om te voorspellen naar welke uitvoer een specifieke invoer zal worden gemapt, waardoor de onomkeerbaarheid van de hashfunctie wordt versterkt.</li>
+                    <li><strong>Wiskundige Basis:</strong> Wiskundig kan de onomkeerbaarheid van hashfuncties worden begrepen door hun afhankelijkheid van "discrete logaritmeproblemen," "problemen met het factoriseren van grote gehele getallen," of andere getaltheorieproblemen die moeilijk op te lossen zijn met de huidige wiskundige en computationele capaciteiten. Bijvoorbeeld, het ontwerp van sommige hashalgoritmen kan indirect afhankelijk zijn van de computationele moeilijkheid van deze problemen, waardoor hun onomkeerbaarheid wordt gewaarborgd.</li>
+                </ul>
+                <figure>
+                    <img src="./images/Irreversibility.jpg" alt="Onomkeerbaarheid van Hashfuncties" />
+                    <figcaption class="Irreversibility">Onomkeerbaarheid van Hashfuncties</figcaption>
+                </figure>
+            </div>            
+
+            <div>
+                <h3>Gevoeligheid van Invoer en het Sneeuwbaleffect</h3>
+                <p>
+                    Bij het ontwerpen van hashfuncties worden complexe wiskundige en logische operaties (zoals bitwise operaties, modulo operaties, etc.) gebruikt om ervoor te zorgen dat de uitvoer zeer gevoelig is voor de invoer.
+                    Zelfs kleine wijzigingen in de invoer (bijvoorbeeld het wijzigen van een enkele bit) zullen resulteren in significante en onvoorspelbare veranderingen in de uitvoer (de hashwaarde), een fenomeen dat bekend staat als het “sneeuwbaleffect”.
+                    <a href="javascript:void(0);" class="learnMore" data-target="moreContent2">[Kom meer te weten]</a>
+                </p>
+            </div>
+            
+            <div id="moreContent2" class="moreContent" style="display:none;">
+                <p>Het <a href="https://en.wikipedia.org/wiki/Avalanche_effect" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">sneeuwbaleffect</a> kan verschillende interpretaties hebben in verschillende vakgebieden:</p>
+                <ul>
+                    <li><strong>In de cryptografie: </strong> Het sneeuwbaleffect is een wenselijke eigenschap van encryptiealgoritmen (vooral blokcijfers en cryptografische hashfuncties). Het treedt op wanneer de geringste verandering in de invoer (bijvoorbeeld het omdraaien van een binaire bit) leidt tot ononderscheidbare veranderingen in de uitvoer (met een kans van 50% op het omdraaien van elke binaire bit in de uitvoer). Dit kenmerk helpt de beveiliging van encryptie te versterken, omdat significante veranderingen in de uitvoer kunnen optreden, zelfs met alleen kleine wijzigingen in de invoer, waardoor het moeilijker wordt om de encryptie te kraken door de relatie tussen invoer en uitvoer te analyseren.</li>
+                    <li><strong>In bedrijfsleven en technologie: </strong> Het sneeuwbaleffect verwijst naar het fenomeen waarbij significante energie kan worden vrijgegeven door het juist ontmantelen en hercombineren van de structuur en het systeem dat inherent is aan bedrijfsleven en technologie. Deze energie kan oude industriële systemen zoals een lawine vernietigen, of zelfs een hele industrie doen verdwijnen. Onder de immense druk van de lawine wordt de inherente verbinding tussen bedrijfsleven en technologie volledig verstoord, waardoor acceptatie van nieuwe transformaties en integraties noodzakelijk is. Dit effect triggert uiteindelijk een reeks revolutionaire innovaties.</li>
+                    <li><strong>In microservice-architectuur: </strong> Het sneeuwbaleffect beschrijft het scenario waarbij, door afhankelijkheden tussen diensten, een storing of onbeschikbaarheid in één dienst zich kan verspreiden door de oproepketen, wat leidt tot de verlamming van het hele systeem. Oorzaken van het sneeuwbaleffect kunnen hardwarefalen, pieken in verkeer, cache penetratie, programmafouten en JVM-storingen omvatten, onder anderen.</li>
+                    <li><strong>In de natuurlijke wereld: </strong> Het sneeuwbaleffect verwijst naar het fenomeen waarbij een kleine steen die een besneeuwde berg afrolt een lawine kan veroorzaken. Dit komt omdat de impact van de kleine steen ervoor zorgt dat de omliggende sneeuwlagen losraken en glijden, wat leidt tot een grootschaligere lawine. Dit fenomeen kan ook metaforisch beschrijven hoe kleine gebeurtenissen of factoren enorme kettingreacties kunnen veroorzaken.</li>
+                </ul>
+            </div>            
+
+            <div>
+                <h3>Botsingsbestendigheid in Cryptografie</h3>
+                <p>
+                    De botsingsbestendigheid van een hashfunctie is een cruciaal concept in de cryptografie, dat het beveiligingsniveau van een hashfunctie tegen botsingsaanvallen aangeeft. Deze eigenschap impliceert dat voor elke hashfunctie <strong>H</strong>, het vinden van twee verschillende invoeren <strong>x</strong> en <strong>y</strong> (<strong>x ≠ y</strong>) zodanig dat <strong>H(x) = H(y)</strong> rekenkundig onuitvoerbaar is. Een hashfunctie met robuuste botsingsbestendigheid maakt het uiterst uitdagend om twee verschillende invoeren te vinden die leiden tot dezelfde uitvoerwaarde.
+                </p>
+                <figure>
+                    <img src="./images/Collision Resistance.jpg" alt="Diagram ter illustratie van botsingsbestendigheid">
+                    <figcaption class="Resistance">Illustratie van Botsingsbestendigheid</figcaption>
+                </figure>
+                <p>
+                    Botsingsbestendigheid speelt een vitale rol bij het handhaven van gegevensintegriteit en -verificatie. Door invoerinformatie om te zetten in een uitvoer van vaste grootte (of digest), zorgen hashfuncties ervoor dat geen twee verschillende invoeren dezelfde uitvoer produceren. Deze unieke eigenschap maakt het mogelijk dat de hashwaarde de originele waarde nauwkeurig identificeert.
+                </p>
+                <p>
+                    Tijdens gegevenscreatie of -opslag wordt een hashwaarde (of digest) gegenereerd met behulp van een hashfunctie. Deze waarde wordt opgeslagen of verzonden samen met de originele gegevens. Zo tonen software-downloadsites vaak bestandshashwaarden voor integriteitsverificatie. Ontvangers kunnen onafhankelijk de hashwaarde van de ontvangen gegevens opnieuw berekenen om de integriteit ervan te bevestigen. Als de originele en herberekende hashwaarden overeenkomen, is de integriteit van de gegevens geverifieerd. Zo niet, dan kunnen de gegevens zijn gemanipuleerd of beschadigd tijdens overdracht of opslag.
+                </p>
+                <p>
+                    Het vergelijken van hashwaarden biedt ook het voordeel dat de integriteit van gegevens kan worden geverifieerd zonder dat er veel opslagruimte nodig is. Deze methode stelt ontvangers in staat de authenticiteit van gegevens te bevestigen door eenvoudig de hashwaarden voor en na de overdracht te vergelijken.
+                </p>
+                <figure>
+                    <img src="./images/Compare Hash.jpg" alt="Proces voor het vergelijken van hashwaarden">
+                    <figcaption class="Compare">Proces voor het vergelijken van hashwaarden</figcaption>
+                </figure>
+            </div>
+            
+            <div>
+                <h2>Kunnen hash botsingen worden gevonden?</h2>
+                <p>
+                    Door de kenmerken van de hashfuncties die hierboven zijn genoemd, hebben we kennisgemaakt met botsingsbestendigheid. Maar is het mogelijk dat hashbotsingen bestaan, dat wil zeggen, dat twee verschillende invoeren dezelfde uitvoer produceren?
+                    Het antwoord is bevestigend, botsingen bestaan inderdaad. Volgens het <a href="https://en.wikipedia.org/wiki/Pigeonhole_principle" target="_blank" style="color: #007bff; font-size: 1.0em;">duiventilprincipe</a>, zolang de invoerruimte voldoende groot is, is er een mogelijkheid van hashbotsingen.
+                    Dit komt omdat de uitvoerruimte van hashfuncties meestal veel kleiner is dan de invoerruimte, wat onvermijdelijk leidt tot meerdere verschillende invoeren die naar dezelfde uitvoer worden gemapt.
+                </p>
+                
+                <p>
+                    Het duiventilprincipe is een eenvoudig en intuïtief principe van combinatorische wiskunde, dat stelt dat als er meer dan n objecten in n containers worden geplaatst, dan zal ten minste één container twee of meer objecten bevatten.
+                    Dit principe kan ook worden gebruikt om problemen zoals de verjaardagsparadox uit te leggen.
+                </p>
+                <p>
+                    De toepassing van het duiventilprincipe is zeer breed, met belangrijke toepassingen in vakgebieden zoals cryptografie, informatica en wiskunde. Bijvoorbeeld, in de informatica wordt het duiventilprincipe gebruikt om de correctheid van bepaalde algoritmen te bewijzen of om de tijdscomplexiteit van algoritmen te analyseren.
+                    In de cryptografie wordt het duiventilprincipe ook gebruikt om bepaalde cryptografische aanvalsmethoden te ontwerpen, zoals de verjaardagsaanval.
+                </p>
+                <p>
+                    De verjaardagsparadox is een klassieke toepassing van het duiventilprincipe. Stel dat er n mensen in een kamer zijn.
+                    Als we willen dat de kans dat ten minste twee mensen dezelfde verjaardag delen groter is dan 50%, hoeveel mensen zijn er dan nodig? Volgens het duiventilprincipe,
+                    als 367 mensen (uitgaande van 366 dagen in een jaar, plus een extra dag voor 29 februari in een schrikkeljaar) worden geplaatst in 366 "duiventillen" (d.w.z. verjaardagen), dan zal ten minste één "duiventil" twee mensen bevatten, wat betekent dat ten minste twee mensen dezelfde verjaardag delen. Dit illustreert de verjaardagsparadox.
+                </p>
+                <p>
+                    Het is belangrijk op te merken dat, hoewel het duiventilprincipe eenvoudig en intuïtief is, de toepassing ervan rekening moet houden met de specifieke context.
+                    Bijvoorbeeld, bij het toepassen van het duiventilprincipe, is het noodzakelijk om ervoor te zorgen dat de betrokken willekeurige variabelen onafhankelijk van elkaar zijn; anders kan dit leiden tot onjuiste conclusies. Bovendien is het in sommige gevallen ook nodig om factoren zoals de grootte en vorm van de duiventillen in overweging te nemen.
+                </p>
+            </div>            
+            
+            <div>
+                <p>
+                    Het proberen te vinden van hash botsingen door eenvoudigweg de invoerruimte te doorlopen, is echter mogelijk niet praktisch, voornamelijk om twee redenen:
+                </p>
+                <ul>
+                    <li><strong>Berekeningscomplexiteit: </strong> Voor de meeste hashfuncties is de invoerruimte enorm. Neem SHA-256 als voorbeeld; de output is een 256-bit hashwaarde, wat betekent dat er 2^256 mogelijke outputs zijn. Omdat een van de ontwerpdoelen van hashfuncties is om botsingen zoveel mogelijk te minimaliseren, zou theoretisch
+                            het vinden van een hashbotsing voor SHA-256 vereisen om ongeveer 2^(256/2) = 2^128 invoeren te doorlopen, volgens de verjaardagsparadox, wat het ongeveer verwachte aantal invoeren is om een botsing te vinden. Zelfs met de krachtigste supercomputers die momenteel beschikbaar zijn, zou het ver buiten een mensenleven duren om een dergelijke taak te voltooien.
+                            waardoor het als onmogelijk wordt beschouwd om een SHA-256 hashbotsing te vinden door eenvoudige doorloop.</li>
+                    <li><strong>Ontwerp van hashfuncties: </strong> Hashfuncties zijn typisch ontworpen om het vinden van botsingen rekenkundig onuitvoerbaar te maken. Dit betekent dat, hoewel botsingen theoretisch bestaan, ze in de praktijk praktisch onmogelijk te vinden zijn. Dit is een belangrijke kenmerk van cryptografische hashfuncties (zoals SHA-256),
+                            die veel worden gebruikt in gebieden zoals digitale handtekeningen, wachtwoordopslag, en meer.</li>
+                </ul>
+                <p>
+                    Natuurlijk kunnen we ook specifieke algoritmes gebruiken om te proberen hashbotsingen te vinden. Deze algoritmes maken vaak gebruik van enkele bekende eigenschappen of zwakheden van hashfuncties om botsingen te vinden. Hier zijn enkele gangbare technieken en methoden voor het vinden van hashbotsingen:
+                </p>
+                <ul>
+                    <li><strong>Verjaardagsaanval: </strong> Dit is een op waarschijnlijkheid gebaseerde eenvoudige methode die wordt gebruikt om de benodigde tijd in te schatten om een botsing te vinden wanneer invoeren willekeurig worden gekozen. Het principe van de verjaardagsaanval is dat als er veel mensen in een kamer zijn, de kans dat twee mensen dezelfde verjaardag hebben toeneemt met het aantal mensen.
+                            Op dezelfde manier, in hashfuncties, als een voldoende aantal invoeren willekeurig wordt geselecteerd, is het waarschijnlijk dat twee invoeren uiteindelijk dezelfde hashuitvoer produceren.</li>
+                    <li><strong>Brute Force Aanval: </strong> Dit is de meest eenvoudige methode, die alle mogelijke invoeren doorloopt om een botsing te vinden. Deze methode is echter onpraktisch voor hashfuncties met grote invoerruimten vanwege de enorme rekenkracht en tijd die nodig zijn.</li>
+                    <li><strong>Regenboogtabellen: </strong> Deze techniek wordt gebruikt om een groot aantal hashwaarden en hun overeenkomstige invoeren vooraf te berekenen en op te slaan. Regenboogtabellen zijn vooral nuttig voor het kraken van wachtwoorden die geen willekeurige data-obfuscatie hebben gebruikt of een bekende hashfunctie hebben. Door op te zoeken in de regenboogtabel, kan een aanvaller snel een invoer vinden die overeenkomt met een specifieke hashwaarde.</li>
+                    <li><strong>Hash Extensie Aanvallen: </strong> Bepaalde hashfuncties laten aanvallers toe om extra gegevens te combineren met een bekende hashwaarde zonder de originele invoer te kennen, waardoor een nieuwe hashwaarde wordt gegenereerd. Deze aanval kan worden gebruikt om botsingen te construeren of andere soorten aanvallen uit te voeren.</li>
+                    <li><strong>Speciaal Geconstrueerde Invoeren: </strong> Soms kunnen aanvallers specifieke zwakheden of niet-lineair gedrag in hashfuncties exploiteren om speciale invoeren te construeren die meer kans hebben om botsingen in de hashfunctie te produceren.</li>
+                </ul>
+            </div>            
+
+            <div>
+                <h2>Wat zijn de meest gebruikte hashfuncties?</h2>
+                <h3>MD5 (Message Digest Algorithm 5)</h3>
+                <p>
+                    MD5 is een veelgebruikte cryptografische hashfunctie, ontworpen door Ronald Rivest in de jaren '90 als vervanging van het oudere MD4-algoritme. Het kan een bericht van elke lengte omzetten in een vaste lengte hashwaarde (128 bits, of 16 bytes).
+                    Het ontwerpdoel van MD5 was om een snelle en relatief veilige manier te bieden om een digitale vingerafdruk van gegevens te genereren. Echter, botsingsmethoden voor <a href="https://en.wikipedia.org/wiki/MD5" target="_blank" style="color: #007bff; font-size: 1.0em;"> MD5 </a> zijn ontdekt, waardoor het algoritme onveilig is geworden, maar het wordt nog steeds veel gebruikt in situaties waar veiligheid geen primaire zorg is.
+                <br>
+                <br> Het berekeningsproces van MD5 omvat de volgende stappen:
+                </p>
+                <ul>
+                    <li><strong>Padding: </strong> Aanvankelijk worden de originele gegevens opgevuld zodat de byte-lengte een veelvoud is van 512. De opvulling begint met een 1, gevolgd door 0en totdat aan de lengtevereiste is voldaan.</li>
+                    <li><strong>Lengte toevoegen: </strong> Een 64-bits lengtewaarde, die de binaire representatie van de originele berichtlengte is, wordt toegevoegd aan het opgevulde bericht, waardoor de uiteindelijke berichtlengte een veelvoud van 512 bits wordt.</li>
+                    <li><strong>Initialiseren van de MD-buffer: </strong> Vier 32-bits registers (A, B, C, D) worden geïnitialiseerd om de tussenliggende en uiteindelijke hashwaarden op te slaan.</li> 
+                    <li><strong>Berichtblokken verwerken: </strong> Het opgevulde en lengte-verwerkte bericht wordt verdeeld in blokken van 512 bits, en elk blok wordt verwerkt door vier ronden van operatie. Elke ronde bevat 16 vergelijkbare operaties gebaseerd op niet-lineaire functies (F, G, H, I), links circulaire verschuivingsoperaties, en optelling modulo 32.</li> 
+                    <li><strong>Output: </strong> De uiteindelijke hashwaarde is de inhoud van de laatste toestand van de vier registers A, B, C, D aan elkaar gekoppeld (elk register is 32 bits), waardoor een 128-bits hashwaarde wordt gevormd.</li> 
+                </ul>                
+                
+                <h3>SHA-1 (Secure Hash Algorithm 1)</h3>
+                <p>
+                    SHA-1 is ontworpen door de United States National Security Agency (NSA) en uitgebracht als een Federal Information Processing Standard (FIPS PUB 180-1) door het National Institute of Standards and Technology (NIST) in 1995.
+                    SHA-1 is bedoeld voor gebruik in digitale handtekeningen en andere cryptografische toepassingen, en genereert een 160-bit (20-byte) hashwaarde, bekend als een berichtsamenvatting. Hoewel nu bekend is dat <a href="https://en.wikipedia.org/wiki/SHA-1" target="_blank" style="color: #007bff; font-size: 1.0em;"> SHA-1 </a> beveiligingskwetsbaarheden heeft en is vervangen door veiligere algoritmen zoals SHA-256 en SHA-3,
+                    het begrijpen van zijn werkingsprincipe heeft nog steeds educatieve en historische waarde.
+                <br>
+                <br>Het ontwerpdoel van SHA-1 is om een bericht van willekeurige lengte te nemen en een 160-bit berichtsamenvatting te produceren om de integriteit van de gegevens te verifiëren. Het berekeningsproces kan worden verdeeld in de volgende stappen:
+                </p>
+                <ul>
+                    <li><strong>Padding: </strong> Aanvankelijk wordt het oorspronkelijke bericht opgevuld zodat de lengte (in bits) modulo 512 gelijk is aan 448. De opvulling begint altijd met een "1" bit, gevolgd door meerdere "0" bits, totdat aan de bovenstaande lengtevoorwaarde is voldaan.</li>
+                    <li><strong>Lengte toevoegen: </strong> Een 64-bits blok wordt toegevoegd aan het opgevulde bericht, dat de lengte van het oorspronkelijke bericht (in bits) vertegenwoordigt, waardoor de uiteindelijke berichtlengte een veelvoud van 512 bits wordt.</li>
+                    <li><strong>Buffer initialiseren: </strong> Het SHA-1-algoritme gebruikt een 160-bits buffer, verdeeld in vijf 32-bits registers (A, B, C, D, E), om de tussenliggende en uiteindelijke hashwaarden op te slaan. Deze registers worden geïnitialiseerd naar specifieke constante waarden aan het begin van het algoritme.</li>
+                    <li><strong>Berichtblokken verwerken: </strong> Het voorverwerkte bericht wordt verdeeld in blokken van 512 bits. Voor elk blok voert het algoritme een hoofdlus uit die 80 vergelijkbare stappen bevat. Deze 80 stappen zijn verdeeld in vier rondes, elk met 20 stappen. Elke stap gebruikt een andere niet-lineaire functie (F, G, H, I) en een constante (K). Deze functies zijn ontworpen om de complexiteit en veiligheid van de operaties te vergroten. In deze stappen gebruikt het algoritme bitgewijze operaties (zoals EN, OF, XOR, NIET) en optelling modulo 32, evenals links circulaire verschuivingen.</li>
+                    <li><strong>Output: </strong> Na het verwerken van alle blokken worden de opgebouwde waarden in de vijf registers aan elkaar gekoppeld om de uiteindelijke 160-bit hashwaarde te vormen.</li>
+                </ul>                
+
+                <h3>SHA-2 (Secure Hash Algorithm 2)</h3>
+                <p>
+                    SHA-2 is een familie van cryptografische hashfuncties, bestaande uit verschillende versies, voornamelijk zes varianten: SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, en SHA-512/256.
+                    SHA-2 is ontworpen door de United States National Security Agency (NSA) en gepubliceerd als een Federal Information Processing Standard (FIPS) door het National Institute of Standards and Technology (NIST). In vergelijking met zijn voorganger, SHA-1, biedt SHA-2 verbeterde beveiliging, voornamelijk weerspiegeld in langere hashwaarden en sterkere weerstand tegen botsingsaanvallen.
+                <br>
+                <br>De werking van de <a href="https://en.wikipedia.org/wiki/SHA-2" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;"> SHA-2 </a> familie lijkt in veel opzichten op SHA-1 maar biedt hogere beveiliging door het gebruik van langere hashwaarden en een complexer verwerkingsprocedure. Hier zijn de belangrijkste stappen van het SHA-2 algoritme:
+                </p>
+                <ul>
+                    <li><strong>Padding: </strong> Het invoerbericht wordt eerst opgevuld om de lengte ervan, minus 64 bits, gelijk te maken aan 448 of 896 op een modulo 512 (voor SHA-224 en SHA-256) of modulo 1024 (voor SHA-384 en SHA-512) basis. De opvulmethode is hetzelfde als bij SHA-1, wat inhoudt dat een "1" aan het einde van het bericht wordt toegevoegd, gevolgd door meerdere "0"en, en uiteindelijk een 64-bits (voor SHA-224 en SHA-256) of 128-bits (voor SHA-384 en SHA-512) binaire representatie van de originele berichtlengte in bits.</li>
+                    <li><strong>Buffer initialiseren: </strong> Het SHA-2 algoritme gebruikt een reeks geïnitialiseerde hashwaarden als startbuffer, afhankelijk van de gekozen SHA-2 variant. Bijvoorbeeld, SHA-256 gebruikt acht 32-bits registers, terwijl SHA-512 acht 64-bits registers gebruikt. Deze registers worden geïnitialiseerd met specifieke constante waarden.</li>
+                    <li><strong>Berichtblokken verwerken: </strong> Het opgevulde bericht wordt verdeeld in 512-bits of 1024-bits blokken, en elk blok ondergaat meerdere rondes van cryptografische operaties. SHA-256 en SHA-224 voeren 64 rondes van operaties uit, terwijl SHA-512, SHA-384, SHA-512/224, en SHA-512/256 80 rondes uitvoeren. Elke ronde van operatie bevat een reeks complexe bitwise operaties, inclusief logische, modulaire toevoeging, en conditionele operaties, steunend op verschillende niet-lineaire functies en vooraf gedefinieerde constanten. Deze operaties verhogen de complexiteit en beveiliging van het algoritme.</li>
+                    <li><strong>Output: </strong> Uiteindelijk, na het verwerken van alle blokken, worden de waarden in de buffer gecombineerd om de uiteindelijke hashwaarde te vormen. Afhankelijk van de SHA-2 variant, kan deze hashwaarde 224, 256, 384 of 512 bits lang zijn.</li>
+                </ul>
+                <P>
+                    Je vraagt je misschien af waarom de invoer naar een hashfunctie van willekeurige lengte kan zijn, maar de uitvoer vast is. De reden is dat de SHA-2 familie de Merkle-Damgård transformatie gebruikt, die de constructie van hashfuncties mogelijk maakt die berichten van elke lengte kunnen verwerken vanuit een compressiefunctie van vaste lengte. De Merkle-Damgård transformatie wordt aangenomen in veel traditionele hashfuncties, inclusief MD5 en SHA-1.
+                </P>
+                <p>
+                    Het kernidee van de Merkle-Damgård transformatie is om het invoerbericht te verdelen in blokken van vaste grootte en vervolgens deze blokken een voor een te verwerken, waarbij elke verwerkingsstap afhankelijk is van het resultaat van de vorige, uiteindelijk resulterend in een vaste hashwaarde. De opvulstap van SHA-256 belichaamt de basisprincipes van de Merkle-Damgård transformatie, namelijk door geschikt opvullen om berichten van elke lengte te verwerken en te zorgen dat de uiteindelijke verwerkte berichtlengte aan bepaalde voorwaarden voldoet (zoals een veelvoud zijn van een vaste lengte). Daarom kan worden gezegd dat de opvulstap van SHA-256 de Merkle-Damgård transformatiemethode volgt.
+                </p>                
+                <figure>
+                    <img src="./images/Merkle-Damgård Padding.jpg" alt="Merkle-Damgård Padding Principle">
+                    <figcaption class="Merkle-Damgård">Merkle-Damgård Paddingprincipe</figcaption>
+                </figure>
+                <p>
+                    Echter, SHA-256 is niet slechts een directe implementatie van de Merkle-Damgård transformatie. Het omvat ook een reeks complexe computationele stappen (zoals berichtuitbreiding, meerdere rondes van compressiefuncties, etc.), die unieke ontwerpen van SHA-256 zijn, gericht op het verbeteren van de beveiliging. Daarom, hoewel SHA-256 de principes van de Merkle-Damgård transformatie volgt in zijn opvulstap, verhoogt het de algehele beveiliging door andere beveiligingsmechanismen te introduceren, waardoor het niet beperkt blijft tot het basisraamwerk van de Merkle-Damgård transformatie.
+                </p>                
+
+                <h3>SHA-3 (Secure Hash Algorithm 3)</h3>
+                <p>
+                    SHA-3 is de nieuwste beveiligde hash-standaard, officieel goedgekeurd door het National Institute of Standards and Technology (NIST) in 2015 als een Federal Information Processing Standard (FIPS 202). SHA-3 is niet bedoeld om de eerdere SHA-1 of SHA-2 te vervangen (aangezien SHA-2 nog steeds als veilig wordt beschouwd),
+                    maar eerder om een aanvullende en alternatieve optie binnen de SHA-familie te bieden, door een ander cryptografisch hash-algoritme aan te bieden. SHA-3 is gebaseerd op het Keccak-algoritme, ontworpen door Guido Bertoni en anderen, en was de winnaar van de SHA-3 competitie gehouden door NIST in 2012.
+                <br>
+                <br>Het werkingsprincipe van SHA-3 verschilt aanzienlijk van SHA-2, voornamelijk omdat het een methode gebruikt die bekend staat als "<strong>sponge constructie</strong>" om gegevens te absorberen en uit te persen, waardoor de uiteindelijke hashwaarde wordt geproduceerd. Deze methode stelt SHA-3 in staat om flexibel hashwaarden van verschillende lengtes uit te voeren, waardoor het een breder scala aan toepassingen biedt dan SHA-2. De belangrijkste stappen van SHA-3 zijn als volgt:
+                </p>
+                <figure>
+                    <img src="./images/sponge construction.jpg" alt="Schematisch diagram van sponsstructuur">
+                    <figcaption class="sponge">Schematisch diagram van sponsstructuur</figcaption>
+                </figure>                
+
+                <h4>Absorptiefase: </h4>
+                <p>
+                    In de absorptiefase verdeelt de sponsstructuur eerst de invoergegevens in blokken van vaste grootte. Deze datablokken worden sequentieel "geabsorbeerd" in de interne staat van de spons, die doorgaans groter is dan een enkel datablok, om ervoor te zorgen dat een grote hoeveelheid gegevens kan worden verwerkt zonder overloop.
+                    Specifiek wordt elk datablok op een bepaalde manier samengevoegd met een deel van de interne staat (zoals door een XOR-operatie), gevolgd door de toepassing van een vaste permutatiefunctie (in SHA-3, dit is <a href="https://en.wikipedia.org/wiki/SHA-3" target="_blank" style="color: #007bff; font-size: 1.0em;">Keccak-f</a> ) om de hele staat te transformeren, daardoor interferentie tussen verschillende invoergegevensblokken voorkomend. Dit proces wordt herhaald totdat alle invoergegevensblokken zijn verwerkt.
+                </p>
+                <p>
+                    Keccak-f is de kernpermutatiefunctie die wordt gebruikt in het SHA-3 cryptografische hashalgoritme. Het is een centraal onderdeel van de Keccak-algoritme familie. SHA-3 is gebaseerd op het Keccak-algoritme, dat de cryptografische hashalgoritme competitie gehouden door NIST won en werd geselecteerd als de standaard voor SHA-3. De Keccak-f-functie heeft verschillende varianten,
+                    waarbij de meest gebruikte Keccak-f[1600] is, waarbij het getal de bitbreedte aangeeft waarop het werkt.
+                </p>
+                <p>
+                    Keccak-f bestaat uit meerdere rondes van dezelfde operatie (aangeduid als rondes). Voor Keccak-f[1600] zijn er in totaal 24 ronden van operaties. Elke ronde omvat vijf basisstappen:<em> θ (Theta), ρ (Rho), π (Pi), χ (Chi), en ι (Iota)</em>. Deze stappen werken samen aan de staat array, waardoor de inhoud geleidelijk wordt getransformeerd,
+                    verwarring en verspreiding toenemend om de beveiliging te verbeteren. Hieronder volgt een korte beschrijving van deze stappen:
+                </p>
+                <ul>
+                    <li><strong>θ (Theta) stap: </strong> Voert XOR-operaties uit op alle bits van elke kolom, vervolgens XORs het resultaat op aangrenzende kolommen, waardoor diffusie tussen kolommen ontstaat.</li>
+                    <li><strong>ρ (Rho) stap: </strong> Bit-niveau rotatieoperatie, waarbij elke bit een ander aantal bits wordt gedraaid volgens vooraf bepaalde regels, waardoor de complexiteit van de gegevens toeneemt.</li>
+                    <li><strong>π (Pi) stap: </strong> Herschikt de bits in de staat array, waardoor de positie van de bits wordt gewijzigd om diffusie over rijen en kolommen te bereiken.</li>
+                    <li><strong>χ (Chi) stap: </strong> Een niet-lineaire stap die XOR-operaties uitvoert op elke bit van elke rij, inclusief zichzelf, zijn onmiddellijke buurman, en het complement van de buurman. Dit is een lokale operatie die de niet-lineaire kenmerken van het cryptografische algoritme verhoogt.</li>
+                    <li><strong>ι (Iota) stap: </strong> Voegt een ronde constante toe aan een deel van de staat array, met de constante die in elke ronde verschilt, om te voorkomen dat alle rondes identiek werken, onvoorspelbaarheid introducerend.</li>
+                </ul>
+                
+                <p>
+                    Keccak-f biedt een hoog niveau van beveiliging door deze stappen. Het ontwerp zorgt ervoor dat zelfs kleine veranderingen in de invoer leiden tot wijdverspreide en onvoorspelbare veranderingen in de staat array, bereikt door de principes van verwarring (het moeilijk maken voor aanvallers om de invoer uit de uitvoer af te leiden) en verspreiding (waar kleine veranderingen in de invoer meerdere delen van de uitvoer beïnvloeden).
+                </p>
+                
+                <p>
+                    Het ontwerp van Keccak-f staat aanpassing van parameters toe (zoals staatgrootte en aantal rondes) over verschillende beveiligingsniveaus en toepassingsscenario's, wat grote flexibiliteit biedt. Keccak-f[1600] staat bekend om zijn efficiënte implementatie, die hoge verwerkingssnelheden bereikt, zowel in hardware als in software, vooral bij het verwerken van grote hoeveelheden gegevens.
+                </p>
+                
+                <h4>Uitknijpfase: </h4>
+                <p>
+                    Zodra alle invoergegevensblokken in de interne staat zijn geabsorbeerd, gaat de sponsstructuur over naar de uitknijpfase. In deze fase worden delen van de interne staat geleidelijk uitgevoerd als het resultaat van de hashfunctie. Als de vereiste uitvoerlengte groter is dan wat in één keer kan worden uitgeknepen, past de sponsstructuur de permutatiefunctie toe om de interne staat opnieuw te transformeren en vervolgens meer gegevens uit te voeren. Dit proces wordt voortgezet totdat de gewenste uitvoerlengte is bereikt.
+                </p>
+                
+                <p>
+                    Het doel van het ontwerp van SHA-3 is om een hogere beveiliging dan SHA-2 te bieden en betere weerstand tegen aanvallen van kwantumcomputing. Dankzij zijn unieke sponsstructuur is SHA-3 in theorie in staat om alle momenteel bekende cryptografische aanvalsmethoden te weerstaan, inclusief botsingsaanvallen, preimage-aanvallen en second preimage-aanvallen.
+                </p>                
+
+                <h3>RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest)</h3>
+                <p>
+                    RIPEMD-160 is een cryptografische hashfunctie ontworpen om een veilig hashalgoritme te bieden. Het werd in 1996 ontwikkeld door Hans Dobbertin en anderen en maakt deel uit van de RIPEMD (RACE Integrity Primitives Evaluation Message Digest) familie.
+                </p>
+                <p>
+                    RIPEMD-160 produceert een 160-bit (20-byte) hashwaarde, wat de oorsprong is van de "160" in zijn naam. Het is gebaseerd op het ontwerp van MD4 en beïnvloed door andere hashalgoritmes zoals MD5 en SHA-1. RIPEMD-160 omvat twee parallelle, vergelijkbare bewerkingen die de invoergegevens afzonderlijk verwerken en vervolgens de resultaten van deze twee processen combineren om de uiteindelijke hashwaarde te genereren. Dit ontwerp heeft als doel de beveiliging te verbeteren.
+                <br>
+                <br> Het berekeningsproces van <a href="https://nl.wikipedia.org/wiki/RIPEMD" target="_blank" style="color: #007bff; font-size: 1.0em;">RIPEMD-160</a> omvat verschillende basisstappen: padding, blokverwerking en compressie:
+                </p>
+                <ul>
+                    <li><strong>Padding: </strong> Het invoerbericht wordt eerst aangevuld om ervoor te zorgen dat de lengte modulo 512 bits gelijk is aan 448 bits. De padding begint altijd met een enkele bit van 1, gevolgd door een reeks van 0 bits, eindigend met een 64-bits representatie van de oorspronkelijke berichtlengte.</li>
+                    <li><strong>Blokverwerking: </strong> Het aangevulde bericht wordt verdeeld in 512-bit blokken.</li>
+                    <li><strong>Initialisatie: </strong> Er worden vijf 32-bit registers (A, B, C, D, E) gebruikt, die geïnitialiseerd zijn op bepaalde specifieke waarden.</li>
+                    <li><strong>Compressiefunctie: </strong> Elk blok wordt achtereenvolgens verwerkt, waarbij de waarden van deze vijf registers worden bijgewerkt door een reeks complexe bewerkingen. Dit proces omvat bitgewijze bewerkingen (zoals optellen, EN, OF, NIET, circulaire linksverschuivingen) en het gebruik van een reeks vaste constanten.</li>
+                    <li><strong>Uitvoer: </strong> Nadat alle blokken zijn verwerkt, worden de waarden van deze vijf registers samengevoegd om de uiteindelijke 160-bit hashwaarde te vormen.</li>
+                </ul>                
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. Alle rechten voorbehouden.</p>
+            <p>
+                <a href="https://chatcipherai.com/nl/Privacy_Policy.html" title="Privacy Policy">Privacybeleid</a>
+                |
+                <a href="https://chatcipherai.com/nl/Terms_of_Use.html" title="Terms of Use">Gebruiksvoorwaarden</a>
+                |
+                <a href="https://chatcipherai.com/nl/About_Us.html" title="About Us">Over ons</a>
+                |
+                <a href="https://chatcipherai.com/nl/Disclaimer.html" title="Disclaimer">Disclaimer</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">Terug naar Boven(<span class="highlight-key">B</span>)</button>
+        </div> 
+    </footer>
+
+    <script>
+        let shortcutsEnabled = true;
+
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Ensure all handlers are set up once the DOM is fully loaded
+            document.addEventListener('keydown', handleKeyPress);
+
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+            
+            setupEventListeners(); // Setup other event listeners
+            adjustButton();
+        });
+        
+        let generatedTextHash = '';
+        let generatedFileHash = '';
+
+        async function generateHash() {
+            const text = document.getElementById('textInput').value;
+            document.getElementById('processOutput').textContent = text.length ? "Hashwaarde berekenen..." : '';
+            const msgUint8 = new TextEncoder().encode(text);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            document.getElementById('hashOutput').textContent = `Hash-waarde (SHA-256): ${hashHex}`;
+            generatedTextHash = hashHex;
+            document.getElementById('processOutput').textContent = "";
+        }
+
+        async function generateFileHash() {
+            const fileInput = document.getElementById('fileInput');
+            if (!fileInput.files.length) {
+                alert("Selecteer een bestand.");
+                return;
+            }
+            document.getElementById('fileHashOutput').textContent = "Bestand-hashwaarde berekenen...";
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function (event) {
+                const arrayBuffer = event.target.result;
+                const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                document.getElementById('fileHashOutput').textContent = `Hash-waarde (SHA-256): ${hashHex}`;
+                generatedFileHash = hashHex;
+            };
+            reader.onerror = function () {
+                alert("Fout bij het lezen van bestanden.");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function compareTextHash() {
+            const compareHash = document.getElementById('hashCompareInput').value;
+            if (!generatedTextHash) {
+                alert('Genereer eerst een hash van de tekst.');
+                return;
+            }
+            const resultText = generatedTextHash === compareHash ? "<strong>Conclusie: </strong>De hashes komen overeen en de gegevens zijn niet gemanipuleerd." : "<strong>Conclusie: </strong>De hashes komen niet overeen, en de gegevens zijn mogelijk gemanipuleerd tijdens het transport of er is een fout opgetreden tijdens de opslag.";
+            document.getElementById('textCompareResult').innerHTML = resultText;
+            document.getElementById('textCompareResult').style.color = generatedTextHash === compareHash ? "black" : "red";
+        }
+
+        async function compareFileHash() {
+            const fileInput = document.getElementById('compareFileInput');
+            if (!fileInput.files.length) {
+                alert("Selecteer een bestand om te vergelijken.");
+                return;
+            }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function (event) {
+                const arrayBuffer = event.target.result;
+                const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                document.getElementById('fileCompareResult').textContent = `Hash-waarde (SHA-256): ${hashHex}`;
+
+                if (generatedFileHash === hashHex) {
+                    document.getElementById('fileCompareResult').innerHTML += "<br><strong>Conclusie: </strong>De hashes komen overeen en de gegevens zijn niet gemanipuleerd.";
+                    document.getElementById('fileCompareResult').style.color = "black";
+                } else {
+                    document.getElementById('fileCompareResult').innerHTML += "<br><strong>Conclusie: </strong>De hashes komen niet overeen, en de gegevens kunnen onderweg gemanipuleerd zijn of er is een fout opgetreden tijdens de opslag.";
+                    document.getElementById('fileCompareResult').style.color = "red";
+                }
+            };
+            reader.onerror = function () {
+                alert("Fout bij het lezen van bestanden.");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function compareHashValues() {
+            var hashValue1 = document.getElementById('hashInput1').value.trim();
+            var hashValue2 = document.getElementById('hashInput2').value.trim();
+
+            var resultDisplay = document.getElementById('hashComparisonResult');
+
+            resultDisplay.style.fontWeight = 'bold';
+
+            if (hashValue1 === "" || hashValue2 === "") {
+                resultDisplay.textContent = 'Beide hashwaarden moeten worden ingevoerd.';
+                resultDisplay.style.color = 'black';
+            } else if (hashValue1 === hashValue2) {
+                resultDisplay.textContent = 'De hashwaarden komen overeen!';
+                resultDisplay.style.color = 'black';
+            } else {
+                resultDisplay.textContent = 'De hashwaarden komen niet overeen.';
+                resultDisplay.style.color = 'red';
+            }
+        }
+
+        function copyTextHash() {
+            const hashValue = document.getElementById('hashOutput').textContent;
+            const hash = hashValue.split(": ")[1];
+            if (hash) {
+                navigator.clipboard.writeText(hash).then(() => {
+                }, () => {
+                    console.error("Kan teksthash niet kopiëren.");
+                });
+            }
+        }
+
+        function copyFileHash() {
+            const hashValue = document.getElementById('fileHashOutput').textContent;
+            const hash = hashValue.split(": ")[1];
+            if (hash) {
+                navigator.clipboard.writeText(hash).then(() => {
+                }, () => {
+                    console.error("Kan de bestandshash niet kopiëren.");
+                });
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('hashOutput').textContent = '';
+            document.getElementById('hashCompareInput').value = '';
+            document.getElementById('textCompareResult').textContent = '';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileHashOutput').textContent = '';
+            document.getElementById('compareFileInput').value = '';
+            document.getElementById('fileCompareResult').textContent = '';
+            document.getElementById('hashInput1').value = '';
+            document.getElementById('hashInput2').value = '';
+            document.getElementById('hashComparisonResult').textContent = '';
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .menuUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var navbarUl = document.querySelector('.navbar ul');
+
+            if (!menuIcon.contains(event.target) && !navbarUl.contains(event.target)) {
+                navbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.9)' : 'rgba(255, 255, 255, 0.9)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.addEventListener('click', function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none" || moreContent.style.display === "") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Sluiting]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Kom meer te weten]";
+                }
+            });
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'Terug naar Boven(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+</html>

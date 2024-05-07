@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>普萊菲爾密碼探索器：經典的5x5加密矩陣</title>
+    <meta name="description" content="在普萊菲爾密碼的世界中，文字如古老的表演者在5x5的密室中舞動，它們成對地優雅跳躍，緊密相連，將每個故事編織成一個不易被破譯的神秘密碼。">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>       
+        html {
+            height: 100%;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }   
+
+        #menuIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column; 
+            position: absolute;
+            top: 35px; 
+            left: 10px;
+            width: 15%; 
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0; 
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px; 
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0; 
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px; 
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        #inputMessage, #shiftValue {
+            width: 60%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            font-size: 1em;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 120px;
+            margin-left: 180px;
+            width: 80%;
+        }
+
+        .sections-container h2, .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        #processedPlaintext, #result {
+            font-weight: bold;
+            color: #0A0F24;
+            word-wrap: break-word; 
+        }
+
+        #processedPlaintextParagraph, #resultParagraph {
+            margin-bottom: 5px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 70%; 
+            color: #ffffff; 
+            margin-left: 5%;
+            margin-top: 30px;
+            margin-bottom: 200px;
+        }
+            
+        input[type="text"], textarea {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 字体样式 */
+            font-size: 15px; 
+            color: #0A0F24; 
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            resize: none;
+        }
+
+        input[type="text"] {
+            width: 65%;
+        }
+
+        .container h2 {
+            margin-top: -7px; 
+            text-align: left;
+            margin-left: -50px;
+        }
+
+        .container p {
+            margin-left: -50px;
+            color: #0A0F24;
+        }
+
+        #inputText {
+            width: 65%; 
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            min-height: 100px;
+        }
+
+        #inputText::-moz-placeholder {
+            font-weight: bold;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 40px;
+            max-height: 300px;
+        }
+
+        .section {
+            margin-left: 60px;
+        }
+
+        p {  
+            margin-bottom: 30px;  
+            text-align: left; 
+            font-size: 1.2em; 
+            line-height: 1.6; 
+            margin-bottom: 15px; 
+        }
+
+        h2 {  
+            margin-bottom: 10px;
+            font-size: 28px;  
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white; 
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3); 
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206); 
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24; 
+        }
+
+        p { 
+            text-align: center;  
+            margin-bottom: 30px;  
+        }
+
+        h2 {  
+            margin-bottom: 10px;  
+        }
+
+        h3 {
+            margin-top: 50px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px; 
+            margin-left: 0; 
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {  
+            background-color: #0A0F24;  
+            color: white;  
+        }  
+
+        .light-mode {  
+            background-color: white;  
+            color: #0A0F24; 
+        }
+
+        .dark-mode .container p{
+            color: #FFFFFF;
+        }
+
+
+        .light-mode .container {
+            color: #0A0F24; 
+        }
+
+        .light-mode .navbar, .light-mode {
+            background-color: #FFFFFF; 
+            color: #0A0F24; 
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent;
+            color: #0A0F24; 
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded; 
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24; 
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start; 
+        }
+
+        #languageIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+            }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px; 
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            width: 100%;   
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px; 
+        }
+
+        .footer {
+            position: relative; 
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: -25px;
+        }
+            
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.playfair,
+        figcaption.padding_rules {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative; 
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .cipher-matrix {
+            font-size: 20px;
+            letter-spacing: 5px; 
+            line-height: 1.5;
+            margin-left: -100px;
+        }
+
+        .highlight {
+            color: red; 
+            font-weight: bold; 
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .cipher-matrix {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+        
+        .language-list{
+            float: right;
+        }
+
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px; 
+            }
+                
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 80%;
+            }
+
+            .section {
+                width: 120%;
+                padding: 10px;
+            }
+
+            .section h2 {
+                font-size: 1.2em; 
+            }
+
+            .section h3 {
+                font-size: 0.9em; 
+            }
+
+            .section h4 {
+                font-size: 0.8em; 
+            }
+
+            .section p {
+                font-size: 0.9em; 
+            }
+
+            section li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            .container {
+                width: 100%; 
+                padding: 20px; 
+                font-size: 0.8em;
+            }
+
+            .container h2{
+                font-size: 1.5em;
+                margin-top: 10px;
+            }
+
+            input[type="text"] {
+                width: 78%; 
+            }
+
+            textarea {
+                width: 60%; 
+            }
+
+            .cipher-matrix {
+                margin-left: -210px;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -80px;
+            }
+
+            figcaption.playfair,
+            figcaption.padding_rules {
+                width: 100%;
+                margin-left: -90px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            #inputText {
+                width: 78%; 
+            }
+
+            #processedPlaintext, #result {
+                font-weight: bold;
+                color: #0A0F24;
+                word-wrap: break-word; 
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; 菜單</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/zh-TW/chatcipherai.html">密碼世界</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/zh-TW/Caesar_Cipher.html">凱撒密碼</a></li>
+                        <li><a href="https://chatcipherai.com/zh-TW/Playfair_Cipher.html">普萊菲爾密碼</a></li>
+                        <li><a href="https://chatcipherai.com/zh-TW/Hill_Cipher.html">希爾密碼</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/zh-TW/Hash_value_test.html">哈希值測試</a></li>
+                <li><a href="https://chatcipherai.com/zh-TW/Morsecode_main.html">摩爾斯電碼編譯器</a></li>
+                <li><a href="https://chatcipherai.com/zh-TW/Shortcut_Key_Description.html">快捷鍵說明</a></li>
+            </ul>
+    
+            <div id="languageIcon">&#x2637; 語言</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Playfair_Cipher.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Playfair_Cipher.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Playfair_Cipher.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Playfair_Cipher.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Playfair_Cipher.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Playfair_Cipher.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Playfair_Cipher.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Playfair_Cipher.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Playfair_Cipher.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Playfair_Cipher.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Playfair_Cipher.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+
+            <h1>普萊菲爾密碼探索器</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 暗色風格(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ 亮色風格(<span class="highlight-key">L</span>)</button>
+            </div>          
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <div class="container">
+            <h2>嘗試普萊菲爾密碼</h2>
+            <p>使用下面提供的工具來加密或解密一個信息：</p>
+            <input type="text" id="key" placeholder="輸入密鑰" />
+            <textarea id="inputText" placeholder="在這裡輸入文本"></textarea>
+
+            <button id="encryptButton">加密(<span class="highlight-key">E</span>)</button>
+            <button id="decryptButton">解密(<span class="highlight-key">D</span>)</button>
+            <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">清除全部(<span class="highlight-key">A</span>)</button>
+
+            <p>轉換結果：<span id="processedPlaintext"></span></p>
+            <p>結果：<span id="result"></span></p>
+        </div>              
+
+        <section class="section">
+            <h2>普萊菲爾密碼的過去與現在</h2>
+            <p>
+                <a href="https://en.wikipedia.org/wiki/Playfair_cipher" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">普萊菲爾密碼</a>，一種經典的加密方法，擁有獨特的歷史和起源。它由著名的英國科學家查爾斯·惠斯通在1854年發明，他因在電力和光學領域的貢獻而聞名，但這種密碼的名字卻是以他的朋友、當時的英國外交大臣萊昂·普萊菲爾的名字命名的。後者積極推廣這種密碼，並促進了其在政府通信中的實際應用。
+            </p>
+            
+            <p>
+                普萊菲爾密碼在19世紀和20世紀初被廣泛使用，特別是在軍事通信中，在第一次世界大戰期間被英國軍隊廣泛採用，成為當時最流行的手工加密系統之一。與其他經典加密方法不同，普萊菲爾密碼加密字母對，即雙字母組，而不是單個字母，這增強了它超越簡單替代密碼的安全性。
+            </p>
+            
+            <p>
+                普萊菲爾密碼使用5x5的字母矩陣進行加密過程。通常，這個矩陣使用關鍵詞填充，剩餘的字母字符按順序排列。在加密過程中，明文被分割成字母對，每對字母根據它們在矩陣內的相應位置通過特定規則進行替換。
+            </p>
+
+            <p>
+                Playfair密碼的歷史和起源反映了19世紀中葉密碼學和通信技術的重大進步。它的誕生影響了密碼學領域的後續發展，尤其是作為雙字母替換的早期實例之一。儘管它缺乏當代安全相關性，但Playfair密碼仍然是研究古典加密技術的重要課題。
+            </p>
+            
+            <p>
+                儘管在當代不再用於安全通信，普萊菲爾密碼在密碼學史冊中保持著其重要性，通常被用作入門教學工具，例如幫助學生理解加密方法的演變。此外，它在謎題遊戲、密室逃脫和在線挑戰中也頗受歡迎，參與者喜歡解決密碼學謎題。在地理藏寶遊戲中，它用於解密提示以確定地理藏寶的物理位置。
+            </p>
+            
+            <h2>如何創建普萊菲爾密碼？</h2>
+            <p>選擇一個密鑰，填充5x5矩陣，並遵循特定的加密和解密規則。</p>
+            
+            <h3>創建密鑰矩陣：</h3>
+            <ul>
+                <li>選擇一個密鑰（通常是一個單詞或短語）。</li>
+                <li>從密鑰中刪除任何重複的字母。</li>
+                <li>按順序將密鑰的字母填入5x5矩陣中。</li>
+                <li>填寫完密鑰後，將剩餘的字母（排除已在密鑰中的字母）按順序填入矩陣中。</li>
+                <li>在英文版本的普萊菲爾密碼中，字母'I'和'J'通常被視為相同的字符，以將26個字母適應到25個空格中。</li>
+            </ul>
+            
+            <p>假設我們有以下條件：</p>
+            <ul>
+                <li>密鑰：<strong>PLAYFAIR EXAMPLE</strong></li>
+                <li>要加密的文本：<strong>Hello World</strong></li>
+            </ul>
+
+            <h3>加密過程：</h3>
+            <p>
+                首先，<strong>消除密鑰中的任何重複字母</strong>，然後按順序將大寫密鑰'PLAYFIR EXM'輸入到密鑰矩陣中。然後，將剩餘空間用不包括在'PLAYFIR EXM'中的25個字母表中的字母填滿，以完成5x5矩陣。
+            </p>
+
+            <h4>密鑰矩陣：</h4>
+            <pre class="cipher-matrix">
+                <span class="highlight">P</span> <span class="highlight">L</span> <span class="highlight">A</span> <span class="highlight">Y</span> <span class="highlight">F</span> 
+                <span class="highlight">I</span> <span class="highlight">R</span> <span class="highlight">E</span> <span class="highlight">X</span> <span class="highlight">M</span> 
+                B C D G H
+                K N O Q S
+                T U V W Z
+            </pre>
+
+            <p>
+                接下來，組織明文。每兩個字母形成一對。如果一對中包含兩個相同的字母並排，或者最後一個字母沒有成對，則插入一個'X'來解決這個問題。在給定的示例中，短語'Hello World'被轉換為明文'HE LX LO WO RL DX'。
+            </p>
+
+            <h3>加密規則：</h3>
+            <ul>
+                <li>如果兩個字符不在同一行或列中，則加密字符是對角線上的字符。</li>
+                <li>如果兩個字符在同一列中，則加密字符直接在每個字符下方。如果字符在第五行，則循環到第一行。</li>
+                <li>如果兩個字符在同一行中，則加密字符直接在每個字符右邊。同樣地，如果字符在第五列，則循環到第一列。</li>
+            </ul>
+            <p>
+                當然，使用圖表來說明加密過程是明智的。或者，您可以使用上面提供的普萊菲爾密碼工具方便且高效地生成明文和密文。
+            </p>
+
+            <figure>
+                <img src="./images/figure 1-playfair cipher encryption.jpg" alt="普萊菲爾密碼密鑰矩陣的詳細視圖">
+                <figcaption class="playfair">普萊菲爾密碼密鑰矩陣的詳細視圖</figcaption>
+            </figure>
+
+            <h3>解密過程：</h3>
+            <p>
+                對於解密，我們輸入加密文本並逆向應用普萊菲爾密碼規則。使用密鑰`PLAYFAIR EXAMPLE`生成矩陣。加密文本直接用於解密，無需額外的預處理。解密是通過每對加密字母的密鑰矩陣來進行的。例如，對於第一對加密字母`DM`，我們在矩陣中找到它們的位置並逆轉加密規則以檢索原始對`HE`。通過這種方式對所有加密字母對進行解密，我們重構原始文本。
+            </p>
+            
+            <h2>有關於普萊菲爾密碼的電影或電視劇嗎？</h2>
+            <p>
+                普萊菲爾密碼是一種曾經廣泛使用的加密技術，儘管它在歷史上頗為著名，但目前並沒有哪部特別著名的電影或電視劇專門以普萊菲爾密碼為中心主題。
+            </p>
+
+            <p>
+                儘管如此，關於密碼學的電影和電視劇並不罕見，它們通常涉及各種類型的加密技術，探索間諜活動、軍事情報、偵探故事或尋寶等主題。
+            </p>
+
+            <p>
+                雖然直接關於普萊菲爾密碼的影視作品可能不多，但喜歡密碼學、謎題和尋寶故事的觀眾可能會發現許多包含類似主題的作品，其中加密技術常常是情節發展的關鍵元素。如果您對密碼學和密碼破譯的歷史感興趣，可能會喜歡那些涉及複雜謎題和編碼信息的影視作品。
+            </p>
+
+            <h2>怎麼區分字母“I”和“J”</h2>
+            <p>
+                在最初的普萊菲爾密碼中，字母“I”和“J”通常被視為相同的字符。這種處理方法主要是因為普萊菲爾密碼需要一個5x5的矩陣來放置字母，而英文字母共有26個，因此需要將兩個字母視為等同以適應這個25格的矩陣。
+            </p>
+            <h3>如何處理“I”和“J”：</h3>
+            <p>
+                <strong>合併處理：</strong>在創建密碼矩陣時，一種常見的做法是將“I”和“J”視為同一個字符，通常選擇“I”來代表這兩個字母。這意味著在編碼或解碼過程中，無論原文是“I”還是“J”，都會用“I”來代替。
+            </p>
+            <p>
+                <strong>編碼與解碼：</strong>在使用普萊菲爾密碼進行消息的加密或解密時，如果消息中包含“J”，它會被替換為“I”。同樣，在解密消息時看到的“I”，解讀者需要根據上下文判斷其實際代表的是“I”還是“J”。
+            </p>
+
+            <h3>上下文的角色：</h3>
+            <p>
+                <strong>解碼的靈活性：</strong>在解密過程中，接收者通常需要依賴上下文來正確理解信息。例如，如果解密的文本是“INDIA”，而上下文指的是一個國家，那麼接收者可以輕易判斷這個詞正確地是“INDIA”而不是“JNDJA”。
+            </p>
+            <p>
+                <strong>明確指示：</strong>有時，為避免混淆，發送者可能會在消息中明確指出如何解釋某些單詞或字符，尤其是在重要的或可能導致誤解的情況下。
+            </p>
+
+            <h3>現代應用：</h3>
+            <p>
+                在現代的應用中，可能會採用更複雜的方法或標準來處理這種類型的問題，例如擴展矩陣或採用不同的字符替換策略。然而，對於遵循傳統普萊菲爾密碼的實現，合併“I”和“J”依然是一種有效且歷史悠久的方法。
+            </p>
+
+            <h2>普萊菲爾密碼中的“X”解密規則</h2>
+            <p>
+                普萊菲爾密碼要求輸入成對的字母，因此當文本長度為奇數時，通常需要添加一個填充字符以補齊最後一個字母對。最常用的填充字符是“X”。正確處理這些填充字母是普萊菲爾密碼解密過程中的一個挑戰。
+            </p>
+            <h3>解密後的處理:</h3>
+            <p>
+                <strong>自動移除：</strong>理想情況下，如果加密過程中添加的“X”顯然不是原文的一部分（例如，它僅出現在重複字母之間或文本末尾），則在解密時可以自動移除這些明顯的填充字符。這種策略通常能夠良好地處理文本中間的填充“X”，但它可能會錯誤地移除位於單詞末尾的“X”。
+            </p>
+            <p>
+                <strong>條件移除：</strong>為解決末尾“X”的誤刪問題，本網頁採用了一種基於條件的移除方法，即保留結尾處的“X”並用<strong>紅色標注</strong>，讓用戶根據上下文或額外的信息來決定是否移除。例如，如果解密後的文本末尾是“X”，且這個“X”前的字母對無法形成有效的加密對，則可以推斷這個“X”是一個填充字符。
+            </p>
+            <figure>
+                <img src="./images/The X decryption rule in the Playfair Cipher.jpg" alt="普萊菲爾密碼中的“X”解密規則">
+                <figcaption class="padding_rules">普萊菲爾密碼中的“X”解密規則</figcaption>
+            </figure>
+
+            <h3>協議和標準化：</h3>
+            <p>
+                在現代加密通信中，通常會採用複雜的協議來精確控制數據的格式和結構，包括明確的填充策略和去填充機制。例如，一些加密標準會在消息前加入一個表示消息長度的字段，從而確保解密後可以精確恢復原始消息。或者，使用先進的自然語言處理機制來自動區分每個單詞，從而判斷“X”是否應該保留。
+            </p>
+            <h3>自動化和算法：</h3>
+            <p>
+                現代加密算法（如PKCS#7填充）包括了複雜的填充和去填充邏輯，這些邏輯在加密和解密過程中自動執行，以確保數據的完整性和正確性。這些算法能夜自動識別並去除填充字符，無需人工干預。
+            </p>
+        </section>   
+    </main>
+   
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. 版權所有</p>
+            <p>
+                <a href="https://chatcipherai.com/zh-TW/Privacy_Policy.html" title="Privacy Policy">隱私政策</a>
+                |
+                <a href="https://chatcipherai.com/zh-TW/Terms_of_Use.html" title="Terms of Use">使用條款</a>
+                |
+                <a href="https://chatcipherai.com/zh-TW/About_Us.html" title="About Us">關於我們</a>
+                |
+                <a href="https://chatcipherai.com/zh-TW/Disclaimer.html" title="Disclaimer">免責聲明</a>
+            </p>       
+            <button id="backToTop" onclick="scrollToTop()">回到頂端</button>   
+        </div>
+    </footer>
+
+    <script>
+        let shortcutsEnabled = true;
+
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'E':
+                    encrypt();
+                    console.log('Encode triggered');
+                    break;
+                case 'D':
+                    decrypt();
+                    console.log('Decode triggered');
+                    break;
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+        function generateMatrix(key) {
+            const alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+            let matrix = new Set(key.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, ''));
+            alphabet.split('').forEach(char => matrix.has(char) || matrix.add(char));
+            return Array.from(matrix).join('').match(/.{1,5}/g).map(row => row.split(''));
+        }
+
+        function preprocessText(text, isEncrypting) {
+            text = text.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+            let processedText = "";
+
+            for (let i = 0; i < text.length; i += 2) {
+                let pair = text[i];
+                if (text[i] === text[i + 1]) {
+                    pair += 'X';
+                    i--;
+                } else {
+                    pair += text[i + 1] || 'X';
+                }
+                processedText += pair;
+            }
+
+            if (isEncrypting && processedText.length % 2 !== 0) {
+                processedText += 'X';
+            }
+
+            return processedText;
+        }
+
+        function findPosition(letter, matrix) {
+            for (let row = 0; row < matrix.length; row++) {
+                for (let col = 0; col < matrix[row].length; col++) {
+                    if (matrix[row][col] === letter) {
+                        return { row, col };
+                    }
+                }
+            }
+            return { row: -1, col: -1 };
+        }
+
+        function transformPair(pair, matrix, mode) {
+            let pos1 = findPosition(pair[0], matrix);
+            let pos2 = findPosition(pair[1], matrix);
+            let transformedPair = '';
+
+            if (pos1.row === pos2.row) {
+                // Same row
+                pos1.col = (pos1.col + mode + 5) % 5;
+                pos2.col = (pos2.col + mode + 5) % 5;
+            } else if (pos1.col === pos2.col) {
+                // Same column
+                pos1.row = (pos1.row + mode + 5) % 5;
+                pos2.row = (pos2.row + mode + 5) % 5;
+            } else {
+                // Rectangle
+                [pos1.col, pos2.col] = [pos2.col, pos1.col];
+            }
+
+            transformedPair += matrix[pos1.row][pos1.col];
+            transformedPair += matrix[pos2.row][pos2.col];
+
+            return transformedPair;
+        }
+
+        function transformText(text, matrix, mode) {
+            let transformedText = "";
+            for (let i = 0; i < text.length; i += 2) {
+                transformedText += transformPair(text.substr(i, 2), matrix, mode);
+            }
+            return transformedText;
+        }
+
+        function encrypt() {
+            const key = document.getElementById('key').value;
+            const inputText = document.getElementById('inputText').value;
+            const processedText = preprocessText(inputText, true);
+            document.getElementById('processedPlaintext').innerText = processedText;
+
+            const matrix = generateMatrix(key);
+            const encryptedText = transformText(processedText, matrix, 1);
+            document.getElementById('result').innerText = encryptedText;
+            document.getElementById("result").style.color = "blue";
+        }
+
+        function removePaddingX(decryptedText) {
+            let chars = decryptedText.split('');
+            for (let i = 1; i < chars.length - 1; i++) {
+                // Remove 'X' if it is between two identical letters
+                if (chars[i] === 'X' && chars[i - 1] === chars[i + 1]) {
+                    chars.splice(i, 1);
+                    i--; // Adjust index after removing 'X'
+                }
+            }
+            // Check if the last character is 'X' and if so, it is highlighted in red
+            if (chars[chars.length - 1] === 'X') {
+                return chars.join('').slice(0, -1) + '<span style="color: red;">X</span>';
+            }
+            return chars.join('');
+        }
+
+        function decrypt() {
+            const key = document.getElementById('key').value;
+            const inputText = document.getElementById('inputText').value.replace(/[^A-Z]/g, '');
+            const matrix = generateMatrix(key);
+            let decryptedText = transformText(inputText, matrix, -1);
+            decryptedText = removePaddingX(decryptedText); // Remove unnecessary 'X' characters
+            document.getElementById('result').innerHTML = decryptedText; // Use innerHTML to allow HTML rendering
+            document.getElementById("result").style.color = "#0A0F24"; // Set the default text color
+        }
+
+        document.getElementById('encryptButton').addEventListener('click', encrypt);
+        document.getElementById('decryptButton').addEventListener('click', decrypt);
+
+        document.getElementById('clearAllButton').addEventListener('click', clearAll);
+        function clearAll() {
+            document.getElementById('key').value = ''; 
+            document.getElementById('inputText').value = ''; 
+            document.getElementById('result').innerText = '';
+            document.getElementById('processedPlaintext').innerText = ''; 
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function() {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function() {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function(link) {
+            link.addEventListener('click', function() {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none" || moreContent.style.display === "") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            });
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function() {
+                if(window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = '回到頂端(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+</html>

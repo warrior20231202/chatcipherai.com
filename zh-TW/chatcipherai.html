@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>密碼系統世界：知名的密碼系統</title>
+    <meta name="description" content="讓我們一起探索密碼學的奇妙世界，了解世界知名的密碼學系統。">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 20px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            background-color: #eeeeee;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 20px;
+            margin-left: 250px;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        .sections-container h2,
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        p {
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-top: 80px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            
+            font-size: 22px;
+        }
+
+        h4 {
+            
+            font-size: 20px;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: #fff;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: rgba(10, 15, 36, 0.0);
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar ul {
+            background-color: rgba(255, 255, 255, 0);
+            color: #0A0F24;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100vw;
+            height: 750px;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            opacity: 0.8;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            z-index: 5;
+        }
+
+        #togglePlay {
+            background-color: transparent;
+        }
+
+        #togglePlay:hover{
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.Compare,
+        figcaption.caesar,
+        figcaption.playfair {
+            width: 100%;
+            margin-left: -260px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #start {
+            font-family: 'Arial', sans-serif;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+            
+        #start p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        #end {
+            font-family: 'Arial', sans-serif;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+            
+        #end p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 100%;
+                padding: 10px;
+            }
+
+            .sections-container h2 {
+                font-size: 1.2em;
+            }
+
+            .sections-container p {
+                font-size: 0.9em;
+            }
+
+            .video-container {
+                width: 110%;
+            }
+
+            video {
+                width: 1200px;
+                height: auto;
+            }
+
+            .video-overlay {
+                font-size: 18px;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .section h2 {
+                font-size: 1.2em; 
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .section p {
+                font-size: 0.9em; 
+            }
+
+            section li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            figure {
+                display: flex;
+                flex-direction: column;
+                align-items: center; 
+                justify-content: center; 
+                text-align: center;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -80px;
+            }
+
+            figcaption.Compare,
+            figcaption.caesar,
+            figcaption.playfair {
+                width: 100%;
+                margin-left: -90px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0;
+            }
+
+            #languageIcon::before {
+                content: '\2637'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px; /* 缩小图标大小 */
+            }
+
+            .sections-container {
+                margin-left: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; 菜單</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/zh-TW/chatcipherai.html">密碼世界</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/zh-TW/Caesar_Cipher.html">凱撒密碼</a></li>
+                        <li><a href="https://chatcipherai.com/zh-TW/Playfair_Cipher.html">普萊菲爾密碼</a></li>
+                        <li><a href="https://chatcipherai.com/zh-TW/Hill_Cipher.html">希爾密碼</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/zh-TW/Hash_value_test.html">哈希值測試</a></li>
+                <li><a href="https://chatcipherai.com/zh-TW/Morsecode_main.html">摩爾斯電碼編譯器</a></li>
+                <li><a href="https://chatcipherai.com/zh-TW/Shortcut_Key_Description.html">快捷鍵說明</a></li>
+            </ul>
+    
+            <div id="languageIcon">&#x2637; 語言</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/chatcipherai.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/chatcipherai.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/chatcipherai.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/chatcipherai.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/chatcipherai.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/chatcipherai.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/chatcipherai.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/chatcipherai.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/chatcipherai.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/chatcipherai.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/chatcipherai.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+    
+            <h1>知名的密碼系統</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 暗色風格(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ 亮色風格(<span class="highlight-key">L</span>)</button>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="video-container">
+        <video id="myVideo" autoplay loop muted playsinline style="opacity: 0.8;">
+            <source src="./video/Sunset.mp4" type="video/mp4">
+            
+        </video>
+        <div class="video-overlay">探索迷人的密碼世界</div>
+    </div>    
+
+    <main class="sections-container">
+        <button id="togglePlay" style="position: absolute; top: 680px; right: 20px;cursor: pointer;">播放/暫停</button>
+
+        <section id="start" style="font-family: 'Arial', sans-serif;">
+            <p style="font-size: 18px; line-height: 1.6;">
+                在數字世界的深淵中，加密技術就像一道耀眼的魔法屏障，用複雜而優雅的機制保護著我們最珍貴的秘密。這項技術深深植根於數學和邏輯的肥沃土壤中，展示了人類智慧的頂峰。它不僅僅是代碼和算法的集合，而是一種藝術形式，一種深刻的哲學......
+            </p>
+        </section>
+        
+        <section id="hash-sha-256">
+            <h2>了解 SHA-256：一種安全哈希算法</h2>
+            <p>
+                <strong>SHA-256</strong>，屬於<strong>SHA-2（安全哈希算法 2）家族</strong>，是一種由國家安全局（NSA）設計並由國家標準與技術研究院（NIST）發布的加密哈希函數。旨在替代較舊的 SHA-1，SHA-256 提供了增強的安全性，並在包括 TLS/SSL、PGP、SSH、IPsec 以及比特幣等區塊鏈技術中發揮著關鍵作用。
+            </p>
+            <p>
+                作為最安全的哈希算法之一，<strong>SHA-256</strong>在數字安全和完整性檢查中扮演著關鍵角色。儘管理論上存在碰撞的可能性，但實際上找到兩個不同的輸入產生相同輸出哈希幾乎是不可能的，這使得 SHA-256 成為抵禦攻擊的強大工具。
+            </p>
+            <p>
+                隨著技術的發展，持續評估 SHA-256 的安全性至關重要。我們的指南深入淺出地探討了 SHA-256 的複雜細節，盡可能確保讀者理解這一算法在維護數字安全中的重要性。當然，您也可以使用下面的網頁<a href="https://chatcipherai.com/zh-TW/Hash_value_test.html" id="hash-value-test-link" class="hash-test-link" style="color: #007bff; font-size: 1.0em;" target="_blank" rel="noopener noreferrer">測試您的哈希知識</a>。
+            </p>
+            
+            <h3>哈希值測試的主要優勢和應用</h3>
+            <ul>
+                <li>理解哈希函數的特性和應用領域。</li>
+                <li>深入了解廣泛使用的哈希函數及其運作原理。</li>
+                <li>實用指南，用於使用 SHA-256 驗證數字文件的完整性和真實性。</li>
+                <li>探索其他主流哈希函數及其機制。</li>
+            </ul>
+            <figure>
+                <img src="./images/Compare Hash.jpg" alt="比較哈希值的過程" />
+                <figcaption class="Compare">比較哈希值的過程</figcaption>
+            </figure>
+        </section>
+        
+        <section id="introduction-to-morse-code">
+            <h2>摩爾斯電碼：19世紀先驅通信系統</h2>
+            <p><strong>摩爾斯電碼</strong>，由美國藝術家兼發明家薩繆爾·摩爾斯在1830年代開發，通過引入使用點（短信號）和劃（長信號）來編碼字母、數字和標點符號的編碼系統，徹底革新了電信領域。這一創新促進了通過電報線路的傳輸，成為19世紀及20世紀初海上通信中的基石。</p>
+        
+            <p>想要全面探索摩爾斯電碼，請訪問<a href="https://chatcipherai.com/zh-TW/Morsecode_main.html" title="Comprehensive Guide to Morse Code" style="color: #007bff; font-size: 1.0em;" target="_blank" rel="noopener noreferrer">摩爾斯電碼編譯器</a>頁面。</p>
+        
+            <h3>解碼摩爾斯電碼信號</h3>
+            <p>摩爾斯電碼中字符的獨特表示方法，通過短信號和長信號以及特定的間隔，允許在不同平台上進行清晰的通信：</p>
+            <ul>
+                <li><strong>點（"."）</strong>：代表短信號。</li>
+                <li><strong>劃（"-"）</strong>：代表長信號。</li>
+                <li><strong>字符內暫停</strong>：用於區分字符內的點和劃。</li>
+                <li><strong>字母間暫停</strong>：用於分隔字母，以便閱讀。</li>
+                <li><strong>詞間分隔暫停</strong>：在通信中用於區分單詞。</li>
+            </ul>
+        
+            <h3>摩爾斯電碼的持久影響</h3>
+            <p>儘管出現了更先進的通信技術，摩爾斯電碼仍然是通信歷史上的一個標誌性人物，影響著許多後續技術，並在無線電愛好者和特定領域的專業人士中保留著特殊的地位。</p>
+        
+            <p>其簡單性和高效性使摩爾斯電碼在現代通信基礎設施不可用的情況下成為可靠的替代方案，為歷史學家和技術愛好者搭建了溝通歷史創新與當前實踐的橋樑。</p>
+        
+            <h3>探索摩爾斯電碼</h3>
+            <p>本頁面提供了關於以下內容的見解：</p>
+            <ul>
+                <li>摩爾斯電碼的歷史演變和重要性。</li>
+                <li>理解摩爾斯電碼的操作動態。</li>
+                <li>摩爾斯電碼的技術層面和應用，包括其字母表。</li>
+            </ul>
+        </section>               
+        
+        <section id="caesar-cipher">
+            <h2>了解凱撒密碼：加密、解密及破解</h2>
+            <p>
+                <a href="https://chatcipherai.com/zh-TW/Caesar_Cipher.html" id="caesarCipherLink" title="了解更多關於凱撒密碼" style="color: #007bff;" target="_blank" rel="noopener noreferrer">凱撒密碼</a>，
+                因尤利烏斯·凱撒在保障軍事通信的安全中使用而得名，代表了一種基本的替代密碼技術。
+                在這種方法中，明文中的字母被替換為字母表中固定位置上或下的另一個字母。
+                儘管其簡單性，但在特定的歷史條件下和基本密碼分析技術盛行的時代，凱撒密碼還是非常有效的。
+            </p>
+            <p>
+                如今，儘管容易被破解，凱撒密碼仍然是密碼學中的一個重要教學工具，展示了基本的加密技巧，如字母移位。
+                它是理解更複雜的密碼系統的基礎，因其歷史意義和簡單性仍然是研究的一個焦點。
+            </p>
+            <p>
+                本頁面將探討：
+                <ul>
+                    <li>凱撒密碼加密和解密的原理。</li>
+                    <li>如何使用在線工具進行文本的加密或解密。</li>
+                    <li>使用Python破解凱撒密碼的技巧。</li>
+                </ul>
+            </p>
+            <figure>
+                <img src="./images/figure 1-Caesar cipher schematic diagram.jpg" alt="凱撒密碼示意圖"> <!-- 使用描述性的alt文本和相對URL地址來指定圖片 -->
+                <figcaption class="caesar">凱撒密碼示意圖</figcaption>
+            </figure>
+        </section>        
+        
+        <section id="playfair-cipher-introduction">
+            <h2>理解普萊菲爾密碼：19世紀的加密奇蹟</h2>
+            <p><strong>普萊菲爾密碼</strong>，一個由<a href="https://en.wikipedia.org/wiki/Charles_Wheatstone" style="color: #007bff;" target="_blank">查爾斯·惠斯通</a>於1854年創造的開創性<a href="https://chatcipherai.com/zh-TW/Playfair_Cipher.html" style="color: #007bff;" target="_blank" rel="noopener noreferrer">手動對稱的加密方法</a>，因為是首個使用雙字母替換密碼的系統而脫穎而出，增強了電報通信的安全性。儘管惠斯通是發明者，但它自豪地承載了普萊菲爾勳爵的名字，他在推廣該密碼中發揮了重要作用。</p>
+        </section>
+        
+        <section id="playfair-cipher-application">
+            <h3>全球採用及其在軍事戰略中的重要性</h3>
+            <p>最初被英國外交部認為過於複雜，<strong>普萊菲爾密碼</strong>在第二次布爾戰爭和第一次世界大戰等關鍵時刻在英國軍隊中獲得了廣泛的接受。到了20世紀40年代，它已被澳大利亞、德國和新西蘭等國家使用，證明了在第二次世界大戰中的重要性。</p>
+        </section>
+        
+        <section id="playfair-cipher-modern-use">
+            <h3>現代用途：教育和娛樂目的</h3>
+            <p>現代計算機的出現降低了<strong>普萊菲爾密碼</strong>的安全性及有效性。如今，它主要作為教育目的和娛樂密碼學的工具，提供了一個通往密碼技術迷人世界的入口。在這個過程中，您將：</p>
+            <ul>
+                <li>發現普萊菲爾密碼背後的運作原理。</li>
+                <li>逐步指導如何使用普萊菲爾密碼來創建您的個性化加密密鑰。</li>
+                <li>利用我們網站的資源來嘗試驗證您的加密和解密。</li>
+            </ul>
+            <figure>
+                <img src="./images/figure 1-playfair cipher encryption.jpg" alt="普萊菲爾密碼密鑰矩陣的詳細視圖"> <!-- 使用相對路徑和描述性alt文本進行更新 -->
+                <figcaption class="playfair">普萊菲爾密碼密鑰矩陣的詳細視圖</figcaption>
+            </figure>
+        </section>
+         
+        <section id="hill-cipher" itemscope itemtype="http://schema.org/EducationalOrganization">
+            <h2 itemprop="name">理解希爾密碼：一個全面的指南</h2>
+        
+            <article itemprop="description">
+                <p><strong>希爾密碼</strong>，由萊斯特·S·希爾在1929年設計的關鍵加密技術，在經典密碼學領域因其獨特應用<strong>線性代數</strong>和<strong>矩陣理論</strong>而與眾不同。與其前身不同，希爾密碼採用矩陣乘法進行加密，要求密鑰：一個矩陣，對演算法有效運行必須是可逆的。</p>
+        
+                <p>這種<a href="https://chatcipherai.com/zh-TW/Hill_Cipher.html" id="HillCipherLink" target="_blank" style="color: #007bff;" rel="noopener noreferrer">高級密碼技術</a>將字母塊作為單個單元加密，提高了其複雜性，並使其從傳統的替代密碼中顯著脫穎而出。下面，我們將深入探討希爾密碼的數學基礎和操作機制：</p>
+        
+                <ul>
+                    <li><strong>字符的矩陣表示：</strong>為字母分配數值（例如，A=0, B=1, ..., Z=25）並將資訊分成塊，表示為n維向量。</li>
+                    <li><strong>密鑰矩陣：</strong>一個必須在模26下可逆的n x n矩陣，以確保可解密性。</li>
+                    <li><strong>加密過程：</strong>涉及將密鑰矩陣與明文塊向量相乘，模26。</li>
+                    <li><strong>解密過程：</strong>通過乘以密鑰矩陣的逆矩陣與加密向量相乘，模26來實現。</li>
+                </ul>
+        
+                <p>希爾密碼的安全性主要依賴於執行模26的矩陣逆轉的複雜性。然而，它仍然容易受到已知明文攻擊，並且需要調整明文長度以匹配矩陣大小，通常需要額外的填充。</p>
+        
+                <p>儘管存在這些漏洞，希爾密碼仍因其在傳播密碼學基礎知識方面的教育價值而受到讚揚。雖然它在現代應用中的實際用途可能有限，但它在密碼學教育和研究中是依舊是一個關鍵的墊腳石。</p>
+        
+                <section>
+                    <h3>學習成果：</h3>
+                    <ul>
+                        <li>掌握希爾密碼的工作原理及其加密步驟。</li>
+                        <li>學習希爾密碼在加密和解密訊息中的應用。</li>
+                        <li>理解線性代數和矩陣理論在希爾密碼中的核心作用。</li>
+                        <li>明白希爾密碼和普萊菲爾密碼之間的區別。</li>
+                    </ul>
+                </section>
+            </article>
+        </section>
+        
+        <section id="end" style="font-family: 'Arial', sans-serif;">
+            <p style="font-size: 18px; line-height: 1.6;">
+                加密技術的真正魅力在於它體現了人類對自由和隱私不懈追求的象徵。在這個建立在資料之上的世界裡，
+                它提醒我們，儘管面臨著無數挑戰，只要我們擁有智慧和勇氣，就能在數字時代保護我們最珍貴的寶藏。
+            </p>
+        </section>        
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. 版權所有</p>
+            <p>
+                <a href="https://chatcipherai.com/zh-TW/Privacy_Policy.html" title="Privacy Policy">隱私政策</a>
+                |
+                <a href="https://chatcipherai.com/zh-TW/Terms_of_Use.html" title="Terms of Use">使用條款</a>
+                |
+                <a href="https://chatcipherai.com/zh-TW/About_Us.html" title="About Us">關於我們</a>
+                |
+                <a href="https://chatcipherai.com/zh-TW/Disclaimer.html" title="Disclaimer">免責聲明</a>
+            </p>        
+            <button id="backToTop" onclick="scrollToTop()">回到頂端(<span class="highlight-key">B</span>)</button>   
+        </div>
+    </footer>
+
+    <script>
+        let shortcutsEnabled = true;
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'L':
+                    setStyle('light-mode');
+                    console.log('Light style activated');
+                    break;
+                case 'N':
+                    setStyle('dark-mode');
+                    console.log('Dark style activated');
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('#inputMessage, #shiftValue');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = '回到頂端(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onresize = function () {
+            adjustButton()
+        };
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .menuUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var navbarUl = document.querySelector('.navbar ul');
+
+            if (!menuIcon.contains(event.target) && !navbarUl.contains(event.target)) {
+                navbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'light-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+        document.addEventListener('scroll', function () {
+            let scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+            var savedStyle = localStorage.getItem('style')
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            if (scrollHeight > 60) {
+                navbar.style.backgroundColor = savedStyle === 'dark-mode' ? '#0a0f24' : '#fff';
+                ul.style.backgroundColor = savedStyle === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+
+            } else {
+                navbar.style.backgroundColor = savedStyle === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.backgroundColor = savedStyle === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+            }
+        });
+
+        document.getElementById('togglePlay').addEventListener('click', function () {
+            var video = document.getElementById('myVideo');
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        });
+        document.getElementById('inputText').addEventListener('input', function () {
+            document.getElementById('morseCode').value = encodeToMorse(document.getElementById('inputText').value);
+        });
+
+        document.getElementById('inputMorse').addEventListener('input', function () {
+            document.getElementById('decodedText').value = decodeMorse(document.getElementById('inputMorse').value);
+        });
+
+        document.addEventListener('click', function (event) {
+            var navbar = document.querySelector('.navbar');
+            var menuIcon = document.getElementById('menuIcon');
+
+            if (menuIcon.contains(event.target)) {
+                navbar.classList.toggle('active');
+            } else {
+                navbar.classList.remove('active');
+            }
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            // updateButtonStyles();
+            updateNavbarStyles(style);
+            // updateTableStyle(style);
+            updateIntroduceStyle(style);
+        }
+
+        function updateIntroduceStyle(style) {
+            var introduces = document.querySelectorAll('.introduce');
+            introduces.forEach(function (introduce) {
+                if (style === 'dark-mode') {
+                    introduce.style.color = '#FFFFFF'; // White text for dark mode
+                } else {
+                    introduce.style.color = '#0A0F24'; // Black text for light mode
+                }
+            });
+        }
+
+        function updateNavbarStyles(style) {
+            let scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            if (scrollHeight > 60) {
+                navbar.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : '#fff';
+                ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+            } else {
+                navbar.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+            }
+
+        }
+
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId);
+            copyText.select();
+            document.execCommand('copy');
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.onclick = function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            };
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

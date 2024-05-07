@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستكشف هاش SHA-256 : النحات اللا رجعي للعالم الرقمي.</title>
+    <meta name="description"
+        content="تشكيل بصمة المعلومات الفريدة بتشفير 256 بت، حماية سلامة وأصالة البيانات.">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 1000px;
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 120px;
+            margin-right: -10px;
+        }
+
+        .sections-container h2,
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        p {
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: center; 
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            margin-top: 50px;
+        }
+
+        h3 {
+            margin-top: 50px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #c0c0c0;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: #FFFFFF;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent;
+            color: #0A0F24;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+        }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px;
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent {
+            width: 80%;
+            margin: auto;
+            text-align: left;
+            padding: 10px;
+            display: none;
+            margin-left: 0px;
+        }
+
+        .moreContent p {
+            margin-bottom: 16px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            padding-bottom: 5px;
+        }
+
+        #moreContent1 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 77%;
+        }
+
+        #moreContent1 ul li {
+            margin-bottom: 15px; /* This adds 15px of space below each list item */
+        }
+
+        #moreContent2 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 77%;
+        }
+
+        #moreContent2 ul li {
+            margin-bottom: 15px; /* This adds 15px of space below each list item */
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -290px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.workflow,
+        figcaption.Irreversibility,
+        figcaption.Resistance,
+        figcaption.Merkle-Damgård,
+        figcaption.Compare,
+        figcaption.sponge {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .input-group {
+            display: flex;
+            width: 80%;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 40px;
+        }
+
+        .input-group>div {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .input-group>div:last-child {
+            margin-right: 0;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 15px 10px 5px;
+            border: 1px solid #eae6e6;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button,
+        input[type="submit"],
+        input[type="file"]::file-selector-button {
+            background-color: #0a0f24;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        button:hover,
+        input[type="submit"]:hover,
+        input[type="file"]::file-selector-button:hover {
+            background-color: #c0c0c0;
+            color: #0A0F24;
+        }
+
+        .compare-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            display: block;
+        }
+
+        .outPut {
+            width: 100%;
+            white-space: normal;
+            word-break: break-all;
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .introduce {
+            margin-left: 220px;
+        }
+
+        .introduce li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .attention {
+            margin-top: 20px;
+            font-size: 0.8em;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 100%;
+            }
+
+            .sections-container h2 {
+                font-size: 1.2em;
+            }
+
+            .sections-container p {
+                font-size: 0.9em;
+            }
+            
+            .introduce {
+                width: 100%;
+                padding: 10px;
+                margin-left: 90px;
+            }
+
+            .introduce h2 {
+                font-size: 1.2em; 
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .introduce p {
+                font-size: 0.9em; 
+            }
+
+            .introduce li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            figure {
+                display: flex;
+                flex-direction: column;
+                align-items: center; 
+                justify-content: center; 
+                text-align: center;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -90px;
+                margin-top: 20px;
+            }
+
+            figcaption.workflow,
+            figcaption.Irreversibility,
+            figcaption.Resistance,
+            figcaption.Merkle-Damgård,
+            figcaption.Compare,
+            figcaption.sponge {
+                width: 100%;
+                margin-left: -100px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .Merkle-Damgård {
+                margin-left: 50px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            pre {
+                display: none;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+   
+            .input-group {
+                flex-direction: column;
+            }
+
+            .section.interactive-tool {
+                width: 320px;
+            }
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0;
+            }
+
+            #languageIcon::before {
+                content: '\2637'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            #hashCompareInput {
+                width: 240px;
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+
+            .attention {
+                margin-top: 10px;
+                font-size: 0.5em;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; القائمة</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/ar/chatcipherai.html">عالم أنظمة التشفير</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/ar/Caesar_Cipher.html">شفرة قيصر</a></li>
+                        <li><a href="https://chatcipherai.com/ar/Playfair_Cipher.html">شفرة بلاي فير</a></li>
+                        <li><a href="https://chatcipherai.com/ar/Hill_Cipher.html">شفرة هيل</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/ar/Hash_value_test.html">اختبار قيمة الهاش</a></li>
+                <li><a href="https://chatcipherai.com/ar/Morsecode_main.html">مترجم شفرة مورس</a></li>
+                <li><a href="https://chatcipherai.com/ar/Shortcut_Key_Description.html">وصف مفاتيح الاختصار</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; لغة</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Hash_value_test.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Hash_value_test.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Hash_value_test.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Hash_value_test.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Hash_value_test.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Hash_value_test.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Hash_value_test.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Hash_value_test.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Hash_value_test.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Hash_value_test.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Hash_value_test.html" title="Nederlands">Nederlands</a></li>
+                </ul>
+            </div>
+
+            <h1>مستكشف هاش SHA-256</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 النمط الداكن(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ النمط الفاتح(<span class="highlight-key">L</span>)</button>
+            </div> 
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <section class="section interactive-tool">
+            <h2>اختبار قيمة الهاش</h2>
+            <p>أدخل نصًا لعرض عملية تحويله إلى قيمة هاش في الوقت الفعلي،
+                <br>
+                أو اختر ملفًا لحساب قيمة هاش الملف.
+            </p>
+        
+            <div class="input-group">
+                <div>
+                    <p>إنشاء قيمة هاش للنص</p>
+                    <input type="text" class="input_value" id="textInput" placeholder="أدخل نص" oninput="generateHash()" />
+                    <button onclick="copyTextHash()">نسخ هاش النص</button>
+                    <div id="processOutput"></div>
+                    <div id="hashOutput" class="outPut"></div>
+                </div>
+                <div>
+                    <p>مقارنة قيمة هاش النص</p>
+                    <input type="text" class="input_value" id="hashCompareInput"
+                        placeholder="أدخل قيمة الهاش للمقارنة" />
+                    <button onclick="compareTextHash()">مقارنة</button>
+                    <div id="textCompareResult"></div>
+                </div>
+            </div>
+        
+            <div class="input-group">
+                <div>
+                    <p>إنشاء قيمة هاش للملف</p>
+                    <input type="file" id="fileInput" onchange="generateFileHash()" />
+                    <button onclick="copyFileHash()">نسخ هاش الملف</button>
+                    <div id="fileHashOutput" class="outPut"></div>
+                </div>
+                <div>
+                    <p>مقارنة قيمة هاش الملف</p>
+                    <input type="file" id="compareFileInput" onchange="compareFileHash()" />
+                    <div id="fileCompareResult" class="outPut"></div>
+                </div>
+            </div>
+        
+            <div class="input-group">
+                <div>
+                    <p>قيمة تجزئة الإدخال 1</p>
+                    <input type="text" class="input_value" id="hashInput1" placeholder="أدخل قيمة التجزئة 1" />
+                </div>
+                <div>
+                    <p>قيمة تجزئة الإدخال 2</p>
+                    <input type="text" class="input_value" id="hashInput2" placeholder="أدخل قيمة التجزئة 2" />
+                    <button onclick="compareHashValues()">مقارنة</button>
+                    <div id="hashComparisonResult" class="outPut"></div>
+                </div>
+            </div>
+            <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">مسح الكل(<span class="highlight-key">A</span>)</button>
+            
+            <div class="attention">
+                تذكير دافئ: قبل إدخال البيانات، يرجى التحقق مرة أخرى من دقة وحساسية المعلومات. نوصي بتحميل البيانات الحساسة بحذر لأن ذلك سيساعد على حماية خصوصيتك وأمانك بشكل أفضل.
+            </div>
+        </section>
+        
+        <section class="introduce">
+            <p><strong><em>"في عصرنا الرقمي الحالي، لا تعتبر أمان البيانات فقط حجر الزاوية لحماية الخصوصية الشخصية وأسرار الشركات، ولكنها أيضًا المفتاح للحفاظ على الثقة الاجتماعية والاستقرار الاقتصادي."</em></strong></p>
+            <div>
+                <h2>ما هي قيمة الهاش؟</h2>
+                <p>
+                    قيمة الهاش هي سلسلة أو رقم ذو حجم ثابت يتم إنشاؤه من أي حجم للبيانات الإدخالية بواسطة دالة الهاش. 
+                    تقبل هذه الوظائف مدخلات متنوعة مثل النصوص، الصور، والفيديوهات، مُنتجة قيمة هاش ثابتة الطول ولا رجعة فيها. 
+                    قيم الهاش حتمية، مما يعني أن المدخلات المتطابقة تؤدي دائمًا إلى نفس الناتج. كما أنها تتميز بمقاومة التصادم، 
+                    مما يجعل من الصعب العثور على مدخلات مختلفة تؤدي إلى نفس الناتج.
+                </p>
+            </div>
+            
+            <div>
+                <h2>وظائف قيمة الهاش</h2>
+                <p>
+                    تؤدي قيم الهاش أدوارًا أساسية في علوم الحاسوب وتكنولوجيا المعلومات، مقدمة ملخصًا ثابت الطول للبيانات بغض النظر عن حجمها. تسهل هذه الوظائف تطبيقات متعددة:
+                </p>
+                <ul>
+                    <li><strong>التحقق من سلامة البيانات:</strong> تُستخدم للتحقق مما إذا كانت البيانات ظلت دون تعديل أثناء النقل، مضمونةً سلامة الملفات المحملة.</li>
+                    <li><strong>تخزين كلمات المرور:</strong> تُخزن كلمات المرور كقيم هاش للأمان، مما يجعل من الصعب استرداد كلمات المرور الأصلية من قواعد البيانات المخترقة.</li>
+                    <li><strong>استرجاع البيانات بسرعة:</strong> تعمل قيم الهاش كمؤشرات في جداول الهاش، مما يسمح بتنفيذ عمليات البيانات بكفاءة.</li>
+                    <li><strong>إزالة التكرارات في البيانات:</strong> تساعد في تحديد وإزالة العناصر المكررة للبيانات عن طريق مقارنة قيم الهاش.</li>
+                    <li><strong>التوقيع الرقمي والتحقق منه:</strong> يضمن سلامة البيانات ومصدرها من خلال التشفير العام ووظائف الهاش.</li>
+                    <li><strong>تكنولوجيا البلوكتشين:</strong> تستخدم قيم الهاش لتأمين سجلات المعاملات وضمان عدم قابلية البيانات للتغيير.</li>
+                    <li><strong>طوابع زمنية مضادة للتلاعب:</strong> توفر طابعًا زمنيًا لا رجعة فيه للبيانات، مفيد في حماية حقوق الطبع والنشر والحماية القانونية.</li>
+                </ul>
+                <p>
+                    السبب في فعالية قيم الهاش في هذه المجالات يعود إلى خصائصها الأساسية المتمثلة في السرعة، الحتمية، عدم القابلية للعكس، ومقاومة التصادم. عند استخدامها بشكل صحيح، يمكن أن توفر وظائف الهاش دعمًا قويًا في تأمين البيانات،
+                    تعزيز الكفاءة، والتحقق من صحة المعلومات.
+                </p>
+            </div>            
+
+            <div>
+                <h2>ما هي دالة الهاش؟</h2>
+                <p>دالة الهاش هي بنية رياضية تربط بيانات الإدخال (أو "الرسالة") بسلسلة ذات حجم ثابت، عادةً قيمة عددية، كما هو موضح في الرسم البياني أدناه. تُستخدم على نطاق واسع في إدارة البيانات وأمن المعلومات، 
+                    وتتميز دالة الهاش بأدائها الحسابي الفعال، طول الإخراج المتسق، عدم القابلية للعكس، الحساسية لتغيرات الإدخال، ومقاومة التصادم.
+                </p>
+                <figure>
+                    <img src="./images/Hash input output.jpg" alt="مخطط سير عمل دالة التجزئة" />
+                    <figcaption class="workflow">مخطط سير عمل دالة التجزئة</figcaption>
+                </figure>
+            </div>
+            
+            <div>
+                <h3>الأداء الحسابي الفعال</h3>
+                <p>
+                    يمكن لدوال الهاش حساب قيم الهاش بسرعة من بيانات أي شكل، بغض النظر عن حجم البيانات. هذه الخاصية حاسمة للتطبيقات التي تتطلب وصولاً سريعًا إلى البيانات، مثل جداول الهاش.
+                    وذلك لأنه، عند تخزين البيانات في جداول الهاش، فإن سرعة دالة الهاش تحدد سرعة استرجاع البيانات. تستخدم جداول الهاش دوال الهاش لتحديد موقع تخزين البيانات بسرعة، معتمدة على القدرة الحسابية السريعة لدوال الهاش.
+                </p>
+            
+                <p>
+                    علاوة على ذلك، في الأنظمة التي تحتاج إلى معالجة كميات كبيرة من البيانات، تؤثر كفاءة دوال الهاش بشكل مباشر على أداء النظام العام. إذا كانت دالة الهاش تعمل ببطء، فإنها ستصبح عائقًا في أداء النظام. بعض الأنظمة الوقتية الفعلية،
+                    مثل تصفية الحزم في أجهزة الشبكة، تتطلب حساب قيم الهاش فورًا للبيانات لاتخاذ قرارات سريعة. في هذه الحالات، تكون كفاءة دوال الهاش مهمة بنفس القدر.
+                </p>
+            
+                <p>
+                    على سبيل المثال، ضع في اعتبارك منصة تجارة إلكترونية عبر الإنترنت حيث قد يدخل المستخدمون أسماء المنتجات في شريط البحث للعثور على المنتجات. قد يستخدم النظام الخلفي دوال الهاش لتحديد موقع معلومات المنتج المخزنة في جداول الهاش بسرعة.
+                    إذا كانت عملية حساب دالة الهاش بطيئة، فسيتأثر تجربة المستخدم بشكل كبير، حيث سيتعين عليهم الانتظار لفترة أطول للحصول على نتائج البحث. في هذا الموقف، يضمن الأداء الحسابي الفعال لدوال الهاش أوقات استجابة سريعة، مما يحسن تجربة المستخدم.
+                    <a href="javascript:void(0);" class="learnMore" data-target="moreContent1">[اعرف أكثر]</a>
+                </p>
+            </div>
+            
+            <div id="moreContent1" class="moreContent" style="display:none;">
+                <p>الأسباب التي تجعل دوال الهاش يمكن أن تحسن الكفاءة الحسابية تعود بشكل رئيسي إلى الخصائص التصميمية التالية:</p>
+                <ul>
+                    <li><strong>العمليات البسيطة:</strong> تستخدم دوال الهاش عادةً عمليات رياضية وبتواية بسيطة، والتي تنفذ بسرعة كبيرة بفضل دعم الأجهزة المباشر لوحدة المعالجة المركزية.</li>
+                    <li><strong>تجنب تبعيات الحلقات:</strong> من خلال تجنب تبعيات الحلقات، تسمح دوال الهاش بمعالجة متوازية، مما يزيد السرعة.</li>
+                    <li><strong>المعالجة المتوازية:</strong> صممت دوال الهاش الحديثة للمعالجة المتوازية، مما يعزز الكفاءة على المعالجات متعددة النواة.</li>
+                    <li><strong>حجم الإخراج الثابت:</strong> يبسط الإخراج ذو الطول الثابت تخصيص الذاكرة ومقارنة البيانات، محسنًا نموذج البرمجة والكفاءة.</li>
+                    <li><strong>المعالجة المسبقة واللاحقة:</strong> يمكن لدوال الهاش التعامل مع بيانات كبيرة عن طريق تقسيمها إلى كتل، حساب قيم الهاش بشكل منفصل، ثم دمجها، مما يعزز الكفاءة.</li>
+                    <li><strong>مسارات خوارزمية محسنة:</strong> يزيد تقليل التفرع أثناء التنفيذ من دقة التنبؤ بالتعليمات على وحدات المعالجة المركزية، مما يزيد السرعة.</li>
+                    <li><strong>صديقة للذاكرة المخبأة:</strong> يؤدي تصميم دوال الهاش لتقليل الأخطاء في الذاكرة المخبأة إلى زيادة كبيرة في سرعة المعالجة.</li>
+                    <li><strong>تحسين الأجهزة:</strong> يمكن أن تزيد مسرعات الأجهزة المخصصة بشكل كبير من سرعة حسابات الهاش، خاصةً لدوال الهاش الخوارزمية مثل سلسلة SHA.</li>
+                    <li><strong>عدم الاحتفاظ بالحالة:</strong> لا تحتفظ دوال الهاش بمعلومات الحالة، مما يسمح بمعالجة خفيفة لكل إدخال جديد.</li>
+                    <li><strong>الشمولية:</strong> دوال الهاش شاملة لجميع أنواع بيانات الإدخال، مما يلغي الحاجة إلى خوارزميات مخصصة لأنواع بيانات مختلفة.</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3>ثبات طول الإخراج في دوال الهاش</h3>
+                <p>
+                    تحول دوال الهاش الإدخال بأي طول إلى إخراج ذو طول ثابت من خلال سلسلة معقدة من العمليات الحسابية. غالبًا ما يتضمن هذا العملية تقسيم بيانات الإدخال إلى كتل ذات حجم ثابت (لتلك المدخلات التي تتجاوز حجم وحدة المعالجة)،
+                    تطبيق سلسلة من العمليات الحسابية والمنطقية على كل كتلة، ثم دمج أو تراكم نتائج هذه العمليات بطريقة ما لإنتاج قيمة هاش ذات حجم ثابت في النهاية.
+                </p>
+                <p>
+                    <strong>لماذا هذا مهم؟</strong>
+                    يساعد ثبات طول الإخراج على ضمان أمان دوال الهاش. إذا كان من الممكن أن يتغير طول إخراج الهاش، فقد يكشف ذلك عن معلومات حول حجم البيانات الأصلية، والتي يمكن استغلالها بطرق معينة لمهاجمة النظام. 
+                    علاوة على ذلك، يجعل طول الإخراج الثابت من الصعب على المهاجمين استنتاج خصائص بيانات الإدخال من خلال تحليل طول الإخراج. في الوقت نفسه، يبسط الإخراج ذو الطول الثابت تخزين ومقارنة قيم الهاش.
+                    يمكن لمصممي النظام معرفة مسبقًا كمية المساحة التي ستشغلها كل قيمة هاش، وهو أمر مهم جدًا لسيناريوهات مثل تصميم قواعد البيانات والنقل الشبكي. علاوة على ذلك، يصبح ثبات طول الإخراج فعالًا جدًا لمقارنة ما إذا كانت قيم الهاش متساوية لأنه يتطلب فقط مقارنة بيانات ذات طول ثابت.
+                    هذا مهم بشكل خاص عند استخدام جداول الهاش لاسترجاع البيانات بسرعة.
+                </p>
+                <p>
+                    باعتبار SHA-256 مثالًا، تنتج هذه الدالة الهاش العملياتية التي تستخدم على نطاق واسع قيمة هاش ذات 256 بت (أي 32 بايت) دائمًا، بغض النظر عما إذا كانت بيانات الإدخال عبارة عن بايت واحد أو عدة ملايين من البايتات. يضمن هذا الثبات أن قيم هاش SHA-256 يمكن استخدامها لتطبيقات الأمان المتنوعة،
+                    مثل التوقيعات الرقمية ورموز التوثيق (MACs)، مع تبسيط سير العمل في معالجة وتخزين البيانات.
+                </p>
+            </div>
+            
+            <div>
+                <h3>لا رجعية دوال الهاش</h3>
+                <p>
+                    دوال الهاش أحادية الاتجاه، مما يعني أنه من المستحيل استنتاج البيانات الأصلية من قيمة الهاش. هذه الخاصية مهمة بشكل خاص عند تخزين كلمات المرور، حيث حتى لو تم اختراق قاعدة البيانات، لا يمكن للمهاجمين استرداد كلمات المرور من قيم الهاش.
+                    تستند لا رجعية دوال الهاش أساسًا إلى المبادئ والخصائص التالية:
+                </p>
+                <ul>
+                    <li><strong>الضغط:</strong> يمكن لدوال الهاش تعيين المدخلات بأي طول (والتي قد تكون كبيرة جدًا في الاستخدام العملي) إلى إخراج ذو طول ثابت. هذا يعني أن هناك عددًا لا نهائيًا من المدخلات الممكنة المعينة إلى عدد محدود من النواتج. نظرًا لأن مساحة الإخراج (قيم الهاش) أصغر بكثير من مساحة الإدخال، فإن مدخلات مختلفة ستنتج بالضرورة عن نفس الإخراج، وهو ظاهرة تُعرف باسم "التصادم". بسبب هذا الضغط، من المستحيل تحديد المدخلات المحددة من إخراج معين (قيمة الهاش).</li>
+                    <li><strong>عدم الخطية العالية والتعقيد:</strong> صممت دوال الهاش باستخدام عمليات حسابية ومنطقية معقدة (مثل العمليات البتية، عمليات المودولو، إلخ)، لضمان أن يكون الإخراج حساسًا للغاية للإدخال. حتى التغييرات الطفيفة في الإدخال (على سبيل المثال، تغيير بت واحد) يمكن أن تسبب تغييرات كبيرة وغير متوقعة في الإخراج (قيمة الهاش). يجعل هذا الدرجة العالية من عدم الخطية وعشوائية الإخراج من الصعب للغاية استنتاج الإدخال الأصلي من قيمة الهاش.</li>
+                    <li><strong>أحادية الاتجاه:</strong> يضمن تصميم دوال الهاش أن عمليتها أحادية الاتجاه؛ أي أن حساب قيمة الهاش سهل، ولكن العملية العكسية (استرداد البيانات الأصلية من قيمة الهاش) غير ممكنة. هذا لأن عملية حساب دوال الهاش تتضمن سلسلة من العمليات اللا رجعية (مثل لا رجعية عمليات المودولو)، مما يضمن أنه حتى مع قيمة الهاش، من المستحيل عكس هندسة البيانات الأصلية.</li>
+                    <li><strong>التعيين العشوائي:</strong> يجب أن تعمل دالة الهاش المثالية كـ "معين عشوائي"، بمعنى أن كل مدخل ممكن يحتمل بنفس القدر أن يُعين إلى أي نقطة في مساحة الإخراج. تضمن هذه الخاصية عدم وجود طريقة عملية للتنبؤ بالإخراج الذي سيتم تعيين مدخل معين إليه، مما يعزز لا رجعية دالة الهاش.</li>
+                    <li><strong>الأساس الرياضي:</strong> من الناحية الرياضية، يمكن فهم لا رجعية دوال الهاش من خلال اعتمادها على "مشكلات اللوغاريتمات الختامية"، "مشكلات تحليل الأعداد الكبيرة"، أو مشكلات نظرية الأعداد الأخرى التي يصعب حلها بالقدرات الحسابية والرياضية الحالية. على سبيل المثال، قد يعتمد تصميم بعض خوارزميات الهاش بشكل غير مباشر على صعوبة حسابية لهذه المشكلات، مما يضمن لا رجعيتها.</li>
+                </ul>
+                <figure>
+                    <img src="./images/Irreversibility.jpg" alt="لا رجعة في دوال التجزئة" />
+                    <figcaption class="Irreversibility">لا رجعة في دوال التجزئة</figcaption>
+                </figure>
+            </div>
+            
+            <div>
+                <h3>الحساسية للإدخال وتأثير الانهيار</h3>
+                <p>
+                    في تصميم دوال الهاش، تُستخدم العمليات الحسابية والمنطقية المعقدة (مثل العمليات البتية، عمليات المودولو، إلخ) لضمان أن يكون الإخراج حساسًا جدًا للإدخال.
+                    حتى التغييرات الطفيفة في الإدخال (على سبيل المثال، تغيير بت واحد) ستؤدي إلى تغييرات كبيرة وغير متوقعة في الإخراج (قيمة الهاش)، وهو ظاهرة تُعرف بـ "تأثير الانهيار".
+                    <a href="javascript:void(0);" class="learnMore" data-target="moreContent2">[اقرأ المزيد]</a>
+                </p>
+            </div>
+            
+            <div id="moreContent2" class="moreContent" style="display:none;">
+                <p>يمكن أن يكون لـ <a href="https://en.wikipedia.org/wiki/Avalanche_effect" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">تأثير الانهيار</a> تفسيرات مختلفة في مجالات متنوعة:</p>
+                <ul>
+                    <li><strong>في التشفير:</strong> تأثير الانهيار هو خاصية مرغوبة لخوارزميات التشفير (خاصةً الشفرات الكتلية ودوال الهاش العملياتية). يحدث عندما يؤدي التغيير الأدنى في الإدخال (على سبيل المثال، قلب بت ثنائي) إلى تغييرات غير مميزة في الإخراج (باحتمالية 50% لقلب كل بت ثنائي في الإخراج). تساعد هذه الخاصية على تعزيز أمان التشفير لأن تغييرات كبيرة في الإخراج يمكن أن تحدث حتى مع تغييرات طفيفة فقط في الإدخال، مما يجعل من الصعب اختراق التشفير عن طريق تحليل العلاقة بين الإدخال والإخراج.</li>
+                    <li><strong>في الأعمال والتكنولوجيا:</strong> تأثير الانهيار يشير إلى الظاهرة حيث يمكن إطلاق طاقة كبيرة عن طريق تفكيك وإعادة تركيب البنية والنظام المتأصلين في الأعمال والتكنولوجيا بشكل مناسب. يمكن لهذه الطاقة أن تدمر الأنظمة الصناعية القديمة مثل الانهيار الجليدي، أو حتى تسبب في اختفاء صناعة بأكملها. تحت ضغط الانهيار الهائل، يتم تعطيل العلاقة الجوهرية بين الأعمال والتكنولوجيا بالكامل، مما يتطلب قبول تحولات وتكاملات جديدة. يؤدي هذا التأثير في النهاية إلى تحفيز سلسلة من الابتكارات الثورية.</li>
+                    <li><strong>في هندسة المايكروسيرفيس:</strong> تأثير الانهيار يصف السيناريو الذي يمكن أن ينتشر فيه فشل أو عدم توفر في خدمة واحدة عبر سلسلة الاستدعاء، مما يؤدي إلى شلل النظام بأكمله. قد تشمل أسباب تأثير الانهيار أعطال الأجهزة، زيادة في حركة المرور، اختراق الذاكرة المخبأة، أخطاء البرامج، وتوقفات JVM، من بين أمور أخرى.</li>
+                    <li><strong>في العالم الطبيعي:</strong> يشير تأثير الانهيار إلى الظاهرة التي يمكن أن تتسبب فيها حجر صغير يتدحرج على جبل ثلجي في إحداث انهيار جليدي. يحدث هذا لأن تأثير الحجر الصغير يتسبب في تفكك طبقات الثلج المحيطة وانزلاقها، مما يؤدي إلى انهيار جليدي على نطاق أوسع. يمكن أيضًا وصف هذه الظاهرة بشكل مجازي كيف يمكن للأحداث الصغيرة أو العوامل أن تثير ردود فعل سلسلية هائلة.</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3>مقاومة التصادم في التشفير</h3>
+                <p>
+                    مقاومة التصادم لدالة الهاش هي مفهوم حاسم في التشفير، يشير إلى مستوى أمان دالة الهاش ضد هجمات التصادم. تشير هذه الخاصية إلى أنه بالنسبة لأي دالة هاش <strong>H</strong>، من المستحيل حسابيًا العثور على مدخلين متميزين <strong>x</strong> و <strong>y</strong> (<strong>x ≠ y</strong>) بحيث <strong>H(x) = H(y)</strong>. دالة الهاش ذات مقاومة التصادم القوية تجعل من الصعب للغاية العثور على مدخلين مختلفين يؤديان إلى نفس قيمة الإخراج.
+                </p>
+                <figure>
+                    <img src="./images/Collision Resistance.jpg" alt="توضيح لمقاومة التصادم">
+                    <figcaption class="Resistance">توضيح لمقاومة التصادم</figcaption>
+                </figure>
+                <p>
+                    تلعب مقاومة التصادم دورًا حيويًا في الحفاظ على سلامة البيانات والتحقق منها. من خلال تحويل المعلومات المدخلة إلى إخراج ذو حجم ثابت (أو ملخص)، تضمن دوال الهاش ألا ينتج عن مدخلين مختلفين نفس الإخراج. تسمح هذه الخاصية الفريدة لقيمة الهاش بتحديد القيمة الأصلية بدقة.
+                </p>
+                <p>
+                    أثناء إنشاء البيانات أو تخزينها، يتم إنشاء قيمة هاش (أو ملخص) باستخدام دالة الهاش. يتم تخزين هذه القيمة أو نقلها جنبًا إلى جنب مع البيانات الأصلية. على سبيل المثال، غالبًا ما تعرض مواقع تنزيل البرامج قيم الهاش للملفات للتحقق من سلامتها. يمكن للمستلمين إعادة حساب قيمة الهاش للبيانات المستلمة بشكل مستقل للتأكد من سلامتها. إذا تطابقت قيمة الهاش الأصلية والمعاد حسابها، يتم التحقق من سلامة البيانات. إذا لم يكن الأمر كذلك، فقد تم التلاعب بالبيانات أو تلفها أثناء النقل أو التخزين.
+                </p>
+                <p>
+                    توفر مقارنة قيم الهاش أيضًا ميزة التحقق من سلامة البيانات دون الحاجة إلى مساحة تخزين كبيرة. تتيح هذه الطريقة للمستلمين تأكيد صحة البيانات من خلال مقارنة قيم الهاش قبل وبعد النقل.
+                </p>
+                <figure>
+                    <img src="./images/Compare Hash.jpg" alt="عملية مقارنة قيم التجزئة">
+                    <figcaption class="Compare">عملية مقارنة قيم التجزئة</figcaption>
+                </figure>
+            </div>            
+            
+            <div>
+                <h2>هل يمكن العثور على تصادمات الهاش؟</h2>
+                <p>
+                    من خلال خصائص دوال الهاش المذكورة أعلاه، قد فهمنا مقاومة التصادم. لكن، هل من الممكن أن توجد تصادمات الهاش، أي أن ينتج عن مدخلين مختلفين نفس الناتج؟ 
+                    الجواب هو نعم، توجد بالفعل تصادمات. وفقًا لـ<a href="https://en.wikipedia.org/wiki/Pigeonhole_principle" target="_blank" style="color: #007bff; font-size: 1.0em;">مبدأ الحفر</a>، طالما أن فضاء الإدخال كبير بما فيه الكفاية، توجد إمكانية لتصادمات الهاش.
+                    هذا لأن فضاء الإخراج لدوال الهاش عادة ما يكون أصغر بكثير من فضاء الإدخال، مما يؤدي حتمًا إلى تعيين مدخلات مختلفة متعددة على نفس الناتج.
+                </p>
+                
+                <p>
+                    مبدأ الحفر هو مبدأ بديهي وبسيط من الرياضيات التوفيقية، ينص على أنه إذا تم وضع أكثر من n عناصر في n حاويات، فإن هناك حاوية واحدة على الأقل ستحتوي على عنصرين أو أكثر. 
+                    يمكن استخدام هذا المبدأ أيضًا لشرح مشاكل مثل مفارقة عيد الميلاد.
+                </p>
+                <p>
+                    تطبيق مبدأ الحفر واسع جدًا، مع استخدامات مهمة في مجالات مثل التشفير، علوم الحاسوب، والرياضيات. على سبيل المثال، في علوم الحاسوب، يُستخدم مبدأ الحفر لإثبات صحة بعض الخوارزميات أو لتحليل تعقيد الوقت للخوارزميات. 
+                    في التشفير، يُستخدم مبدأ الحفر أيضًا لتصميم بعض طرق الهجوم العملياتية، مثل هجوم عيد الميلاد.
+                </p>
+                <p>
+                    مفارقة عيد الميلاد هي تطبيق كلاسيكي لمبدأ الحفر. فلنفترض أن هناك n أشخاص في غرفة.
+                    إذا أردنا احتمالية أن يكون هناك شخصان على الأقل يشتركان في نفس تاريخ الميلاد أكبر من 50%، كم عدد الأشخاص المطلوبين؟ وفقًا لمبدأ الحفر،
+                    إذا تم وضع 367 شخصًا (بافتراض أن هناك 366 يومًا في السنة، بالإضافة إلى يوم إضافي لـ29 فبراير في سنة كبيسة) في 366 "حفرة" (أي، أعياد الميلاد)، فسيحتوي حفرة واحدة على الأقل على شخصين، مما يعني أن هناك شخصين على الأقل يشتركان في نفس تاريخ الميلاد. هذا يوضح مفارقة عيد الميلاد.
+                </p>
+                <p>
+                    من المهم ملاحظة أنه، على الرغم من أن مبدأ الحفر بسيط وبديهي، يجب أن تأخذ تطبيقاته في الاعتبار السياق المحدد. 
+                    على سبيل المثال، عند تطبيق مبدأ الحفر، من الضروري ضمان استقلالية المتغيرات العشوائية المعنية عن بعضها البعض؛ وإلا فقد يؤدي ذلك إلى استنتاجات غير صحيحة. علاوة على ذلك، في بعض الحالات، قد يكون من الضروري أيضًا مراعاة عوامل مثل حجم وشكل الحفر.
+                </p>
+            </div>
+            
+            <div>
+                <p>
+                    ومع ذلك، قد لا يكون محاولة العثور على تصادمات الهاش عن طريق مجرد تصفح فضاء الإدخال عمليًا، وذلك بشكل رئيسي لسببين:
+                </p>
+                <ul>
+                    <li><strong>التعقيد الحسابي:</strong> بالنسبة لمعظم دوال الهاش، فإن فضاء الإدخال واسع. خذ SHA-256 كمثال؛ إخراجه هو قيمة هاش بطول 256 بت، مما يعني أن لديه 2^256 إمكانية للنواتج. نظرًا لأن أحد أهداف تصميم دوال الهاش هو تقليل التصادمات قدر الإمكان، من الناحية النظرية،
+                            من المتوقع أن يتطلب العثور على تصادم هاش لـ SHA-256 تصفح حوالي 2^(256/2) = 2^128 من المدخلات، وفقًا لمفارقة عيد الميلاد، والتي تمثل عدد المدخلات المتوقع تقريبًا لإيجاد تصادم. حتى مع أقوى الحواسيب الفائقة المتاحة حاليًا، ستستغرق هذه المهمة وقتًا يتجاوز عمر الإنسان بكثير،
+                            مما يجعل من المستحيل العثور على تصادم هاش SHA-256 من خلال التصفح البسيط.</li>
+                    <li><strong>تصميم دوال الهاش:</strong> عادة ما تكون دوال الهاش مصممة لجعل العثور على التصادمات غير عملي حسابيًا. هذا يعني أنه، على الرغم من وجود التصادمات من الناحية النظرية، فمن المستحيل عمليًا العثور عليها في الممارسة العملية. هذه خاصية مهمة لدوال الهاش العملياتية (مثل SHA-256)،
+                            المستخدمة على نطاق واسع في مجالات مثل التوقيعات الرقمية، تخزين كلمات المرور، والمزيد.</li>
+                </ul>
+                <p>
+                    بالطبع، يمكننا أيضًا استخدام خوارزميات محددة لمحاولة العثور على تصادمات الهاش. تستغل هذه الخوارزميات غالبًا بعض الخصائص المعروفة أو نقاط الضعف في دوال الهاش لإيجاد التصادمات. إليك بعض التقنيات والأساليب الشائعة للعثور على تصادمات الهاش:
+                </p>
+                <ul>
+                    <li><strong>هجوم عيد الميلاد:</strong> هذه طريقة بسيطة مبنية على الاحتمالات تُستخدم لتقدير الوقت المطلوب لإيجاد تصادم عندما يتم اختيار المدخلات بشكل عشوائي. مبدأ هجوم عيد الميلاد هو أنه إذا كان هناك العديد من الأشخاص في غرفة، تزداد احتمالية أن يكون لدى شخصين نفس تاريخ الميلاد مع زيادة عدد الأشخاص.
+                            بشكل مماثل، في دوال الهاش، إذا تم اختيار عدد كافٍ من المدخلات بشكل عشوائي، من المحتمل أن ينتج في النهاية مدخلان نفس ناتج الهاش.</li>
+                    <li><strong>هجوم القوة الغاشمة:</strong> هذه هي الطريقة الأكثر مباشرة، والتي تتضمن تصفح جميع المدخلات المحتملة للعثور على تصادم. ومع ذلك، هذه الطريقة غير عملية بالنسبة لدوال الهاش التي لها فضاءات إدخال كبيرة بسبب الموارد الحسابية الهائلة والوقت المطلوب.</li>
+                    <li><strong>جداول الألوان الطيفية:</strong> تُستخدم هذه التقنية للحساب المُسبق وتخزين عدد كبير من قيم الهاش والمُدخلات المُقابلة لها. تُعد جداول الألوان الطيفية مفيدة بشكل خاص لاختراق كلمات المرور التي لم تُستخدم فيها عملية التشويش على البيانات العشوائية أو تلك التي لها دالة هاش معروفة. من خلال البحث في جدول الألوان الطيفية، يُمكن للمهاجم أن يجد بسرعة مُدخل يُطابق قيمة هاش محددة.</li>
+                    <li><strong>هجمات تمديد الهاش:</strong> تسمح بعض دوال الهاش للمهاجمين بدمج بيانات إضافية مع قيمة هاش معروفة دون معرفة الإدخال الأصلي، مما يولد قيمة هاش جديدة. يمكن استخدام هذا الهجوم لبناء التصادمات أو تنفيذ أنواع أخرى من الهجمات.</li>
+                    <li><strong>المدخلات المصممة خصيصًا:</strong> أحيانًا، يمكن للمهاجمين استغلال نقاط الضعف المحددة أو السلوكيات غير الخطية في دوال الهاش لبناء مدخلات خاصة من المرجح أن تنتج تصادمات في دالة الهاش.</li>
+                </ul>
+            </div>
+            
+
+            <div>
+                <h2>ما هي دوال الهاش المستخدمة بشكل شائع؟</h2>
+                <h3>MD5 (خوارزمية الرسالة الهضمية 5)</h3>
+                <p>
+                    MD5 هي دالة هاش عملياتية تستخدم على نطاق واسع، صممها رونالد ريفيست في التسعينيات لاستبدال خوارزمية MD4 الأقدم. يمكنها تحويل رسالة بأي طول إلى قيمة هاش ذات طول ثابت (128 بت أو 16 بايت).
+                    كان الهدف من تصميم MD5 هو توفير طريقة سريعة وآمنة نسبيًا لإنشاء بصمة رقمية للبيانات. ومع ذلك، تم اكتشاف طرق التصادم لـ <a href="https://en.wikipedia.org/wiki/MD5" target="_blank" style="color: #007bff; font-size: 1.0em;"> MD5 </a>، مما جعل الخوارزمية غير آمنة، لكنها لا تزال تستخدم على نطاق واسع في الحالات التي لا تكون فيها الأمان هي الشاغل الرئيسي.
+                <br>
+                <br>تتضمن عملية حساب MD5 الخطوات التالية:
+                </p>
+                <ul>
+                    <li><strong>التعبئة:</strong> في البداية، يتم تعبئة البيانات الأصلية بحيث يكون طولها بالبايت مضاعفًا لـ512. تبدأ التعبئة بـ1، يليها أصفار حتى يتم تلبية متطلبات الطول.</li>
+                    <li><strong>إضافة الطول:</strong> يتم إضافة قيمة طول 64 بت، وهي التمثيل الثنائي لطول الرسالة الأصلية، إلى الرسالة المعبأة، مما يجعل الرسالة النهائية بطول مضاعف لـ512 بت.</li>
+                    <li><strong>تهيئة الذاكرة الوسيطة MD:</strong> يتم تهيئة أربعة سجلات 32 بت (A، B، C، D) لتخزين قيم الهاش المتوسطة والنهائية.</li>
+                    <li><strong>معالجة كتل الرسائل:</strong> يتم تقسيم الرسالة المعبأة والتي تمت معالجتها طولياً إلى كتل 512 بت، ويتم معالجة كل كتلة من خلال أربع جولات من العمليات. تشمل كل جولة 16 عملية مماثلة تعتمد على وظائف غير خطية (F، G، H، I)، عمليات الإزاحة الدائرية اليسرى، والجمع وفق نمط 32.</li>
+                    <li><strong>الناتج:</strong> قيمة الهاش النهائية هي محتوى الحالة الأخيرة للسجلات الأربعة A، B، C، D المتصلة معًا (كل سجل هو 32 بت)، لتشكيل قيمة هاش بطول 128 بت.</li>
+                </ul>
+                
+                <h3>SHA-1 (خوارزمية الهاش الآمنة 1)</h3>
+                <p>
+                    تم تصميم SHA-1 بواسطة وكالة الأمن القومي الأمريكية (NSA) وأصدرت كمعيار معالجة المعلومات الاتحادي (FIPS PUB 180-1) بواسطة المعهد الوطني للمعايير والتكنولوجيا (NIST) في عام 1995.
+                    صُمم SHA-1 للاستخدام في التوقيعات الرقمية وتطبيقات التشفير الأخرى، مولدًا قيمة هاش بطول 160 بت (20 بايت) تُعرف بموجز الرسالة. على الرغم من أنه أصبح معروفًا الآن أن <a href="https://en.wikipedia.org/wiki/SHA-1" target="_blank" style="color: #007bff; font-size: 1.0em;"> SHA-1 </a> له نقاط ضعف أمنية وقد تم استبداله بخوارزميات أكثر أمانًا مثل SHA-256 وSHA-3،
+                    فإن فهم مبدأ عمله لا يزال يحمل قيمة تعليمية وتاريخية.
+                <br>
+                <br>الغرض من تصميم SHA-1 هو أخذ رسالة بطول عشوائي وإنتاج موجز رسالة بطول 160 بت للتحقق من سلامة البيانات. يمكن تقسيم عملية حسابها إلى الخطوات التالية:
+                </p>
+                <ul>
+                    <li><strong>التعبئة:</strong> في البداية، يتم تعبئة الرسالة الأصلية بحيث يكون طولها (بالبتات) مضاعفًا لـ512 يساوي 448. التعبئة تبدأ دائمًا ببت "1"، يليها عدة بتات "0"، حتى يتم تلبية شرط الطول المذكور.</li>
+                    <li><strong>إضافة الطول:</strong> يتم إضافة كتلة 64 بت إلى الرسالة المعبأة، تمثل طول الرسالة الأصلية (بالبتات)، مما يجعل طول الرسالة النهائي مضاعفًا لـ512 بت.</li>
+                    <li><strong>تهيئة الذاكرة الوسيطة:</strong> يستخدم خوارزم SHA-1 ذاكرة وسيطة بطول 160 بت، مقسمة إلى خمسة سجلات 32 بت (A، B، C، D، E)، لتخزين قيم الهاش المتوسطة والنهائية. يتم تهيئة هذه السجلات إلى قيم ثابتة محددة في بداية الخوارزمية.</li>
+                    <li><strong>معالجة كتل الرسائل:</strong> يتم تقسيم الرسالة المعالجة مسبقًا إلى كتل بطول 512 بت. لكل كتلة، ينفذ الخوارزم الحلقة الرئيسية التي تحتوي على 80 خطوة مماثلة. تنقسم هذه الـ80 خطوة إلى أربع جولات، كل منها به 20 خطوة. تستخدم كل خطوة وظيفة غير خطية مختلفة (F، G، H، I) وثابت (K). تم تصميم هذه الوظائف لزيادة تعقيد وأمان العمليات. في هذه الخطوات، يستخدم الخوارزم العمليات البتية (مثل AND، OR، XOR، NOT) والجمع وفق نمط 32، بالإضافة إلى الإزاحات الدائرية اليسرى.</li>
+                    <li><strong>الناتج:</strong> بعد معالجة جميع الكتل، يتم دمج القيم المتراكمة في السجلات الخمسة لتشكيل القيمة النهائية للهاش بطول 160 بت.</li>
+                </ul>
+
+                <div>
+                    <h3>SHA-2 (خوارزمية الهاش الآمنة 2)</h3>
+                    <p>
+                        SHA-2 هي عائلة من دوال الهاش العملياتية، تشمل عدة نسخ مختلفة، تتكون أساسًا من ستة متغيرات: SHA-224، SHA-256، SHA-384، SHA-512، SHA-512/224، و SHA-512/256.
+                        تم تصميم SHA-2 بواسطة وكالة الأمن القومي الأمريكية (NSA) ونشرت كمعيار معالجة المعلومات الفيدرالي (FIPS) بواسطة المعهد الوطني للمعايير والتكنولوجيا (NIST). مقارنةً بسلفها SHA-1، تقدم SHA-2 أمانًا محسنًا، ينعكس بشكل أساسي في قيم الهاش الأطول ومقاومة أقوى لهجمات التصادم.
+                    <br>
+                    <br>تشابه عملية عائلة <a href="https://en.wikipedia.org/wiki/SHA-2" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;"> SHA-2 </a> مع SHA-1 في العديد من الجوانب ولكنها توفر أمانًا أعلى من خلال استخدام قيم هاش أطول وإجراء معالجة أكثر تعقيدًا. إليك الخطوات الرئيسية لخوارزمية SHA-2:
+                    </p>
+                    <ul>
+                        <li><strong>التعبئة:</strong> يتم أولاً تعبئة الرسالة الواردة لجعل طولها، ناقص 64 بت، يساوي 448 أو 896 على أساس مودولو 512 (لـ SHA-224 وSHA-256) أو مودولو 1024 (لـ SHA-384 وSHA-512). طريقة التعبئة هي نفسها المستخدمة في SHA-1، والتي تتضمن إضافة "1" في نهاية الرسالة، تليها عدة أصفار "0"، وأخيرًا تمثيل ثنائي بطول 64 بت (لـ SHA-224 وSHA-256) أو 128 بت (لـ SHA-384 وSHA-512) لطول الرسالة الأصلية بالبتات.</li>
+                        <li><strong>تهيئة الذاكرة الوسيطة:</strong> تستخدم خوارزمية SHA-2 مجموعة من قيم الهاش المهيأة كذاكرة وسيطة بدءًا، اعتمادًا على متغير SHA-2 المختار. على سبيل المثال، يستخدم SHA-256 ثمانية سجلات 32 بت، بينما يستخدم SHA-512 ثمانية سجلات 64 بت. يتم تهيئة هذه السجلات إلى قيم ثابتة محددة.</li>
+                        <li><strong>معالجة كتل الرسائل:</strong> يتم تقسيم الرسالة المعبأة إلى كتل بطول 512 بت أو 1024 بت، وتخضع كل كتلة لجولات متعددة من العمليات العملياتية. يؤدي SHA-256 وSHA-224 64 جولة من العمليات، بينما يؤدي SHA-512، SHA-384، SHA-512/224، وSHA-512/256 80 جولة. تتضمن كل جولة من العمليات سلسلة من العمليات البتية المعقدة، بما في ذلك العمليات المنطقية، الجمع الوحداتي، والعمليات الشرطية، معتمدة على وظائف غير خطية مختلفة وثوابت محددة مسبقًا. تزيد هذه العمليات من تعقيد وأمان الخوارزمية.</li>
+                        <li><strong>الناتج:</strong> أخيرًا، بعد معالجة جميع الكتل، يتم دمج القيم في الذاكرة الوسيطة لتشكيل قيمة الهاش النهائية. اعتمادًا على متغير SHA-2، يمكن أن تكون قيمة الهاش هذه بطول 224، 256، 384، أو 512 بت.</li>
+                    </ul>
+                    <p>
+                        قد تتساءل لماذا يمكن أن يكون إدخال إلى دالة الهاش بطول عشوائي، بينما الناتج ثابت. السبب هو أن عائلة SHA-2 تستخدم تحويل ميركل-دامغارد، الذي يسمح ببناء دوال الهاش التي يمكنها معالجة رسائل بأي طول من دالة الضغط ذات الطول الثابت. تم تبني تحويل ميركل-دامغارد في العديد من دوال الهاش التقليدية، بما في ذلك MD5 وSHA-1.
+                    </p>
+                    <p>
+                        الفكرة الأساسية لتحويل ميركل-دامغارد هي تقسيم الرسالة الواردة إلى كتل ذات حجم ثابت ثم معالجة هذه الكتل واحدة تلو الأخرى، حيث يعتمد كل خطوة معالجة على نتيجة السابقة، في النهاية إنتاج قيمة هاش ذات حجم ثابت. تجسد خطوة التعبئة لـ SHA-256 المبادئ الأساسية لتحويل ميركل-دامغارد، أي من خلال التعبئة المناسبة لمعالجة الرسائل بأي طول وضمان أن يلبي طول الرسالة المعالجة النهائية شروطًا معينة (مثل كونها مضاعفًا لطول ثابت). وبالتالي، يمكن القول إن خطوة التعبئة لـ SHA-256 تتبع طريقة تحويل ميركل-دامغارد.
+                    </p>
+                    <figure>
+                        <img src="./images/Merkle-Damgård Padding.jpg" alt="مبدأ تعبئة Merkle-Damgård"">
+                        <figcaption class="Merkle-Damgård">مبدأ تعبئة Merkle-Damgård</figcaption>
+                    </figure>
+                    <p>
+                        ومع ذلك، SHA-256 ليست مجرد تطبيق مباشر لتحويل ميركل-دامغارد. فهي تتضمن أيضًا سلسلة من الخطوات الحسابية المعقدة (مثل توسيع الرسالة، جولات متعددة من وظائف الضغط، وما إلى ذلك)، والتي هي تصميمات فريدة لـ SHA-256، بهدف تعزيز أمانها. وبالتالي، على الرغم من أن SHA-256 تتبع مبادئ تحويل ميركل-دامغارد في خطوة التعبئة الخاصة بها، إلا أنها تعزز الأمان العام من خلال تقديم آليات أمان أخرى، مما يجعلها لا تقتصر فقط على الإطار الأساسي لتحويل ميركل-دامغارد.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3>SHA-3 (خوارزمية الهاش الآمنة 3)</h3>
+                    <p>
+                        SHA-3 هو أحدث معيار للهاش الآمن، وقد تم اعتماده رسميًا من قبل المعهد الوطني للمعايير والتكنولوجيا (NIST) في عام 2015 كمعيار لمعالجة المعلومات الفيدرالية (FIPS 202). لا يهدف SHA-3 لاستبدال SHA-1 أو SHA-2 السابقين (حيث لا يزال SHA-2 يعتبر آمنًا)، 
+                        ولكن ليكون بمثابة تكملة ويقدم خيارًا بديلاً ضمن عائلة SHA، موفرًا خوارزمية هاش عملياتية مختلفة. يستند SHA-3 إلى خوارزمية Keccak، التي صممها Guido Bertoni وآخرون، وكانت الفائزة في مسابقة SHA-3 التي أقامتها NIST في عام 2012.
+                    <br>
+                    <br>تختلف مبادئ عمل SHA-3 بشكل كبير عن SHA-2، وذلك لأنه يستخدم طريقة تعرف باسم "بنية الإسفنج" لامتصاص وعصر البيانات، مما ينتج عنه قيمة الهاش النهائية. تسمح هذه الطريقة لـ SHA-3 بإخراج قيم هاش بأطوال مختلفة، مما يوفر نطاقًا أوسع من التطبيقات مقارنةً بـ SHA-2. إليك الخطوات الرئيسية لخوارزمية SHA-3:
+                    </p>
+                    <figure>
+                        <img src="./images/sponge construction.jpg" alt="الرسم التخطيطي لبناء الإسفنج"">
+                        <figcaption class="sponge">الرسم التخطيطي لبناء الإسفنج</figcaption>
+                    </figure>
+                    <h4>مرحلة الامتصاص:</h4>
+                    <p>
+                        في مرحلة الامتصاص، تقوم بنية الإسفنج أولاً بتقسيم البيانات الواردة إلى كتل ذات حجم ثابت. تُمتص هذه الكتل البيانية تتابعيًا في الحالة الداخلية للإسفنج، والتي تكون عادةً أكبر من كتلة بيانات واحدة، لضمان أنه يمكن معالجة كمية كبيرة من البيانات دون فيض. 
+                        على وجه التحديد، يتم دمج كل كتلة بيانات مع جزء من الحالة الداخلية بطريقة ما (مثل عملية XOR)، يتبع ذلك تطبيق وظيفة التبديل الثابتة (في SHA-3، هذه هي <a href="https://en.wikipedia.org/wiki/SHA-3" target="_blank" style="color: #007bff; font-size: 1.0em;">Keccak-f</a> ) لتحويل الحالة بالكامل، وبالتالي منع التداخل بين كتل البيانات الواردة المختلفة. يتم تكرار هذه العملية حتى يتم معالجة جميع كتل البيانات الواردة.
+                    </p>
+                    <p>
+                        Keccak-f هي وظيفة التبديل الأساسية المستخدمة في خوارزمية الهاش العملياتية SHA-3. هي مكون مركزي في عائلة خوارزمية Keccak. يستند SHA-3 إلى خوارزمية Keccak، التي فازت بمسابقة الخوارزمية العملياتية التي أقامتها NIST وتم اختيارها كمعيار لـ SHA-3. تتضمن وظيفة Keccak-f عدة متغيرات، 
+                        والأكثر استخدامًا هو Keccak-f[1600]، حيث يشير الرقم إلى عرض البتات الذي تعمل عليه. 
+                    </p>
+                    <p>
+                        Keccak-f تتألف من عدة جولات من نفس العملية (تُسمى الجولات). بالنسبة لـ Keccak-f[1600]، هناك 24 جولة من العمليات. كل جولة تشمل خمس خطوات أساسية: <em>θ (theta)، ρ (rho)، π (pi)، χ (chi) و ι (iota)</em>. تعمل هذه الخطوات معًا على مصفوفة الحالة، تغير محتواها تدريجياً، مما يزيد من التشويش والانتشار لتعزيز الأمان. فيما يلي وصف موجز لهذه الخطوات:
+                    </p>
+                    <ul>
+                        <li><strong>خطوة θ (ثيتا):</strong> تؤدي عمليات XOR على جميع بتات كل عمود، ثم تقوم بـ XOR النتيجة على الأعمدة المجاورة، مما يوفر انتشارًا بين الأعمدة.</li>
+                        <li><strong>خطوة ρ (رو):</strong> عملية دوران على مستوى البت، حيث يتم تدوير كل بت عددًا مختلفًا من البتات وفقًا لقواعد محددة مسبقًا، مما يزيد من تعقيد البيانات.</li>
+                        <li><strong>خطوة π (باي):</strong> تعيد ترتيب البتات في مصفوفة الحالة، تغيير موقع البتات لتحقيق انتشار عبر الصفوف والأعمدة.</li>
+                        <li><strong>خطوة χ (كاي):</strong> خطوة غير خطية تؤدي عمليات XOR على كل بت من كل صف، بما في ذلك نفسه، جاره المباشر، ومكمل الجار. هذه عملية محلية تزيد من الخصائص غير الخطية للخوارزمية العملياتية.</li>
+                        <li><strong>خطوة ι (يوتا):</strong> تقدم ثابت جولة إلى جزء من مصفوفة الحالة، مع اختلاف الثابت في كل جولة، لتجنب تشغيل جميع الجولات بشكل متطابق، مما يقدم عدم القابلية للتنبؤ.</li>
+                    </ul>
+                    <p>
+                        توفر Keccak-f مستوى عالٍ من الأمان من خلال هذه الخطوات. يضمن تصميمها أن حتى التغييرات الطفيفة في الإدخال تؤدي إلى تغييرات واسعة النطاق وغير متوقعة في مصفوفة الحالة، والتي يتم تحقيقها من خلال مبادئ الارتباك (جعل من الصعب على المهاجمين استنتاج الإدخال من الإخراج) والانتشار (حيث تؤثر التغييرات الطفيفة في الإدخال على أجزاء متعددة من الإخراج).
+                    </p>
+                
+                    <p>
+                        يسمح تصميم Keccak-f بتعديل المعلمات (مثل حجم الحالة وعدد الجولات) عبر مستويات أمان مختلفة وسيناريوهات تطبيقية، مما يوفر مرونة كبيرة. Keccak-f[1600] مشهورة بتنفيذها الفعال، حيث تحقق سرعات معالجة عالية سواء في الأجهزة أو في البرمجيات، خاصة عند التعامل مع كميات كبيرة من البيانات.
+                    </p>
+                </div>
+                
+                <h4>مرحلة العصر:</h4>
+                <p>
+                    بمجرد استيعاب جميع كتل البيانات الواردة في الحالة الداخلية، تدخل بنية الإسفنج مرحلة العصر. في هذه المرحلة، يتم إخراج أجزاء من الحالة الداخلية تدريجيًا كنتيجة لدالة الهاش. إذا تجاوز الطول المطلوب للإخراج الكمية التي يمكن عصرها دفعة واحدة، تطبق بنية الإسفنج وظيفة التبديل لتحويل الحالة الداخلية مرة أخرى، ثم تستمر في إخراج المزيد من البيانات. يستمر هذا العمل حتى يتم الوصول إلى طول الإخراج المطلوب.
+                </p>
+                
+                <p>
+                    الهدف من تصميم SHA-3 هو توفير أمان أعلى من SHA-2 ومقاومة أفضل ضد هجمات الحوسبة الكمومية. بفضل بنيته الإسفنجية الفريدة، يُعتقد نظريًا أن SHA-3 قادر على مقاومة جميع أساليب الهجوم العملياتية المعروفة حاليًا، بما في ذلك هجمات التصادم، هجمات الصورة المسبقة، وهجمات الصورة المسبقة الثانية.
+                </p>
+                
+                <h3>RIPEMD-160 (تقييم رسالة دوال النزاهة العملياتية)</h3>
+                <p>
+                    RIPEMD-160 هي دالة هاش عملياتية صُممت لتوفير خوارزمية هاش آمنة. تم تطويرها في عام 1996 بواسطة هانس دوبرتين وآخرين، وهي جزء من عائلة RIPEMD (تقييم رسالة دوال النزاهة العملياتية).
+                </p>
+                <p>
+                    ينتج RIPEMD-160 قيمة هاش بطول 160 بت (20 بايت)، وهو ما يُفسر "160" في اسمه. يستند إلى تصميم MD4 وتأثر بخوارزميات هاش أخرى مثل MD5 وSHA-1. يتضمن RIPEMD-160 عمليتين موازيتين، متشابهتين تعالجان البيانات الواردة بشكل منفصل ثم تجمعان نتائج هاتين العمليتين لتوليد قيمة الهاش النهائية. تهدف هذه التصميم إلى تعزيز الأمان.
+                <br>
+                <br>تتضمن عملية حساب <a href="https://en.wikipedia.org/wiki/RIPEMD" target="_blank" style="color: #007bff; font-size: 1.0em;"> RIPEMD-160 </a> عدة خطوات أساسية: التعبئة، معالجة الكتل، والضغط:
+                </p>
+                <ul>
+                    <li><strong>التعبئة:</strong> يتم أولاً تعبئة الرسالة الواردة لضمان أن طولها مضروبا في 512 بت يساوي 448 بت. التعبئة تبدأ دائمًا ببت واحد من 1 يليها سلسلة من الأصفار 0، تنتهي بتمثيل 64 بت لطول الرسالة الأصلية.</li>
+                    <li><strong>معالجة الكتل:</strong> يتم تقسيم الرسالة المعبأة إلى كتل 512 بت.</li>
+                    <li><strong>التهيئة:</strong> يستخدم خمسة سجلات 32 بت (A, B, C, D, E)، والتي يتم تهيئتها إلى قيم محددة معينة.</li>
+                    <li><strong>وظيفة الضغط:</strong> يتم معالجة كل كتلة بدورها، تحديث قيم هذه السجلات الخمسة من خلال سلسلة من العمليات المعقدة. تتضمن هذه العملية عمليات بتية (مثل الجمع، وAND، وOR، وNOT، والتحولات الدائرية اليسرى) واستخدام مجموعة من الثوابت الثابتة.</li>
+                    <li><strong>الناتج:</strong> بعد معالجة جميع الكتل، يتم ربط قيم هذه السجلات الخمسة لتشكيل القيمة النهائية للهاش بطول 160 بت.</li>
+                </ul>                
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. جميع الحقوق محفوظة.</p>
+            <p>
+                <a href="https://chatcipherai.com/ar/Privacy_Policy.html" title="Privacy Policy">سياسة الخصوصية</a>
+                |
+                <a href="https://chatcipherai.com/ar/Terms_of_Use.html" title="Terms of Use">شروط الاستخدام</a>
+                |
+                <a href="https://chatcipherai.com/ar/About_Us.html" title="About Us">معلومات عنا</a>
+                |
+                <a href="https://chatcipherai.com/ar/Disclaimer.html" title="Disclaimer">إخلاء المسؤولية</a>
+            </p>
+            <button id="backToTop" onclick="scrollToTop()">العودة إلى الأعلى</button>
+        </div>  
+    </footer>
+
+    <script>
+        let shortcutsEnabled = true;
+
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Ensure all handlers are set up once the DOM is fully loaded
+            document.addEventListener('keydown', handleKeyPress);
+
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+            
+            setupEventListeners(); // Setup other event listeners
+            adjustButton();
+        });
+
+        let generatedTextHash = '';
+        let generatedFileHash = '';
+
+        async function generateHash() {
+            const text = document.getElementById('textInput').value;
+            document.getElementById('processOutput').textContent = text.length ? "جارٍ حساب قيمة التجزئة..." : '';
+            const msgUint8 = new TextEncoder().encode(text);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            document.getElementById('hashOutput').textContent = `قيمة التجزئة (SHA-256): ${hashHex}`;
+            generatedTextHash = hashHex;
+            document.getElementById('processOutput').textContent = "";
+        }
+
+        async function generateFileHash() {
+            const fileInput = document.getElementById('fileInput');
+            if (!fileInput.files.length) {
+                alert("اختر ملفا، رجاءا.");
+                return;
+            }
+            document.getElementById('fileHashOutput').textContent = "جارٍ حساب قيمة تجزئة الملف...";
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function (event) {
+                const arrayBuffer = event.target.result;
+                const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                document.getElementById('fileHashOutput').textContent = `قيمة التجزئة (SHA-256): ${hashHex}`;
+                generatedFileHash = hashHex;
+            };
+            reader.onerror = function () {
+                alert("خطأ في قراءة الملف");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function compareTextHash() {
+            const compareHash = document.getElementById('hashCompareInput').value;
+            if (!generatedTextHash) {
+                alert('يرجى إنشاء تجزئة للنص أولاً.');
+                return;
+            }
+            const resultText = generatedTextHash === compareHash ? "<strong>خاتمة:</strong>تتطابق التجزئات ولم يتم التلاعب بالبيانات." : "<strong>خاتمة: </strong>التجزئات غير متطابقة، وربما تم التلاعب بالبيانات أثناء النقل أو حدث خطأ أثناء التخزين.";
+            document.getElementById('textCompareResult').innerHTML = resultText;
+            document.getElementById('textCompareResult').style.color = generatedTextHash === compareHash ? "black" : "red";
+        }
+
+        async function compareFileHash() {
+            const fileInput = document.getElementById('compareFileInput');
+            if (!fileInput.files.length) {
+                alert("الرجاء تحديد ملف للمقارنة.");
+                return;
+            }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function (event) {
+                const arrayBuffer = event.target.result;
+                const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                document.getElementById('fileCompareResult').textContent = `قيمة التجزئة (SHA-256): ${hashHex}`;
+
+                if (generatedFileHash === hashHex) {
+                    document.getElementById('fileCompareResult').innerHTML += "<br><strong>خاتمة: </strong>تتطابق التجزئات ولم يتم التلاعب بالبيانات.";
+                    document.getElementById('fileCompareResult').style.color = "black";
+                } else {
+                    document.getElementById('fileCompareResult').innerHTML += "<br><strong>خاتمة: </strong>التجزئات غير متطابقة، وربما تم التلاعب بالبيانات أثناء النقل أو حدث خطأ أثناء التخزين.";
+                    document.getElementById('fileCompareResult').style.color = "red";
+                }
+            };
+            reader.onerror = function () {
+                alert("خطأ في قراءة الملف");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function compareHashValues() {
+            var hashValue1 = document.getElementById('hashInput1').value.trim();
+            var hashValue2 = document.getElementById('hashInput2').value.trim();
+
+            var resultDisplay = document.getElementById('hashComparisonResult');
+
+            resultDisplay.style.fontWeight = 'bold';
+
+            if (hashValue1 === "" || hashValue2 === "") {
+                resultDisplay.textContent = 'يجب إدخال كل من قيم التجزئة.';
+                resultDisplay.style.color = 'black';
+            } else if (hashValue1 === hashValue2) {
+                resultDisplay.textContent = 'تتطابق قيم التجزئة!';
+                resultDisplay.style.color = 'black';
+            } else {
+                resultDisplay.textContent = 'لا تتطابق قيم التجزئة.';
+                resultDisplay.style.color = 'red';
+            }
+        }
+
+        function copyTextHash() {
+            const hashValue = document.getElementById('hashOutput').textContent;
+            const hash = hashValue.split(": ")[1];
+            if (hash) {
+                navigator.clipboard.writeText(hash).then(() => {
+                }, () => {
+                    console.error("فشل نسخ تجزئة النص.");
+                });
+            }
+        }
+
+        function copyFileHash() {
+            const hashValue = document.getElementById('fileHashOutput').textContent;
+            const hash = hashValue.split(": ")[1];
+            if (hash) {
+                navigator.clipboard.writeText(hash).then(() => {
+                }, () => {
+                    console.error("فشل في نسخ تجزئة الملف.");
+                });
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('hashOutput').textContent = '';
+            document.getElementById('hashCompareInput').value = '';
+            document.getElementById('textCompareResult').textContent = '';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileHashOutput').textContent = '';
+            document.getElementById('compareFileInput').value = '';
+            document.getElementById('fileCompareResult').textContent = '';
+            document.getElementById('hashInput1').value = '';
+            document.getElementById('hashInput2').value = '';
+            document.getElementById('hashComparisonResult').textContent = '';
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .menuUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var navbarUl = document.querySelector('.navbar ul');
+
+            if (!menuIcon.contains(event.target) && !navbarUl.contains(event.target)) {
+                navbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.9)' : 'rgba(255, 255, 255, 0.9)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.addEventListener('click', function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none" || moreContent.style.display === "") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[إنهاء]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[يتعلم أكثر]";
+                }
+            });
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'العودة إلى الأعلى(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+
+</html>

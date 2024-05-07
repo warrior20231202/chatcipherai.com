@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>哈希SHA-256探索器：数字世界中不可逆的雕塑家。</title>
+    <meta name="description"
+          content="通过256位加密锻造信息的独特指纹，保护数据的完整性和真实性。">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>
+    
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 20px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 10%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 1000px;
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 120px;
+            margin-right: -10px;
+        }
+
+        .sections-container h2,
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        p {
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: center; 
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            margin-top: 50px;
+        }
+
+        h3 {
+            margin-top: 50px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #c0c0c0;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: #FFFFFF;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent;
+            color: #0A0F24;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 26px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent {
+            width: 80%;
+            margin: auto;
+            text-align: left;
+            padding: 10px;
+            display: none;
+            margin-left: 0px;
+        }
+
+        .moreContent p {
+            margin-bottom: 16px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            padding-bottom: 5px;
+        }
+
+        #moreContent1 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 77%;
+        }
+
+        #moreContent1 ul li {
+            margin-bottom: 15px; /* This adds 15px of space below each list item */
+        }
+
+        #moreContent2 {
+            color: #0A0F24;
+            background-color: #e9f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 77%;
+        }
+
+        #moreContent2 ul li {
+            margin-bottom: 15px; /* This adds 15px of space below each list item */
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -290px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.workflow,
+        figcaption.Irreversibility,
+        figcaption.Resistance,
+        figcaption.Merkle-Damgård,
+        figcaption.Compare,
+        figcaption.sponge {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .input-group {
+            display: flex;
+            width: 80%;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 40px;
+        }
+
+        .input-group>div {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .input-group>div:last-child {
+            margin-right: 0;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 15px 10px 5px;
+            border: 1px solid #eae6e6;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button,
+        input[type="submit"],
+        input[type="file"]::file-selector-button {
+            background-color: #0a0f24;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        button:hover,
+        input[type="submit"]:hover,
+        input[type="file"]::file-selector-button:hover {
+            background-color: #c0c0c0;
+            color: #0A0F24;
+        }
+
+        .compare-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            display: block;
+        }
+
+        .outPut {
+            width: 100%;
+            white-space: normal;
+            word-break: break-all;
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .introduce {
+            margin-left: 220px;
+        }
+
+        .introduce li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .attention {
+            margin-top: 20px;
+            font-size: 0.8em;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 100%;
+            }
+
+            .sections-container h2 {
+                font-size: 1.2em;
+            }
+
+            .sections-container p {
+                font-size: 0.9em;
+            }
+            
+            .introduce {
+                width: 100%;
+                padding: 10px;
+                margin-left: 60px;
+            }
+
+            .introduce h2 {
+                font-size: 1.2em; 
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .introduce p {
+                font-size: 0.9em; 
+            }
+
+            .introduce li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            figure {
+                display: flex;
+                flex-direction: column;
+                align-items: center; 
+                justify-content: center; 
+                text-align: center;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -90px;
+                margin-top: 20px;
+            }
+
+            figcaption.workflow,
+            figcaption.Irreversibility,
+            figcaption.Resistance,
+            figcaption.Merkle-Damgård,
+            figcaption.Compare,
+            figcaption.sponge {
+                width: 100%;
+                margin-left: -100px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+                line-height: 16px;
+            }
+
+            pre {
+                display: none;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+   
+            .input-group {
+                flex-direction: column;
+            }
+
+            .section.interactive-tool {
+                width: 320px;
+            }
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+
+            .attention {
+                margin-top: 10px;
+                font-size: 0.5em;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; 菜单</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/zh-CN/chatcipherai.html">密码世界</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/zh-CN/Caesar_Cipher.html">恺撒密码</a></li>
+                        <li><a href="https://chatcipherai.com/zh-CN/Playfair_Cipher.html">普莱菲尔密码</a></li>
+                        <li><a href="https://chatcipherai.com/zh-CN/Hill_Cipher.html">希尔密码</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/zh-CN/Hash_value_test.html">哈希值测试</a></li>
+                <li><a href="https://chatcipherai.com/zh-CN/Morsecode_main.html">摩尔斯电码编译器</a></li>
+                <li><a href="https://chatcipherai.com/zh-CN/Shortcut_Key_Description.html">快捷键说明</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; 语言</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Hash_value_test.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Hash_value_test.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Hash_value_test.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Hash_value_test.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Hash_value_test.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Hash_value_test.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Hash_value_test.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Hash_value_test.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Hash_value_test.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Hash_value_test.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Hash_value_test.html" title="Nederlands">Nederlands</a></li>
+                </ul> 
+            </div>
+
+            <h1>哈希SHA-256探索器</h1>
+
+            <div class="style-selector">
+                <button id="darkStyle">🌙 暗色风格(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ 亮色风格(<span class="highlight-key">L</span>)</button>
+            </div> 
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <section class="section interactive-tool">
+            <h2>哈希值测试</h2>
+            <p>输入文本查看实时转换成哈希值的过程，
+                <br>
+                或选择一个文件来计算该文件的哈希值。
+            </p>
+        
+            <div class="input-group">
+                <div>
+                    <p>生成文本哈希值</p>
+                    <input type="text" class="input_value" id="textInput" placeholder="输入文本" oninput="generateHash()" />
+                    <button onclick="copyTextHash()">复制文本哈希</button>
+                    <div id="processOutput"></div>
+                    <div id="hashOutput" class="outPut"></div>
+                </div>
+                <div>
+                    <p>比较文本哈希值</p>
+                    <input type="text" class="input_value" id="hashCompareInput"
+                        placeholder="输入用于比较的哈希值" />
+                    <button onclick="compareTextHash()">比较</button>
+                    <div id="textCompareResult"></div>
+                </div>
+            </div>
+        
+            <div class="input-group">
+                <div>
+                    <p>生成文件哈希值</p>
+                    <input type="file" id="fileInput" onchange="generateFileHash()" />
+                    <button onclick="copyFileHash()">复制文件哈希</button>
+                    <div id="fileHashOutput" class="outPut"></div>
+                </div>
+                <div>
+                    <p>比较文件哈希值</p>
+                    <input type="file" id="compareFileInput" onchange="compareFileHash()" />
+                    <div id="fileCompareResult" class="outPut"></div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div>
+                    <p>输入哈希值1</p>
+                    <input type="text" class="input_value" id="hashInput1" placeholder="输入哈希值1" />
+                </div>
+                <div>
+                    <p>输入哈希值2</p>
+                    <input type="text" class="input_value" id="hashInput2" placeholder="输入哈希值2" />
+                    <button onclick="compareHashValues()">比较</button>
+                    <div id="hashComparisonResult" class="outPut"></div>
+                </div>
+            </div>
+        
+            <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">清除全部(<span class="highlight-key">A</span>)</button>
+            <div class="attention">
+                温馨提醒：在输入数据前，请您仔细核对信息的准确性和敏感性。我们建议您对于重要数据，请谨慎上传，这样做有助于更好地保护您的隐私和安全。
+            </div>
+        </section>
+        
+        <section class="introduce">
+            <p><strong><em>"在当今这个数字化时代，数据安全不仅是保护个人隐私和企业机密的基石，也是维护社会信任和经济稳定的关键。"</em></strong></p>
+            <div>
+                <h2>什么是哈希值？</h2>
+                <p>
+                    哈希值是由哈希函数从任意大小的输入数据生成的固定大小的字符串或数字。这些函数接受不同的输入，如文本、图像和视频，产生一个固定长度、不可逆的哈希值。哈希值是确定性的，意味着相同的输入总是产生相同的输出。它们还具有碰撞阻力，使得找到产生相同输出的不同输入变得具有挑战性。
+                </p>
+            </div>
+            
+            <div>
+                <h2>哈希值的功能</h2>
+                <p>
+                    哈希值在计算机科学和IT领域扮演着重要的角色，提供了一个固定长度的数据摘要，不论数据大小。这些功能促进了各种应用：
+                </p>
+                <ul>
+                    <li><strong>数据完整性验证：</strong>用于检查数据在传输过程中是否保持不变，确保下载文件的完整性。</li>
+                    <li><strong>密码存储：</strong>出于安全考虑，密码以哈希值形式存储，使得从被泄露的数据库中恢复原始密码变得困难。</li>
+                    <li><strong>快速数据检索：</strong>哈希值在哈希表中充当索引，允许高效的数据操作。</li>
+                    <li><strong>数据去重：</strong>通过比较哈希值帮助识别并删除重复的数据项。</li>
+                    <li><strong>数字签名和验证：</strong>通过公钥密码学和哈希函数确保数据的完整性和来源。</li>
+                    <li><strong>区块链技术：</strong>利用哈希值来保护交易记录并确保数据的不可篡改性。</li>
+                    <li><strong>防篡改时间戳：</strong>为数据提供不可逆的时间戳，用于法律和版权保护。</li>
+                </ul>
+                <p>
+                    哈希值在这些领域有效的原因是由于它们的关键特性：速度、确定性、不可逆性和碰撞阻力。正确使用时，哈希函数可以在保护数据、提高效率和验证信息的真实性方面提供强大的支持。
+                </p>
+            </div>
+            
+            <div>
+                <h2>什么是哈希函数？</h2>
+                <p>哈希函数是一种将输入数据（或“消息”）映射到固定大小字符串的数学结构，通常是一个数值，如下图所示。哈希函数在数据管理和信息安全中被广泛使用，其特点是计算效率高、输出长度一致、不可逆、对输入变化敏感以及具有碰撞阻力。</p>
+                <figure>
+                    <img src="./images/Hash input output.jpg" alt="哈希函数工作流程图" />
+                    <figcaption class="workflow">哈希函数工作流程图</figcaption>
+                </figure>
+            </div>
+            
+            <div>
+                <h3>高效的计算性能</h3>
+                <p>
+                    哈希函数可以快速地从任何形式的数据计算出哈希值，无论数据的大小。这一特性对于需要快速访问数据的应用至关重要，例如哈希表。这是因为在哈希表中存储数据时，哈希函数的速度决定了数据检索的速度。哈希表使用哈希函数快速定位数据的存储位置，依赖哈希函数的快速计算能力。
+                </p>
+                <p>
+                    此外，在需要处理大量数据的系统中，哈希函数的效率直接影响整个系统的性能。如果哈希函数运行缓慢，它将成为系统性能的瓶颈。一些实时系统，如网络设备中的数据包过滤，需要立即计算数据的哈希值以做出快速决策。在这些情况下，哈希函数的效率同样至关重要。
+                </p>
+                <p>
+                    例如，考虑一个在线电子商务平台，用户可能在搜索栏中输入产品名称以查找产品。后端系统可能使用哈希函数快速定位存储在哈希表中的产品信息。如果哈希函数的计算过程慢，用户体验将严重受影响，因为他们将不得不等待更长时间才能获得搜索结果。在这种情况下，哈希函数的高效计算性能确保了快速的响应时间，从而改善用户体验。
+                    <a href="javascript:void(0);" class="learnMore" data-target="moreContent1">[了解更多]</a>
+                </p>
+            </div>
+            
+            <div id="moreContent1" class="moreContent" style="display:none;" style="color: #007bff; font-size: 1.0em;">
+                <p>哈希函数能够提高计算效率的原因主要归因于以下设计特点：</p>
+                <ul>
+                    <li><strong>简单操作：</strong>哈希函数通常使用简单的数学和位运算，由于直接受到CPU硬件支持，因此执行非常快速。</li>
+                    <li><strong>避免循环依赖：</strong>通过避免循环依赖，哈希函数允许流水线处理，从而提高速度。</li>
+                    <li><strong>并行处理：</strong>现代哈希函数被设计用于并行处理，在多核处理器上增强效率。</li>
+                    <li><strong>固定输出大小：</strong>固定长度的输出简化了内存分配和数据比较，改进了编程模型和效率。</li>
+                    <li><strong>预处理和后处理：</strong>哈希函数可以通过将大数据分割成块，分别计算哈希值然后再将它们组合起来，从而增强效率。</li>
+                    <li><strong>优化的算法路径：</strong>执行期间减少分支，提高了CPU上指令预测的准确性，从而增加速度。</li>
+                    <li><strong>对缓存友好：</strong>设计哈希函数以最小化缓存未命中显著提高处理速度。</li>
+                    <li><strong>硬件优化：</strong>专用硬件加速器可以显著提高哈希计算的速度，特别是对于诸如SHA系列这样的加密哈希函数。</li>
+                    <li><strong>无状态性：</strong>哈希函数不保留状态信息，允许每个新输入的轻量级处理。</li>
+                    <li><strong>通用性：</strong>哈希函数对所有类型的输入数据都是通用的，消除了为不同数据类型定制算法的需要。</li>
+                </ul>
+            </div>            
+            
+            <div>
+                <h3>哈希函数中的输出长度一致性</h3>
+                <p>
+                    哈希函数将任意长度的输入转换为固定长度的输出，通过复杂的计算系列过程实现。这个过程通常涉及将输入数据分成固定大小的块（对于超过处理单元大小的输入），对每个块应用一系列数学和逻辑操作，然后以某种方式组合或累积这些操作的结果，最终产生固定大小的哈希值。
+                </p>
+                <p>
+                    <strong>为什么这很重要？</strong>
+                    输出长度的一致性有助于确保哈希函数的安全性。如果哈希输出的长度可能变化，它可能会泄露有关原始数据大小的信息，这可能在某些情况下被利用来攻击系统。此外，固定输出长度也使攻击者难以通过分析输出长度来推断输入数据的特征。同时，固定长度的输出简化了哈希值的存储和比较。系统设计者可以提前知道每个哈希值将占用多少空间，这对于数据库设计和网络传输等场景非常重要。此外，输出长度的一致性使得比较哈希值是否相等变得非常高效，因为它只需要比较固定长度的数据。这在使用哈希表进行快速数据检索时尤其重要。
+                </p>
+                <p>
+                    以SHA-256为例，这种广泛使用的加密哈希函数无论输入数据是单个字节还是几百万字节，总是产生一个256位（即32字节）的哈希值。这种一致性确保SHA-256哈希值可以用于各种安全应用，如数字签名和消息认证码（MACs），同时简化了数据处理和存储工作流程。
+                </p>
+            </div>            
+
+            <div>
+                <h3>哈希函数的不可逆性</h3>
+                <p>
+                    哈希函数是单向的，这意味着从哈希值无法推断出原始数据。这一特性在存储密码时尤其重要，因为即使数据库被破坏，攻击者也无法从哈希值恢复密码。哈希函数的不可逆性主要基于以下原则和特性：
+                </p>
+                <ul>
+                    <li><strong>压缩：</strong>哈希函数可以将任何长度的输入（在实际使用中可能非常大）映射到固定长度的输出。这意味着有无限多个可能的输入被映射到有限数量的输出。由于输出空间（哈希值）远小于输入空间，不同的输入将不可避免地产生相同的输出，这种现象称为“碰撞”。由于这种压缩，不可能从给定的输出（哈希值）确定特定的输入。</li>
+                    <li><strong>高非线性和复杂性：</strong>哈希函数设计时使用复杂的数学和逻辑操作（如位运算、模运算等），以确保输出对输入高度敏感。即使对输入（例如，改变一个位）进行微小的更改，也会导致输出（哈希值）的显著和不可预测的变化。这种高度的非线性和输出的随机性使得从哈希值推断原始输入极为困难。</li>
+                    <li><strong>单向性：</strong>哈希函数的设计确保了其操作是单向的；即计算哈希值很容易，而反向过程（从哈希值恢复原始数据）不可行。这是因为哈希函数的计算过程涉及一系列不可逆的操作（如模运算的不可逆性），确保即使有哈希值，也不可能逆向工程原始数据。</li>
+                    <li><strong>随机映射：</strong>理想的哈希函数应该充当“随机映射器”，意味着每个可能的输入都同样可能被映射到输出空间中的任何点。这一属性确保没有可行的方法预测特定输入将映射到哪个输出，增强了哈希函数的不可逆性。</li>
+                    <li><strong>数学基础：</strong>从数学上讲，哈希函数的不可逆性可以通过它们依赖的“离散对数问题”、“大整数因式分解问题”或其他难以用当前数学和计算能力解决的数论问题来理解。例如，某些哈希算法的设计可能间接依赖于这些问题的计算难度，从而确保它们的不可逆性。</li>
+                </ul>
+                <figure>
+                    <img src="./images/Irreversibility.jpg" alt="哈希函数的不可逆性" />
+                    <figcaption class="Irreversibility">哈希函数的不可逆性</figcaption>
+                </figure>
+            </div>            
+
+            <div>
+                <h3>输入敏感性和雪崩效应</h3>
+                <p>
+                    在哈希函数的设计中，利用复杂的数学和逻辑运算（如位运算、模运算等）确保输出对输入高度敏感。即使对输入（例如，改变单个位）的微小更改都会导致输出（哈希值）的显著和不可预测的变化，这种现象称为“雪崩效应”。
+                    <a href="javascript:void(0);" class="learnMore" data-target="moreContent2">[了解更多]</a>
+                </p>
+            </div>
+            
+            <div id="moreContent2" class="moreContent" style="display:none;">
+                <p><a href="https://en.wikipedia.org/wiki/Avalanche_effect" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">雪崩效应</a>在不同领域有不同的解释：</p>
+                <ul>
+                    <li><strong>在密码学中：</strong>雪崩效应是加密算法（特别是分组密码和密码哈希函数）的一种理想属性。当输入的最微小变化（例如，翻转一个二进制位）导致输出中不可区分的变化时（输出中每个二进制位翻转的概率为50%），就会发生这种效应。这种属性有助于增强加密的安全性，因为即使对输入的微小更改也能导致输出的显著变化，使通过分析输入和输出之间的关系来破解加密变得更加困难。</li>
+                    <li><strong>在商业和技术中：</strong>雪崩效应指的是通过适当地拆解和重组商业和技术固有的结构和系统，可以释放出巨大能量的现象。这种能量可以像雪崩一样摧毁旧的工业系统，甚至导致整个行业的消失。在雪崩的巨大压力下，商业和技术之间固有的联系被完全破坏，迫使人们接受新的转变和整合。这种效应最终引发了一系列革命性的创新。</li>
+                    <li><strong>在微服务架构中：</strong>雪崩效应描述了由于服务之间的依赖性，一个服务的失败或不可用可能会通过调用链传播，导致整个系统瘫痪。造成雪崩效应的原因可能包括硬件故障、流量激增、缓存穿透、程序错误和JVM停顿等。</li>
+                    <li><strong>在自然界中：</strong>雪崩效应是指一块小石头滚下雪山可能引发雪崩的现象。这是因为小石头的冲击导致周围的雪层松动并滑落，从而引发更大规模的雪崩。这种现象也可以比喻地描述微小事件或因素如何触发巨大的连锁反应。</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3>密码学中的碰撞阻力</h3>
+                <p>
+                    哈希函数的碰撞阻力是密码学中的一个关键概念，它指示了哈希函数抵抗碰撞攻击的安全级别。这个属性意味着对于任何哈希函数<strong>H</strong>，找到两个不同的输入<strong>x</strong>和<strong>y</strong>（<strong>x ≠ y</strong>）使得<strong>H(x) = H(y)</strong>在计算上是不可行的。具有强大碰撞阻力的哈希函数使得找到两个不同的输入产生相同输出值变得极其困难。
+                </p>
+                <figure>
+                    <img src="./images/Collision Resistance.jpg" alt="碰撞阻力示意图">
+                    <figcaption class="Resistance">碰撞阻力示意图</figcaption>
+                </figure>
+                <p>
+                    碰撞阻力在维护数据完整性和验证中发挥着至关重要的作用。通过将输入信息转换为固定大小的输出（或摘要），哈希函数确保没有两个不同的输入产生相同的输出。这一独特特性允许哈希值准确识别原始值。
+                </p>
+                <p>
+                    在数据创建或存储期间，使用哈希函数生成一个哈希值（或摘要）。这个值与原始数据一起存储或传输。例如，软件下载网站经常显示文件哈希值以进行完整性验证。接收者可以独立重新计算收到的数据的哈希值以确认其完整性。如果原始哈希值和重新计算的哈希值匹配，则验证了数据的完整性。如果不匹配，数据可能在传输或存储过程中被篡改或损坏。
+                </p>
+                <p>
+                    比较哈希值还具有验证数据完整性的优势，而无需占用大量存储空间。这种方法允许接收者通过简单地比较传输前后的哈希值来确认数据的真实性。
+                </p>
+                <figure>
+                    <img src="./images/Compare Hash.jpg" alt="比较哈希值的过程">
+                    <figcaption class="Compare">比较哈希值的过程</figcaption>
+                </figure>
+            </div>
+            
+            <div>
+                <h2>哈希碰撞能被找到吗？</h2>
+                <p>
+                    通过上述提到的哈希函数的特性，我们已经了解了碰撞阻力。但是，哈希碰撞是否可能存在，即两个不同的输入产生相同的输出呢？答案是肯定的，碰撞确实存在。根据<a href="https://en.wikipedia.org/wiki/Pigeonhole_principle" target="_blank" style="color: #007bff; font-size: 1.0em;">抽屉原理</a>，只要输入空间足够大，就有可能发生哈希碰撞。这是因为哈希函数的输出空间通常远小于输入空间，不可避免地导致多个不同的输入映射到同一个输出。
+                </p>
+                <p>
+                    抽屉原理是组合数学中一个简单直观的原理，它表明如果将超过n个对象放入n个容器中，则至少有一个容器将包含两个或更多对象。这个原理也可以用来解释诸如生日悖论等问题。
+                </p>
+                <p>
+                    抽屉原理的应用非常广泛，在密码学、计算机科学和数学等领域都有重要用途。例如，在计算机科学中，抽屉原理用于证明某些算法的正确性或分析算法的时间复杂度。在密码学中，抽屉原理也用于设计特定的密码攻击方法，如生日攻击。
+                </p>
+                <p>
+                    生日悖论是抽屉原理的一个经典应用。假设有n个人在一个房间里。如果我们希望至少两个人共享相同生日的概率大于50%，需要多少人？根据抽屉原理，如果将367个人（假设一年有366天，加上闰年的2月29日）放入366个“抽屉”（即生日）中，则至少有一个“抽屉”将包含两个人，意味着至少有两个人共享相同的生日。这说明了生日悖论。
+                </p>
+                <p>
+                    需要注意的是，尽管抽屉原理简单直观，但其应用必须考虑具体的上下文。例如，在应用抽屉原理时，有必要确保所涉及的随机变量彼此独立；否则，可能会导致错误的结论。此外，在某些情况下，也需要考虑抽屉的大小和形状等因素。
+                </p>
+            </div>
+            
+            <div>
+                <p>
+                    然而，仅仅通过遍历输入空间来尝试寻找哈希碰撞可能不切实际，主要有两个原因：
+                </p>
+                <ul>
+                    <li><strong>计算复杂性：</strong>对于大多数哈希函数，输入空间是巨大的。以SHA-256为例；其输出是一个256位的哈希值，这意味着它有2^256个可能的输出。由于哈希函数的设计目标之一是尽可能最小化碰撞，理论上，根据生日悖论，找到SHA-256的哈希碰撞需要遍历大约2^(256/2) = 2^128个输入，这是找到碰撞所需的预期输入数量。即使使用目前最强大的超级计算机，完成这样的任务也远远超出人类寿命。因此认为通过简单遍历找到SHA-256哈希碰撞是不可能的。</li>
+                    <li><strong>哈希函数的设计：</strong>哈希函数通常被设计为使找到碰撞在计算上不可行。这意味着，尽管理论上存在碰撞，但在实践中实际上不可能找到。这是密码哈希函数（如SHA-256）的一个重要特性，这些函数广泛用于数字签名、密码存储等领域。</li>
+                </ul>
+                <p>
+                    当然，我们也可以使用特定的算法尝试找到哈希碰撞。这些算法通常利用哈希函数的一些已知属性或弱点来找到碰撞。这里有一些常见的技术和方法用于寻找哈希碰撞：
+                </p>
+                <ul>
+                    <li><strong>生日攻击：</strong>这是一种基于概率的简单方法，用于估计随机选择输入时找到碰撞所需的时间。生日攻击的原理是，如果房间里有很多人，两个人拥有相同生日的概率随着人数的增加而增加。类似地，在哈希函数中，如果随机选择足够数量的输入，最终可能有两个输入产生相同的哈希输出。</li>
+                    <li><strong>暴力攻击：</strong>这是最直接的方法，涉及遍历所有可能的输入以找到碰撞。然而，由于需要巨大的计算资源和时间，这种方法对于具有大型输入空间的哈希函数来说不切实际。</li>
+                    <li><strong>彩虹表：</strong>这种技术用于预先计算和存储大量的哈希值及其对应的输入。彩虹表对于破解没有使用随机数据混淆或已知哈希函数的密码特别有用。通过在彩虹表中查找，攻击者可以快速找到与特定哈希值匹配的输入。</li>
+                    <li><strong>哈希扩展攻击：</strong>某些哈希函数允许攻击者在不知道原始输入的情况下将额外数据与已知哈希值结合，从而生成新的哈希值。这种攻击可用于构造碰撞或执行其他类型的攻击。</li>
+                    <li><strong>特别构造的输入：</strong>有时，攻击者可以利用哈希函数的特定弱点或非线性行为来构造更有可能在哈希函数中产生碰撞的特殊输入。</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h2>常用的哈希函数有哪些？</h2>
+                <h3>MD5（消息摘要算法5）</h3>
+                <p>
+                    MD5是一种广泛使用的加密哈希函数，由Ronald Rivest在1990年代设计，用以取代较旧的MD4算法。它可以将任意长度的消息转换为固定长度的哈希值（128位，或16字节）。MD5的设计目标是提供一种快速且相对安全的方式来生成数据的数字指纹。然而，<a href="https://en.wikipedia.org/wiki/MD5" target="_blank" style="color: #007bff; font-size: 1.0em;">MD5</a>的碰撞方法已被发现，使得该算法不再安全，但在安全性不是主要关注点的情况下仍被广泛使用。
+                    <br>
+                    <br>MD5的计算过程涉及以下步骤：
+                </p>
+                <ul>
+                    <li><strong>填充：</strong>初始时，原始数据被填充，使其字节长度是512的倍数。填充以1开始，后跟0，直到满足长度要求。</li>
+                    <li><strong>添加长度：</strong>将一个64位长度值（即原始消息长度的二进制表示）添加到填充消息中，使最终消息长度为512位的倍数。</li>
+                    <li><strong>初始化MD缓冲区：</strong>初始化四个32位寄存器（A、B、C、D）以存储中间和最终哈希值。</li>
+                    <li><strong>处理消息块：</strong>填充并处理长度的消息被分割成512位的块，并且每个块通过四轮操作进行处理。每轮包括基于非线性函数（F、G、H、I）、左循环移位操作和模32加法的16个类似操作。</li>
+                    <li><strong>输出：</strong>最终哈希值是四个寄存器A、B、C、D的最后状态连在一起的内容（每个寄存器是32位），形成128位的哈希值。</li>
+                </ul>
+                
+                <h3>SHA-1（安全哈希算法1）</h3>
+                <p>
+                    SHA-1由美国国家安全局（NSA）设计，并于1995年由国家标准技术研究院（NIST）发布为联邦信息处理标准（FIPS PUB 180-1）。SHA-1旨在用于数字签名和其他密码学应用，生成一个160位（20字节）的哈希值，称为消息摘要。尽管现在已知<a href="https://en.wikipedia.org/wiki/SHA-1" target="_blank" style="color: #007bff; font-size: 1.0em;">SHA-1</a>存在安全漏洞，并已被更安全的算法如SHA-256和SHA-3取代，但理解其工作原理仍具有教育和历史价值。
+                    <br>
+                    <br>SHA-1的设计目的是接收任意长度的消息并产生一个160位的消息摘要，以验证数据的完整性。其计算过程可以分为以下步骤：
+                </p>
+                <ul>
+                    <li><strong>填充：</strong>最初，原始消息被填充，使其长度（以位为单位）模512等于448。填充始终以“1”位开始，后跟若干个“0”位，直到满足上述长度条件。</li>
+                    <li><strong>添加长度：</strong>向填充消息中添加一个64位块，表示原始消息的长度（以位为单位），使最终消息长度为512位的倍数。</li>
+                    <li><strong>初始化缓冲区：</strong>SHA-1算法使用一个160位缓冲区，分为五个32位寄存器（A、B、C、D、E），用于存储中间和最终哈希值。这些寄存器在算法开始时初始化为特定的常数值。</li>
+                    <li><strong>处理消息块：</strong>预处理的消息被分割成512位块。对于每个块，算法执行包含80个类似步骤的主循环。这80步分为四轮，每轮20步。每一步使用不同的非线性函数（F、G、H、I）和常数（K）。这些函数旨在增加操作的复杂性和安全性。在这些步骤中，算法使用位运算（如AND、OR、XOR、NOT）和模32加法，以及左循环移位。</li>
+                    <li><strong>输出：</strong>处理所有块后，五个寄存器中累积的值被连接起来，形成最终的160位哈希值。</li>
+                </ul>
+            
+                <div>
+                    <h3>SHA-2（安全哈希算法2）</h3>
+                    <p>
+                        SHA-2是一系列密码哈希函数的集合，包括几个不同的版本，主要由六种变体组成：SHA-224、SHA-256、SHA-384、SHA-512、SHA-512/224和SHA-512/256。SHA-2由美国国家安全局（NSA）设计，并由国家标准与技术研究院（NIST）发布为联邦信息处理标准（FIPS）。与其前身SHA-1相比，SHA-2提供了增强的安全性，主要体现在更长的哈希值和更强的碰撞阻力上。
+                        <br>
+                        <br><a href="https://en.wikipedia.org/wiki/SHA-2" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">SHA-2 </a>家族的运作在许多方面类似于SHA-1，但 SHA-2 通过使用更长的哈希值和更复杂的处理程序提供更高的安全性。以下是SHA-2算法的主要步骤：
+                    </p>
+                    <ul>
+                        <li><strong>填充：</strong> 输入消息首先被填充，使其长度减去64位后等于448或896，基于模512（对于SHA-224和SHA-256）或模1024（对于SHA-384和SHA-512）的基础。填充方法与SHA-1相同，涉及在消息末尾添加“1”，随后是若干个“0”，最后是原始消息长度的64位（对于SHA-224和SHA-256）或128位（对于SHA-384和SHA-512）二进制表示。</li>
+                        <li><strong>初始化缓冲区：</strong> SHA-2算法使用一组初始化的哈希值作为开始缓冲区，具体取决于所选的SHA-2变体。例如，SHA-256使用八个32位寄存器，而SHA-512使用八个64位寄存器。这些寄存器初始化为特定的常数值。</li>
+                        <li><strong>处理消息块：</strong> 填充的消息被划分为512位或1024位的块，每个块经历多轮密码学操作。SHA-256和SHA-224执行64轮操作，而SHA-512、SHA-384、SHA-512/224和SHA-512/256执行80轮。每轮操作包括一系列复杂的位运算，包括逻辑、模加和条件操作，依赖于不同的非线性函数和预定义常数。这些操作增加了算法的复杂性和安全性。</li>
+                        <li><strong>输出：</strong> 最终，在处理所有块之后，缓冲区中的值被组合形成最终的哈希值。根据SHA-2变体，这个哈希值可以是224、256、384或512位长。</li>
+                    </ul>
+                    <p>
+                        你可能好奇为什么哈希函数的输入可以是任意长度，但输出是固定的。原因是SHA-2家族使用了Merkle-Damgård变换，它允许从固定长度的压缩函数构建可以处理任意长度消息的哈希函数。Merkle-Damgård变换被许多传统哈希函数采用，包括MD5和SHA-1。
+                    </p>
+                    <p>
+                        Merkle-Damgård变换的核心思想是将输入消息划分为固定大小的块，然后逐个处理这些块，每个处理步骤都依赖于前一个的结果，最终产生固定大小的哈希值。SHA-256的填充步骤体现了Merkle-Damgård变换的基本原则，即通过适当的填充来处理任意长度的消息，并确保最终处理的消息长度满足特定条件（例如是固定长度的倍数）。因此，可以说SHA-256的填充步骤遵循Merkle-Damgård变换方法。
+                    </p>
+                    <figure>
+                        <img src="./images/Merkle-Damgård Padding.jpg" alt="Merkle-Damgård填充原理">
+                        <figcaption class="Merkle-Damgård">Merkle-Damgård填充原理</figcaption>
+                    </figure>
+                    <p>
+                        然而，SHA-256并不仅仅是Merkle-Damgård变换的直接实现。它还包括一系列复杂的计算步骤（如消息扩展、多轮压缩函数等），这些都是SHA-256的独特设计，旨在增强其安全性。因此，虽然SHA-256在其填充步骤中遵循Merkle-Damgård变换的原则，但通过引入其他安全机制，它增强了整体安全性，使其不仅仅局限于Merkle-Damgård变换的基本框架。
+                    </p>
+                </div>
+                
+                <h3>SHA-3（安全哈希算法3）</h3>
+                <p>
+                    SHA-3是最新的安全哈希标准，于2015年由国家标准技术研究院（NIST）正式批准为联邦信息处理标准（FIPS 202）。SHA-3并不意在取代之前的SHA-1或SHA-2（因为SHA-2仍被认为是安全的），而是作为SHA家族内的一个补充和替代选项，提供一种不同的密码哈希算法。SHA-3基于Guido Bertoni等人设计的Keccak算法，并且是NIST在2012年举办的SHA-3竞赛的获胜者。
+                    <br>
+                    <br>SHA-3的工作原理与SHA-2有很大不同，主要是因为它采用了一种称为“海绵结构”的方法来吸收和挤压数据，产生最终的哈希值。这种方法使得SHA-3能够灵活地输出不同长度的哈希值，因此比SHA-2提供了更广泛的应用范围。SHA-3的主要步骤如下：
+                </p>
+                <figure>
+                    <img src="./images/sponge construction.jpg" alt="海绵结构示意图">
+                    <figcaption class="sponge">海绵结构示意图</figcaption>
+                </figure>
+                <h4>吸收阶段：</h4>
+                <p>
+                    在吸收阶段，海绵结构首先将输入数据分割成固定大小的块。这些数据块被顺序地“吸收”进海绵的内部状态中，该状态通常比单个数据块要大，以确保可以处理大量数据而不会溢出。具体来说，每个数据块以某种方式（例如通过异或操作）与内部状态的一部分合并，随后应用一个固定的置换函数（在SHA-3中，这是<a href="https://en.wikipedia.org/wiki/SHA-3" target="_blank" style="color: #007bff; font-size: 1.0em;">Keccak-f</a>）来转换整个状态，从而防止不同输入数据块之间的干扰。这个过程重复进行，直到所有输入数据块都被处理完毕。
+                </p>
+
+                <p>
+                    Keccak-f 是 SHA-3 加密哈希算法中使用的核心置换函数。它是 Keccak 算法家族的中心组成部分。SHA-3 基于 Keccak 算法，该算法赢得了由 NIST 举办的加密哈希算法竞赛，并被选为 SHA-3 的标准。Keccak-f 函数有几个变体，其中最常用的是 Keccak-f[1600]，其中的数字表示它操作的位宽。
+                </p>
+
+                <p>
+                    Keccak-f由多轮相同的操作（称为轮）组成。对于Keccak-f[1600]，总共进行24轮操作。每一轮都包含五个基本步骤：<em> θ（Theta）、ρ（Rho）、π（Pi）、χ（Chi）和ι（Iota）</em>。这些步骤共同作用于状态数组，逐步变换其内容，增加混淆和扩散，以提高安全性。下面是这些步骤的简要说明：
+                </p>
+                <ul>
+                    <li><strong>θ（Theta）步骤: </strong> 对每一列的所有位进行XOR操作，然后将结果XOR到相邻列，以提供列与列之间的扩散。</li>
+                    <li><strong>ρ（Rho）步骤: </strong> 位级旋转操作，每个位根据预定的规则旋转不同的位数，这增加了数据的复杂性。</li>
+                    <li><strong>π（Pi）步骤: </strong> 重新排列状态数组中的位，改变位的位置，以实现跨行和跨列的扩散。</li>
+                    <li><strong>χ（Chi）步骤: </strong> 非线性步骤，对每一行的每个位进行XOR操作，包括它自己、它的直接邻居以及邻居的补码。这是一个局部操作，增加了密码算法的非线性特性。</li>
+                    <li><strong>ι（Iota）步骤: </strong> 向状态数组的一部分加入轮常数，这个常数每一轮都不同，目的是避免所有轮操作完全相同，引入不可预测性。</li>
+                </ul>
+                <p>
+                    Keccak-f通过这些步骤提供了高度的安全性。其设计确保了即使是微小的输入变化，也会导致状态数组中广泛且不可预测的变化，这是通过混淆（使攻击者难以从输出推断输入）和扩散（输入的微小变化会影响输出的多个部分）原则实现的。
+                </p>
+                <p>
+                    Keccak-f的设计允许在不同的安全级别和应用场景中调整参数（如状态大小和轮数），提供了极大的灵活性。Keccak-f[1600]以其高效的实现而闻名，无论是在硬件还是在软件中，都能达到高效的处理速度，特别是在处理大量数据时。
+                </p>
+
+                <h4>挤压阶段：</h4>
+                <p>
+                    一旦所有输入数据块都被吸收进内部状态后，海绵结构进入挤压阶段。在这个阶段，内部状态的部分逐步作为哈希函数的结果输出。如果所需的输出长度超过了一次可以挤出的量，海绵结构会再次应用置换函数来转换内部状态，然后继续输出更多数据。这个过程持续进行，直到达到所需的输出长度。
+                </p>
+                <p>
+                    SHA-3的设计目标是提供比SHA-2更高的安全性和更好的抵抗量子计算攻击的能力。得益于其独特的海绵结构，SHA-3理论上能够抵御所有当前已知的密码攻击方法，包括碰撞攻击、原像攻击和次原像攻击。
+                </p>
+                
+                <h3>RIPEMD-160（RACE完整性基元评估消息摘要）</h3>
+                <p>
+                    RIPEMD-160是一个旨在提供安全哈希算法的密码哈希函数。它由Hans Dobbertin等人于1996年开发，是RIPEMD（RACE完整性基元评估消息摘要）家族的一部分。
+                </p>
+                <p>
+                    RIPEMD-160产生一个160位（20字节）的哈希值，这也是其名称中“160”的来源。它基于MD4的设计，并受到MD5和SHA-1等其他哈希算法的影响。RIPEMD-160包括两个并行的、相似的操作，它们分别处理输入数据，然后将这两个过程的结果结合起来生成最终的哈希值。这种设计旨在增强安全性。
+                    <br>
+                    <br><a href="https://en.wikipedia.org/wiki/RIPEMD" target="_blank" style="color: #007bff; font-size: 1.0em;">RIPEMD-160</a>的计算过程包括几个基本步骤：填充、块处理和压缩：
+                </p>
+                <ul>
+                    <li><strong>填充：</strong>首先对输入消息进行填充，以确保其长度模512位等于448位。填充始终以一个1位开始，后跟一系列0位，最后以原始消息长度的64位表示结束。</li>
+                    <li><strong>块处理：</strong>填充后的消息被划分为512位的块。</li>
+                    <li><strong>初始化：</strong>使用五个32位寄存器（A、B、C、D、E），这些寄存器初始化为特定的值。</li>
+                    <li><strong>压缩函数：</strong>依次处理每个块，通过一系列复杂的操作更新这五个寄存器的值。这个过程包括位运算（如加法、与、或、非、循环左移）以及一组固定的常数的使用。</li>
+                    <li><strong>输出：</strong>所有块处理完毕后，这五个寄存器的值被连接起来形成最终的160位哈希值。</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. 版权所有</p>
+            <p>
+                <a href="https://chatcipherai.com/zh-CN/Privacy_Policy.html" title="Privacy Policy">隐私政策</a>
+                |
+                <a href="https://chatcipherai.com/zh-CN/Terms_of_Use.html" title="Terms of Use">使用条款</a>
+                |
+                <a href="https://chatcipherai.com/zh-CN/About_Us.html" title="About Us">关于我们</a>
+                |
+                <a href="https://chatcipherai.com/zh-CN/Disclaimer.html" title="Disclaimer">免责声明</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">回到顶端</button>
+        </div>
+    </footer>
+
+    <script>
+        let shortcutsEnabled = true;
+
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Ensure all handlers are set up once the DOM is fully loaded
+            document.addEventListener('keydown', handleKeyPress);
+
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+            
+            setupEventListeners(); // Setup other event listeners
+            adjustButton();
+        });
+
+        let generatedTextHash = '';
+        let generatedFileHash = '';
+
+        async function generateHash() {
+            const text = document.getElementById('textInput').value;
+            document.getElementById('processOutput').textContent = text.length ? "正在计算哈希值..." : '';
+            const msgUint8 = new TextEncoder().encode(text);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            document.getElementById('hashOutput').textContent = `哈希值 (SHA-256): ${hashHex}`;
+            generatedTextHash = hashHex;
+            document.getElementById('processOutput').textContent = "";
+        }
+
+        async function generateFileHash() {
+            const fileInput = document.getElementById('fileInput');
+            if (!fileInput.files.length) {
+                alert("请选择一个文件。");
+                return;
+            }
+            document.getElementById('fileHashOutput').textContent = "正在计算文件哈希值...";
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function (event) {
+                const arrayBuffer = event.target.result;
+                const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                document.getElementById('fileHashOutput').textContent = `哈希值 (SHA-256): ${hashHex}`;
+                generatedFileHash = hashHex;
+            };
+            reader.onerror = function () {
+                alert("文件读取错误。");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function compareTextHash() {
+            const compareHash = document.getElementById('hashCompareInput').value;
+            if (!generatedTextHash) {
+                alert('请首先生成文本的哈希值。');
+                return;
+            }
+            const resultText = generatedTextHash === compareHash ? "<strong>结论：</strong>哈希值匹配并且数据未被篡改。" : "<strong>结论：</strong>哈希值不匹配，数据可能在传输过程中被篡改或在存储过程中发生错误。";
+            document.getElementById('textCompareResult').innerHTML = resultText;
+            document.getElementById('textCompareResult').style.color = generatedTextHash === compareHash ? "black" : "red";
+        }
+
+        async function compareFileHash() {
+            const fileInput = document.getElementById('compareFileInput');
+            if (!fileInput.files.length) {
+                alert("请选择要比较的文件。");
+                return;
+            }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = async function (event) {
+                const arrayBuffer = event.target.result;
+                const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                document.getElementById('fileCompareResult').textContent = `哈希值 (SHA-256): ${hashHex}`;
+
+                if (generatedFileHash === hashHex) {
+                    document.getElementById('fileCompareResult').innerHTML += "<br><strong>结论：</strong>哈希值匹配并且数据没有被篡改。";
+                    document.getElementById('fileCompareResult').style.color = "black";
+                } else {
+                    document.getElementById('fileCompareResult').innerHTML += "<br><strong>结论：</strong>哈希值不匹配，数据可能在传输过程中被篡改或在存储过程中发生错误。";
+                    document.getElementById('fileCompareResult').style.color = "red";
+                }
+            };
+            reader.onerror = function () {
+                alert("文件读取错误。");
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function compareHashValues() {
+            var hashValue1 = document.getElementById('hashInput1').value.trim();
+            var hashValue2 = document.getElementById('hashInput2').value.trim();
+
+            var resultDisplay = document.getElementById('hashComparisonResult');
+
+            resultDisplay.style.fontWeight = 'bold';
+
+            if (hashValue1 === "" || hashValue2 === "") {
+                resultDisplay.textContent = '必须输入两个哈希值。';
+                resultDisplay.style.color = 'black';
+            } else if (hashValue1 === hashValue2) {
+                resultDisplay.textContent = '哈希值匹配！';
+                resultDisplay.style.color = 'black';
+            } else {
+                resultDisplay.textContent = '哈希值不匹配。';
+                resultDisplay.style.color = 'red';
+            }
+        }
+
+        function copyTextHash() {
+            const hashValue = document.getElementById('hashOutput').textContent;
+            const hash = hashValue.split(": ")[1];
+            if (hash) {
+                navigator.clipboard.writeText(hash).then(() => {
+                }, () => {
+                    console.error("无法复制文本哈希。");
+                });
+            }
+        }
+
+        function copyFileHash() {
+            const hashValue = document.getElementById('fileHashOutput').textContent;
+            const hash = hashValue.split(": ")[1];
+            if (hash) {
+                navigator.clipboard.writeText(hash).then(() => {
+                }, () => {
+                    console.error("无法复制文件哈希。");
+                });
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('hashOutput').textContent = '';
+            document.getElementById('hashCompareInput').value = '';
+            document.getElementById('textCompareResult').textContent = '';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileHashOutput').textContent = '';
+            document.getElementById('compareFileInput').value = '';
+            document.getElementById('fileCompareResult').textContent = '';
+            document.getElementById('hashInput1').value = '';
+            document.getElementById('hashInput2').value = '';
+            document.getElementById('hashComparisonResult').textContent = '';
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.9)' : 'rgba(255, 255, 255, 0.9)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.addEventListener('click', function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none" || moreContent.style.display === "") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[关闭]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[了解更多]";
+                }
+            });
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = '回到顶端(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+
+</html>

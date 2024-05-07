@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morsecode: एनकोडिंग से भी अधिक का पेज</title>
+    <meta name="description"
+        content="विशाल तारामंडल में एक प्रकाशस्तम्भ की तरह, मोर्स कोड बिंदु और डैश का उपयोग करके रेडियो तरंगों के विस्तार में प्राचीन रहस्यों को तैयार करता है, समय और स्थान की आयामों में अतीत और भविष्य को पाटता है।">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: -36px;
+            right: 1px;
+            margin-left: 0;
+            background-color: #0a0f24;
+            padding: 5px 8px;
+        }
+
+        .copy-button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 20px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .navbar ul li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        .textarea-light {
+            background-color: #bbbaba;
+        }
+
+        .textarea-dark-text {
+            color: #0A0F24;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-right: 20px;
+            margin-left: 20px;
+            text-align: center;
+            flex-wrap: wrap;
+            min-height: 600px;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            margin-top: 50px;
+        }
+
+        h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        h3 {
+            margin-top: 20px;
+            font-size: 22px;
+        }
+
+        h4 { 
+            font-size: 20px;
+        }
+
+        .textarea-container {
+            width: 150%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 40px;
+            position: relative;
+        }
+        
+        textarea {
+            font-weight: 500;
+            width: 100%;
+            max-height: 400px;
+            min-height: 150px;
+            margin: 10px;
+            padding: 10px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #0A0F24;
+            resize: vertical;
+            font-size: 15px;
+            font-family: 'Segoe UI', Tahoma,  sans-serif;
+        }
+
+        textarea::placeholder {
+            color: #0A0F24;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #c0c0c0;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: #0A0F24;
+        }
+
+        body {
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: white;
+            color: #000000;
+        }
+
+        .light-mode .navbar ul {
+            background-color: rgba(255, 255, 255, 0);
+            color: #000000;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #000000;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        .play-button {
+            position: absolute;
+            left: 5px;
+            top: 190px;
+        }
+
+        #playStopButton {
+            padding: 6px 10px;
+            margin: 5px;
+            border: none;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #playStopButton:hover {
+            background-color: #F5F5F5;
+            color: #0a0f24;
+        }
+
+        #morseAlphabetTable tr:hover {
+            background-color: #ddd !important;
+        }
+
+        #morseAlphabetTable {
+            border-collapse: collapse;
+            margin: 0 auto;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #morseAlphabetTable th,
+        #morseAlphabetTable td {
+            padding: 8px;
+            text-align: center;
+            border: 0 solid #eae6e6;
+            font-weight: bold;
+        }
+
+        #morseAlphabetTable th {
+            background-color: #7fbef5;
+            color: white;
+            font-size: 16px;
+        }
+
+        #morseAlphabetTable td {
+            color: #333;
+            font-size: 16px;
+        }
+
+        .dark-mode #morseAlphabetTable {
+            background-color: #e9f1f4;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+        
+        .button-container :hover{
+            color: #0A0F24;
+        }
+
+        .icon-alphabet::before {
+            content: "\1F4D5";
+            margin-right: 5px;
+        }
+
+        .icon-sos::before {
+            content: "\25B6";
+            margin-right: 5px;
+        }
+
+        .icon-copy::before {
+            content: "\1F4CB";
+            margin-right: 5px;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .icon-play::before {
+            content: "\25B6";
+            margin-right: 5px;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .icon-stop::before {
+            content: "\25A0";
+            margin-right: 5px;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 26px;
+        }
+
+        .introduce {
+            text-align: left;
+            width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+            margin-top: 100px;
+        }
+
+        .introduce li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 100%;
+            padding-bottom: 10px; 
+        }
+
+        .introduce p {
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        .clear-all-button {
+            padding: 7px 10px;
+            margin-top: 20px;
+            background-color: #47d7ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            position: absolute;
+            top: -46px;
+            left: 5px;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 75%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .textarea-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                margin: 20px 0;
+            }
+
+            textarea {
+                width: 90%;
+                min-height: 100px;
+                margin: 10px 0;
+            }
+
+            .container {
+                align-items: center;
+            }
+
+            #morseAlphabetTable {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .introduce {
+                width: 100%;
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            h3 {
+                font-size: 0.9em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .introduce p {
+                font-size: 0.9em;
+            }
+
+            .copy-button {
+                padding: 4px 8px;
+                font-size: 0.6em;
+            }
+
+            #clearAllButton {
+                padding: 8px 8px;
+                font-size: 0.8em;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .introduce h2 {
+                font-size: 1.2em; 
+            }
+
+            .introduce li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            figcaption {
+                margin-top: -40px;
+                margin-bottom: 40px;
+                margin-left: 20px;
+                font-size: 10px;
+                color: #007bff;
+                font-weight: bold;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+                line-height: 16px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .navbar ul li a {
+                font-size: 10px;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 105%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 52%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0;
+            }
+
+            #languageIcon::before {
+                content: '\2637'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            .play-button {
+                margin-top: -42px;
+                margin-left: 1px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; मेनू</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/hi/chatcipherai.html">क्रिप्टोसिस्टम वर्ल्ड</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/hi/Caesar_Cipher.html">सीज़र सिफर</a></li>
+                        <li><a href="https://chatcipherai.com/hi/Playfair_Cipher.html">प्लेफेयर सिफर</a></li>
+                        <li><a href="https://chatcipherai.com/hi/Hill_Cipher.html">हिल सिफर</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/hi/Hash_value_test.html">हैश मूल्य परीक्षण</a></li>
+                <li><a href="https://chatcipherai.com/hi/Morsecode_main.html">मोर्स कोड अनुवादक</a></li>
+                <li><a href="https://chatcipherai.com/hi/Shortcut_Key_Description.html">शॉर्टकट कुंजियाँ विवरण</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; भाषा</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Morsecode_main.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Morsecode_main.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Morsecode_main.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Morsecode_main.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Morsecode_main.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Morsecode_main.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Morsecode_main.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Morsecode_main.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Morsecode_main.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Morsecode_main.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Morsecode_main.html" title="Nederlands">Nederlands</a></li>
+                </ul>
+            </div>
+
+            <h1>मोर्स कोड अनुवादक</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 डार्क स्टाइल(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ लाइट स्टाइल(<span class="highlight-key">L</span>)</button>
+            </div>          
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <h2>एनकोडर</h2>
+            <div class="textarea-container">
+                <textarea id="inputText" class="textarea-light" placeholder="एनकोड करने के लिए टेक्स्ट दर्ज करें"></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('inputText')">कॉपी</button>
+                <button id="clearAllButton" class="clear-all-button">सभी साफ़ करें(<span class="highlight-key">A</span>)</button>
+                <div class="play-button">
+                <button id="playStopButton"><span class="icon-play"></span>चलायें</button>
+                </div>
+            </div>
+            <button id="encodeButton" style="display: none;">एनकोड</button>
+        
+            <div class="textarea-container">
+                <textarea id="morseCode" class="textarea-light" placeholder="मोर्स कोड आउटपुट" readonly></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('morseCode')">कॉपी</button>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>डिकोडर</h2>
+            <div class="textarea-container">
+                <textarea id="inputMorse" class="textarea-light" placeholder="डिकोड करने के लिए मोर्स कोड दर्ज करें"></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('inputMorse')">कॉपी</button>
+            </div>
+            <button id="decodeButton" style="display: none;">डिकोड</button>
+            <div class="textarea-container">
+                <textarea id="decodedText" class="textarea-light" placeholder="डिकोड किया गया टेक्स्ट आउटपुट" readonly></textarea>
+                <button class="copy-button icon-copy" onclick="copyToClipboard('decodedText')">कॉपी</button>
+            </div>
+        </div>        
+    </div>
+
+    <div class="button-container">
+        <button id="toggleAlphabetButton" class="icon-alphabet">मोर्स वर्णमाला(<span class="highlight-key">M</span>)</button>
+        <button id="playSosButton" class="icon-sos">SOS चलाएं(<span class="highlight-key">P</span>)</button>
+    </div>    
+    <div class="table-container" style="display: none;">
+        <table id="morseAlphabetTable">
+            <tr>
+                <th>अक्षर</th>
+                <th>मोर्स कोड</th>
+                <th>अक्षर</th>
+                <th>मोर्स कोड</th>
+                <th>अक्षर</th>
+                <th>मोर्स कोड</th>
+                <th>अक्षर</th>
+                <th>मोर्स कोड</th>
+            </tr>            
+            <tr>
+                <td>A</td>
+                <td>.-</td>
+                <td>B</td>
+                <td>-...</td>
+                <td>C</td>
+                <td>-.-.</td>
+                <td>D</td>
+                <td>-..</td>
+            </tr>
+            <tr>
+                <td>E</td>
+                <td>.</td>
+                <td>F</td>
+                <td>..-.</td>
+                <td>G</td>
+                <td>--.</td>
+                <td>H</td>
+                <td>....</td>
+            </tr>
+            <tr>
+                <td>I</td>
+                <td>..</td>
+                <td>J</td>
+                <td>.---</td>
+                <td>K</td>
+                <td>-.-</td>
+                <td>L</td>
+                <td>.-..</td>
+            </tr>
+            <tr>
+                <td>M</td>
+                <td>--</td>
+                <td>N</td>
+                <td>-.</td>
+                <td>O</td>
+                <td>---</td>
+                <td>P</td>
+                <td>.--.</td>
+            </tr>
+            <tr>
+                <td>Q</td>
+                <td>--.-</td>
+                <td>R</td>
+                <td>.-.</td>
+                <td>S</td>
+                <td>...</td>
+                <td>T</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>U</td>
+                <td>..-</td>
+                <td>V</td>
+                <td>...-</td>
+                <td>W</td>
+                <td>.--</td>
+                <td>X</td>
+                <td>-..-</td>
+            </tr>
+            <tr>
+                <td>Y</td>
+                <td>-.--</td>
+                <td>Z</td>
+                <td>--..</td>
+            </tr>
+            <tr>
+                <th>संख्या</th>
+                <th>मोर्स कोड</th>
+                <th>संख्या</th>
+                <th>मोर्स कोड</th>
+                <th>संख्या</th>
+                <th>मोर्स कोड</th>
+                <th>संख्या</th>
+                <th>मोर्स कोड</th>
+            </tr>            
+            <tr>
+                <td>0</td>
+                <td>-----</td>
+                <td>1</td>
+                <td>.----</td>
+                <td>2</td>
+                <td>..---</td>
+                <td>3</td>
+                <td>...--</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>....-</td>
+                <td>5</td>
+                <td>.....</td>
+                <td>6</td>
+                <td>-....</td>
+                <td>7</td>
+                <td>--...</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>---..</td>
+                <td>9</td>
+                <td>----.</td>
+            </tr>
+            <tr>
+                <th>विराम चिह्न</th>
+                <th>मोर्स कोड</th>
+                <th>विराम चिह्न</th>
+                <th>मोर्स कोड</th>
+                <th>विराम चिह्न</th>
+                <th>मोर्स कोड</th>
+                <th>विराम चिह्न</th>
+                <th>मोर्स कोड</th>
+            </tr>            
+            <tr>
+                <td>.</td>
+                <td>.-.-.-</td>
+                <td>,</td>
+                <td>--..--</td>
+                <td>?</td>
+                <td>..--..</td>
+                <td>'</td>
+                <td>.----.</td>
+            </tr>
+            <tr>
+                <td>!</td>
+                <td>-.-.--</td>
+                <td>/</td>
+                <td>-..-.</td>
+                <td>(</td>
+                <td>-.--.</td>
+                <td>)</td>
+                <td>-.--.-</td>
+            </tr>
+            <tr>
+                <td>&</td>
+                <td>.-...</td>
+                <td>:</td>
+                <td>---...</td>
+                <td>;</td>
+                <td>-.-.-.</td>
+                <td>=</td>
+                <td>-...-</td>
+            </tr>
+            <tr>
+                <td>+</td>
+                <td>.-.-.</td>
+                <td>-</td>
+                <td>-....-</td>
+                <td>_</td>
+                <td>..--.-</td>
+                <td>"</td>
+                <td>.-..-.</td>
+            </tr>
+            <tr>
+                <td>$</td>
+                <td>...-..-</td>
+                <td>@</td>
+                <td>.--.-.</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="introduce">
+        <h2>मोर्स कोड: अविनाशी डिजिटल संचार सिफर</h2>
+        <p>मोर्स कोड, एक अग्रणी डिजिटल संचार विधि, अद्वितीय अंतरालिक सिग्नल का उपयोग करके जानकारी को एन्कोड करता है। 1830 के दशक में आविष्कारित, यह आज विशेष अनुप्रयोगों के लिए प्रासंगिक बना हुआ है। इसकी विशिष्ट विशेषता इसकी सादगी में निहित है— केवल दो सिग्नल और परिवर्तनशील अंतरालों का उपयोग करके अक्षरों, संख्याओं, और विराम चिह्नों का प्रतिनिधित्व करना।</p>        
+        <p>मोर्स कोड के केंद्र में डॉट (डि) और डैश (दाह) सिग्नल होते हैं, जिनकी अवधि में अंतर होता है ताकि विभिन्न अक्षरों का प्रतिनिधित्व किया जा सके। यह द्विआधारी प्रणाली पूरी अंग्रेजी वर्णमाला और अधिक को एनकोड करने की अनुमति देती है। उदाहरण के लिए, 'A' को एक डॉट के बाद एक डैश (·-) से दर्शाया जाता है, जबकि 'B' को एक डैश के बाद तीन डॉट्स (−···) से इंगित किया जाता है।</p>
+        <p>अपने मूल सिग्नलों के अलावा, मोर्स कोड समय अंतराल का उपयोग करके अक्षरों, शब्दों और वाक्यों के बीच अंतर करता है, सुनिश्चित करता है कि संदेश स्पष्टता के साथ प्रेषित किए जाते हैं। ये रणनीतिक विराम कोड की जटिल संदेशों को कुशलतापूर्वक प्रेषित करने की क्षमता को बढ़ाते हैं।</p>        
+        <p>मूल रूप से टेलीग्राफी के लिए विकसित, मोर्स कोड का उपयोग रेडियो और अन्य संचार रूपों में विस्तारित हुआ, इसकी अनुकूलन क्षमता और स्थायी प्रासंगिकता को मजबूत करता है। संचार प्रौद्योगिकियों में अग्रिमों के बावजूद, मोर्स कोड अभी भी उन परिदृश्यों में व्यावहारिक मूल्य प्रदान करता है जहां आधुनिक तरीके व्यवहार्य नहीं हो सकते, जैसे कि आपातकालीन संचार में।</p>
+        <p>इसके अलावा, मोर्स कोड अपनी उपयोगितावादी जड़ों को पार कर शौक या उत्साही लोगों के लिए एक कौशल बन जाता है, इसकी अनूठी आकर्षण और संचार शक्ति को प्रमाणित करता है। जबकि आधुनिक प्रौद्योगिकियों ने बड़े पैमाने पर रोजमर्रा के उपयोग में मोर्स कोड की जगह ले ली है, यह एक सांस्कृतिक और ऐतिहासिक रूप से महत्वपूर्ण संचार मोड के रूप में बना रहता है।</p>        
+
+        <h2>मोर्स कोड कार्यक्षमता को समझना</h2>
+        <p>मोर्स कोड एक सोफ़िस्टिकेटेड स्पेस-टाइम मॉड्यूलेटेड कोडिंग सिस्टम के रूप में काम करता है, जो छोटे (डि) और लंबे (दाह) सिग्नलों के साथ-साथ उनके अंतरालों के माध्यम से अक्षरों, संख्याओं, और विराम चिह्नों को विभेदित करता है। यह एन्कोडिंग सिस्टम इसकी सादगी और बहुमुखी प्रतिभा के लिए प्रसिद्ध है, विभिन्न माध्यमों में संचार को सक्षम बनाता है। मोर्स कोड संचार में कुछ मुख्य चरण होते हैं:</p>
+        <ul>
+            <li><strong>एनकोडिंग:</strong> प्रत्येक चरित्र को डॉट्स (डि) और डैशेस (दाह) का एक अनूठा अनुक्रम आवंटित किया जाता है।</li>
+            <li><strong>प्रसारण:</strong> संकेतों को ध्वनि, प्रकाश, या विद्युत के माध्यम से प्रेषित किया जाता है, जिसमें संदेश की सटीक एन्कोडिंग सुनिश्चित करने के लिए प्रेषक की मोर्स कोड में दक्षता आवश्यक है।</li>
+            <li><strong>समय निर्धारण:</strong> मोर्स कोड में महत्वपूर्ण अंतरालों का प्रबंधन है - डॉट्स को डैशेस, अक्षरों, और शब्दों से अलग करना ताकि संदेश की स्पष्टता बनी रहे।</li>
+            <li><strong>प्राप्ति:</strong> प्राप्तकर्ता सिग्नलों के अनुक्रम को इरादा संदेश में डिकोड करता है, जिसके लिए मोर्स कोड की डॉट-डैश प्रणाली के साथ परिचित होना आवश्यक है।</li>
+            <li><strong>डिकोडिंग:</strong> सफलतापूर्वक व्याख्यायित सिग्नलों को प्राप्तकर्ता द्वारा उनके मूल पाठ्य स्वरूप में वापस अनुवादित किया जाता है।</li>
+        </ul>
+        <p>मोर्स कोड का स्थायी लाभ इसकी अनुकूलन क्षमता और सादगी में निहित है, जो पारंपरिक संचार चैनलों के समझौता होने पर अमूल्य सिद्ध होता है। उदाहरण के लिए, आपात स्थितियों में, मोर्स कोड सरल टैप या प्रकाश सिग्नलों के माध्यम से जीवन रक्षक संचार को सुविधाजनक बना सकता है, इसकी शाश्वत प्रासंगिकता का प्रदर्शन करता है।</p>
+        
+        <h2>मोर्स कोड का आविष्कार किसने किया?</h2>
+        <p>मोर्स कोड का आविष्कार 1830 के दशक में अमेरिकी आविष्कारक सैमुअल एफ. बी. मोर्स ने किया था, और इसलिए उन्हें मोर्स कोड का संस्थापक माना जाता है। 1848 में, मोर्स कोड को फ्रेडरिक क्लेमेंस गेर्के द्वारा विकसित और आविष्कृत किया गया था और यह आधुनिक अंतरराष्ट्रीय मोर्स कोड बन गया और जर्मनी के हैम्बर्ग और कुक्सहैवेन के बीच टेलीग्राफ संचार के लिए आधिकारिक रूप से इस्तेमाल किया गया।</p>
+        
+        <h2>मोर्स कोड में सबसे आम तौर पर प्रयुक्त अक्षर कौन सा है?</h2>
+        <p>मोर्स कोड में, अक्षर "E" (जिसका प्रतिनिधित्व "." से किया जाता है) और "T" (जिसका प्रतिनिधित्व "-" से किया जाता है) सबसे अधिक आम तौर पर प्रयुक्त होते हैं क्योंकि वे अंग्रेजी भाषा में सबसे अधिक बार आते हैं।</p>        
+
+        <h2>टेलीग्राफ मशीन के बिना मोर्स कोड कैसे भेजें?</h2>
+        <p>वास्तव में, आप मोर्स कोड भेजने के लिए दो स्पष्ट रूप से अलग सिग्नल पैदा करने वाली किसी भी चीज़ का उपयोग कर सकते हैं। उदाहरण के लिए, आप एक फ्लैशलाइट का उपयोग कर सकते हैं (डि के लिए झपकाना, दाह के लिए स्थिर), या आप ध्वनियों का उपयोग कर सकते हैं (डि के लिए छोटा, दाह के लिए लंबा)।</p>
+        
+        <h2>मोर्स कोड का उपयोग करके एक एसओएस सिग्नल कैसे भेजें?</h2>
+        <p>एसओएस एक अंतरराष्ट्रीय रूप से स्वीकृत आपातकालीन सिग्नल है, जिसे मोर्स कोड में "...---..." (तीन डि, तीन दाह, और फिर तीन डि) के रूप में व्यक्त किया गया है या ऊपर "प्ले एसओएस" बटन पर क्लिक करें।</p>
+        
+        <h2>मोर्स कोड में अंतराल समय की महत्वपूर्ण भूमिका</h2>
+        <p>मोर्स कोड में, सिग्नलों के बीच का समय—जिसे "अंतराल समय" के रूप में संदर्भित किया जाता है—स्पष्ट संचार सुनिश्चित करने में एक महत्वपूर्ण भूमिका निभाता है। यह प्राप्तकर्ता को विभिन्न अक्षरों और शब्दों के बीच अंतर करने में मदद करता है, संदेश की समग्र पठनीयता और समझ को बढ़ाता है। मोर्स कोड में अंतराल समय का महत्व तीन मुख्य श्रेणियों में विभाजित किया जा सकता है:</p>        
+
+        <ul>
+            <li><strong>डॉट्स और डैशेस के बीच:</strong> एक ही चरित्र के भीतर डॉट्स (.) और डैशेस (-) के बीच छोटे विराम उस चरित्र को बनाने वाले व्यक्तिगत तत्वों को अलग करने के लिए अनिवार्य हैं।</li>
+            <li><strong>चरित्रों के बीच:</strong> एक शब्द के भीतर चरित्रों के बीच थोड़ा लंबा विराम एक चरित्र के अंत और अगले की शुरुआत को स्पष्ट रूप से देने के लिए आवश्यक है।</li>
+            <li><strong>शब्द अंतराल:</strong> शब्दों के बीच सबसे लंबा विराम होता है, जो मोर्स कोड संदेश के भीतर शब्दों के विभाजन को इंगित करने के लिए महत्वपूर्ण है।</li>
+        </ul>
+        <p>ये अंतराल मोर्स कोड प्रसारणों की स्पष्टता और प्रभावशीलता के लिए मौलिक हैं। इन समय अंतरों की सटीकता और स्थिरता संदेशों की सटीक व्याख्या और समझ के लिए आवश्यक है, कुशल संचार सुनिश्चित करती है।</p>        
+
+        <h2>मोर्स कोड को "वेरिएबल लेंथ एनकोडिंग" क्यों माना जाता है?</h2>
+        <p>मोर्स कोड को "वेरिएबल लेंथ एनकोडिंग" प्रणाली कहा जाता है क्योंकि यह विभिन्न अक्षरों को भिन्न लंबाई के कोड आवंटित करता है। फिक्स्ड-लेंथ एनकोडिंग के विपरीत, जो प्रत्येक प्रतीक को समान संख्या में बिट्स आवंटित करता है, वेरिएबल-लेंथ एनकोडिंग प्रणालियाँ जैसे कि <a href="https://en.wikipedia.org/wiki/Morse_code" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;"> मोर्स कोड </a>विभिन्न प्रतीकों को दर्शाने के लिए विविध संख्या में बिट्स—या अधिक सटीक रूप से, डॉट्स और डैशेस—का उपयोग करती हैं।</p>
+        <p>मोर्स कोड की परिभाषित विशेषताएँ में शामिल हैं:</p>        
+        <ul>
+            <li><strong>वेरिएबल लेंथ प्रतिनिधित्व:</strong> अक्सर प्रयुक्त अक्षर जैसे "E" को एक डॉट (".") जैसे छोटे कोड द्वारा दर्शाया जाता है, जबकि कम प्रचलित वर्ण जैसे "Q" को लम्बे अनुक्रम ("--.-") द्वारा प्रस्तुत किया जाता है। यह कुशलता संचालित दृष्टिकोण अधिक सामान्य वर्णों को छोटे कोड आवंटित करता है, जिससे औसत संदेश लंबाई कम होती है और संचारण गति बढ़ती है।</li>
+            <li><strong>कुशलता के लिए अनुकूलन:</strong> अधिक बार प्रयुक्त अक्षरों के लिए छोटे कोड का उपयोग करने की रणनीति मोर्स कोड को अंग्रेजी जैसी भाषाओं को संचारित करने के लिए एक कुशल प्रणाली बनाती है।</li>
+            <li><strong>विविध अंतराल समय:</strong> मोर्स कोड अक्षरों और शब्दों के बीच विविध अंतराल का उपयोग करके भेद करता है। एक शब्द के भीतर अक्षरों के बीच की जगह शब्दों के बीच विराम के लिए अंतरिक्ष से छोटी होती है, संचारण के दौरान अक्षरों और शब्दों के स्पष्ट विभेदन में सहायता करती है।</li>
+        </ul>
+        <p>प्रत्येक चरित्र को विभिन्न लंबाई के कोड आवंटित करने के अपने अनूठे दृष्टिकोण के कारण, मोर्स कोड एक वेरिएबल लेंथ कोडिंग प्रणाली के रूप में उभरता है, आधुनिक डिजिटल संचारों में प्रयुक्त फिक्स्ड-लेंथ एनकोडिंग प्रणालियों जैसे कि ASCII के विपरीत, जहाँ प्रत्येक चरित्र को एक सुसंगत संख्या में बिट्स द्वारा प्रतिनिधित्व किया जाता है।</p>
+
+        <h2>हफ़मैन कोड बनाम मोर्स कोड: एक तुलनात्मक विश्लेषण</h2>
+        <section>
+            <h3>हफ़मैन कोडिंग और मोर्स कोड का अवलोकन</h3>
+            <p>दोनों <strong>हफ़मैन कोडिंग</strong> और <strong>मोर्स कोड</strong> सूचना को कुशलतापूर्वक प्रसारित करने के लिए डिज़ाइन की गई अभिनव एनकोडिंग प्रणालियाँ हैं। जहाँ <a href="https://en.wikipedia.org/wiki/Huffman_coding" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">हफ़मैन कोडिंग</a> चरित्र फ़्रीक्वेंसी के आधार पर वेरिएबल-लेंथ कोड आवंटित करके डेटा संपीड़न में उत्कृष्ट है, मोर्स कोड अपनी अद्वितीय डॉट-एंड-डैश प्रणाली के साथ टेलीग्राफ संचार को सरल बनाता है।</p>
+        </section>
+        
+        <section>
+            <h3>डिज़ाइन अवधारणाओं और अनुप्रयोगों की तुलना</h3>
+            <p><strong>हफ़मैन कोडिंग</strong> एक सोफिस्टिकेटेड एल्गोरिदम है जिसे डेटा संपीड़न के लिए अनुकूलित किया गया है, जो अधिक बार आने वाले चरित्रों को छोटे कोड आवंटित करने के लिए एक बाइनरी ट्री संरचना का उपयोग करता है। इसके विपरीत, <strong>मोर्स कोड</strong> चरित्रों को दर्शाने के लिए एक सरल डॉट-एंड-डैश दृष्टिकोण का उपयोग करता है, डेटा संपीड़न पर आसानी से संचार को प्राथमिकता देता है।</p>
+        </section>        
+        
+        <section>
+            <h3>हफ़मैन और मोर्स कोडिंग के बीच समानताएं</h3>
+            <p>अपने मतभेदों के बावजूद, दोनों प्रणालियाँ वेरिएबल-लेंथ एनकोडिंग का उपयोग करती हैं और कोड लंबाई निर्धारित करने के लिए चरित्र फ़्रीक्वेंसी पर विचार करती हैं। यह साझा दृष्टिकोण उनकी संचार में कुशलता और प्रभावशीलता के प्रति प्रतिबद्धता को रेखांकित करता है।</p>
+        </section>
+        
+        <section>
+            <h3>प्रमुख मतभेद उजागर</h3>
+            <p>जहाँ हफ़मैन कोडिंग आधुनिक डेटा संपीड़न का एक आधार है, वहीं मोर्स कोड टेलीग्राफ और रेडियो संचार का एक ऐतिहासिक अवशेष बना हुआ है। पूर्व की एक बाइनरी ट्री पर कोड आवंटन की निर्भरता पिछले के पूर्व-निर्धारित कोड सेट के साथ तीव्रता से विपरीत है, जो 19वीं से मध्य-20वीं शताब्दी तक एनकोडिंग तकनीकों के विकास को दर्शाता है।</p>
+        </section>        
+
+        <h2>मोर्स कोड में स्पेसेज और न्यूलाइन्स को कैसे प्रस्तुत करें?</h2>
+        <p>मोर्स कोड में, स्पेसेज (अर्थात् शब्दों के बीच के गैप) आमतौर पर कोई सिग्नल न होने की अवधि द्वारा दर्शाए जाते हैं। यह समय अवधि एक चरित्र की लंबाई के लगभग तीन गुना होती है। जहां तक लाइन ब्रेक्स का सवाल है, मोर्स कोड मूल रूप से निरंतर टेलीग्राफ संचार के लिए डिज़ाइन किया गया था और इसमें विशेष लाइन ब्रेक्स नहीं थे। बेशक, न्यूलाइन सिंबल को संचार करने वाली पार्टियों द्वारा सहमत प्रतीकों के अनुसार भी व्यक्त किया जा सकता है।</p>
+        
+        <h2>क्या मोर्स कोड केस सेंसिटिव है?</h2>
+        <p>मोर्स कोड केस सेंसिटिव नहीं है। सभी अक्षरों को एक ही तरह से एनकोड किया जाता है। हालांकि, व्यावहारिक अनुप्रयोगों में, संचार करने वाली पार्टियां पूंजीकरण को दर्शाने के लिए किसी विशेष तरीके का उपयोग करने पर सहमत हो सकती हैं, जैसे कि प्रत्येक शब्द के पहले अक्षर से पहले एक विशेष प्रतीक जोड़ना।</p>
+
+        <h2>कोच मेथड के साथ मोर्स कोड को कुशलतापूर्वक मास्टर करें</h2>
+        <p>क्या आप <strong>मोर्स कोड सीखना</strong> चाहते हैं तेजी से और प्रभावी ढंग से? कोच मेथड आसानी से <strong>मोर्स कोड याद</strong> करने के लिए एक सिद्ध दृष्टिकोण प्रदान करता है। जर्मन मनोवैज्ञानिक लुडविग कोच द्वारा विकसित, यह तकनीक धीरे-धीरे अभ्यास के माध्यम से तेजी से सीखने और याददाश्त के लिए अनुकूल है।</p>
+        <h3>कोच मेथड क्या है?</h3>
+        <p>कोच मेथड <em>मोर्स कोड सीखने</em> के लिए एक प्रसिद्ध रणनीति है जो शुरुआत से ही लक्ष्य गति पर धीरे-धीरे चरित्र परिचय और अभ्यास पर जोर देती है। इसे वास्तविक संचार परिदृश्यों की नकल करने के लिए डिजाइन किया गया है, जिससे यह <strong>मोर्स कोड सीखने की सबसे प्रभावी तकनीकों</strong> में से एक बन जाती है।</p>
+        <h3>कोच मेथड की मुख्य विशेषताएं</h3>        
+        <ul>
+            <li><strong>शुरुआती अक्षर:</strong> "K" (-.-) और "M" (--) जैसे आसानी से पहचाने जाने वाले अक्षरों के साथ शुरुआत करें, ताकि परिचितता और आत्मविश्वास बन सके।</li>
+            <li><strong>निरंतर गति:</strong> अपनी लक्ष्य गति पर शुरू से ही अभ्यास करें ताकि बाद में तेज गति पर पुनः सीखने की आवश्यकता बिना वास्तविक संचार गतियों के अनुकूल बन सकें।</li>
+            <li><strong>क्रमिक सीखना:</strong> वर्तमान अक्षरों के साथ कम से कम 90% सटीकता हासिल करने के बाद ही नए अक्षरों को अपने रेपर्टोयर में जोड़ें, आगे बढ़ने से पहले मजबूत मास्टरी सुनिश्चित करें।</li>
+            <li><strong>व्यावहारिक अनुप्रयोग:</strong> वास्तविक जीवन संचार में समझ और अनुप्रयोग को बढ़ाने के लिए वाक्यांशों, शब्दों, और वाक्यों के साथ अभ्यास में संलग्न हों।</li>
+            <li><strong>मास्टरी के लिए पुनरावृत्ति:</strong> स्मृति और कौशल वृद्धि के लिए निरंतर अभ्यास और समीक्षा महत्वपूर्ण है।</li>
+            <li><strong>सुनने पर ध्यान केंद्रित करें:</strong> संदेशों को प्राप्त करने में गति और सटीकता में सुधार के लिए दृश्य पहचान के ऊपर कान प्रशिक्षण को प्राथमिकता दें।</li>
+        </ul>        
+
+        <h3>कोच मेथड के लाभ</h3>
+        <p>कोच मेथड अपनाकर, सीखने वाले अपनी वांछित गति पर मोर्स कोड में धाराप्रवाहता प्राप्त कर सकते हैं, अपने चरित्र ज्ञान को धीरे-धीरे बढ़ाते हुए। यह दृष्टिकोण न केवल आत्मविश्वास को बढ़ावा देता है बल्कि व्यावहारिक परिदृश्यों में मोर्स कोड की एक समग्र समझ और अनुप्रयोग सुनिश्चित करता है।
+        कोच मेथड और मोर्स कोड में महारत हासिल करने पर टिप्स के लिए अधिक जानकारी के लिए, कृपया <a href="https://en.wikipedia.org/wiki/Morse_code#Learning_methods" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-size: 1.0em;">यहाँ</a> देखें।</p>
+        
+        <h2>क्या मोर्स कोड से संबंधित कोई प्रसिद्ध ऐतिहासिक घटनाएँ या व्यक्तित्व हैं?</h2>
+        <p>मोर्स कोड से संबंधित कई प्रसिद्ध ऐतिहासिक घटनाएँ और व्यक्तित्व हैं। उदाहरण के लिए, जब टाइटैनिक डूबा, तो भेजा गया आपातकालीन सिग्नल मोर्स कोड था। इसके अलावा, द्वितीय विश्व युद्ध के दौरान, मित्र देशों से कुछ महत्वपूर्ण जानकारी भी मोर्स कोड के माध्यम से प्रसारित की गई थी। चरित्रों के संदर्भ में, एलन ट्यूरिंग एक प्रसिद्ध ब्रिटिश कंप्यूटर वैज्ञानिक और क्रिप्टोग्राफर थे। उन्होंने जर्मन सेना द्वारा प्रयुक्त मोर्स कोड को डिसाइफर करने में महत्वपूर्ण योगदान दिया था।</p>        
+
+        <h2>अगर मोर्स कोड गलत भेज दिया जाए तो मुझे क्या करना चाहिए?</h2>
+        <p>मोर्स कोड संचार में, यदि कोई गलत सिग्नल भेजा जाता है, तो अक्सर विशिष्ट प्रतीकों का उपयोग गलती को संकेत करने और सही संदेश को फिर से भेजने के लिए किया जाता है। इस प्रतीक को "त्रुटि" सिग्नल या "रद्द" सिग्नल कहा जाता है। मूर कोड में, त्रुटि सिग्नल आमतौर पर छह लगातार बिंदुओं से बना होता है, जिसे ".........." (बिंदु थोड़ा थोड़ा) के रूप में व्यक्त किया जाता है, और कभी-कभी इसे "EEEEEE" के रूप में संक्षेप में भी व्यक्त किया जाता है।</p>
+        
+        <h2>आइए हमारी यात्रा शुरू करें!</h2>
+        <p>.... . .-.. .-.. ---   .-- --- .-. .-.. -.. -.-.--</p>
+    </div>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a>  
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. सभी अधिकार सुरक्षित।.</p>
+            <p>
+                <a href="https://chatcipherai.com/hi/Privacy_Policy.html" title="Privacy Policy">गोपनीयता नीति</a>
+                |
+                <a href="https://chatcipherai.com/hi/Terms_of_Use.html" title="Terms of Use">उपयोग की शर्तें</a>
+                |
+                <a href="https://chatcipherai.com/hi/About_Us.html" title="About Us">हमारे बारे में</a>
+                |
+                <a href="https://chatcipherai.com/hi/Disclaimer.html" title="Disclaimer">अस्वीकरण</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">शीर्ष पर वापस जाएँ(<span class="highlight-key">B</span>)</button>
+        </div> 
+    </footer>
+    
+    <script>
+        let shortcutsEnabled = true;
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            // Ensure focus is not inside input or textarea fields
+            if (document.activeElement.type === 'text' || document.activeElement.tagName === 'TEXTAREA') {
+                return; // Skip shortcut if inside input or textarea
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'A':
+                    clearAllTextAreas(); // Corrected to a proper function call
+                    console.log('Clear All triggered');
+                    break;
+                case 'M':
+                    toggleMorseTable(); // Function to toggle Morse code table display
+                    console.log('Toggled Morse Code Table');
+                    break;
+                case 'P':
+                    playSOS(); // Function to play SOS Morse Code
+                    console.log('SOS Morse Code Played');
+                    break;
+                case 'L':
+                    setStyle('light-mode');
+                    console.log('Light style activated');
+                    break;
+                case 'N':
+                    setStyle('dark-mode');
+                    console.log('Dark style activated');
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        // Ensure these functions are defined somewhere in your script or linked script files
+        function clearAllTextAreas() {
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.value = '';
+            });
+            console.log('All text areas cleared.');
+        }
+
+        function toggleMorseTable() {
+            var tableContainer = document.querySelector('.table-container');
+            tableContainer.style.display = (tableContainer.style.display === 'none' || tableContainer.style.display === '') ? 'block' : 'none';
+        }
+
+        function playSOS() {
+            var morseCode = document.getElementById('morseCode');
+            morseCode.value = '... --- ...'; // SOS Morse Code
+            playMorseAudio(morseCode.value);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'light-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+
+        document.getElementById('inputText').addEventListener('input', function () {
+            document.getElementById('morseCode').value = encodeToMorse(document.getElementById('inputText').value);
+        });
+
+        document.getElementById('inputMorse').addEventListener('input', function () {
+            document.getElementById('decodedText').value = decodeMorse(document.getElementById('inputMorse').value);
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+            updateTableStyle(style);
+            updateIntroduceStyle(style);
+        }
+
+        function updateIntroduceStyle(style) {
+            var introduces = document.querySelectorAll('.introduce');
+            introduces.forEach(function (introduce) {
+                if (style === 'dark-mode') {
+                    introduce.style.color = '#FFFFFF'; // White text for dark mode
+                } else {
+                    introduce.style.color = '#000000'; // Black text for light mode
+                }
+            });
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#000000';
+        }
+
+
+        document.getElementById('playSosButton').addEventListener('click', function () {
+            var inputText = document.getElementById('inputText');
+            var morseCode = document.getElementById('morseCode');
+            inputText.value = 'SOS';
+            morseCode.value = encodeToMorse('SOS');
+            playMorseAudio(morseCode.value);
+        });
+
+        function encodeToMorse(text) {
+            if (text.toUpperCase() === 'SOS') {
+                return '... --- ...';
+            }
+            const morseCodeDict = {
+                'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+                'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+                'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+                'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+                'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--',
+                '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..',
+                '9': '----.', '0': '-----', ' ': ' ', '.': '.-.-.-', ',': '--..--', '?': '..--..',
+                "'": '.----.', '!': '-.-.--', '/': '-..-.', '(': '-.--.', ')': '-.--.-',
+                '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.',
+                '-': '-....-', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.', '！': '-.-.--'
+            };
+            return text.toUpperCase().split('').map(function (char) {
+                return morseCodeDict[char] ? morseCodeDict[char] : char;
+            }).join(' ');
+        }
+
+        function decodeMorse(morseCode) {
+            const textDict = {
+                '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E', '..-.': 'F',
+                '--.': 'G', '....': 'H', '..': 'I', '.---': 'J', '-.-': 'K', '.-..': 'L',
+                '--': 'M', '-.': 'N', '---': 'O', '.--.': 'P', '--.-': 'Q', '.-.': 'R',
+                '...': 'S', '-': 'T', '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X',
+                '-.--': 'Y', '--..': 'Z', '.----': '1', '..---': '2', '...--': '3',
+                '....-': '4', '.....': '5', '-....': '6', '--...': '7', '---..': '8',
+                '----.': '9', '-----': '0', '.-.-.-': '.', '--..--': ',', '..--..': '?',
+                '.----.': "'", '-.-.--': '!', '-..-.': '/', '-.--.': '(', '-.--.-': ')',
+                '.-...': '&', '---...': ':', '-.-.-.': ';', '-...-': '=', '.-.-.': '+',
+                '-....-': '-', '..--.-': '_', '.-..-.': '"', '...-..-': '$', '.--.-.': '@'
+            };
+            return morseCode.split('   ').map(function (word) {
+                return word.split(' ').map(function (code) {
+                    return textDict[code] || (code === '' ? ' ' : '?');
+                }).join('');
+            }).join(' ');
+        }
+
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId);
+            copyText.select();
+            document.execCommand('copy');
+        }
+
+        let isPlaying = false;
+        let audioCtx;
+        let timeoutHandles = [];
+
+        document.getElementById('playStopButton').addEventListener('click', function () {
+            isPlaying = !isPlaying;
+            var iconSpan = this.querySelector('span');
+            if (isPlaying) {
+                playMorseAudio(document.getElementById('morseCode').value);
+                this.textContent = '';
+                iconSpan.className = 'icon-stop';
+                this.appendChild(iconSpan);
+                this.appendChild(document.createTextNode('Stop'));
+            } else {
+                stopMorseAudio();
+                this.textContent = '';
+                iconSpan.className = 'icon-play';
+                this.appendChild(iconSpan);
+                this.appendChild(document.createTextNode('Play'));
+            }
+        });
+
+        function playMorseAudio(morseCode) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const dotDuration = 0.1;
+            let currentTime = audioCtx.currentTime;
+            morseCode.split('').forEach(symbol => {
+                if (symbol === '.') {
+                    scheduleTone(currentTime, dotDuration);
+                    currentTime += dotDuration;
+                } else if (symbol === '-') {
+                    scheduleTone(currentTime, dotDuration * 3);
+                    currentTime += dotDuration * 3;
+                }
+                currentTime += dotDuration;
+            });
+        }
+
+        function scheduleTone(startTime, duration) {
+            const oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(440, startTime);
+            oscillator.connect(audioCtx.destination);
+
+            const handle = setTimeout(() => {
+                oscillator.start(startTime);
+                oscillator.stop(startTime + duration);
+            }, startTime * 1000);
+
+            timeoutHandles.push(handle);
+        }
+
+        function stopMorseAudio() {
+            timeoutHandles.forEach(handle => clearTimeout(handle));
+            timeoutHandles = [];
+            if (audioCtx) {
+                audioCtx.close();
+                audioCtx = null;
+            }
+        }
+
+        document.getElementById('toggleAlphabetButton').addEventListener('click', function () {
+            var tableContainer = document.querySelector('.table-container');
+            var button = this;
+            if (tableContainer.style.display === 'none' || tableContainer.style.display === '') {
+                tableContainer.style.display = 'flex';
+                button.textContent = 'छुपी हुई वर्णमाला';
+            } else {
+                tableContainer.style.display = 'none';
+                button.textContent = 'मोर्स वर्णमाला';
+            }
+        });
+
+        function updateTableStyle(style) {
+            var table = document.getElementById('morseAlphabetTable');
+            if (style === 'dark-mode') {
+                table.style.color = '#FFFFFF';
+            } else {
+                table.style.color = '#000000';
+            }
+        }
+
+        document.getElementById('toggleAlphabetButton').addEventListener('click', function () {
+            document.querySelector('.table-container').classList.toggle('active');
+        });
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.onclick = function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            };
+        });
+
+        document.getElementById("clearAllButton").addEventListener("click", function () {
+            var textareas = document.querySelectorAll("textarea");
+            textareas.forEach(function (textarea) {
+                textarea.value = '';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function() {
+                if(window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'शीर्ष पर वापस जाएँ(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .menuUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var navbarUl = document.querySelector('.navbar ul');
+
+            if (!menuIcon.contains(event.target) && !navbarUl.contains(event.target)) {
+                navbarUl.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

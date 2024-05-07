@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador del Cifrado Playfair: Matriz de cifrado clásica de 5x5</title>
+    <meta name="description" content="En el mundo del Cifrado Playfair, las palabras danzan como antiguos intérpretes dentro de una cámara de 5x5, saltando con gracia en parejas, estrechamente entrelazadas, tejiendo cada historia en un cifrado misterioso que no puede ser descifrado fácilmente.">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>
+        html {
+            height: 100%;
+            }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }   
+
+        #menuIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column; 
+            position: absolute;
+            top: 35px; 
+            left: 10px;
+            width: 15%; 
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0; 
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px; 
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0; 
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 15%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px; 
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        #inputMessage, #shiftValue {
+            width: 60%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            font-size: 1em;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 120px;
+            margin-left: 180px;
+            width: 80%;
+        }
+
+        .sections-container h2, .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        #processedPlaintext, #result {
+            font-weight: bold;
+            color: #0A0F24;
+            word-wrap: break-word; 
+        }
+
+        #processedPlaintextParagraph, #resultParagraph {
+            margin-bottom: 5px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 70%; 
+            color: #ffffff; 
+            margin-left: 5%;
+            margin-top: 30px;
+            margin-bottom: 200px;
+        }
+            
+        input[type="text"], textarea {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 字体样式 */
+            font-size: 15px; 
+            color: #0A0F24; 
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            resize: none;
+        }
+
+        input[type="text"] {
+            width: 65%;
+        }
+
+        .container h2 {
+            margin-top: -7px; 
+            text-align: left;
+            margin-left: -50px;
+        }
+
+        .container p {
+            margin-left: -50px;
+            color: #0A0F24;
+        }
+
+        #inputText {
+            width: 65%; 
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            min-height: 100px;
+        }
+
+        #inputText::-moz-placeholder {
+            font-weight: bold;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 40px;
+            max-height: 300px;
+        }
+
+        .section {
+            margin-left: 60px;
+        }
+
+        p {  
+            margin-bottom: 30px;  
+            text-align: left; 
+            font-size: 1.2em; 
+            line-height: 1.6; 
+            margin-bottom: 15px; 
+        }
+
+        h2 {  
+            margin-bottom: 10px;
+            font-size: 28px;  
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white; 
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3); 
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206); 
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24; 
+        }
+
+        p { 
+            text-align: center;  
+            margin-bottom: 30px;  
+        }
+
+        h2 {  
+            margin-bottom: 10px;  
+        }
+
+        h3 {
+            margin-top: 50px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px; 
+            margin-left: 0; 
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {  
+            background-color: #0A0F24;  
+            color: white;  
+        }  
+
+        .light-mode {  
+            background-color: white;  
+            color: #0A0F24; 
+        }
+
+        .dark-mode .container p{
+            color: #FFFFFF;
+        }
+
+
+        .light-mode .container {
+            color: #0A0F24; 
+        }
+
+        .light-mode .navbar, .light-mode {
+            background-color: #FFFFFF; 
+            color: #0A0F24; 
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent;
+            color: #0A0F24; 
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded; 
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24; 
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start; 
+        }
+
+        #languageIcon {
+            cursor: pointer; 
+            transition: color 0.3s ease; 
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2; 
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+            }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px; 
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            width: 100%;   
+            }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px; 
+        }
+
+        .footer {
+            position: relative; 
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: -25px;
+        }
+            
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.playfair,
+        figcaption.padding_rules {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative; 
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 85%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .cipher-matrix {
+            font-size: 20px;
+            letter-spacing: 5px; 
+            line-height: 1.5;
+            margin-left: -100px;
+        }
+
+        .highlight {
+            color: red; 
+            font-weight: bold; 
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .cipher-matrix {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+        
+        .language-list{
+            float: right;
+        }
+        .language-list a{
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover{
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px; 
+            }
+                
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 80%;
+            }
+
+            .section {
+                width: 120%;
+                padding: 10px;
+            }
+
+            .section h2 {
+                font-size: 1.2em; 
+            }
+
+            .section h3 {
+                font-size: 0.9em; 
+            }
+
+            .section h4 {
+                font-size: 0.8em; 
+            }
+
+            .section p {
+                font-size: 0.9em; 
+            }
+
+            .section li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            .container {
+                width: 100%; 
+                padding: 20px; 
+                font-size: 0.8em;
+            }
+
+            .container h2{
+                font-size: 1.5em;
+                margin-top: 10px;
+            }
+
+            input[type="text"] {
+                width: 78%; 
+            }
+
+            textarea {
+                width: 60%; 
+            }
+
+            .cipher-matrix {
+                margin-left: -210px;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -80px;
+            }
+
+            figcaption.playfair,
+            figcaption.padding_rules {
+                width: 100%;
+                margin-left: -90px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            #inputText {
+                width: 78%; 
+            }
+
+            #processedPlaintext, #result {
+                font-weight: bold;
+                color: #0A0F24;
+                word-wrap: break-word; 
+            }
+
+            .navbar ul {
+                width: 30%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 55%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; menú</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/es/chatcipherai.html">Mundo de Criptosistemas</a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/es/Caesar_Cipher.html">Cifrado César</a></li>
+                        <li><a href="https://chatcipherai.com/es/Playfair_Cipher.html">Cifrado Playfair</a></li>
+                        <li><a href="https://chatcipherai.com/es/Hill_Cipher.html">Cifrado Hill</a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/es/Hash_value_test.html">Prueba de Valor de Hash</a></li>
+                <li><a href="https://chatcipherai.com/es/Morsecode_main.html">Traductor de Código Morse</a></li>
+                <li><a href="https://chatcipherai.com/es/Shortcut_Key_Description.html">Descripción de Teclas de Acceso Directo</a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; idioma</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Playfair_Cipher.html" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Playfair_Cipher.html" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Playfair_Cipher.html" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Playfair_Cipher.html" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Playfair_Cipher.html" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Playfair_Cipher.html" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Playfair_Cipher.html" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Playfair_Cipher.html" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Playfair_Cipher.html" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Playfair_Cipher.html" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Playfair_Cipher.html" title="Nederlands">Nederlands</a></li>
+                </ul>
+            </div>
+
+            <h1>Explorador del Cifrado Playfair</h1>
+
+            <div class="style-selector">
+                <button id="darkStyle">🌙 Estilo Oscuro(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ Estilo Claro(<span class="highlight-key">L</span>)</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <div class="container">
+            <h2>Prueba el Cifrado Playfair</h2>
+            <p>Utiliza lo proporcionado a continuación para cifrar o descifrar un mensaje:</p>
+            <input type="text" id="key" placeholder="Introduce la clave" />
+            <textarea id="inputText" placeholder="Introduce el texto aquí"></textarea>
+            <button id="encryptButton">Cifrar(<span class="highlight-key">E</span>)</button>
+            <button id="decryptButton">Descifrar(<span class="highlight-key">D</span>)</button>
+            <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">Limpiar Todo(<span class="highlight-key">A</span>)</button>
+            <p>Conversión : <span id="processedPlaintext"></span></p>
+            <p>Resultado : <span id="result"></span></p>
+        </div>
+        
+
+        <section class="section">
+            <h2>El Pasado y Presente del Cifrado Playfair</h2>
+            <p>
+                El <a href="https://en.wikipedia.org/wiki/Playfair_cipher" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">Cifrado Playfair</a>, un método clásico de cifrado, cuenta con una historia y origen únicos. Inventado en 1854 por Charles Wheatstone, un científico británico renombrado por sus contribuciones en electricidad y óptica, fue nombrado no en honor a su inventor, sino en honor a su amigo, Lyon Playfair. Este último, que era el Secretario de Asuntos Exteriores británico en ese momento, promovió activamente el cifrado y facilitó su implementación práctica en las comunicaciones gubernamentales.
+            </p>
+            
+            <p>
+                El Cifrado Playfair, ampliamente utilizado en los siglos XIX y principios del XX, especialmente en comunicaciones militares, ganó notoriedad en el Ejército Británico durante la Primera Guerra Mundial, convirtiéndose en uno de los sistemas de cifrado manual más prevalentes de la época. A diferencia de otros métodos clásicos de cifrado, el Cifrado Playfair cifra pares de letras, conocidos como dígrafos, en lugar de letras individuales, mejorando su seguridad más allá de los simples cifrados de sustitución.
+            </p>
+            
+            <p>
+                El Cifrado Playfair emplea una matriz de 5x5 de alfabetos para su proceso de cifrado. Típicamente, esta matriz se llena utilizando una palabra clave, con los caracteres alfabéticos restantes dispuestos en secuencia. En el proceso de cifrado, el texto plano se segmenta en pares de letras, cada uno de los cuales se sustituye luego basándose en reglas específicas que consideran sus respectivas posiciones dentro de la matriz.
+            </p>
+            
+            <p>
+                La historia y los orígenes del Cifrado Playfair reflejan avances significativos en la criptografía y la tecnología de comunicación de mediados del siglo XIX. Su concepción influenció desarrollos subsiguientes en el campo de la criptografía, notablemente como uno de los primeros ejemplos de sustitución de doble letra. A pesar de su falta de relevancia en seguridad contemporánea, el Cifrado Playfair sigue siendo un tema vital en el estudio de técnicas clásicas de cifrado.
+            </p>
+            
+            <p>
+                Aunque ya no se emplea para comunicaciones seguras en tiempos contemporáneos, el Cifrado Playfair mantiene su importancia en los anales de la criptografía y se utiliza comúnmente como una herramienta didáctica introductoria, por ejemplo, para ayudar a los estudiantes a comprender la evolución de los métodos de cifrado. Además, su popularidad se extiende a juegos de rompecabezas, salas de escape y desafíos en línea, donde los participantes disfrutan resolviendo acertijos criptográficos. En el ámbito del geocaching, se encuentra uso en cachés misteriosos, donde los solucionadores descifran pistas para determinar la ubicación física del geocaché.
+            </p>
+            
+            <h2>¿Cómo se crea un Cifrado Playfair?</h2>
+            <p> Elige una clave, llena la matriz de 5x5 y sigue reglas específicas para el cifrado y descifrado.</p>
+            
+            <h3>Crea la matriz clave:</h3>
+            <ul>
+                <li>Elige una clave (generalmente una palabra o frase).</li>
+                <li>Elimina cualquier letra repetida de la clave.</li>
+                <li>Llena las letras de la clave en una matriz de 5x5 en orden.</li>
+                <li>Después de llenar la clave, llena las letras restantes (excluyendo las que ya están en la clave) en la matriz en orden.</li>
+                <li>En la versión en inglés del Cifrado Playfair, las letras 'I' y 'J' a menudo se tratan como el mismo carácter para ajustar las 26 letras en 25 espacios.</li>
+            </ul>
+            
+            <p>Supongamos que tenemos las siguientes condiciones:</p>
+            <ul>
+                <li>Clave:<strong> PLAYFAIR EXAMPLE</strong></li>
+                <li>Texto a cifrar:<strong> Hello World</strong></li>
+            </ul>
+            
+            <h3>Proceso de cifrado:</h3>
+            <p>
+                Primero, <strong>elimina cualquier letra repetida</strong> de la clave secreta e introduce secuencialmente la clave en mayúsculas 'PLAYFIR EXM' en la matriz clave. Luego, completa la matriz de 5x5 llenando los espacios restantes con las letras del alfabeto de 25 letras (teniendo en cuenta que 'J' es reemplazada por 'I') que no están incluidas en 'PLAYFIR EXM'.
+            </p>
+            
+            <h4>Matriz clave:</h4>
+            <pre class="cipher-matrix">
+                <span class="highlight">P</span> <span class="highlight">L</span> <span class="highlight">A</span> <span class="highlight">Y</span> <span class="highlight">F</span> 
+                <span class="highlight">I</span> <span class="highlight">R</span> <span class="highlight">E</span> <span class="highlight">X</span> <span class="highlight">M</span> 
+                B C D G H
+                K N O Q S
+                T U V W Z
+            </pre>
+            
+            <p>
+                Luego, organiza el texto plano. Forma parejas con cada dos letras. Si un par contiene dos letras idénticas una al lado de la otra, o si la última letra está sin pareja, inserta una 'X' para resolver el problema. En el ejemplo dado, la frase 'Hello World' se convierte en texto plano como 'HE LX LO WO RL DX'.
+            </p> 
+            
+            <h3>Reglas de cifrado:</h3>
+            <ul>
+                <li>Si dos caracteres no están en la misma fila o columna, los caracteres cifrados son aquellos que están diagonalmente opuestos entre sí.</li>
+                <li>Si dos caracteres están en la misma columna, los caracteres cifrados están directamente debajo de cada uno. Si un carácter está en la quinta fila, se envuelve a la primera fila.</li>
+                <li>Si dos caracteres están en la misma fila, los caracteres cifrados están inmediatamente a la derecha. De manera similar, si un carácter está en la quinta columna, se envuelve a la primera columna.</li>
+            </ul>
+            <p>
+                Ciertamente, usar un diagrama para ilustrar el proceso de cifrado es aconsejable. Alternativamente, puedes generar de manera conveniente y eficiente el texto plano y el Cifrado utilizando la herramienta de Cifrado Playfair proporcionada arriba.
+            </p>
+            
+            <figure>
+                <img src="./images/figure 1-playfair cipher encryption.jpg" alt="Vista detallada de la matriz clave del cifrado Playfair">
+                <figcaption class="playfair">Vista detallada de la matriz clave del cifrado Playfair</figcaption>
+            </figure>
+            
+            <h3>Proceso de Descifrado:</h3>
+            <p>
+                Para el descifrado, introducimos el texto cifrado y aplicamos las reglas del Cifrado Playfair en reversa. Utilizando la clave `PLAYFAIR EXAMPLE` para generar la matriz. El texto cifrado se utiliza directamente para el descifrado sin necesidad de preprocesamiento adicional. El descifrado se lleva a cabo utilizando una matriz de clave secreta para cada par de letras cifradas. Por ejemplo, con el primer par cifrado `DM`, localizamos sus posiciones en la matriz y revertimos las reglas de cifrado para recuperar el par original `HE`. Descifrando todos los pares de letras cifradas de esta manera, reconstruimos el texto original.
+            </p>
+            
+            <h2>¿Hay alguna película o programa de televisión sobre el Cifrado Playfair?</h2>
+            <p>
+                El cifrado Playfair es un tipo de tecnología de encriptación que alguna vez fue ampliamente utilizado. Aunque es bastante famoso en la historia, actualmente no hay películas o programas de televisión particularmente famosos que se centren específicamente en el cifrado Playfair.
+            </p>
+
+            <p>
+                Sin embargo, las películas y programas de televisión sobre criptografía no son poco comunes, a menudo involucran varios tipos de técnicas de encriptación y exploran temas como el espionaje, la inteligencia militar, historias de detectives o la búsqueda de tesoros.
+            </p>
+
+            <p>
+                Aunque puede que no haya muchas películas o series directamente sobre el cifrado Playfair, las audiencias interesadas en la criptografía, los rompecabezas y las historias de búsqueda de tesoros podrían encontrar muchas obras que contienen temas similares, donde la tecnología de encriptación a menudo juega un papel clave en la trama. Si te interesa la historia de la criptografía y el descifrado de códigos, podrías disfrutar de esas películas y programas que involucran rompecabezas complejos y mensajes codificados.
+            </p>
+
+            <h2>Cómo distinguir entre las letras "I" y "J"</h2>
+            <p>
+                En el Cifrado Playfair original, las letras "I" y "J" generalmente se consideran el mismo carácter. Este enfoque es principalmente porque el cifrado Playfair requiere una matriz de 5x5 para acomodar las letras, y dado que hay 26 letras en el alfabeto inglés, dos letras deben considerarse equivalentes para ajustarse a esta matriz de 25 celdas.
+            </p>
+            <h3>Cómo manejar "I" y "J":</h3>
+            <p>
+                <strong>Fusión:</strong> Al crear la matriz del cifrado, una práctica común es tratar "I" y "J" como el mismo carácter, eligiendo típicamente "I" para representar ambas letras. Esto significa que durante el proceso de codificación o decodificación, ya sea que el texto original fuera "I" o "J", será reemplazado por "I".
+            </p>
+            <p>
+                <strong>Codificación y Decodificación:</strong> Al encriptar o desencriptar mensajes usando el Cifrado Playfair, si el mensaje contiene "J", será reemplazado por "I". De manera similar, al desencriptar un mensaje y encontrarse con una "I", el decodificador necesita determinar basándose en el contexto si originalmente representaba una "I" o una "J".
+            </p>
+
+            <h3>El papel del contexto:</h3>
+            <p>
+                <strong>Flexibilidad de Decodificación:</strong> Durante el descifrado, el destinatario típicamente depende del contexto para interpretar correctamente la información. Por ejemplo, si el texto descifrado es "INDIA", y el contexto se refiere a un país, el destinatario puede discernir fácilmente que la palabra es correctamente "INDIA" en lugar de "JNDJA".
+            </p>
+            <p>
+                <strong>Instrucciones explícitas:</strong> A veces, para evitar confusión, el emisor puede especificar en el mensaje cómo se deben interpretar ciertas palabras o caracteres, especialmente en situaciones importantes o potencialmente engañosas.
+            </p>
+
+            <h3>Aplicaciones modernas:</h3>
+            <p>
+                En aplicaciones modernas, se pueden emplear métodos o estándares más complejos para abordar este tipo de problema, como el uso de una matriz extendida o diferentes estrategias de sustitución de caracteres. Sin embargo, para las implementaciones que siguen el Cifrado Playfair tradicional, la fusión de "I" y "J" sigue siendo un método efectivo y consagrado por el tiempo.
+            </p>
+            
+            <h2>Reglas de descifrado de "X" en el Cifrado Playfair</h2>
+            <p>
+                El Cifrado Playfair requiere una entrada de letras pareadas, por lo que cuando la longitud del texto es impar, típicamente se agrega un carácter de relleno para completar el último par de letras. El carácter de relleno más comúnmente utilizado es “X”. Manejar adecuadamente estas letras de relleno es un desafío en el proceso de descifrado del Cifrado Playfair.
+            </p>
+            <h3>Manejo post-descifrado:</h3>
+            <p>
+                <strong>Eliminación automática:</strong> Idealmente, si el “X” agregado durante el proceso de cifrado claramente no forma parte del texto original (por ejemplo, solo aparece entre letras duplicadas o al final del texto), entonces se puede eliminar automáticamente durante el descifrado. Esta estrategia generalmente maneja bien el "X" de relleno en medio del texto, pero puede eliminar erróneamente un "X" al final de una palabra.
+            </p>
+            <p>
+                <strong>Eliminación condicional:</strong> Para abordar el problema de eliminación errónea del "X" final, esta página web adopta un método de eliminación condicional, reteniendo el "X" al final y marcándolo en <strong>rojo</strong>, permitiendo a los usuarios decidir si eliminarlo basándose en el contexto o información adicional. Por ejemplo, si el texto descifrado termina con un “X”, y el par de letras antes de este “X” no puede formar un par de cifrado válido, entonces se puede inferir que este “X” es un carácter de relleno.
+            </p>
+            <figure>
+                <img src="./images/The X decryption rule in the Playfair Cipher.jpg" alt="Reglas de descifrado de 'X' en el Cifrado Playfair">
+                <figcaption class="padding_rules">Reglas de descifrado de "X" en el Cifrado Playfair</figcaption>
+            </figure>
+
+            <h3>Protocolos y Estandarización:</h3>
+            <p>
+                En las comunicaciones cifradas modernas, usualmente se adoptan protocolos complejos para controlar precisamente el formato y la estructura de los datos, incluyendo estrategias de relleno explícitas y mecanismos de desrelleno. Por ejemplo, algunos estándares de cifrado agregan un campo que indica la longitud del mensaje antes del mensaje para asegurar que el mensaje original pueda ser recuperado con precisión después del descifrado. Alternativamente, se utilizan mecanismos avanzados de procesamiento de lenguaje natural para diferenciar automáticamente cada palabra, determinando así si se debe retener el “X”.
+            </p>
+            <h3>Automatización y Algoritmos:</h3>
+            <p>
+                Los algoritmos de cifrado modernos, como el relleno PKCS#7, incluyen lógica compleja de relleno y desrelleno que se ejecuta automáticamente durante los procesos de cifrado y descifrado para asegurar la integridad y precisión de los datos. Estos algoritmos pueden identificar y eliminar automáticamente los caracteres de relleno sin intervención humana.
+            </p>
+        </section>
+    </main>
+   
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. Todos los derechos reservados.</p>
+            <p>
+                <a href="https://chatcipherai.com/es/Privacy_Policy.html" title="Privacy Policy">Política de Privacidad</a>
+                |
+                <a href="https://chatcipherai.com/es/Terms_of_Use.html" title="Terms of Use">Términos de Uso</a>
+                |
+                <a href="https://chatcipherai.com/es/About_Us.html" title="About Us">Sobre nosotros</a>
+                |
+                <a href="https://chatcipherai.com/es/Disclaimer.html" title="Disclaimer">Descargo de responsabilidad</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">Volver al Inicio</button>
+        </div> 
+    </footer>
+
+    <script>
+        let shortcutsEnabled = true;
+
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'E':
+                    encrypt();
+                    console.log('Encode triggered');
+                    break;
+                case 'D':
+                    decrypt();
+                    console.log('Decode triggered');
+                    break;
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+        function generateMatrix(key) {
+            const alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+            let matrix = new Set(key.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, ''));
+            alphabet.split('').forEach(char => matrix.has(char) || matrix.add(char));
+            return Array.from(matrix).join('').match(/.{1,5}/g).map(row => row.split(''));
+        }
+
+        function preprocessText(text, isEncrypting) {
+            text = text.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+            let processedText = "";
+
+            for (let i = 0; i < text.length; i += 2) {
+                let pair = text[i];
+                if (text[i] === text[i + 1]) {
+                    pair += 'X';
+                    i--;
+                } else {
+                    pair += text[i + 1] || 'X';
+                }
+                processedText += pair;
+            }
+
+            if (isEncrypting && processedText.length % 2 !== 0) {
+                processedText += 'X';
+            }
+
+            return processedText;
+        }
+
+        function findPosition(letter, matrix) {
+            for (let row = 0; row < matrix.length; row++) {
+                for (let col = 0; col < matrix[row].length; col++) {
+                    if (matrix[row][col] === letter) {
+                        return { row, col };
+                    }
+                }
+            }
+            return { row: -1, col: -1 };
+        }
+
+        function transformPair(pair, matrix, mode) {
+            let pos1 = findPosition(pair[0], matrix);
+            let pos2 = findPosition(pair[1], matrix);
+            let transformedPair = '';
+
+            if (pos1.row === pos2.row) {
+                // Same row
+                pos1.col = (pos1.col + mode + 5) % 5;
+                pos2.col = (pos2.col + mode + 5) % 5;
+            } else if (pos1.col === pos2.col) {
+                // Same column
+                pos1.row = (pos1.row + mode + 5) % 5;
+                pos2.row = (pos2.row + mode + 5) % 5;
+            } else {
+                // Rectangle
+                [pos1.col, pos2.col] = [pos2.col, pos1.col];
+            }
+
+            transformedPair += matrix[pos1.row][pos1.col];
+            transformedPair += matrix[pos2.row][pos2.col];
+
+            return transformedPair;
+        }
+
+        function transformText(text, matrix, mode) {
+            let transformedText = "";
+            for (let i = 0; i < text.length; i += 2) {
+                transformedText += transformPair(text.substr(i, 2), matrix, mode);
+            }
+            return transformedText;
+        }
+
+        function encrypt() {
+            const key = document.getElementById('key').value;
+            const inputText = document.getElementById('inputText').value;
+            const processedText = preprocessText(inputText, true);
+            document.getElementById('processedPlaintext').innerText = processedText;
+
+            const matrix = generateMatrix(key);
+            const encryptedText = transformText(processedText, matrix, 1);
+            document.getElementById('result').innerText = encryptedText;
+            document.getElementById("result").style.color = "blue";
+        }
+
+        function removePaddingX(decryptedText) {
+            let chars = decryptedText.split('');
+            for (let i = 1; i < chars.length - 1; i++) {
+                // Remove 'X' if it is between two identical letters
+                if (chars[i] === 'X' && chars[i - 1] === chars[i + 1]) {
+                    chars.splice(i, 1);
+                    i--; // Adjust index after removing 'X'
+                }
+            }
+            // Check if the last character is 'X' and if so, it is highlighted in red
+            if (chars[chars.length - 1] === 'X') {
+                return chars.join('').slice(0, -1) + '<span style="color: red;">X</span>';
+            }
+            return chars.join('');
+        }
+
+        function decrypt() {
+            const key = document.getElementById('key').value;
+            const inputText = document.getElementById('inputText').value.replace(/[^A-Z]/g, '');
+            const matrix = generateMatrix(key);
+            let decryptedText = transformText(inputText, matrix, -1);
+            decryptedText = removePaddingX(decryptedText); // Remove unnecessary 'X' characters
+            document.getElementById('result').innerHTML = decryptedText; // Use innerHTML to allow HTML rendering
+            document.getElementById("result").style.color = "#0A0F24"; // Set the default text color
+        }
+
+        document.getElementById('encryptButton').addEventListener('click', encrypt);
+        document.getElementById('decryptButton').addEventListener('click', decrypt);
+
+        document.getElementById('clearAllButton').addEventListener('click', clearAll);
+        function clearAll() {
+            document.getElementById('key').value = ''; 
+            document.getElementById('inputText').value = ''; 
+            document.getElementById('result').innerText = '';
+            document.getElementById('processedPlaintext').innerText = ''; 
+        }
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function() {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function() {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function(link) {
+            link.addEventListener('click', function() {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none" || moreContent.style.display === "") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            });
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function() {
+                if(window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'Volver al Inicio(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+    </script>
+</body>
+</html>
