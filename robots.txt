@@ -1,0 +1,3 @@
+User-agent: googlebot
+Disallow: 
+Sitemap: https://chatcipherai.com/sitemap.xml
