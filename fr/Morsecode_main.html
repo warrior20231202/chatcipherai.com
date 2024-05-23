@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>morsecode : La page bien plus que du codage</title>
+    <meta name="keywords" content="morse, code, communication, code morse, méthode Koch, caractères"/>
     <meta name="description"
         content="Tel un phare dans l'immense ciel étoilé, le Code Morse utilise des points et des tirets pour façonner d'anciens secrets à travers l'étendue des ondes radio, reliant le passé et le futur à travers les dimensions du temps et de l'espace.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -325,9 +326,9 @@
         }
 
         .play-button {
-            position: absolute;
-            left: 5px;
-            top: 190px;
+            position: absolute; 
+            top: -30px; 
+            left: 5px; 
         }
 
         #playStopButton {
@@ -765,11 +766,6 @@
                 width: 65px;
             }
 
-            .play-button {
-                margin-top: -42px;
-                margin-left: 1px;
-            }
-
             #darkStyle {
                 font-size: 0;
                 margin-left: 10px;
@@ -856,13 +852,13 @@
                 <textarea id="inputText" class="textarea-light" placeholder="Entrez le texte à encoder"></textarea>
                 <button class="copy-button icon-copy" onclick="copyToClipboard('inputText')">Copier</button>
                 <button id="clearAllButton" class="clear-all-button">Tout effacer(<span class="highlight-key">A</span>)</button>
-                <div class="play-button">
-                <button id="playStopButton"><span class="icon-play"></span>Jouer</button>
-                </div>
             </div>
             <button id="encodeButton" style="display: none;">Encoder</button>
     
             <div class="textarea-container">
+                <div class="play-button">
+                    <button id="playStopButton"><span class="icon-play"></span>Jouer</button>
+                </div>
                 <textarea id="morseCode" class="textarea-light" placeholder="Sortie en code Morse" readonly></textarea>
                 <button class="copy-button icon-copy" onclick="copyToClipboard('morseCode')">Copier</button>
             </div>

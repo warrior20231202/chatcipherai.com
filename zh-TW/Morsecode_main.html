@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>摩爾斯電碼：這個頁面不僅僅是編碼</title>
+    <meta name="keywords" content="摩爾斯,電碼,通信,摩爾斯電碼,科赫方法,特徵"/>
     <meta name="description"
         content="就像浩瀚星空中的燈塔，摩爾斯電碼使用點和劃來在無線電波的廣闊中編織古老的秘密，橫跨時間和空間的維度，連接過去與未來。">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -375,9 +376,9 @@
         }
 
         .play-button {
-            position: absolute;
-            left: 5px;
-            top: 190px;
+            position: absolute; 
+            top: -30px; 
+            left: 5px; 
         }
 
         #playStopButton {
@@ -815,11 +816,6 @@
                 width: 65px;
             }
 
-            .play-button {
-                margin-top: -42px;
-                margin-left: 1px;
-            }
-
             #darkStyle {
                 font-size: 0;
                 margin-left: 10px;
@@ -905,13 +901,13 @@
                 <textarea id="inputText" class="textarea-light" placeholder="輸入文本進行編碼"></textarea>
                 <button class="copy-button icon-copy" onclick="copyToClipboard('inputText')">複製</button>
                 <button id="clearAllButton" class="clear-all-button">清除全部(<span class="highlight-key">A</span>)</button>
-                <div class="play-button">
-                    <button id="playStopButton"><span class="icon-play"></span>播放</button>
-                </div>
             </div>
             <button id="encodeButton" style="display: none;">編碼</button>
     
             <div class="textarea-container">
+                <div class="play-button">
+                    <button id="playStopButton"><span class="icon-play"></span>播放</button>
+                </div>
                 <textarea id="morseCode" class="textarea-light" placeholder="摩爾斯電碼輸出" readonly></textarea>
                 <button class="copy-button icon-copy" onclick="copyToClipboard('morseCode')">複製</button>
             </div>

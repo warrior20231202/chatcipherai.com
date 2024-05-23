@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>morsecode: The page more than just encoding</title>
+    <meta name="keywords" content="morse,code,communication,morse code,koch method,characters"/>
     <meta name="description"
         content="Like a lighthouse in the vast starry sky, Morse Code uses dots and dashes to craft ancient secrets within radio waves' expanse, bridging past and future across the dimensions of time and space.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -325,9 +326,9 @@
         }
 
         .play-button {
-            position: absolute;
-            left: 5px;
-            top: 190px;
+            position: absolute; 
+            top: -30px; 
+            left: 5px; 
         }
 
         #playStopButton {
@@ -748,11 +749,6 @@
                 width: 65px;
             }
 
-            .play-button {
-                margin-top: -42px;
-                margin-left: 1px;
-            }
-
             #darkStyle {
                 font-size: 0;
                 margin-left: 10px;
@@ -838,13 +834,13 @@
                 <textarea id="inputText" class="textarea-light" placeholder="Enter text to encode"></textarea>
                 <button class="copy-button icon-copy" onclick="copyToClipboard('inputText')">Copy</button>
                 <button id="clearAllButton" class="clear-all-button">Clear <span class="highlight-key">A</span>ll</button>
-                <div class="play-button">
-                <button id="playStopButton"><span class="icon-play"></span>Play</button>
-                </div>
             </div>
             <button id="encodeButton" style="display: none;">Encode</button>
 
             <div class="textarea-container">
+                <div class="play-button">
+                    <button id="playStopButton"><span class="icon-play"></span>Play</button>
+                </div>
                 <textarea id="morseCode" class="textarea-light" placeholder="Morse Code Output" readonly></textarea>
                 <button class="copy-button icon-copy" onclick="copyToClipboard('morseCode')">Copy</button>
             </div>
@@ -1162,14 +1158,14 @@
         <div class="info">
             <p>© 2024 chatcipher Tools. All rights reserved.</p>
             <p>
-                <a href="https://chatcipherai.com/es/Privacy_Policy.html" title="Privacy Policy">Política de Privacidad</a>
+                <a href="https://chatcipherai.com/en/Privacy_Policy.html" title="Privacy Policy">Privacy Policy</a>
                 |
-                <a href="https://chatcipherai.com/es/Terms_of_Use.html" title="Terms of Use">Términos de Uso</a>
+                <a href="https://chatcipherai.com/en/Terms_of_Use.html" title="Terms of Use">Terms of Use</a>
                 |
-                <a href="https://chatcipherai.com/es/About_Us.html" title="About Us">Sobre nosotros</a>
+                <a href="https://chatcipherai.com/en/About_Us.html" title="About Us">About Us</a>
                 |
-                <a href="https://chatcipherai.com/es/Disclaimer.html" title="Disclaimer">Descargo de responsabilidad</a>
-            </p> 
+                <a href="https://chatcipherai.com/en/Disclaimer.html" title="Disclaimer">Disclaimer</a>
+            </p>  
             <button id="backToTop" onclick="scrollToTop()">Back to Top</button>
         </div>
     </footer>

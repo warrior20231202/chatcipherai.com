@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>morsecode: De pagina meer dan alleen coderen</title>
+    <meta name="keywords" content="morse, code, communicatie, morsecode, Koch methode, karakters"/>
     <meta name="description"
         content="Als een vuurtoren in de uitgestrekte sterrenhemel, gebruikt Morsecode punten en strepen om oude geheimen te vormen binnen de uitgestrektheid van radiogolven, bruggen bouwend tussen verleden en toekomst over de dimensies van tijd en ruimte.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -325,9 +326,9 @@
         }
 
         .play-button {
-            position: absolute;
-            left: 5px;
-            top: 190px;
+            position: absolute; 
+            top: -30px; 
+            left: 5px; 
         }
 
         #playStopButton {
@@ -749,11 +750,6 @@
                 width: 65px;
             }
 
-            .play-button {
-                margin-top: -42px;
-                margin-left: 1px;
-            }
-
             #darkStyle {
                 font-size: 0;
                 margin-left: 10px;
@@ -839,13 +835,13 @@
                 <textarea id="inputText" class="textarea-light" placeholder="Voer tekst in om te coderen"></textarea>
                 <button class="copy-button icon-copy" onclick="copyToClipboard('inputText')">Kopiëren</button>
                 <button id="clearAllButton" class="clear-all-button">Alles Wissen(<span class="highlight-key">A</span>)</button>
-                <div class="play-button">
-                <button id="playStopButton"><span class="icon-play"></span>Afspelen</button>
-                </div>
             </div>
             <button id="encodeButton" style="display: none;">Coderen</button>
     
             <div class="textarea-container">
+                <div class="play-button">
+                    <button id="playStopButton"><span class="icon-play"></span>Afspelen</button>
+                </div>
                 <textarea id="morseCode" class="textarea-light" placeholder="Morsecode Uitvoer" readonly></textarea>
                 <button class="copy-button icon-copy" onclick="copyToClipboard('morseCode')">Kopiëren</button>
             </div>

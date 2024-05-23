@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مورسكود: الصفحة التي تتجاوز مجرد التشفير</title>
+    <meta name="keywords" content="مورس, كود, اتصال, كود مورس, طريقة كوخ, شخصيات"/>
     <meta name="description" content="كمنارة في السماء النجمية الشاسعة، يستخدم رمز مورس النقاط والشرط لنسج أسرار قديمة ضمن اتساع موجات الراديو، مما يربط الماضي والمستقبل عبر أبعاد الزمان والمكان.">    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
@@ -324,9 +325,9 @@
         }
 
         .play-button {
-            position: absolute;
-            left: 5px;
-            top: 190px;
+            position: absolute; 
+            top: -30px; 
+            left: 5px; 
         }
 
         #playStopButton {
@@ -748,11 +749,6 @@
                 width: 65px;
             }
 
-            .play-button {
-                margin-top: -42px;
-                margin-left: 1px;
-            }
-
             #darkStyle {
                 font-size: 0;
                 margin-left: 10px;
@@ -838,13 +834,13 @@
                 <textarea id="inputText" class="textarea-light" placeholder="أدخل النص للتشفير"></textarea>
                 <button class="copy-button icon-copy" onclick="copyToClipboard('inputText')">نسخ</button>
                 <button id="clearAllButton" class="clear-all-button">مسح الكل(<span class="highlight-key">A</span>)</button>
-                <div class="play-button">
-                <button id="playStopButton"><span class="icon-play"></span>تشغيل</button>
-                </div>
             </div>
             <button id="encodeButton" style="display: none;">تشفير</button>
     
             <div class="textarea-container">
+                <div class="play-button">
+                    <button id="playStopButton"><span class="icon-play"></span>تشغيل</button>
+                </div>
                 <textarea id="morseCode" class="textarea-light" placeholder="ناتج رمز مورس" readonly></textarea>
                 <button class="copy-button icon-copy" onclick="copyToClipboard('morseCode')">نسخ</button>
             </div>
