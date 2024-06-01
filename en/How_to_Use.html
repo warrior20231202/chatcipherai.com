@@ -784,6 +784,11 @@
             .social-links i {
                 font-size: 12px;
             }
+
+            iframe {
+                width: 80%; /* Makes the video width responsive to the container width */
+                height: auto; /* Adjusts the height automatically based on the aspect ratio */
+            }
         }     
     </style>
 
@@ -811,7 +816,7 @@
             <div id="languageIcon">&#x2637; lang</div>
             <div id="languageItems">
                 <ul class="langUl">
-                    <li><a href="https://chatcipherai.com/en/Terms_of_Use" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/en/How_to_Use.html" title="English">English</a></li>
                 </ul>               
             </div>
 
@@ -892,48 +897,6 @@
     </footer> 
 
     <script>
-        function caesarCipher(str, shift) {
-        if (shift < 0) {
-            return caesarCipher(str, shift + 26);
-        }
-        let output = '';
-            for (let i = 0; i < str.length; i++) {
-                let char = str[i];
-                if (char.match(/[a-z]/i)) {
-                    let code = str.charCodeAt(i);
-
-                    if (code >= 65 && code <= 90) {
-                        char = String.fromCharCode(((code - 65 + shift) % 26) + 65);
-                    } else if (code >= 97 && code <= 122) {
-                        char = String.fromCharCode(((code - 97 + shift) % 26) + 97);
-                    }
-                }
-                output += char;
-            }
-            return output;
-        }
-        let encodedMessage = caesarCipher('Hello World!', 3);
-        console.log('Encoded:', encodedMessage);
-
-        // Decoding
-        let decodedMessage = caesarCipher(encodedMessage, -3);
-        console.log('Decoded:', decodedMessage);
-
-        function encode() {
-            let message = document.getElementById('inputMessage').value;
-            let shift = parseInt(document.getElementById('shiftValue').value);
-            let resultElement = document.getElementById('result');
-            resultElement.textContent = caesarCipher(message, shift);
-            resultElement.style.color = 'blue';
-        }
-
-        function decode() {
-            let message = document.getElementById('inputMessage').value;
-            let shift = parseInt(document.getElementById('shiftValue').value);
-            document.getElementById('result').textContent = caesarCipher(message, -shift);
-            document.getElementById('result').style.color = "#0A0F24";
-        }
-
         document.getElementById('menuIcon').addEventListener('click', function () {
             var navbarUl = document.querySelector('.navbar ul');
             if (navbarUl.style.display === 'flex') {
@@ -1006,30 +969,6 @@
             ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
         }
 
-        document.querySelectorAll('.learnMore').forEach(function(link) {
-            link.addEventListener('click', function() {
-                var targetId = this.getAttribute('data-target');
-                var moreContent = document.getElementById(targetId);
-                if (moreContent.style.display === "none" || moreContent.style.display === "") {
-                    moreContent.style.display = "block";
-                    this.textContent = "[Close]";
-                } else {
-                    moreContent.style.display = "none";
-                    this.textContent = "[Learn More]";
-                }
-            });
-        });
-
-        function clearAll() {
-            var inputMessage = document.getElementById('inputMessage');
-            var shiftValue = document.getElementById('shiftValue');
-            var result = document.getElementById('result');
-
-            inputMessage.value = '';
-            shiftValue.value = '';
-            result.textContent = '';
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             var navbar = document.querySelector('.navbar');
             window.onscroll = function() {
@@ -1065,16 +1004,6 @@
 
         window.onload = adjustButton;
         window.onresize = adjustButton;
-
-        function copyCode(elementId) {
-            var text = document.getElementById(elementId).innerText;
-            var elem = document.createElement("textarea");
-            document.body.appendChild(elem);
-            elem.value = text;
-            elem.select();
-            document.execCommand("copy");
-            document.body.removeChild(elem);
-        }
 
         let shortcutsEnabled = true;
 
@@ -1141,5 +1070,3 @@
     </div>
 </body>
 </html>
-
-    

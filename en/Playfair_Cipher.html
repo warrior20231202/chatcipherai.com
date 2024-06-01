@@ -1065,8 +1065,14 @@
     </footer>
 
     <script>
-        let shortcutsEnabled = true;
+            function toggleDetails(event) {
+        const details = event.querySelector('.details');
+        details.classList.toggle('hidden');
+        event.classList.toggle('active');
+    }
 
+
+        let shortcutsEnabled = true;
         function manageShortcuts(enable) {
             shortcutsEnabled = enable;
         }
