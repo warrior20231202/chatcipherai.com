@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caesar Cipher Explorer: Ancient Encryption Technique</title>
+    <meta name="keywords" content="caesar,cipher,shift,caesar cipher,letter,alphabet,encryption,steganography"/>
     <meta name="description" content="Embark on a journey with the Caesar Cipher Explorer, an immersive tool that breathes life into the ancient art of encryption, unfolding the secrets of a method as old as Julius Caesar's timeless legacy.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
@@ -402,14 +403,15 @@
         img {
             max-width: 70%;
             height: auto;
-            margin-left: -280px;
+            margin-left: -320px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         figcaption.caesar,
-        figcaption.frequency {
+        figcaption.frequency,
+        figcaption.steganography {
             width: 100%;
-            margin-left: -300px;
+            margin-left: -320px;
             color: #007bff;
             font-size: 1.2em;
             font-weight: bold;
@@ -1138,11 +1140,43 @@
             <p>Try using your own file path and run this code to see if you can decrypt a message encrypted with a Caesar Cipher.</p>
 
             <h2>Caesar Cipher and the cipher used by Caesar</h2>
-                <p>In Chapter 56 of Suetonius's <em><a href="https://en.wikipedia.org/wiki/The_Twelve_Caesars" target="_blank" style="color: #007bff; font-size: 1.0em;"> De Vita Caesarum</em></a>, the use of encryption techniques in Caesar's private letters is described:</p>
-                <blockquote>
-                    <p>"Extant et ad Ciceronem, item ad familiares domesticis de rebus, in quibus, si qua occultius perferenda erant, per notas scripsit, id est sic structo litterarum ordine, ut nullum verbum effici posset: quae si qui investigare et persequi velit, quartam elementorum litteram, id est D pro A et perinde reliquas commutet." ( Suetonius, <em>De Vita Caesarum: Divus Iulius</em>. The Latin Library, accessed June 1, 2024, <a href="https://www.thelatinlibrary.com/suetonius/suet.caesar.html" target="_blank" style="color: #007bff; font-size: 1.0em;">https://www.thelatinlibrary.com/suetonius/suet.caesar.html</a> )</p>
-                </blockquote>
-                <p>This content does not directly mention the modern concept of the Caesar Cipher, which involves simple letter shifting encryption. Instead, the encryption method used by Caesar was more akin to a transposition cipher, where the actual positions of the letters are changed to encrypt the message, distinctly different from the fixed shift of the Caesar Cipher. This encryption technique involves relatively complex rearrangement and substitution of letters, demonstrating a significant difference from the direct shift method of the modern Caesar Cipher</p>
+            <p>In Chapter 56 of Suetonius's <em><a href="https://en.wikipedia.org/wiki/The_Twelve_Caesars" target="_blank" style="color: #007bff; font-size: 1.0em;"> De Vita Caesarum</em></a>, the use of encryption techniques in Caesar's private letters is described:</p>
+            <blockquote>
+                <p>"Extant et ad Ciceronem, item ad familiares domesticis de rebus, in quibus, si qua occultius perferenda erant, per notas scripsit, id est sic structo litterarum ordine, ut nullum verbum effici posset: quae si qui investigare et persequi velit, quartam elementorum litteram, id est D pro A et perinde reliquas commutet." ( Suetonius, <em>De Vita Caesarum: Divus Iulius</em>. The Latin Library, accessed June 1, 2024, <a href="https://www.thelatinlibrary.com/suetonius/suet.caesar.html" target="_blank" style="color: #007bff; font-size: 1.0em;">https://www.thelatinlibrary.com/suetonius/suet.caesar.html</a> )</p>
+            </blockquote>
+            <p>This content does not directly mention the modern concept of the Caesar Cipher, which involves simple letter shifting encryption. Instead, the encryption method used by Caesar was more akin to a transposition cipher, where the actual positions of the letters are changed to encrypt the message, distinctly different from the fixed shift of the Caesar Cipher. This encryption technique involves relatively complex rearrangement and substitution of letters, demonstrating a significant difference from the direct shift method of the modern Caesar Cipher</p>
+
+            <h2>Steganography and Cryptography</h2>
+            <p>Explore the fascinating work of <a href="https://en.wikipedia.org/wiki/Johannes_Trithemius" target="_blank" style="color: #007bff; font-size: 1.0em;">Johannes Trithemius</a>, a Renaissance-era Benedictine monk and scholar from Germany. He is known for his seminal work, <em>Steganographia</em>, which delves into the realms of steganography and also touches upon cryptographic techniques in his other scholarly works.</p>
+            <p><em>Steganographia</em> is often misinterpreted as purely involving magical elements and summoning spirits. However, it cleverly encases a complex cryptographic system within its narratives. Below is an overview of the cryptographic content encrypted across its volumes:</p>
+            <ul>
+                <li><strong>Volumes One and Two:</strong> These volumes focus predominantly on encryption techniques. Initially perceived as guides for summoning spirits, they metaphorically represent intricate methods of cryptography. They describe innovative methods for transmitting hidden messages over long distances, a groundbreaking concept at the time.</li>
+                <li><strong>Volume Three:</strong> This volume extends some of the earlier themes but introduces more controversial discussions that deviate from the straightforward cryptography found in the first two volumes. It openly explores more spiritual and magical dimensions, which have been subject to varied interpretations through the ages.</li>
+            </ul>
+            <p>Through deeper analysis, Trithemius's work reveals that what appears as magical invocations are actually veiled descriptions of cryptographic methods, highlighting the relevance of cryptography similar to modern cryptographic practices.</p>
+            
+            <h3>Definitions and Basic Principles</h3>
+            <p>Steganography is the art of concealing information within non-sensitive media such as images, audio, or video files, rendering the information invisible to casual observers. The essence of steganography lies in obscuring the existence of the information, not just its content.</p>
+            <p>Cryptography, in contrast, involves converting plaintext information into a secure encrypted format that cannot be understood without the corresponding decryption key, relying on complex mathematical algorithms like public/private key mechanisms and symmetric encryption algorithms.</p>
+            
+            <h3>Technical Implementation and Applications</h3>
+            <p>The implementation of steganography typically involves encoding secret information into various parts of ordinary files, such as the pixels in images, videos, audio, or even text. This type of information hiding is achieved through subtle modifications, for example, fine-tuning the pixel values in an image, altering the least significant bit (LSB) of color values, or adding signals in audio files that are beyond human hearing frequencies. These modifications are below the threshold of human perception, so even when the information is transmitted or displayed, it remains undetectable to outside observers. The advantage of this method is that even direct visual observation cannot easily discern these subtle changes.</p>
+            <figure>
+                <img src="./images/steganography in practice.jpg" alt="An example of steganography showing a landscape photo with hidden information">
+                <figcaption class="steganography">Steganography in practice</figcaption>
+            </figure>
+            <p>The image above illustrates the concept of steganography. The left side of the image, labeled as 'normal,' shows no alterations and retains the original appearance of the landscape. Conversely, the right side demonstrates how text can be hidden using the LSB method, altering the image subtly enough to make the changes nearly invisible.</p>
+            
+            <p>Cryptography transforms sensitive information using cryptographic keys to create ciphertext. This encrypted format ensures that data remains secure and unintelligible to unauthorized entities, crucial for protecting communications and data across various systems.</p>
+            
+            <h3>Detection and Security</h3>
+            <p>The security of steganography primarily relies on its concealment. Once the use of steganography is suspected, specialized technical analyses, such as statistical analysis or pattern recognition, can be employed to attempt to uncover hidden information. However, if the steganographic method is well-designed, even experts may find it difficult to detect the concealed information.</p>
+            <p>The security of encryption technology depends on the strength of the encryption algorithms and the secure management of keys. Modern encryption methods, such as AES and RSA, are designed to withstand various types of attacks, including those from quantum computing. The confidentiality of the keys is critical to encryption security; once the keys are compromised, the encryption protection is broken.</p>
+
+            <h3>Appropriate Environments and Limitations</h3>
+            <p>Steganography is ideal for highly confidential scenarios, such as covert communications, where revealing the existence of the information could be detrimental. However, it is limited by the volume of data that can be effectively concealed. On the other hand, cryptography is versatile, suitable for securing data in a broad range of applications from financial transactions to personal data protection, though it demands rigorous key management to prevent security breaches.</p>
+            
+            <p>In summary, both steganography and cryptography play critical roles in the field of information security. They can be employed individually or in tandem to offer robust protection, tailored to specific security needs and the nature of the threats involved.</p>            
         </section>            
     </main>
 
