@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptosystem World: Well-known cryptosystem</title>
+    <meta name="keywords" content="chatcipher,cipher,hash,morsecode,caesar,playfair,hill"/>
+    <meta name="description"
+        content="Let's explore the amazing world of cryptography together, where you'll learn about world-renowned cryptography systems.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          "name": "Code Translator",
+          "description": "Explore the world of cryptography, unraveling the secrets of encryption and decryption, as mysterious and captivating as unveiling the ever-changing shadows and colors beneath the sunset.",
+          "thumbnailUrl": [
+            "https://chatcipherai.com/chatcipherai_thumbnail.jpg"
+          ],
+          "uploadDate": "2023-05-17",
+          "duration": "PT1M01S",
+          "publisher": {
+            "@type": "Person",
+            "name": "xinli"
+          },
+          "contentUrl": "https://www.youtube.com/watch?v=MMtu_Cp41Ns",
+          "embedUrl": "https://www.youtube.com/embed/MMtu_Cp41Ns",
+          "interactionStatistic": {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/WatchAction",
+            "userInteractionCount": 14
+          }
+        }
+    </script>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 20px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 13%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            background-color: #eeeeee;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 20px;
+            margin-left: 250px;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px; 
+        }
+
+        .sections-container h3,
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        p {
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .sections-container h3:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            margin-top: 80px;
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            
+            font-size: 22px;
+        }
+        
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            margin-left: 5px;
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: #fff;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar,
+        .light-mode .container {
+            background-color: rgba(10, 15, 36, 0.0);
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar ul {
+            background-color: rgba(255, 255, 255, 0);
+            color: #0A0F24;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 80%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100vw;
+            height: 750px;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            opacity: 0.8;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            z-index: 5;
+        }
+
+        #togglePlay {
+            background-color: transparent;
+        }
+
+        #togglePlay:hover{
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.Compare,
+        figcaption.caesar,
+        figcaption.playfair {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #start {
+            font-family: 'Arial', sans-serif;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+            
+        #start p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        #end {
+            font-family: 'Arial', sans-serif;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+            
+        #end p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .highlight-key { 
+            font-weight: 800;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                width: 100%;
+                padding: 10px;
+            }
+
+            .sections-container h3 {
+                font-size: 1.2em;
+            }
+
+            .sections-container p {
+                font-size: 0.9em;
+            }
+
+            .video-container {
+                width: 110%;
+            }
+
+            video {
+                width: 1200px;
+                height: auto;
+            }
+
+            .video-overlay {
+                font-size: 18px;
+            }
+
+            .section {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .section h3 {
+                font-size: 1.2em; 
+            }
+
+            h4 {
+                font-size: 0.8em; 
+            }
+
+            .section p {
+                font-size: 0.9em; 
+            }
+
+            section li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -80px;
+            }
+
+            figcaption.Compare,
+            figcaption.caesar,
+            figcaption.playfair {
+                width: 100%;
+                margin-left: -90px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0; /* Hide text */
+            }
+            #menuIcon::before {
+                content: '\2630'; /* Unicode character for ☰ */
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0; 
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px; /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+            
+            .sections-container {
+                margin-left: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; menu</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com"><strong>Cryptosystem World</strong></a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/en/Caesar_Cipher.html"><strong>Caesar Cipher</strong></a></li>
+                        <li><a href="https://chatcipherai.com/en/Playfair_Cipher.html"><strong>Playfair Cipher</strong></a></li>
+                        <li><a href="https://chatcipherai.com/en/Hill_Cipher.html"><strong>Hill Cipher</strong></a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/en/Hash_value_test.html"><strong>Hash Value Test</strong></a></li>
+                <li><a href="https://chatcipherai.com/en/Morsecode_main.html"><strong>Morse Code Translator</strong></a></li>
+                <li><a href="https://chatcipherai.com/en/Shortcut_Key_Description.html"><strong>Shortcut Key Description</strong></a></li>
+                <li><a href="https://chatcipherai.com/en/How_to_Use.html"><strong>How to Use</strong></a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; lang</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/chatcipherai" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/chatcipherai" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/chatcipherai" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/chatcipherai" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/chatcipherai" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/chatcipherai" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/chatcipherai" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/chatcipherai" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/chatcipherai" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/chatcipherai" title="Nederlands">Nederlands</a></li>
+                </ul>                
+            </div>
+                     
+            <h1 title="Code Translator">Well Known Cryptosystem</h1>
+            <div class="style-selector">  
+                <button id="darkStyle">🌙 <span class="highlight-key">N</span>ight Style</button> 
+                <button id="lightStyle">☀ <span class="highlight-key">L</span>ight Style</button> 
+            </div>
+        </nav>
+    </header>
+
+    <div class="video-container">
+        <video id="myVideo" autoplay loop muted playsinline style="opacity: 0.8;">
+            <source src="./video/Sunset.mp4" type="video/mp4">      
+        </video>
+        <div class="video-overlay">Explore the fascinating world of cryptography</div>
+    </div>
+
+    <main class="sections-container">
+        <button id="togglePlay" style="position: absolute; top: 680px; right: 20px;cursor: pointer;">Play/Pause</button>
+        
+        <section id="start" font-family: 'Arial', sans-serif;">
+            <p style=" font-size: 18px; line-height: 1.6;">
+                In the abyss of the digital world, encryption technology is like a dazzling magical barrier, protecting our most precious secrets with complex and elegant mechanisms. Rooted deeply in the fertile soil of mathematics and logic, this technology showcases the pinnacle of human intellect. It is not merely a collection of codes and algorithms but an art form, a profound philosophy……
+            </p>
+        </section>
+
+        <section id="hash-sha-256">
+            <h3>Understanding SHA-256: A Secure Hash Algorithm</h3>
+            <p>
+                <strong>SHA-256</strong>, part of the <strong>SHA-2 (Secure Hash Algorithm 2) family</strong>, is an encryption hash function designed by the National Security Agency (NSA) and published by the National Institute of Standards and Technology (NIST). Aimed at replacing the older SHA-1, SHA-256 offers enhanced security and is pivotal in various applications including TLS/SSL, PGP, SSH, IPsec, and blockchain technologies such as Bitcoin.
+            </p>
+            <p>
+                Regarded as one of the most secure hash algorithms, <strong>SHA-256</strong> plays a critical role in digital security and integrity checks. Despite the theoretical possibility of collisions, practically finding two distinct inputs that yield the same output hash is nearly impossible, making SHA-256 a robust tool against attacks.
+            </p>
+            <p>
+                As technology evolves, the continuous evaluation of SHA-256's security becomes essential. Our guide dives into the intricate details of SHA-256, ensuring readers grasp the importance of this algorithm in maintaining digital security. Of course, you can also use the page to<a href="https://chatcipherai.com/en/Hash_value_test.html" id="hash-value-test-link" class="hash-test-link" style="color: #007bff; font-size: 1.0em;" target="_blank" rel="noopener noreferrer"> test your Hash knowledge</a>.<strong>Code Translator</strong>
+            </p>
+            
+            <h4>Key Benefits and Applications of Hash Value Test</h4>
+            <ul>
+                <li>Understanding the characteristics and application domains of hash functions.</li>
+                <li>Insights into widely used hash functions and their operational principles.</li>
+                <li>Practical guide to using SHA-256 for verifying the integrity and authenticity of digital files.</li>
+                <li>Exploration of other mainstream hash functions and their mechanisms.</li>
+            </ul>
+            <figure>
+                <img src="./images/Compare Hash.jpg" alt="Code Translator" />
+                <figcaption class="Compare">Process of Comparing Hash Values</figcaption>
+            </figure>
+        </section>
+
+        <section id="introduction-to-morse-code">
+            <h3>Morse Code: The Pioneering Communication System of the 19th Century</h3>
+            <p><strong> Morse code </strong>, developed in the 1830s by the American artist and inventor Samuel Morse, revolutionized telecommunication by introducing a coding system using dots (short signals) and dashes (long signals) for encoding letters, numbers, and punctuation marks. This innovation facilitated transmission over telegraph lines, becoming a cornerstone for long-distance communication especially in maritime communication during the 19th and early 20th centuries.</p>
+        
+            <p>For a comprehensive exploration of Morse code, visit <a href="https://chatcipherai.com/en/Morsecode_main.html" title="Comprehensive Guide to Morse Code" style="color: #007bff; font-size: 1.0em;" target="_blank" rel="noopener noreferrer">Morse Code Translator </a> page.</p>
+        
+            <h4>Decoding Morse Code Signals</h4>
+            <p>The unique representation of characters in Morse code, through short and long signals, along with specific intervals, allows for clear communication across diverse platforms:</p>
+            <ul>
+                <li><strong>Dot (".")</strong>: Represents a short signal.</li>
+                <li><strong>Dash ("-")</strong>: Represents a long signal.</li>
+                <li><strong>Intra-character pause</strong>: Distinguishes between dots and dashes within a character.</li>
+                <li><strong>Inter-letter pause</strong>: Segregates letters for readability.</li>
+                <li><strong>Word separation pause</strong>: Differentiates words during communication.</li>
+            </ul>
+        
+            <h4>Morse Code's Lasting Impact</h4>
+            <p>Despite the advent of more advanced communication technologies, Morse code remains an emblematic figure in communication history, influencing numerous subsequent technologies and retaining a special place among radio enthusiasts and professionals in specific fields.</p>
+        
+            <p>Its simplicity and efficiency make Morse code a reliable alternative in scenarios where modern communication infrastructures are unavailable, bridging the gap between historical innovations and current practices for historians and technology enthusiasts alike.<strong>Code Translator</strong></p>
+        
+            <h4>Exploring Morse Code</h4>
+            <p>This page offers insights into:</p>
+            <ul>
+                <li>The historical evolution and significance of Morse code.</li>
+                <li>Understanding the operational dynamics of Morse code.</li>
+                <li>Technical aspects and applications of Morse code, including its alphabet.</li>
+            </ul>
+        </section>
+        
+        <section id="caesar-cipher">
+            <h3>Understanding the Caesar Cipher: Encryption, Decryption, and Cracking</h3> <!-- Change the header to H1 for the main topic and include relevant keywords -->
+            <p>
+                The <a href="https://chatcipherai.com/en/Caesar_Cipher.html" id="caesarCipherLink" title="Learn more about the Caesar Cipher" style="color: #007bff;" target="_blank" rel="noopener noreferrer">Caesar Cipher</a>,
+                named after Julius Caesar for his use in secure military communications, represents a fundamental substitution cipher technique.
+                In this method, letters in the plaintext are replaced by a letter a fixed number of positions down or up the alphabet.
+                Despite its simplicity, the Caesar Cipher was highly effective in an era of undering specific historical conditions and basic cryptanalytic techniques.
+            </p>
+            <p>
+                Today, while easily solved, the Caesar Cipher serves as a crucial teaching tool in cryptography, demonstrating basic ciphering techniques such as letter shifting.
+                It's an essential stepping stone for understanding more complex cryptographic systems and remains a point of interest for its historical significance and simplicity.<strong>Code Translator</strong>
+            </p>
+            <p>
+                This page will explore:
+                <ul>
+                    <li>The principles of Caesar cipher encryption and decryption.</li>
+                    <li>How to use online tools for encrypting or decrypting text.</li>
+                    <li>Techniques for cracking the Caesar cipher with Python.</li>
+                </ul>
+            </p>
+            <figure>
+                <img src="./images/figure 1-Caesar cipher schematic diagram.jpg" alt="Diagram illustrating the Caesar cipher process"> <!-- Use a descriptive alt text and a relative URL for the image -->
+                <figcaption class="caesar">Schematic Diagram of the Caesar Cipher</figcaption> <!-- Add a caption for better context -->
+            </figure>
+        </section>
+        
+        <section id="playfair-cipher-introduction">
+            <h3>Understanding the Playfair Cipher: A 19th Century Encryption Marvel</h3>
+            <p>The <strong>Playfair Cipher</strong>, a groundbreaking <a href="https://chatcipherai.com/en/Playfair_Cipher.html" style="color: #007bff;" target="_blank" rel="noopener noreferrer">manual symmetric encryption method</a>, was crafted by <a href="https://en.wikipedia.org/wiki/Charles_Wheatstone" style="color: #007bff;" target="_blank">Charles Wheatstone</a> in 1854. It stood out as the first to use a digraph substitution cipher, enhancing telegraphic communication security. Although Wheatstone was the inventor, it proudly bears the name of Lord Playfair, who was instrumental in its promotion.</p>
+        </section>
+        
+        <section id="playfair-cipher-application">
+            <h4>Global Adoption and Significance in Military Strategies</h4>
+            <p>Initially deemed too intricate by the British Foreign Office, the <strong>Playfair Cipher</strong> gained widespread acceptance within the British military during pivotal moments like the Second Boer War and World War I. By the 1940s, it saw international use by countries such as Australia, Germany, and New Zealand, proving essential during World War II.</p>
+        </section>
+        
+        <section id="playfair-cipher-modern-use">
+            <h4>Contemporary Usage: Educational and Entertainment Purposes</h4>
+            <p>The advent of modern computing has diminished the <strong>Playfair Cipher's</strong> security and effectiveness. Today, it serves primarily as a tool for educational purposes and entertainment cryptography, offering a gateway to the intriguing world of cipher techniques. <strong>Code Translator</strong>.In the process you will:</p>
+            <ul>
+                <li>Discover the operational principles behind the Playfair Cipher.</li>
+                <li>Step-by-step guidance on utilizing the Playfair Cipher to craft your personalized encryption key.</li>
+                <li>Employ our site's resources to validate your encryption and decryption endeavors.</li>
+            </ul>
+            <figure>
+                <img src="./images/figure 1-playfair cipher encryption.jpg" alt="Illustration of Playfair Cipher Key Matrix"> <!-- Updated with a relative path and descriptive alt text -->
+                <figcaption class="playfair">Detailed View of Playfair Cipher Key Matrix</figcaption>
+            </figure>
+        </section>
+        
+        <section id="hill-cipher" itemscope itemtype="http://schema.org/EducationalOrganization" >
+            <h3 itemprop="name">Understanding the Hill Cipher: A Comprehensive Guide</h3>
+
+            <article itemprop="description">
+                <p>The <strong>Hill Cipher</strong>, a pivotal encryption technique devised by Lester S. Hill in 1929, stands out in the realm of classical ciphers for its unique application of <strong>linear algebra</strong> and <strong>matrix theory</strong>. Unlike its predecessors, the Hill Cipher employs matrix multiplication for encryption, requiring the key: a matrix, to be invertible for the algorithm to function effectively.</p>
+        
+                <p>This <a href="https://chatcipherai.com/en/Hill_Cipher.html" id="HillCipherLink" target="_blank" style="color: #007bff;" target="_blank" rel="noopener noreferrer">advanced cipher technique</a> encrypts blocks of letters as single units, elevating its complexity and making it a significant departure from traditional substitution ciphers. Below, we delve into the mathematical underpinnings and operational mechanics of the Hill Cipher:</p>
+        
+                <ul>
+                    <li><strong>Matrix Representation of Characters:</strong> Assigns numerical values to letters (e.g., A=0, B=1, ..., Z=25) and divides messages into blocks, represented as n-dimensional vectors.</li>
+                    <li><strong>Key Matrix:</strong> An n x n matrix that must be invertible modulo 26 to ensure decipherability.</li>
+                    <li><strong>Encryption Process:</strong> Involves multiplying the key matrix by plaintext block vectors, modulo 26.</li>
+                    <li><strong>Decryption Process:</strong> Achieved by multiplying the encrypted vectors by the inverse of the key matrix, modulo 26.</li>
+                </ul>
+        
+                <p>The security of the Hill Cipher primarily hinges on the complexity of performing matrix inversion modulo 26. However, it remains susceptible to known-plaintext attacks and requires plaintext length adjustment to match the matrix size, often necessitating additional padding.</p>
+        
+                <p>Despite these vulnerabilities, the Hill Cipher is celebrated for its educational value in teaching the fundamentals of cryptography. While its practical use in contemporary applications may be limited, it serves as a crucial stepping stone in cryptography education and research.</p>
+        
+                <section>
+                    <h4>Learning Outcomes:</h4>
+                    <ul>
+                        <li>Master the working principle of the Hill cipher and its encryption steps.</li>
+                        <li>Learn the application of the Hill cipher in encrypting and decrypting messages.</li>
+                        <li>Understand the integral role of linear algebra and matrix theory in the Hill cipher.</li>
+                        <li>Understand the distinctions between the Hill cipher and the Playfair cipher.</li>
+                    </ul>
+                </section>
+            </article>
+        </section>
+
+        <section id="end" font-family: 'Arial', sans-serif;">
+            <p style=" font-size: 18px; line-height: 1.6;">
+                The true allure of encryption technology lies in its embodiment of humanity's relentless pursuit of freedom and privacy. In this world built on data, 
+                it reminds us that, despite the myriad of challenges, as long as we possess wisdom and courage, we can protect our most precious treasures in the digital age.
+            </p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a>                       
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. All rights reserved.<strong> Code Translator</strong></p>
+            <p><strong>chatcipher</strong>,<strong>hash</strong>,<strong>morsecode</strong>,<strong>caesar,<strong>playfair</strong>,<strong>Code Translator</strong></p>
+            <p>
+                <a href="https://chatcipherai.com/en/Privacy_Policy.html" title="Privacy Policy">Privacy Policy</a>
+                |
+                <a href="https://chatcipherai.com/en/Terms_of_Use.html" title="Terms of Use">Terms of Use</a>
+                |
+                <a href="https://chatcipherai.com/en/About_Us.html" title="About Us">About Us</a>
+                |
+                <a href="https://chatcipherai.com/en/Disclaimer.html" title="Disclaimer">Disclaimer</a>
+            </p>             
+            <button id="backToTop" onclick="scrollToTop()"><span class="highlight-key">B</span>ack to Top</button>
+        </div>
+    </footer>
+    
+    <script>
+        let shortcutsEnabled = true;
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'L':
+                    setStyle('light-mode');
+                    console.log('Light style activated');
+                    break;
+                case 'N':
+                    setStyle('dark-mode');
+                    console.log('Dark style activated');
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputElements = document.querySelectorAll('#inputMessage, #shiftValue');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        window.onresize = function () {
+            adjustButton()
+        };
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'light-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+        document.addEventListener('scroll', function () {
+            let scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+            var savedStyle = localStorage.getItem('style')
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            if (scrollHeight > 60) {
+                navbar.style.backgroundColor = savedStyle === 'dark-mode' ? '#0a0f24' : '#fff';
+                ul.style.backgroundColor = savedStyle === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+
+            } else {
+                navbar.style.backgroundColor = savedStyle === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.backgroundColor = savedStyle === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+            }
+        });
+
+        document.getElementById('togglePlay').addEventListener('click', function () {
+            var video = document.getElementById('myVideo');
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        });
+        document.getElementById('inputText').addEventListener('input', function () {
+            document.getElementById('morseCode').value = encodeToMorse(document.getElementById('inputText').value);
+        });
+
+        document.getElementById('inputMorse').addEventListener('input', function () {
+            document.getElementById('decodedText').value = decodeMorse(document.getElementById('inputMorse').value);
+        });
+
+        document.addEventListener('click', function (event) {
+            var navbar = document.querySelector('.navbar');
+            var menuIcon = document.getElementById('menuIcon');
+
+            if (menuIcon.contains(event.target)) {
+                navbar.classList.toggle('active');
+            } else {
+                navbar.classList.remove('active');
+            }
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            // updateButtonStyles();
+            updateNavbarStyles(style);
+            // updateTableStyle(style);
+            updateIntroduceStyle(style);
+        }
+
+        function updateIntroduceStyle(style) {
+            var introduces = document.querySelectorAll('.introduce');
+            introduces.forEach(function (introduce) {
+                if (style === 'dark-mode') {
+                    introduce.style.color = '#FFFFFF'; // White text for dark mode
+                } else {
+                    introduce.style.color = '#0A0F24'; // Black text for light mode
+                }
+            });
+        }
+
+        function updateNavbarStyles(style) {
+            let scrollHeight = document.documentElement.scrollTop || document.body.scrollTop;
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            if (scrollHeight > 60) {
+                navbar.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : '#fff';
+                ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+            } else {
+                navbar.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(10, 15, 36, 0.0)' : 'rgba(10, 15, 36, 0.0)';
+                ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+            }
+
+        }
+
+        function copyToClipboard(elementId) {
+            var copyText = document.getElementById(elementId);
+            copyText.select();
+            document.execCommand('copy');
+        }
+
+        document.querySelectorAll('.learnMore').forEach(function (link) {
+            link.onclick = function () {
+                var targetId = this.getAttribute('data-target');
+                var moreContent = document.getElementById(targetId);
+                if (moreContent.style.display === "none") {
+                    moreContent.style.display = "block";
+                    this.textContent = "[Close]";
+                } else {
+                    moreContent.style.display = "none";
+                    this.textContent = "[Learn More]";
+                }
+            };
+        });
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = '<span class="highlight-key">B</span>ack to Top';
+            }
+        }
+    </script>
+    <div style="display: none;">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LZTEEH0M4K"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-LZTEEH0M4K');
+    </script>
+    </div>
+</body>
+</html>
