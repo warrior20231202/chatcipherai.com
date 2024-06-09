@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caesar-Chiffre-Explorer: Antike Verschlüsselungstechnik</title>
+    <meta name="keywords" content="Cäsar,Chiffre,Verschiebung,Cäsar-Chiffre,Buchstabe,Alphabet,Verschlüsselung,Steganographie"/>
     <meta name="description" content="Begib dich auf eine Reise mit dem Caesar-Chiffre-Explorer, einem fesselnden Tool, das der antiken Kunst der Verschlüsselung Leben einhaucht und die Geheimnisse einer Methode enthüllt, die so alt ist wie Julius Caesars zeitloses Vermächtnis.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
@@ -402,14 +403,15 @@
         img {
             max-width: 75%;
             height: auto;
-            margin-left: -250px;
+            margin-left: -270px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         figcaption.caesar,
-        figcaption.frequency {
+        figcaption.frequency,
+        figcaption.steganography {
             width: 100%;
-            margin-left: -300px;
+            margin-left: -320px;
             color: #007bff;
             font-size: 1.2em;
             font-weight: bold;
@@ -528,6 +530,160 @@
             font-weight: 800;
         }
 
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px; /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,123,255,0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px; /* 曲线宽度 */
+            height: 100%;
+            background: #007bff; /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px; /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -120px; /* 将标题放到轴的正上方 */
+            left: 20%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
     @media screen and (max-width: 768px) {
         .navbar h1 {
             font-size: 18px;
@@ -583,7 +739,8 @@
         }
 
         figcaption.caesar,
-        figcaption.frequency {
+        figcaption.frequency,
+        figcaption.steganography {
             width: 100%;
             margin-left: -70px;
             color: #007bff;
@@ -698,7 +855,55 @@
         .social-links i {
             font-size: 12px;
         }
-        }   
+
+        .add {
+            width: 100%; /* 调整宽度为100%以适应较小的屏幕 */
+            margin-top: 20px; /* 减少上边距 */
+            margin-bottom: 20px; /* 减少下边距 */
+        }
+
+        .event {
+            width: 80%; /* 增加宽度以适应单列布局 */
+            padding: 10px 20px; /* 调整内边距 */
+        }
+
+        .left, .right {
+            left: 10%; /* 调整定位以居中显示 */
+            width: 80%; /* 增加宽度以填充更多空间 */
+        }
+
+        .right::before, .left::before {
+            left: 10px; /* 调整左侧箭头的位置 */
+            right: auto; /* 确保右侧箭头不会显示在错误的位置 */
+        }
+
+        .details {
+            padding: 15px 20px; /* 调整细节块的内边距 */
+        }
+
+        .node {
+            width: 15px; /* 调大点的大小 */
+            height: 15px; /* 调大点的大小 */
+            top: 5px; /* 增加点的顶部间距 */
+            left: 55%;
+            margin-left: -15px; /* 保持点居中，根据新的大小调整 */
+        }
+
+        .event {
+            margin-bottom: 15px; /* 增加事件块之间的间距 */
+            margin-left: -10px;
+        }
+
+        .s-curve {
+            left: 50%; /* 调整曲线的位置，保证其在屏幕中心 */
+        }
+
+        h3.cool-title {
+            top: -80px; /* 调整标题位置以更适应头部空间 */
+            font-size: 18px; /* 减小标题字体大小 */
+            left: 13%; /* 确保标题居中 */
+        }
+    }   
     </style>
 </head>
 
@@ -759,7 +964,50 @@
             
             <p>Ergebnis: <span id="result"></span></p>
         </section>
-        
+
+        <section class="add">
+            <h3 class="cool-title">Wunderbare Momente der Geschichte</h3>
+            <div class="s-curve"></div>
+            <div class="add">
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Um 100 v. Chr. (Späte Römische Republik)</h4>
+                        <p>Julius Caesar nutzte ausgiebig eine einfache Substitutionschiffre, bekannt als <strong>"Caesar-Chiffre"</strong>, um die Kommunikation zwischen sich selbst, seinen Generälen und seinen Legionen zu schützen.</p>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>2. Jahrhundert</h4>
+                        <p>Die von Caesar verwendete Chiffre ist in Suetons <em><strong>De Vita Caesarum</strong></em> dokumentiert (Latein; wörtlich "Über das Leben der Caesaren", allgemein bekannt als <em><strong>Die Zwölf Caesaren</strong></em>), wo erwähnt wird, wie Caesar geheime Nachrichten durch unregelmäßige Anordnung der Buchstaben sandte.</p>                        
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Mittelalter (500-1400 n. Chr.)</h4>
+                        <p>Im Mittelalter wurde auch in literarischen Werken die Verwendung einfacher Substitutionschiffren erwähnt. Zum Beispiel beschrieb <strong>Al-Kindi</strong> in seiner Abhandlung <em><strong>Risāla fī Istikhrāj al-Kutub al-Mu'ammāh</strong></em> (رسالة في استخراج الكتب المعماة; wörtlich: <em><strong>Über das Extrahieren verschleierter Korrespondenz</strong></em>, zeitgenössischer: <em><strong>Über das Entschlüsseln verschlüsselter Korrespondenz</strong></em>) detailliert die Methode der Frequenzanalyse, um Substitutionschiffren zu brechen.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Renaissance (14.-17. Jahrhundert)</h4>
+                        <p>Während der <strong><em>Renaissance</em></strong> in Europa gab es eine bedeutende Wiederbelebung des klassischen Wissens, einschließlich des Bereichs der Kryptographie. Diese Ära sah eine breitere Dokumentation und tiefere Studie kryptografischer Methoden, insbesondere <strong>Substitutionschiffren</strong>. Gelehrte zeigten starkes Interesse an der Verfeinerung und Erweiterung kryptografischen Wissens. Insbesondere wurde die <strong><em>Caesar-Chiffre</em></strong> umfassend aufgezeichnet, genutzt und entwickelt als Teil eines systematischen Bemühens, antike kryptografische Techniken zu erforschen und zu kodifizieren.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Informationszeitalter (21. Jahrhundert)</h4>
+                        <p>Im 21. Jahrhundert treiben fortschrittliche Informationstechnologien und Digitalisierung den gesellschaftlichen Fortschritt voran. Obwohl die Caesar-Chiffre für die Informationssicherheit nicht mehr sicher ist, behält sie ihre Relevanz in Kultur, Bildung und Technologie-Demonstrationen. Forscher setzen die Verfeinerung fort, indem sie ihre einzigartigen Merkmale erforschen.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="section">
             <h2>Willkommen in der Welt des Caesar-Chiffre</h2>
             <p>Dieses Reich verwebt Einfachheit und Intrige in der Kunst der Kryptographie. Entstanden aus den Praktiken von <a href="https://de.wikipedia.org/wiki/Gaius_Iulius_Caesar" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;"> Julius Caesar</a> dient dieser Chiffre als Beweis für die zeitlose Anziehungskraft geheimer Kommunikation. Sie basiert auf einem einfachen, aber genialen Prinzip – dem Verschieben der Buchstaben des Alphabets um eine feste Anzahl. Diese Verschiebung verwandelt gewöhnliche Nachrichten in kryptische Texte und hüllt Wörter in einen Schleier des Geheimnisvollen. Während wir in diese Welt eintauchen, entschlüsseln wir die Eleganz ihrer Einfachheit und die Freude daran, Nachrichten zu entschlüsseln, die einst undurchdringlich schienen. Der Caesar-Chiffre öffnet, obwohl einfach, das Tor zur breiteren, faszinierenden Welt der Kryptographie, in der jeder Buchstabe und jede Verschiebung eine wichtige Rolle im Tanz von Geheimhaltung und Entdeckung spielen.</p>
@@ -887,6 +1135,47 @@
             print("The key is: " + str(key))
             </code></pre>
             <p>Versuchen Sie, Ihren eigenen Dateipfad zu verwenden und diesen Code auszuführen, um zu sehen, ob Sie eine mit einem Caesar-Chiffre verschlüsselte Nachricht entschlüsseln können.</p>
+
+            <h2>Caesar-Chiffre und die von Caesar verwendete Chiffre</h2>
+            <p>In Kapitel 56 von Suetons <em><a href="https://en.wikipedia.org/wiki/The_Twelve_Caesars" target="_blank" style="color: #007bff; font-size: 1.0em;">De Vita Caesarum</em></a> wird die Verwendung von Verschlüsselungstechniken in Caesars privaten Briefen beschrieben:</p>
+            <blockquote>
+                <p>"Extant et ad Ciceronem, item ad familiares domesticis de rebus, in quibus, si qua occultius perferenda erant, per notas scripsit, id est sic structo litterarum ordine, ut nullum verbum effici posset: quae si qui investigare et persequi velit, quartam elementorum litteram, id est D pro A et perinde reliquas commutet." (Suetonius, <em>De Vita Caesarum: Divus Iulius</em>. The Latin Library, Zugriff am 1. Juni 2024, <a href="https://www.thelatinlibrary.com/suetonius/suet.caesar.html" target="_blank" style="color: #007bff; font-size: 1.0em;">https://www.thelatinlibrary.com/suetonius/suet.caesar.html</a> )</p>
+            </blockquote>
+            <p>Dieser Inhalt erwähnt nicht direkt das moderne Konzept der Caesar-Chiffre, das eine einfache Verschiebung der Buchstaben beinhaltet. Stattdessen war die von Caesar verwendete Verschlüsselungsmethode eher einer Transpositionschiffre ähnlich, bei der die tatsächlichen Positionen der Buchstaben verändert werden, um die Nachricht zu verschlüsseln, deutlich unterschiedlich von der festen Verschiebung der Caesar-Chiffre. Diese Verschlüsselungstechnik beinhaltet eine relativ komplexe Neuordnung und Substitution von Buchstaben, was einen signifikanten Unterschied zur direkten Verschiebungsmethode der modernen Caesar-Chiffre aufzeigt.</p>
+
+            <h2>Steganographie und Kryptographie</h2>
+            <p>Erkunden Sie die faszinierenden Arbeiten von <a href="https://en.wikipedia.org/wiki/Johannes_Trithemius" target="_blank" style="color: #007bff; font-size: 1.0em;">Johannes Trithemius</a>, einem Benediktinermönch und Gelehrten der Renaissance aus Deutschland. Er ist bekannt für sein bahnbrechendes Werk, <em>Steganographia</em>, das sich mit den Bereichen der Steganographie befasst und auch kryptographische Techniken in seinen anderen wissenschaftlichen Arbeiten berührt.</p>
+            <p><em>Steganographia</em> wird oft fälschlicherweise als rein magisch und geisterbeschwörend missverstanden. Es umschließt jedoch geschickt ein komplexes kryptographisches System innerhalb seiner Erzählungen. Unten ist ein Überblick über die kryptografischen Inhalte, die über seine Bände verschlüsselt sind:</p>
+            <ul>
+                <li><strong>Bände Eins und Zwei:</strong> Diese Bände konzentrieren sich überwiegend auf Verschlüsselungstechniken. Ursprünglich als Anleitungen zur Geisterbeschwörung wahrgenommen, repräsentieren sie metaphorisch komplizierte Methoden der Kryptographie. Sie beschreiben innovative Methoden zur Übermittlung versteckter Nachrichten über lange Distanzen, ein bahnbrechendes Konzept zu seiner Zeit.</li>
+                <li><strong>Band Drei:</strong> Dieser Band erweitert einige der früheren Themen, führt jedoch kontroversere Diskussionen ein, die von der geradlinigen Kryptographie der ersten beiden Bände abweichen. Er erkundet offen mehr spirituelle und magische Dimensionen, die im Laufe der Zeit unterschiedlich interpretiert wurden.</li>
+            </ul>
+            <p>Durch tiefergehende Analyse zeigt sich, dass das, was als magische Beschwörungen erscheint, tatsächlich verschleierte Beschreibungen kryptographischer Methoden sind, die die Relevanz der Kryptographie hervorheben, ähnlich modernen kryptographischen Praktiken.</p>
+
+            <h3>Definitionen und Grundprinzipien</h3>
+            <p>Steganographie ist die Kunst, Informationen in nicht-sensiblen Medien wie Bildern, Audio- oder Videodateien zu verbergen, sodass sie für den beiläufigen Betrachter unsichtbar sind. Das Wesen der Steganographie liegt darin, die Existenz der Information zu verschleiern, nicht nur ihren Inhalt.</p>
+            <p>Kryptographie hingegen beinhaltet die Umwandlung von Klartextinformationen in ein sicheres verschlüsseltes Format, das ohne den entsprechenden Entschlüsselungsschlüssel nicht verstanden werden kann, basierend auf komplexen mathematischen Algorithmen wie öffentlichen/privaten Schlüsselmechanismen und symmetrischen Verschlüsselungsalgorithmen.</p>
+            
+            <h3>Technische Umsetzung und Anwendungen</h3>
+            <p>Die Implementierung von Steganographie beinhaltet typischerweise das Einbetten geheimer Informationen in verschiedene Teile gewöhnlicher Dateien, wie die Pixel in Bildern, Videos, Audio oder sogar Text. Diese Art der Informationsverbergung wird durch subtile Modifikationen erreicht, zum Beispiel durch Feinabstimmung der Pixelwerte in einem Bild, Änderung des am wenigsten signifikanten Bits (LSB) der Farbwerte oder Hinzufügen von Signalen in Audio-Dateien, die über die Hörfrequenz des Menschen hinausgehen. Diese Modifikationen liegen unterhalb der Wahrnehmungsschwelle des Menschen, sodass die Informationen auch bei Übertragung oder Anzeige für Außenstehende nicht erkennbar bleiben. Der Vorteil dieser Methode besteht darin, dass selbst direkte visuelle Beobachtung diese subtilen Änderungen nicht leicht erkennen kann.</p>
+            <figure>
+                <img src="./images/steganography in practice.jpg" alt="Ein Beispiel für Steganographie, das ein Landschaftsfoto mit versteckten Informationen zeigt">
+                <figcaption class="steganography">Steganographie in der Praxis</figcaption>
+            </figure>
+            <p>Das obige Bild veranschaulicht das Konzept der Steganographie. Die linke Seite des Bildes, als 'normal' gekennzeichnet, zeigt keine Veränderungen und behält das ursprüngliche Aussehen der Landschaft bei. Im Gegensatz dazu demonstriert die rechte Seite, wie Text mithilfe der LSB-Methode verborgen werden kann, indem das Bild subtil genug verändert wird, um die Änderungen nahezu unsichtbar zu machen.</p>
+            
+            <p>Kryptographie wandelt sensible Informationen mithilfe von kryptographischen Schlüsseln in Chiffretext um. Dieses verschlüsselte Format stellt sicher, dass Daten sicher und für unbefugte Personen unverständlich bleiben, was für den Schutz von Kommunikation und Daten über verschiedene Systeme hinweg entscheidend ist.</p>
+            
+            <h3>Erkennung und Sicherheit</h3>
+            <p>Die Sicherheit der Steganographie basiert hauptsächlich auf ihrer Verbergung. Sobald der Einsatz von Steganographie vermutet wird, können spezialisierte technische Analysen wie statistische Analysen oder Mustererkennung eingesetzt werden, um versteckte Informationen aufzudecken. Ist die steganographische Methode jedoch gut konzipiert, finden selbst Experten es möglicherweise schwierig, die verborgenen Informationen zu erkennen.</p>
+            <p>Die Sicherheit der Verschlüsselungstechnologie hängt von der Stärke der Verschlüsselungsalgorithmen und der sicheren Verwaltung der Schlüssel ab. Moderne Verschlüsselungsmethoden, wie AES und RSA, sind darauf ausgelegt, verschiedenen Arten von Angriffen standzuhalten, einschließlich solchen aus der Quanteninformatik. Die Vertraulichkeit der Schlüssel ist entscheidend für die Sicherheit der Verschlüsselung; sobald die Schlüssel kompromittiert sind, ist der Verschlüsselungsschutz gebrochen.</p>
+
+            <h3>Geeignete Umgebungen und Einschränkungen</h3>
+            <p>Steganographie ist ideal für hochverHere's the completion of the translation:
+
+            <p>Steganographie ist ideal für hochvertrauliche Szenarien wie verdeckte Kommunikation, bei denen das Offenlegen der Existenz von Informationen schädlich sein könnte. Sie ist jedoch durch das Volumen der Daten begrenzt, die effektiv verborgen werden können. Andererseits ist Kryptographie vielseitig einsetzbar, geeignet für die Sicherung von Daten in einer breiten Palette von Anwendungen von Finanztransaktionen bis zum Schutz persönlicher Daten, obwohl sie eine strenge Schlüsselverwaltung erfordert, um Sicherheitsverletzungen zu verhindern.</p>
+
+            <p>Zusammenfassend spielen sowohl Steganographie als auch Kryptographie eine entscheidende Rolle im Bereich der Informationssicherheit. Sie können einzeln oder in Kombination eingesetzt werden, um robusten Schutz zu bieten, der auf spezifische Sicherheitsbedürfnisse und die Art der beteiligten Bedrohungen zugeschnitten ist.</p>
         </section>
     </main>
 
@@ -916,6 +1205,12 @@
     </footer>
 
     <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
         function caesarCipher(str, shift) {
         if (shift < 0) {
             return caesarCipher(str, shift + 26);

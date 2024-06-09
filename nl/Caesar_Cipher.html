@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caesar Cipher Verkenner: Oude Encryptietechniek</title>
+    <meta name="keywords" content="caesar,cijfer,verschuiving,caesar cijfer,letter,alfabet,encryptie,steganografie"/>
     <meta name="description" content="Begin aan een reis met de Caesar Cipher Verkenner, een meeslepende tool die leven inblaast in de oude kunst van encryptie, en de geheimen onthult van een methode zo oud als Julius Caesar's tijdloze nalatenschap.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
@@ -402,14 +403,15 @@
         img {
             max-width: 75%;
             height: auto;
-            margin-left: -250px;
+            margin-left: -280px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         figcaption.caesar,
-        figcaption.frequency {
+        figcaption.frequency,
+        figcaption.steganography {
             width: 100%;
-            margin-left: -300px;
+            margin-left: -320px;
             color: #007bff;
             font-size: 1.2em;
             font-weight: bold;
@@ -528,6 +530,160 @@
             font-weight: 800;
         }
 
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px; /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,123,255,0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px; /* 曲线宽度 */
+            height: 100%;
+            background: #007bff; /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px; /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -120px; /* 将标题放到轴的正上方 */
+            left: 20%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
     @media screen and (max-width: 768px) {
         .navbar h1 {
             font-size: 18px;
@@ -583,7 +739,8 @@
         }
 
         figcaption.caesar,
-        figcaption.frequency {
+        figcaption.frequency,
+        figcaption.steganography {
             width: 100%;
             margin-left: -70px;
             color: #007bff;
@@ -698,7 +855,55 @@
         .social-links i {
             font-size: 12px;
         }
-        }   
+
+        .add {
+            width: 100%; /* 调整宽度为100%以适应较小的屏幕 */
+            margin-top: 20px; /* 减少上边距 */
+            margin-bottom: 20px; /* 减少下边距 */
+        }
+
+        .event {
+            width: 80%; /* 增加宽度以适应单列布局 */
+            padding: 10px 20px; /* 调整内边距 */
+        }
+
+        .left, .right {
+            left: 10%; /* 调整定位以居中显示 */
+            width: 80%; /* 增加宽度以填充更多空间 */
+        }
+
+        .right::before, .left::before {
+            left: 10px; /* 调整左侧箭头的位置 */
+            right: auto; /* 确保右侧箭头不会显示在错误的位置 */
+        }
+
+        .details {
+            padding: 15px 20px; /* 调整细节块的内边距 */
+        }
+
+        .node {
+            width: 15px; /* 调大点的大小 */
+            height: 15px; /* 调大点的大小 */
+            top: 5px; /* 增加点的顶部间距 */
+            left: 55%;
+            margin-left: -15px; /* 保持点居中，根据新的大小调整 */
+        }
+
+        .event {
+            margin-bottom: 15px; /* 增加事件块之间的间距 */
+            margin-left: -10px;
+        }
+
+        .s-curve {
+            left: 50%; /* 调整曲线的位置，保证其在屏幕中心 */
+        }
+
+        h3.cool-title {
+            top: -80px; /* 调整标题位置以更适应头部空间 */
+            font-size: 18px; /* 减小标题字体大小 */
+            left: 13%; /* 确保标题居中 */
+        }
+    }   
     </style>
 </head>
 
@@ -758,8 +963,51 @@
             
             <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">Alles wissen(<span class="highlight-key">A</span>)</button>
             <p>Resultaat: <span id="result"></span></p>
-        </section>        
-
+        </section>
+        
+        <section class="add">
+            <h3 class="cool-title">Prachtige momenten in de geschiedenis</h3>
+            <div class="s-curve"></div>
+            <div class="add">
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Rond 100 v.Chr. (Late Romeinse Republiek)</h4>
+                        <p>Julius Caesar gebruikte uitgebreid een eenvoudige substitutiecode, bekend als de <strong>"Caesar Code"</strong>, om communicatie tussen hemzelf, zijn generaals en zijn legioenen te beschermen.</p>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>2e eeuw</h4>
+                        <p>De code gebruikt door Caesar is gedocumenteerd in Suetonius's <em><strong>De Vita Caesarum</strong></em> (Latijn; letterlijk "Over het Leven van de Caesars", algemeen bekend als <em><strong>De Twaalf Caesars</strong></em>), waarin vermeld staat hoe Caesar geheime berichten verzond door letters op een onregelmatige manier te rangschikken.</p>
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>De Middeleeuwen (500-1400 AD)</h4>
+                        <p>Tijdens de Middeleeuwen werd ook in literaire werken vermeld dat er gebruik werd gemaakt van eenvoudige substitutiecodes. Bijvoorbeeld, <strong>Al-Kindi</strong> in zijn verhandeling <em><strong>Risāla fī Istikhrāj al-Kutub al-Mu'ammāh</strong></em> (رسالة في استخراج الكتب المعماة; letterlijk: <em><strong>Over het extraheren van versluierde correspondentie</strong></em>, meer hedendaags: <em><strong>Over het ontcijferen van gecodeerde correspondentie</strong></em>) beschreef gedetailleerd de methode van frequentieanalyse om substitutiecodes te breken.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>De Renaissance (14e-17e eeuw)</h4>
+                        <p>Tijdens de <strong><em>Renaissance</em></strong> in Europa was er een significante heropleving van klassieke kennis, inclusief het veld van cryptografie. Dit tijdperk zag een bredere documentatie en diepere studie van cryptografische methoden, in het bijzonder <strong>substitutiecodes</strong>. Geleerden toonden een sterke interesse in het verfijnen en uitbreiden van cryptografische kennis. Opvallend, de <strong><em>Caesar Code</em></strong> werd uitgebreid opgetekend, gebruikt en ontwikkeld als onderdeel van een systematische poging om oude cryptografische technieken te verkennen en te codificeren.</p>
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Informatietijdperk (21e eeuw)</h4>
+                        <p>In de 21e eeuw stimuleren geavanceerde informatietechnologie en digitalisering de maatschappelijke vooruitgang. Hoewel de Caesar Code niet langer veilig is voor informatiebeveiliging, behoudt het zijn relevantie in cultuur, onderwijs en technologische showcases. Onderzoekers blijven het verfijnen door zijn unieke kenmerken te verkennen.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
         <section class="section">
             <h2>Welkom in de wereld van Caesar Cipher</h2>
             <p>Dit rijk verweeft eenvoud en intrige in de kunst van cryptografie. Voortkomend uit de praktijken van <a href="https://nl.wikipedia.org/wiki/Julius_Caesar" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">Julius Caesar</a>, dient deze cipher als getuigenis van de tijdloze aantrekkingskracht van geheime communicatie. Het werkt op een eenvoudig maar ingenieus principe – het verschuiven van de letters van het alfabet met een vast aantal. Deze verschuiving transformeert gewone berichten in cryptische teksten, en hult woorden in een sluier van mysterie. Terwijl we ons verdiepen in deze wereld, ontrafelen we de elegantie van zijn eenvoud en de vreugde van het decoderen van berichten die ooit ondoordringbaar leken. De Caesar Cipher, hoewel elementair, opent de poort naar de bredere, fascinerende wereld van cryptografie, waar elke letter en verschuiving een cruciale rol speelt in de dans van geheimhouding en ontdekking.</p>
@@ -888,6 +1136,45 @@
             print("The key is: " + str(key))
             </code></pre>
             <p>Probeer je eigen bestandspad te gebruiken en voer deze code uit om te zien of je een bericht dat met een Caesar Cipher is versleuteld, kunt ontcijferen.</p>
+
+            <h2>Caesar-cijfer en het door Caesar gebruikte cijfer</h2>
+            <p>In hoofdstuk 56 van Suetonius's <em><a href="https://en.wikipedia.org/wiki/The_Twelve_Caesars" target="_blank" style="color: #007bff; font-size: 1.0em;">De Vita Caesarum</em></a>, wordt het gebruik van encryptietechnieken in Caesars privébrieven beschreven:</p>
+            <blockquote>
+                <p>"Extant et ad Ciceronem, item ad familiares domesticis de rebus, in quibus, si qua occultius perferenda erant, per notas scripsit, id est sic structo litterarum ordine, ut nullum verbum effici posset: quae si qui investigare et persequi velit, quartam elementorum litteram, id est D pro A et perinde reliquas commutet." (Suetonius, <em>De Vita Caesarum: Divus Iulius</em>. The Latin Library, toegankelijk op 1 juni 2024, <a href="https://www.thelatinlibrary.com/suetonius/suet.caesar.html" target="_blank" style="color: #007bff; font-size: 1.0em;">https://www.thelatinlibrary.com/suetonius/suet.caesar.html</a>)</p>
+            </blockquote>
+            <p>Deze inhoud vermeldt niet direct het moderne concept van het Caesar-cijfer, dat eenvoudige letterverschuiving als encryptie omvat. In plaats daarvan was de door Caesar gebruikte encryptiemethode meer verwant aan een transpositiecijfer, waarbij de daadwerkelijke posities van de letters worden veranderd om het bericht te versleutelen, duidelijk verschillend van de vaste verschuiving van het Caesar-cijfer. Deze encryptietechniek omvat relatief complexe herschikking en vervanging van letters, wat een significant verschil toont met de directe verschuifmethode van het moderne Caesar-cijfer.</p>
+
+            <h2>Steganografie en Cryptografie</h2>
+            <p>Ontdek het fascinerende werk van <a href="https://en.wikipedia.org/wiki/Johannes_Trithemius" target="_blank" style="color: #007bff; font-size: 1.0em;">Johannes Trithemius</a>, een Benedictijnse monnik en geleerde uit de Renaissance-tijd uit Duitsland. Hij is bekend om zijn baanbrekende werk, <em>Steganographia</em>, dat zich verdiept in de gebieden van steganografie en ook cryptografische technieken aanraakt in zijn andere wetenschappelijke werken.</p>
+            <p><em>Steganographia</em> wordt vaak verkeerd geïnterpreteerd als puur betrokken bij magische elementen en het oproepen van geesten. Echter, het omvat slim een complex cryptografisch systeem binnen zijn verhalen. Hieronder volgt een overzicht van de cryptografische inhoud die versleuteld is over de volumes:</p>
+            <ul>
+                <li><strong>Deel Een en Twee:</strong> Deze delen richten zich voornamelijk op encryptietechnieken. Aanvankelijk gezien als gidsen voor het oproepen van geesten, vertegenwoordigen ze metaforisch ingewikkelde methoden van cryptografie. Ze beschrijven innovatieve methoden voor het overbrengen van verborgen berichten over lange afstanden, een baanbrekend concept destijds.</li>
+                <li><strong>Deel Drie:</strong> Dit deel breidt enkele van de eerdere thema's uit maar introduceert meer controversiële discussies die afwijken van de rechttoe rechtaan cryptografie gevonden in de eerste twee delen. Het verkent openlijk meer spirituele en magische dimensies, die door de eeuwen heen aan verschillende interpretaties onderhevig zijn geweest.</li>
+            </ul>
+            <p>Door diepere analyse onthult het werk van Trithemius dat wat lijkt op magische oproepingen eigenlijk versluierde beschrijvingen zijn van cryptografische methoden, waarbij de relevantie van cryptografie wordt benadrukt, vergelijkbaar met moderne cryptografische praktijken.</p>
+
+            <h3>Definities en Basisprincipes</h3>
+            <p>Steganografie is de kunst van het verbergen van informatie binnen niet-gevoelige media zoals afbeeldingen, audio of videobestanden, waardoor de informatie onzichtbaar wordt voor toevallige waarnemers. De essentie van steganografie ligt in het verhullen van het bestaan van de informatie, niet alleen de inhoud ervan.</p>
+            <p>Cryptografie daarentegen, houdt zich bezig met het omzetten van platte tekst informatie naar een beveiligd gecodeerd formaat dat niet te begrijpen is zonder de bijbehorende decryptiesleutel, waarbij vertrouwd wordt op complexe wiskundige algoritmes zoals publieke/private sleutelmechanismen en symmetrische encryptiealgoritmes.</p>
+
+            <h3>Technische Implementatie en Toepassingen</h3>
+            <p>De implementatie van steganografie omvat typisch het coderen van geheime informatie in verschillende delen van gewone bestanden, zoals de pixels in afbeeldingen, video's, audio of zelfs tekst. Dit type informatie verbergen wordt bereikt door subtiele aanpassingen, bijvoorbeeld het fijn afstellen van de pixelwaarden in een afbeelding, het wijzigen van de minst significante bit (LSB) van kleurwaarden, of het toevoegen van signalen in audiobestanden die buiten de menselijke gehoorfrequenties liggen. Deze aanpassingen zijn onder de drempel van menselijke waarneming, dus zelfs wanneer de informatie wordt verzonden of weergegeven, blijft deze ondetecteerbaar voor buitenstaanders. Het voordeel van deze methode is dat zelfs directe visuele waarneming deze subtiele veranderingen niet gemakkelijk kan onderscheiden.</p>
+            <figure>
+                <img src="./images/steganography in practice.jpg" alt="Een voorbeeld van steganografie met een landschapsfoto waarin verborgen informatie te zien is">
+                <figcaption class="steganography">Steganografie in de praktijk</figcaption>
+            </figure>
+            <p>De bovenstaande afbeelding illustreert het concept van steganografie. De linkerzijde van de afbeelding, gelabeld als 'normaal', toont geen veranderingen en behoudt het oorspronkelijke uiterlijk van het landschap. Daarentegen toont de rechterkant hoe tekst kan worden verborgen met behulp van de LSB-methode, waarbij de afbeelding subtiel genoeg wordt gewijzigd om de veranderingen bijna onzichtbaar te maken.</p>
+
+            <p>Cryptografie transformeert gevoelige informatie met behulp van cryptografische sleutels om ciphertext te creëren. Dit gecodeerde formaat zorgt ervoor dat gegevens veilig en onbegrijpelijk blijven voor onbevoegden, cruciaal voor de bescherming van communicatie en gegevens in verschillende systemen.</p>
+
+            <h3>Opsporing en Beveiliging</h3>
+            <p>De beveiliging van steganografie hangt voornamelijk af van het vermogen om te verbergen. Zodra het gebruik van steganografie wordt vermoed, kunnen gespecialiseerde technische analyses, zoals statistische analyse of patroonherkenning, worden ingezet om de verborgen informatie te proberen te ontdekken. Echter, als de steganografische methode goed is ontworpen, kunnen zelfs experts het moeilijk vinden om de verborgen informatie te detecteren.</p>
+            <p>De veiligheid van encryptietechnologie hangt af van de sterkte van de encryptiealgoritmes en het veilige beheer van sleutels. Moderne encryptiemethoden, zoals AES en RSA, zijn ontworpen om verschillende soorten aanvallen te weerstaan, inclusief die van quantum computing. De vertrouwelijkheid van de sleutels is cruciaal voor de beveiliging van encryptie; zodra de sleutels gecompromitteerd zijn, is de encryptiebeveiliging gebroken.</p>
+
+            <h3>Geschikte Omgevingen en Beperkingen</h3>
+            <p>Steganografie is ideaal voor zeer vertrouwelijke scenario's, zoals geheime communicatie, waarbij het onthullen van het bestaan van de informatie schadelijk kan zijn. Het is echter beperkt door de hoeveelheid gegevens die effectief verborgen kunnen worden. Aan de andere kant is cryptografie veelzijdig, geschikt voor het beveiligen van gegevens in een breed scala aan toepassingen van financiële transacties tot bescherming van persoonlijke gegevens, hoewel het een rigoureuze sleutelbeheer vereist om beveiligingsinbreuken te voorkomen.</p>
+
+            <p>Samenvattend spelen zowel steganografie als cryptografie kritieke rollen in het veld van informatiebeveiliging. Ze kunnen afzonderlijk of in tandem worden ingezet om robuuste bescherming te bieden, afgestemd op specifieke beveiligingsbehoeften en de aard van de betrokken bedreigingen.</p>
         </section>
     </main>
 
@@ -917,6 +1204,12 @@
     </footer>
 
     <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
         function caesarCipher(str, shift) {
         if (shift < 0) {
             return caesarCipher(str, shift + 26);

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explorador de Cifra de César: Técnica Antiga de Criptografia</title>
+    <meta name="keywords" content="César,cifra,deslocamento,cifra de César,letra,alfabeto,criptografia,esteganografia"/>
     <meta name="description" content="Embarque em uma jornada com o Explorador de Cifra de César, uma ferramenta imersiva que dá vida à arte antiga da criptografia, desvendando os segredos de um método tão antigo quanto o legado atemporal de Júlio César.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
@@ -407,9 +408,10 @@
         }
 
         figcaption.caesar,
-        figcaption.frequency {
+        figcaption.frequency,
+        figcaption.steganography {
             width: 100%;
-            margin-left: -300px;
+            margin-left: -320px;
             color: #007bff;
             font-size: 1.2em;
             font-weight: bold;
@@ -526,6 +528,160 @@
 
         .highlight-key { 
             font-weight: 800;
+        }
+
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px; /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,123,255,0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px; /* 曲线宽度 */
+            height: 100%;
+            background: #007bff; /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px; /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -120px; /* 将标题放到轴的正上方 */
+            left: 21%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
     @media screen and (max-width: 768px) {
@@ -698,7 +854,55 @@
         .social-links i {
             font-size: 12px;
         }
-        }   
+
+        .add {
+            width: 100%; /* 调整宽度为100%以适应较小的屏幕 */
+            margin-top: 20px; /* 减少上边距 */
+            margin-bottom: 20px; /* 减少下边距 */
+        }
+
+        .event {
+            width: 80%; /* 增加宽度以适应单列布局 */
+            padding: 10px 20px; /* 调整内边距 */
+        }
+
+        .left, .right {
+            left: 10%; /* 调整定位以居中显示 */
+            width: 80%; /* 增加宽度以填充更多空间 */
+        }
+
+        .right::before, .left::before {
+            left: 10px; /* 调整左侧箭头的位置 */
+            right: auto; /* 确保右侧箭头不会显示在错误的位置 */
+        }
+
+        .details {
+            padding: 15px 20px; /* 调整细节块的内边距 */
+        }
+
+        .node {
+            width: 15px; /* 调大点的大小 */
+            height: 15px; /* 调大点的大小 */
+            top: 5px; /* 增加点的顶部间距 */
+            left: 55%;
+            margin-left: -15px; /* 保持点居中，根据新的大小调整 */
+        }
+
+        .event {
+            margin-bottom: 15px; /* 增加事件块之间的间距 */
+            margin-left: -10px;
+        }
+
+        .s-curve {
+            left: 50%; /* 调整曲线的位置，保证其在屏幕中心 */
+        }
+
+        h3.cool-title {
+            top: -80px; /* 调整标题位置以更适应头部空间 */
+            font-size: 18px; /* 减小标题字体大小 */
+            left: 9%; /* 确保标题居中 */
+        }
+    }   
     </style>
 </head>
 
@@ -758,6 +962,49 @@
             
             <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">Limpar Tudo(<span class="highlight-key">A</span>)</button>
             <p>Resultado: <span id="result"></span></p>
+        </section>
+
+        <section class="add">
+            <h3 class="cool-title">Momentos maravilhosos da história</h3>
+            <div class="s-curve"></div>
+            <div class="add">
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Aproximadamente 100 a.C. (República Romana Tardia)</h4>
+                        <p>Júlio César usou extensivamente uma cifra de substituição simples, conhecida como <strong>"Cifra de César"</strong>, para proteger as comunicações entre ele, seus generais e suas legiões.</p>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Século II</h4>
+                        <p>A cifra usada por César está documentada em <em><strong>De Vita Caesarum</strong></em> de Suetônio (Latim; literalmente "Sobre a Vida dos Césares", comumente conhecido como <em><strong>Os Doze Césares</strong></em>), onde é mencionado como César enviava mensagens secretas organizando letras de maneira irregular.</p>                        
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Idade Média (500-1400 d.C.)</h4>
+                        <p>Durante a Idade Média, obras literárias também mencionavam o uso de cifras de substituição simples. Por exemplo, <strong>Al-Kindi</strong> em seu tratado <em><strong>Risāla fī Istikhrāj al-Kutub al-Mu'ammāh</strong></em> (رسالة في استخراج الكتب المعماة; literalmente: <em><strong>Sobre a Extração de Correspondência Obscurecida</strong></em>, mais contemporaneamente: <em><strong>Sobre a Descriptografia de Correspondência Criptografada</strong></em>) detalhou o método de usar análise de frequência para quebrar cifras de substituição.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Renascimento (séculos XIV-XVII)</h4>
+                        <p>Durante o <strong><em>Renascimento</em></strong> na Europa, houve um significativo renascimento do conhecimento clássico, incluindo o campo da criptografia. Essa era viu uma documentação mais ampla e um estudo mais profundo dos métodos criptográficos, particularmente <strong>cifras de substituição</strong>. Os estudiosos mostraram grande interesse em refinar e expandir o conhecimento criptográfico. Notavelmente, a <strong><em>Cifra de César</em></strong> foi extensivamente registrada, utilizada e desenvolvida como parte de um esforço sistemático para explorar e codificar técnicas criptográficas antigas.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Era da Informação (século XXI)</h4>
+                        <p>No século XXI, as avançadas tecnologias de informação e digitalização impulsionam o progresso social. Embora a Cifra de César já não seja segura para a segurança da informação, ela mantém relevância na cultura, educação e demonstrações tecnológicas. Os pesquisadores continuam a refinar-la explorando suas características únicas.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="section">
@@ -889,6 +1136,45 @@
             print("The key is: " + str(key))
             </code></pre>
             <p>Tente usar o seu próprio caminho de arquivo e execute este código para ver se você consegue decifrar uma mensagem criptografada com uma cifra de César.</p>
+
+            <h2>Cifra de César e a cifra usada por César</h2>
+            <p>No Capítulo 56 de <em><a href="https://en.wikipedia.org/wiki/The_Twelve_Caesars" target="_blank" style="color: #007bff; font-size: 1.0em;">De Vita Caesarum</em></a> de Suetônio, descreve-se o uso de técnicas de criptografia nas cartas privadas de César:</p>
+            <blockquote>
+                <p>"Extant et ad Ciceronem, item ad familiares domesticis de rebus, in quibus, si qua occultius perferenda erant, per notas scripsit, id est sic structo litterarum ordine, ut nullum verbum effici posset: quae si qui investigare et persequi velit, quartam elementorum litteram, id est D pro A et perinde reliquas commutet." (Suetônio, <em>De Vita Caesarum: Divus Iulius</em>. The Latin Library, acessado em 1 de junho de 2024, <a href="https://www.thelatinlibrary.com/suetonius/suet.caesar.html" target="_blank" style="color: #007bff; font-size: 1.0em;">https://www.thelatinlibrary.com/suetonius/suet.caesar.html</a> )</p>
+            </blockquote>
+            <p>Este conteúdo não menciona diretamente o conceito moderno da Cifra de César, que envolve a simples troca de letras. Em vez disso, o método de criptografia usado por César era mais semelhante a uma cifra de transposição, onde as posições reais das letras são alteradas para criptografar a mensagem, claramente diferente do deslocamento fixo da Cifra de César. Esta técnica de criptografia envolve uma rearranjo e substituição de letras relativamente complexos, demonstrando uma diferença significativa do método de deslocamento direto da Cifra de César moderna</p>
+
+            <h2>Esteganografia e Criptografia</h2>
+            <p>Explore o fascinante trabalho de <a href="https://en.wikipedia.org/wiki/Johannes_Trithemius" target="_blank" style="color: #007bff; font-size: 1.0em;">Johannes Trithemius</a>, um monge e estudioso beneditino da era do Renascimento na Alemanha. Ele é conhecido por seu trabalho seminal, <em>Steganographia</em>, que explora os domínios da esteganografia e também aborda técnicas criptográficas em seus outros trabalhos acadêmicos.</p>
+            <p><em>Steganographia</em> é frequentemente mal interpretado como envolvendo apenas elementos mágicos e invocação de espíritos. No entanto, ele habilmente encerra um sistema criptográfico complexo dentro de suas narrativas. Abaixo está um resumo do conteúdo criptográfico codificado em seus volumes:</p>
+            <ul>
+                <li><strong>Volume Um e Dois:</strong> Estes volumes focam predominantemente em técnicas de criptografia. Inicialmente percebidos como guias para invocação de espíritos, eles representam metaforicamente métodos intrincados de criptografia. Eles descrevem métodos inovadores para transmitir mensagens ocultas a longas distâncias, um conceito revolucionário na época.</li>
+                <li><strong>Volume Três:</strong> Este volume estende alguns dos temas anteriores, mas introduz discussões mais controversas que desviam da criptografia direta encontrada nos dois primeiros volumes. Ele explora abertamente dimensões mais espirituais e mágicas, que têm sido objeto de diversas interpretações ao longo dos tempos.</li>
+            </ul>
+            <p>Através de uma análise mais profunda, o trabalho de Trithemius revela que o que parece ser invocações mágicas são na verdade descrições veladas de métodos criptográficos, destacando a relevância da criptografia semelhante às práticas criptográficas modernas.</p>
+            
+            <h3>Definições e Princípios Básicos</h3>
+            <p>A esteganografia é a arte de ocultar informações dentro de mídias não sensíveis, como imagens, arquivos de áudio ou vídeos, tornando a informação invisível para observadores casuais. A essência da esteganografia reside em obscurecer a existência da informação, não apenas seu conteúdo.</p>
+            <p>Em contraste, a criptografia envolve converter informações em texto simples para um formato criptografado seguro, que não pode ser compreendido sem a chave de decriptação correspondente, dependendo de algoritmos matemáticos complexos como mecanismos de chave pública/privada e algoritmos de criptografia simétrica.</p>
+
+            <h3>Implementação Técnica e Aplicações</h3>
+            <p>A implementação da esteganografia geralmente envolve codificar informações secretas em várias partes de arquivos comuns, como os pixels em imagens, vídeos, áudios ou até mesmo textos. Esse tipo de ocultação de informações é alcançado por meio de modificações sutis, por exemplo, ajustando finamente os valores dos pixels em uma imagem, alterando o bit menos significativo (LSB) dos valores de cor, ou adicionando sinais em arquivos de áudio que estão além das frequências audíveis pelo ser humano. Essas modificações estão abaixo do limiar da percepção humana, portanto, mesmo quando a informação é transmitida ou exibida, ela permanece indetectável para observadores externos. A vantagem deste método é que até mesmo a observação visual direta não pode discernir facilmente essas mudanças sutis.</p>
+            <figure>
+                <img src="./images/steganography in practice.jpg" alt="Um exemplo de esteganografia mostrando uma foto de paisagem com informações ocultas">
+                <figcaption class="steganography">Esteganografia na prática</figcaption>
+            </figure>
+            <p>A imagem acima ilustra o conceito de esteganografia. O lado esquerdo da imagem, rotulado como 'normal', não mostra alterações e mantém a aparência original da paisagem. Por outro lado, o lado direito demonstra como o texto pode ser ocultado usando o método LSB, alterando a imagem de forma suficientemente sutil para tornar as mudanças quase invisíveis.</p>
+            
+            <p>A criptografia transforma informações sensíveis usando chaves criptográficas para criar um texto cifrado. Esse formato criptografado garante que os dados permaneçam seguros e ininteligíveis para entidades não autorizadas, crucial para proteger comunicações e dados em vários sistemas.</p>
+            
+            <h3>Detecção e Segurança</h3>
+            <p>A segurança da esteganografia depende principalmente de sua capacidade de ocultação. Uma vez que o uso da esteganografia é suspeito, análises técnicas especializadas, como análise estatística ou reconhecimento de padrões, podem ser empregadas para tentar descobrir informações ocultas. No entanto, se o método esteganográfico for bem projetado, até mesmo especialistas podem achar difícil detectar as informações ocultas.</p>
+            <p>A segurança da tecnologia de criptografia depende da força dos algoritmos de criptografia e do gerenciamento seguro das chaves. Métodos modernos de criptografia, como AES e RSA, são projetados para resistir a vários tipos de ataques, incluindo aqueles de computação quântica. A confidencialidade das chaves é crítica para a segurança da criptografia; uma vez que as chaves são comprometidas, a proteção criptográfica é quebrada.</p>
+
+            <h3>Ambientes Adequados e Limitações</h3>
+            <p>A esteganografia é ideal para cenários altamente confidenciais, como comunicações secretas, onde revelar a existência da informação poderia ser prejudicial. No entanto, ela é limitada pelo volume de dados que pode ser efetivamente ocultado. Por outro lado, a criptografia é versátil, adequada para proteger dados em uma ampla gama de aplicações, de transações financeiras à proteção de dados pessoais, embora exija um gerenciamento rigoroso de chaves para prevenir violações de segurança.</p>
+            
+            <p>Em resumo, tanto a esteganografia quanto a criptografia desempenham papéis críticos no campo da segurança da informação. Eles podem ser empregados individualmente ou em conjunto para oferecer proteção robusta, adaptada às necessidades específicas de segurança e à natureza das ameaças envolvidas.</p>
         </section>
     </main>
 
@@ -918,6 +1204,12 @@
     </footer>
 
     <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
         function caesarCipher(str, shift) {
         if (shift < 0) {
             return caesarCipher(str, shift + 26);

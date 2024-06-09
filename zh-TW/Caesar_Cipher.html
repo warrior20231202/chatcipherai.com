@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>凱撒密碼探索器：古代加密技術</title>
+    <meta name="keywords" content="凱撒,密碼,移位,凱撒密碼,字母,字母表,加密,隱寫術"/>
     <meta name="description" content="開始使用凱撒密碼探索器的旅程，這是一個使古老加密藝術栩栩如生的工具，展開了一種與尤利烏斯·凱撒永恆遺產一樣古老的方法的秘密。">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
@@ -428,14 +429,15 @@
         img {
             max-width: 75%;
             height: auto;
-            margin-left: -250px;
+            margin-left: -290px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         figcaption.caesar,
-        figcaption.frequency {
+        figcaption.frequency,
+        figcaption.steganography {
             width: 100%;
-            margin-left: -300px;
+            margin-left: -320px;
             color: #007bff;
             font-size: 1.2em;
             font-weight: bold;
@@ -537,6 +539,160 @@
             font-weight: 800;
         }
 
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px; /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,123,255,0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px; /* 曲线宽度 */
+            height: 100%;
+            background: #007bff; /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px; /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -120px; /* 将标题放到轴的正上方 */
+            left: 33%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
     @media screen and (max-width: 768px) {
         .section.interactive-tool {
             margin-left: -11px;
@@ -596,13 +752,14 @@
         img {
             max-width: 75%;
             height: auto;
-            margin-left: -80px;
+            margin-left: -60px;
         }
 
         figcaption.caesar,
-        figcaption.frequency {
+        figcaption.frequency,
+        figcaption.steganography {
             width: 100%;
-            margin-left: -90px;
+            margin-left: -70px;
             color: #007bff;
             font-size: 0.8em;
             font-weight: bold;
@@ -716,6 +873,58 @@
         .social-links i {
             font-size: 12px;
         }
+
+        .add {
+            width: 100%; /* 调整宽度为100%以适应较小的屏幕 */
+            margin-top: 20px; /* 减少上边距 */
+            margin-bottom: 20px; /* 减少下边距 */
+        }
+
+        .event {
+            width: 80%; /* 增加宽度以适应单列布局 */
+            padding: 10px 20px; /* 调整内边距 */
+        }
+
+        .left, .right {
+            left: 10%; /* 调整定位以居中显示 */
+            width: 80%; /* 增加宽度以填充更多空间 */
+        }
+
+        .right::before, .left::before {
+            left: 10px; /* 调整左侧箭头的位置 */
+            right: auto; /* 确保右侧箭头不会显示在错误的位置 */
+        }
+
+        .details {
+            padding: 15px 20px; /* 调整细节块的内边距 */
+        }
+
+        .node {
+            width: 15px; /* 调大点的大小 */
+            height: 15px; /* 调大点的大小 */
+            top: 5px; /* 增加点的顶部间距 */
+            left: 55%;
+            margin-left: -15px; /* 保持点居中，根据新的大小调整 */
+        }
+
+        .event {
+            margin-bottom: 15px; /* 增加事件块之间的间距 */
+            margin-left: -10px;
+        }
+
+        .s-curve {
+            left: 50%; /* 调整曲线的位置，保证其在屏幕中心 */
+        }
+
+        h3.cool-title {
+            top: -80px; /* 调整标题位置以更适应头部空间 */
+            font-size: 18px; /* 减小标题字体大小 */
+            left: 32%; /* 确保标题居中 */
+        }
+
+        .break-url a {
+            word-wrap: break-word;
+        }
     }
     </style>
 </head>
@@ -776,7 +985,50 @@
                 <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">清除全部(<span class="highlight-key">A</span>)</button>
                 <p>結果：<span id="result"></span></p>
             </section>
-            
+
+            <section class="add">
+                <h3 class="cool-title">歷史中的精彩時刻</h3>
+                <div class="s-curve"></div>
+                <div class="add">
+                    <div class="event left" onclick="toggleDetails(this)">
+                        <div class="node"></div>
+                        <div class="details hidden">
+                            <h4>約公元前100年（羅馬共和國晚期）</h4>
+                            <p>尤利烏斯·凱撒廣泛使用一種簡單的替換密碼，即<strong> “凱撒密碼” </strong>，來保護他與將軍和軍團之間的通信。</p>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="event right" onclick="toggleDetails(this)">
+                        <div class="node"></div>
+                        <div class="details hidden">
+                            <h4>2世紀</h4>
+                            <p>凱撒使用的密碼在蘇埃托尼烏斯的<em><strong> De Vita Caesarum </strong></em>（拉丁文，直譯為 “關於凱撒的生活” ，通常稱為<em><strong>《十二凱撒》</strong></em>）中有記載，其中提到凱撒通過不規則地排列字母來發送秘密信息。</p>
+                        </div>
+                    </div>
+                    <div class="event left" onclick="toggleDetails(this)">
+                        <div class="node"></div>
+                        <div class="details hidden">
+                            <h4>中世紀（公元500-1400年）</h4>
+                            <p>在中世紀，文學作品中也提到了使用簡單替換密碼。例如，<strong>阿爾·金迪</strong>在他的論文<em><strong> Risāla fī Istikhrāj al-Kutub al-Mu'ammāh </strong></em>（ رسالة في استخراج الكتب المعماة; 直譯為：<em><strong>關於解密加密書信的論文</strong></em>）中詳細介紹了使用頻率分析破解替換密碼的方法。</p>
+                        </div>
+                    </div>
+                    <div class="event right" onclick="toggleDetails(this)">
+                        <div class="node"></div>
+                        <div class="details hidden">
+                            <h4>文藝復興時期（14-17世紀）</h4>
+                            <p>在歐洲的<strong><em>文藝復興</em></strong>時期，古典知識，包括密碼學領域，得到了顯著的復興。這個時期廣泛記錄和深入研究了加密方法，特別是<strong>替換密碼</strong>。學者們表現出對完善和擴展密碼學知識的濃厚興趣。<strong><em>凱撒密碼</em></strong>在系統探索和編纂古代密碼技術的努力中被廣泛記錄、使用和發展。</p>
+                        </div>
+                    </div>
+                    <div class="event left" onclick="toggleDetails(this)">
+                        <div class="node"></div>
+                        <div class="details hidden">
+                            <h4>信息時代（21世紀）</h4>
+                            <p>在21世紀，先進的信息技術和數字化推動了社會進步。雖然凱撒密碼在信息安全方面已不再安全，但它在文化、教育和技術展示中仍具有相關性。研究人員通過探索其獨特特性不斷改進它。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section class="section">
                 <h2>歡迎來到凱撒密碼的世界</h2>
                 <p>這個領域將簡單性與密碼學藝術的神秘性交織在一起。起源於<a href="https://en.wikipedia.org/wiki/Julius_Caesar" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">尤利烏斯·凱撒</a>的實踐，這種密碼是秘密通信永恆魅力的證明。它基於一個簡單卻巧妙的原則——將字母表中的字母固定數量的偏移。這種位移將普通消息轉化為神秘的文本，用神秘的面紗掩蓋了文字。當我們深入這個世界時，我們揭開了它的簡單之美和解碼曾經看似難以穿透的消息的樂趣。凱撒密碼雖然基礎，但開啟了通往更廣闊、迷人的密碼學世界的大門，在這個世界中，每個字母和位移在保密和發現的舞蹈中扮演著關鍵角色。</p>
@@ -803,9 +1055,9 @@
                 <p>這些變體和相關技術各有特點，旨在提高加密方法的安全性或適應特定的加密需求。</p>         
             
                 <h2>如何在Python中實現凱撒密碼？</h2>
-                    <p>在Python中，您可以通過遍歷原始文本的每個字母，然後根據字母表和給定的偏移量計算每個字母的加密版本來實現。這可以方便地使用ASCII碼表來完成，例如，通過取字母的ASCII值與'a'的ASCII值之間的差值，加上一個偏移量，然後將結果轉換回字母。</p>
-                    <h3>凱撒密碼的Python代碼</h3>
-                    <p>以下是一個Python函數，演示了如何使用凱撒密碼技術來加密和解密文本。代碼包含注釋，以便更好地理解和適應。</p>
+                <p>在Python中，您可以通過遍歷原始文本的每個字母，然後根據字母表和給定的偏移量計算每個字母的加密版本來實現。這可以方便地使用ASCII碼表來完成，例如，通過取字母的ASCII值與'a'的ASCII值之間的差值，加上一個偏移量，然後將結果轉換回字母。</p>
+                <h3>凱撒密碼的Python代碼</h3>
+                <p>以下是一個Python函數，演示了如何使用凱撒密碼技術來加密和解密文本。代碼包含注釋，以便更好地理解和適應。</p>
             
                 <button class="copy-button" onclick="copyCode('codeBlock1')">複製</button>
                 
@@ -907,6 +1159,45 @@
                 <p>
                     嘗試使用您自己的文件路徑並運行此代碼，看看您是否能解密用凱撒密碼加密的訊息。
                 </p>
+
+                <h2>凱撒密碼和凱撒使用的密碼</h2>
+                <p>在蘇埃托尼烏斯的<em><a href="https://en.wikipedia.org/wiki/The_Twelve_Caesars" target="_blank" style="color: #007bff; font-size: 1.0em;"> De Vita Caesarum </em></a>第56章中，描述了凱撒私人信件中使用的加密技術：</p>
+                <blockquote>
+                    <p>"Extant et ad Ciceronem, item ad familiares domesticis de rebus, in quibus, si qua occultius perferenda erant, per notas scripsit, id est sic structo litterarum ordine, ut nullum verbum effici posset: quae si qui investigare et persequi velit, quartam elementorum litteram, id est D pro A et perinde reliquas commutet." ( 蘇埃托尼烏斯, <em> De Vita Caesarum: Divus Iulius </em>. 拉丁圖書館, 訪問於2024年6月1日, <a href="https://www.thelatinlibrary.com/suetonius/suet.caesar.html" target="_blank" style="color: #007bff; font-size: 1.0em;">https://www.thelatinlibrary.com/suetonius/suet.caesar.html</a> )</p>
+                </blockquote>
+                <p>這一內容並未直接提及現代的凱撒密碼概念，即簡單的字母移位加密。相反，凱撒使用的加密方法更類似於換位密碼，通過改變字母的位置來加密信息，這與凱撒密碼的固定移位明顯不同。這種加密技術涉及相對複雜的字母重排和替換，顯示出與現代凱撒密碼的直接移位方法的顯著差異。</p>
+
+                <h2>隱寫術與密碼術</h2>
+                <p>探索<em><a href="https://en.wikipedia.org/wiki/Johannes_Trithemius" target="_blank" style="color: #007bff; font-size: 1.0em;"> Johannes Trithemius </a></em>的精彩著作，這位文藝復興時期的德國本篤會僧侶和學者因其開創性的著作<em> Steganographia </em>而聞名，該書深入探討了隱寫術，並在其他學術作品中涉及密碼術技術。</p>
+                <p><em> Steganographia </em>常被誤解為純粹涉及魔法元素和召喚靈魂。然而，它巧妙地在敘述中包含了複雜的密碼系統。以下是加密在各卷中的密碼內容概述：</p>
+                <ul>
+                    <li><strong>第一卷和第二卷：</strong>這兩卷主要集中在加密技術上。最初被認為是召喚靈魂的指南，它們實際上象徵性地描述了複雜的密碼學方法。它們描述了在長距離傳輸隱藏信息的創新方法，這在當時是一個突破性的概念。</li>
+                    <li><strong>第三卷：</strong>這一卷延續了前兩卷的一些主題，但引入了更多的爭議性討論，偏離了前兩卷中直接的密碼學內容。它公開探討了更多精神和魔法層面的內容，這些內容在不同的時代受到了各種解釋。</li>
+                </ul>
+                <p>通過深入分析，Trithemius 的作品揭示了看似魔法的咒語實際上是密碼學方法的隱藏描述，強調了與現代密碼學實踐相似的密碼學相關性。</p>
+
+                <h3>定義與基本原理</h3>
+                <p>隱寫術是一種在非敏感媒體（如圖像、音頻或視頻文件）中隱藏信息的藝術，使信息對普通觀察者不可見。隱寫術的本質在於掩蓋信息的存在，而不僅僅是其內容。</p>
+                <p>相對而言，密碼術涉及將明文信息轉換為安全的加密格式，沒有相應的解密密鑰無法理解這些信息。它依賴於複雜的數學算法，如公鑰/私鑰機制和對稱加密算法。</p>
+
+                <h3>技術實現與應用</h3>
+                <p>隱寫術的實現通常涉及將秘密信息編碼到普通文件的各個部分，如圖像、視頻、音頻甚至文本中。通過細微的修改實現信息隱藏，例如微調圖像中的像素值，改變顏色值的最低有效位（LSB），或在音頻文件中添加超出人耳聽覺頻率的信號。這些修改在人的感知閾值之下，因此即使信息被傳輸或顯示，也不會被外部觀察者察覺。此方法的優點在於，即使直接目視觀察也難以察覺這些細微的變化。</p>
+                <figure>
+                    <img src="./images/steganography in practice.jpg" alt="隱寫術的實際應用">
+                    <figcaption class="steganography">隱寫術的實際應用</figcaption>
+                </figure>
+                <p>上圖展示了隱寫術的概念。圖像左側標記為“正常”，顯示了未經過任何修改的原始風景照片。相反，右側展示了如何使用LSB方法隱藏文本，圖像的變化細微到幾乎不可見。</p>
+
+                <p>密碼術通過使用加密密鑰將敏感信息轉換為密文。這種加密格式確保數據保持安全，對未經授權的實體不可讀，這對於保護各系統間的通信和數據至關重要。</p>
+
+                <h3>檢測與安全性</h3>
+                <p>隱寫術的安全性主要依賴於其隱藏性。一旦懷疑使用了隱寫術，可以採用統計分析或模式識別等專業技術分析來試圖發現隱藏的信息。然而，如果隱寫方法設計得當，即使是專家也可能難以檢測到隱藏的信息。</p>
+                <p>加密技術的安全性取決於加密算法的強度和密鑰的安全管理。現代加密方法，如AES和RSA，旨在抵禦各種攻擊，包括量子計算的攻擊。密鑰的機密性對加密安全至關重要；一旦密鑰被洩露，加密保護就被破壞。</p>
+
+                <h3>適用環境與局限性</h3>
+                <p>隱寫術非常適用於高度機密的場景，如秘密通信，在這些場景下暴露信息的存在可能是有害的。然而，它在能有效隱藏的數據量上有限制。另一方面，密碼術用途廣泛，適用於從金融交易到個人數據保護的各種應用，儘管它需要嚴格的密鑰管理以防止安全漏洞。</p>
+
+                <p>總之，隱寫術和密碼術在信息安全領域都扮演著關鍵角色。它們可以單獨使用或結合使用，以提供強大的保護，針對特定的安全需求和所涉及的威脅類型進行定制。</p>
             </section>
         </main>
 
@@ -936,6 +1227,12 @@
         </footer>
 
     <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
         function caesarCipher(str, shift) {
         if (shift < 0) {
             return caesarCipher(str, shift + 26);

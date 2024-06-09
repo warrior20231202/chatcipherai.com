@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مستكشف تشفير قيصر: تقنية التشفير القديمة</title>
+    <meta name="keywords" content="قيصر,تشفير,إزاحة,تشفير قيصر,حرف,أبجدية,تشفير,ستيغانوغرافيا"/>
     <meta name="description" content="انطلق في رحلة مع مستكشف تشفير قيصر، أداة تفاعلية تنبض بالحياة في فن التشفير القديم، تكشف أسرار طريقة قديمة بقدر إرث يوليوس قيصر الخالد.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
@@ -407,9 +408,10 @@
         }
 
         figcaption.caesar,
-        figcaption.frequency {
+        figcaption.frequency,
+        figcaption.steganography {
             width: 100%;
-            margin-left: -300px;
+            margin-left: -320px;
             color: #007bff;
             font-size: 1.2em;
             font-weight: bold;
@@ -528,6 +530,160 @@
             font-weight: 800;
         }
 
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px; /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,123,255,0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px; /* 曲线宽度 */
+            height: 100%;
+            background: #007bff; /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px; /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -120px; /* 将标题放到轴的正上方 */
+            left: 33%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
     @media screen and (max-width: 768px) {
         .navbar h1 {
             font-size: 18px;
@@ -573,7 +729,8 @@
         }
 
         figcaption.caesar,
-        figcaption.frequency {
+        figcaption.frequency,
+        figcaption.steganography {
             width: 100%;
             margin-left: -70px;
             color: #007bff;
@@ -688,7 +845,55 @@
         .social-links i {
             font-size: 12px; /* 缩小图标大小 */
         }
-        }   
+
+        .add {
+            width: 100%; /* 调整宽度为100%以适应较小的屏幕 */
+            margin-top: 20px; /* 减少上边距 */
+            margin-bottom: 20px; /* 减少下边距 */
+        }
+
+        .event {
+            width: 80%; /* 增加宽度以适应单列布局 */
+            padding: 10px 20px; /* 调整内边距 */
+        }
+
+        .left, .right {
+            left: 10%; /* 调整定位以居中显示 */
+            width: 80%; /* 增加宽度以填充更多空间 */
+        }
+
+        .right::before, .left::before {
+            left: 10px; /* 调整左侧箭头的位置 */
+            right: auto; /* 确保右侧箭头不会显示在错误的位置 */
+        }
+
+        .details {
+            padding: 15px 20px; /* 调整细节块的内边距 */
+        }
+
+        .node {
+            width: 15px; /* 调大点的大小 */
+            height: 15px; /* 调大点的大小 */
+            top: 5px; /* 增加点的顶部间距 */
+            left: 55%;
+            margin-left: -15px; /* 保持点居中，根据新的大小调整 */
+        }
+
+        .event {
+            margin-bottom: 15px; /* 增加事件块之间的间距 */
+            margin-left: -10px;
+        }
+
+        .s-curve {
+            left: 50%; /* 调整曲线的位置，保证其在屏幕中心 */
+        }
+
+        h3.cool-title {
+            top: -80px; /* 调整标题位置以更适应头部空间 */
+            font-size: 18px; /* 减小标题字体大小 */
+            left: 34%; /* 确保标题居中 */
+        }
+    }   
     </style>
 </head>
 
@@ -748,7 +953,50 @@
             
             <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">مسح الكل(<span class="highlight-key">A</span>)</button>
             <p>النتيجة: <span id="result"></span></p>
-        </section>        
+        </section>
+        
+        <section class="add">
+            <h3 class="cool-title">لحظات رائعة في التاريخ</h3>
+            <div class="s-curve"></div>
+            <div class="add">
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>حوالي 100 قبل الميلاد (الجمهورية الرومانية المتأخرة)</h4>
+                        <p>استخدم يوليوس قيصر بشكل واسع شيفرة الاستبدال البسيطة، المعروفة باسم <strong>"شيفرة قيصر"</strong>، لحماية التواصل بينه وبين جنرالاته وليجيوناته.</p>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>القرن الثاني</h4>
+                        <p>تم توثيق الشيفرة التي استخدمها قيصر في كتابات سويتونيوس في <em><strong>De Vita Caesarum</strong></em> (باللاتينية؛ حرفيًا "عن حياة القياصرة"، المعروفة عمومًا باسم <em><strong>القياصرة الاثنا عشر</strong></em>)، حيث ذكر كيف أرسل قيصر رسائل سرية من خلال ترتيب الأحرف بطريقة غير منتظمة.</p>                        
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>العصور الوسطى (500-1400 م)</h4>
+                        <p>خلال العصور الوسطى، ذُكر استخدام شيفرات الاستبدال البسيطة أيضًا في الأعمال الأدبية. على سبيل المثال، في رسالته <em><strong>Risāla fī Istikhrāj al-Kutub al-Mu'ammāh</strong></em> (رسالة في استخراج الكتب المعماة؛ حرفيًا: <em><strong>عن استخراج المراسلات المخفية</strong></em>، بشكل أكثر حداثة: <em><strong>عن فك تشفير المراسلات المشفرة</strong></em>)، قدم <strong>الكندي</strong> طريقة استخدام تحليل التردد لكسر شيفرات الاستبدال.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>عصر النهضة (القرن 14-17)</h4>
+                        <p>خلال <strong><em>عصر النهضة</em></strong> في أوروبا، كان هناك إحياء ملحوظ للمعرفة الكلاسيكية، بما في ذلك مجال التشفير. شهد هذا العصر توثيقًا أوسع ودراسة أعمق لأساليب التشفير، ولا سيما <strong>شيفرات الاستبدال</strong>. أظهر العلماء اهتمامًاً كبيرًا في تنقيح وتوسيع المعرفة بالتشفير. تم تسجيل <strong><em>شيفرة قيصر</em></strong> بشكل واسع، واستُخدمت وطُورت كجزء من جهد منهجي لاستكشاف وتدوين تقنيات التشفير القديمة.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>عصر المعلومات (القرن 21)</h4>
+                        <p>في القرن الحادي والعشرين، تدفع التكنولوجيا المتقدمة للمعلومات والرقمنة التقدم الاجتماعي. على الرغم من أن شيفرة قيصر لم تعد آمنة لأمن المعلومات، إلا أنها لا تزال تحتفظ بأهميتها في الثقافة والتعليم وعروض التكنولوجيا. يواصل الباحثون تحسينها من خلال استكشاف ميزاتها الفريدة.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <section class="section">
             <h2>مرحبًا بكم في عالم شفرة قيصر</h2>
@@ -878,6 +1126,45 @@
             print("The key is: " + str(key))
             </code></pre>
             <p>جرب استخدام مسار ملفك الخاص وتشغيل هذا الكود لمعرفة ما إذا كان بإمكانك فك تشفير رسالة مشفرة بواسطة شفرة قيصر.</p>
+
+            <h2>شيفرة قيصر والشيفرة التي استخدمها قيصر</h2>
+            <p>في الفصل 56 من كتاب سويتونيوس <em><a href="https://en.wikipedia.org/wiki/The_Twelve_Caesars" target="_blank" style="color: #007bff; font-size: 1.0em;">De Vita Caesarum</em></a>، يتم وصف استخدام تقنيات التشفير في الرسائل الخاصة لقيصر:</p>
+            <blockquote>
+                <p>"Extant et ad Ciceronem, item ad familiares domesticis de rebus, in quibus, si qua occultius perferenda erant, per notas scripsit, id est sic structo litterarum ordine, ut nullum verbum effici posset: quae si qui investigare et persequi velit, quartam elementorum litteram, id est D pro A et perinde reliquas commutet." (سويتونيوس، <em>De Vita Caesarum: Divus Iulius</em>. مكتبة اللاتينية، تم الوصول إليه في 1 يونيو 2024، <a href="https://www.thelatinlibrary.com/suetonius/suet.caesar.html" target="_blank" style="color: #007bff; font-size: 1.0em;">https://www.thelatinlibrary.com/suetonius/suet.caesar.html</a> )</p>
+            </blockquote>
+            <p>هذا المحتوى لا يذكر مباشرة المفهوم الحديث لشيفرة قيصر، والتي تتضمن تشفير بسيط لتبديل الحروف. بدلاً من ذلك، كانت طريقة التشفير التي استخدمها قيصر أقرب إلى شيفرة التحويل، حيث يتم تغيير مواقع الحروف الفعلية لتشفير الرسالة، مما يختلف بشكل واضح عن التحول الثابت لشيفرة قيصر. تتضمن هذه التقنية ترتيبًا واستبدالًا للحروف نسبيًا معقدًا، مما يظهر اختلافًا كبيرًا عن طريقة التحول المباشر لشيفرة قيصر الحديثة</p>
+
+            <h2>الستيغانوغرافيا والتشفير</h2>
+            <p>استكشف الأعمال الرائعة لـ <a href="https://en.wikipedia.org/wiki/Johannes_Trithemius" target="_blank" style="color: #007bff; font-size: 1.0em;">يوهانس تريثيميوس</a>، راهب بنديكتيني وعالم من ألمانيا في عصر النهضة. يُعرف بعمله الرائد، <em>الستيغانوغرافيا</em>، الذي يخوض في عالم الستيغانوغرافيا ويتطرق أيضًا إلى تقنيات التشفير في أعماله العلمية الأخرى.</p>
+            <p><em>الستيغانوغرافيا</em> غالبًا ما يُساء فهمها على أنها تشمل عناصر سحرية واستدعاء للأرواح. ومع ذلك، فهي تحتوي بذكاء على نظام تشفير معقد ضمن سردها. فيما يلي نظرة عامة على المحتوى التشفيري المشفر عبر مجلداتها:</p>
+            <ul>
+                <li><strong>المجلد الأول والثاني:</strong> تركز هذه المجلدات بشكل رئيسي على تقنيات التشفير. في البداية، تم اعتبارها دليلًا لاستدعاء الأرواح، ولكنها تمثل بشكل مجازي طرق التشفير المعقدة. تصف طرق مبتكرة لنقل الرسائل المخفية عبر مسافات طويلة، وهو مفهوم رائد في ذلك الوقت.</li>
+                <li><strong>المجلد الثالث:</strong> يمتد هذا المجلد بعض الموضوعات السابقة ولكنه يقدم مناقشات أكثر إثارة للجدل التي تحيد عن التشفير المباشر الموجود في المجلدين الأول والثاني. يستكشف علانيةً أبعادًا روحية وسحرية أكثر، التي تعرضت لتفسيرات متنوعة عبر العصور.</li>
+            </ul>
+            <p>من خلال التحليل العميق، تكشف أعمال تريثيميوس أن ما يبدو كتعاويذ سحرية هو في الواقع وصف مُحجب لطرق التشفير، مما يبرز الصلة بممارسات التشفير الحديثة.</p>
+
+            <h3>تعريفات ومبادئ أساسية</h3>
+            <p>الستيغانوغرافيا هي فن إخفاء المعلومات داخل وسائط غير حساسة مثل الصور والصوتيات أو ملفات الفيديو، مما يجعل المعلومات غير مرئية للمراقبين العاديين. جوهر الستيغانوغرافيا يكمن في إخفاء وجود المعلومات، وليس محتواها فقط.</p>
+            <p>في المقابل، يتضمن التشفير تحويل المعلومات النصية العادية إلى تنسيق مشفر آمن لا يمكن فهمه بدون مفتاح فك التشفير المقابل، معتمدًا على خوارزميات رياضية معقدة مثل آليات المفتاح العام/الخاص وخوارزميات التشفير المتماثل.</p>
+            
+            <h3>التنفيذ الفني والتطبيقات</h3>
+            <p>عادة ما يشمل تنفيذ الستيغانوغرافيا ترميز المعلومات السرية داخل أجزاء مختلفة من الملفات العادية، مثل البيكسلات في الصور، الفيديوهات، الصوتيات أو حتى النصوص. يتم تحقيق إخفاء هذه المعلومات من خلال تعديلات دقيقة، مثلاً، ضبط دقيق لقيم البيكسل في الصورة، تغيير البت الأقل أهمية (LSB) من قيم الألوان، أو إضافة إشارات في ملفات الصوت التي تتجاوز ترددات السمع البشري. هذه التعديلات تقع أسفل عتبة الإدراك البشري، لذا حتى عند نقل أو عرض المعلومات، تظل غير قابلة للكشف من قبل المراقبين الخارجيين. ميزة هذه الطريقة أنه حتى المراقبة البصرية المباشرة لا تستطيع بسهولة تمييز هذه التغييرات الدقيقة.</p>
+            <figure>
+                <img src="./images/steganography in practice.jpg" alt="مثال على الستيغانوغرافيا يُظهر صورة لمنظر طبيعي تحتوي على معلومات مخفية">
+                <figcaption class="steganography">الستيغانوغرافيا في الممارسة العملية</figcaption>
+            </figure>
+            <p>الصورة أعلاه توضح مفهوم الستيغانوغرافيا. الجانب الأيسر من الصورة، الموسوم بـ 'عادي،' لا يُظهر أي تغييرات ويحتفظ بالمظهر الأصلي للمنظر الطبيعي. بالمقابل، يُظهر الجانب الأيمن كيف يمكن إخفاء النص باستخدام طريقة LSB، مع تعديل الصورة بدقة بما فيه الكفاية لجعل التغييرات شبه غير مرئية.</p>
+            
+            <p>يحول التشفير المعلومات الحساسة باستخدام مفاتيح التشفير لإنشاء نص مشفر. يضمن هذا التنسيق المشفر أن تظل البيانات آمنة وغير مفهومة للكيانات غير المصرح بها، وهو أمر حاسم لحماية الاتصالات والبيانات عبر الأنظمة المختلفة.</p>
+
+            <h3>الكشف والأمان</h3>
+            <p>يعتمد أمان الستيغانوغرافيا بشكل أساسي على قدرتها على الإخفاء. بمجرد الاشتباه في استخدام الستيغانوغرافيا، يمكن استخدام تحليلات فنية متخصصة، مثل التحليل الإحصائي أو التعرف على الأنماط، لمحاولة الكشف عن المعلومات المخفية. ومع ذلك، إذا كانت طريقة الستيغانوغرافيا مصممة بشكل جيد، قد يجد حتى الخبراء صعوبة في اكتشاف المعلومات المخفية.</p>
+            <p>يعتمد أمان تقنية التشفير على قوة خوارزميات التشفير وإدارة المفاتيح بأمان. تم تصميم طرق التشفير الحديثة، مثل AES وRSA، لتحمل أنواع مختلفة من الهجمات، بما في ذلك تلك الناشئة عن الحوسبة الكمية. سرية المفاتيح حاسمة لأمان التشفير؛ فمجرد تعرض المفاتيح للخطر، يُكسر حماية التشفير.</p>
+
+            <h3>البيئات المناسبة والقيود</h3>
+            <p>الستيغانوغرافيا مثالية للسيناريوهات السرية للغاية، مثل الاتصالات السرية، حيث يمكن أن يكون الكشف عن وجود المعلومات ضارًا. ومع ذلك، فهي محدودة بحجم البيانات التي يمكن إخفاؤها بفعالية. من ناحية أخرى، يعتبر التشفير متعدد الاستخدامات، مناسبًا لتأمين البيانات في مجموعة واسعة من التطبيقات من المعاملات المالية إلى حماية البيانات الشخصية، على الرغم من أنه يتطلب إدارة مفاتيح صارمة لمنع الاختراقات الأمنية.</p>
+            
+            <p>باختصار، تلعب كل من الستيغانوغرافيا والتشفير أدوارًا حاسمة في مجال أمان المعلومات. يمكن استخدامها بشكل فردي أو مجتمعة لتوفير حماية قوية، مصممة لتلبية الاحتياجات الأمنية الخاصة وطبيعة التهديدات المعنية.</p>
         </section>
     </main>
 
@@ -907,6 +1194,12 @@
     </footer>
 
     <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
         function caesarCipher(str, shift) {
         if (shift < 0) {
             return caesarCipher(str, shift + 26);
