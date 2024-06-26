@@ -641,6 +641,160 @@
             font-weight: 800;
         }
 
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px; /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,123,255,0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px; /* 曲线宽度 */
+            height: 100%;
+            background: #007bff; /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px; /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -120px; /* 将标题放到轴的正上方 */
+            left: 32%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         @media screen and (max-width: 768px) {
             .navbar h1 {
                 font-size: 18px;
@@ -829,6 +983,53 @@
                 font-size: 12px;
             }
 
+            .add {
+                width: 100%; /* 调整宽度为100%以适应较小的屏幕 */
+                margin-top: 20px; /* 减少上边距 */
+                margin-bottom: 20px; /* 减少下边距 */
+            }
+
+            .event {
+                width: 80%; /* 增加宽度以适应单列布局 */
+                padding: 10px 20px; /* 调整内边距 */
+            }
+
+            .left, .right {
+                left: 10%; /* 调整定位以居中显示 */
+                width: 80%; /* 增加宽度以填充更多空间 */
+            }
+
+            .right::before, .left::before {
+                left: 10px; /* 调整左侧箭头的位置 */
+                right: auto; /* 确保右侧箭头不会显示在错误的位置 */
+            }
+
+            .details {
+                padding: 15px 20px; /* 调整细节块的内边距 */
+            }
+
+            .node {
+                width: 15px; /* 调大点的大小 */
+                height: 15px; /* 调大点的大小 */
+                top: 5px; /* 增加点的顶部间距 */
+                left: 55%;
+                margin-left: -15px; /* 保持点居中，根据新的大小调整 */
+            }
+
+            .event {
+                margin-bottom: 15px; /* 增加事件块之间的间距 */
+                margin-left: -10px;
+            }
+
+            .s-curve {
+                left: 50%; /* 调整曲线的位置，保证其在屏幕中心 */
+            }
+
+            h3.cool-title {
+                top: -80px; /* 调整标题位置以更适应头部空间 */
+                font-size: 18px; /* 减小标题字体大小 */
+                left: 28%; /* 确保标题居中 */
+            }
         }
     </style>
 </head>
@@ -890,12 +1091,47 @@
 
             <p>转换结果：<span id="processedPlaintext"></span></p>
             <p>结果：<span id="result"></span></p>
-        </div>        
-
+        </div>
+        
+        <section class="add">
+            <h3 class="cool-title">历史上的惊艳瞬间</h3>
+            <div class="s-curve"></div>
+            <div class="add">
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>1854年</h4>
+                        <p><strong>普莱菲尔密码</strong>由查尔斯·惠斯通和莱昂内尔·普莱菲尔于1854年发明，是第一个旨在增强信息安全的多字母表加密系统。它在皇家学会会议上公开展示，突显了其在军事通信中的潜力。随后，英国军队采用了普莱菲尔密码来加密军事信息，使其成为当时最先进的加密技术之一。</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>1890-1914</h4>
+                        <p>到19世纪末，<strong>普莱菲尔密码</strong>已成为英国军队的标准加密方法，广泛用于各种军事通信。在第一次世界大战期间，盟军广泛使用这种密码来加密通信，特别是在战场上。</p>
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>1920-1945</h4>
+                        <p>在1920年代，探索了普莱菲尔密码的商业应用，但其复杂性限制了其广泛采用。在第二次世界大战期间，盟军再次使用这种密码，特别是用于紧急和高安全性的通信。然而，随着计算机和更先进加密技术的出现，<strong>普莱菲尔密码</strong>在战后时期逐渐被淘汰。</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>21世纪</h4>
+                        <p>在密码学研究中，它作为一个重要的历史范例，帮助研究人员追踪加密技术的发展。如今，<strong>普莱菲尔密码</strong>仍然是密码学历史和研究中的一个关键主题，继续吸引学者和研究人员的兴趣。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
         <section class="section">
             <h2>普莱菲尔密码的过去与现在</h2>
             <p>
-                <a href="https://en.wikipedia.org/wiki/Playfair_cipher" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">普莱菲尔密码</a>，一种经典的加密方法，拥有独特的历史和起源。它由著名的英国科学家查尔斯·惠斯通在1854年发明，他因在电力和光学领域的贡献而闻名，但这种密码的名字却是以他的朋友、当时的英国外交大臣莱昂·普莱菲尔的名字命名的。后者积极推广这种密码，并促进了其在政府通信中的实际应用。
+                <a href="https://en.wikipedia.org/wiki/Playfair_cipher" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">普莱菲尔密码</a>，一种经典的加密方法，拥有独特的历史和起源。它由著名的英国科学家查尔斯·惠斯通在1854年发明，他因在电力和光学领域的贡献而闻名，但这种密码的名字却是以他的朋友、当时的英国外交大臣莱昂内尔·普莱菲尔的名字命名的。后者积极推广这种密码，并促进了其在政府通信中的实际应用。
             </p>
             
             <p>
@@ -1059,6 +1295,12 @@
     </footer>
 
     <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
         let shortcutsEnabled = true;
 
         function manageShortcuts(enable) {

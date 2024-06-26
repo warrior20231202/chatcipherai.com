@@ -645,6 +645,160 @@
             font-weight: 800;
         }
 
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px; /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,123,255,0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px; /* 曲线宽度 */
+            height: 100%;
+            background: #007bff; /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px; /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -120px; /* 将标题放到轴的正上方 */
+            left: 23%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         @media screen and (max-width: 768px) {
             .navbar h1 {
                 font-size: 18px;
@@ -832,6 +986,54 @@
             .social-links i {
                 font-size: 12px;
             }
+
+            .add {
+                width: 100%; /* 调整宽度为100%以适应较小的屏幕 */
+                margin-top: 20px; /* 减少上边距 */
+                margin-bottom: 20px; /* 减少下边距 */
+            }
+
+            .event {
+                width: 80%; /* 增加宽度以适应单列布局 */
+                padding: 10px 20px; /* 调整内边距 */
+            }
+
+            .left, .right {
+                left: 10%; /* 调整定位以居中显示 */
+                width: 80%; /* 增加宽度以填充更多空间 */
+            }
+
+            .right::before, .left::before {
+                left: 10px; /* 调整左侧箭头的位置 */
+                right: auto; /* 确保右侧箭头不会显示在错误的位置 */
+            }
+
+            .details {
+                padding: 15px 20px; /* 调整细节块的内边距 */
+            }
+
+            .node {
+                width: 15px; /* 调大点的大小 */
+                height: 15px; /* 调大点的大小 */
+                top: 5px; /* 增加点的顶部间距 */
+                left: 55%;
+                margin-left: -15px; /* 保持点居中，根据新的大小调整 */
+            }
+
+            .event {
+                margin-bottom: 15px; /* 增加事件块之间的间距 */
+                margin-left: -10px;
+            }
+
+            .s-curve {
+                left: 50%; /* 调整曲线的位置，保证其在屏幕中心 */
+            }
+
+            h3.cool-title {
+                top: -80px; /* 调整标题位置以更适应头部空间 */
+                font-size: 18px; /* 减小标题字体大小 */
+                left: 13%; /* 确保标题居中 */
+            }
         }
     </style>
 </head>
@@ -894,6 +1096,41 @@
             <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">Clear <span class="highlight-key">A</span>ll</button>
             <p>Conversion : <span id="processedPlaintext"></span></p>
             <p>Result : <span id="result"></span></p>
+        </section>
+
+        <section class="add">
+            <h3 class="cool-title">Wonderful moments in history</h3>
+            <div class="s-curve"></div>
+            <div class="add">
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>The year 1854</h4>
+                        <p>The<strong> Playfair Cipher</strong>, invented by Charles Wheatstone and Lionel Playfair in 1854, is the first polyalphabetic encryption system aimed at enhancing information security. It was publicly demonstrated at a Royal Society meeting, highlighting its potential for military communications. Subsequently, the British army adopted the Playfair Cipher for encrypting military messages, making it one of the most advanced encryption technologies of its time.</p>
+                    </div>                    
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>1890-1914</h4>
+                        <p>By the end of the 19th century, the<strong> Playfair Cipher </strong>had become a standard encryption method in the British military, widely used for various military communications. During World War I, the cipher was extensively employed by the Allies for encrypting communications, especially on the battlefield.</p>                        
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>1920-1945</h4>
+                        <p>In the 1920s, commercial applications of the Playfair Cipher were explored, but its complexity limited widespread adoption. During World War II, the cipher was again used by the Allies, particularly for urgent and high-security communications. However, with the advent of computers and more advanced encryption technologies, the<strong> Playfair Cipher </strong>gradually fell out of use in the post-war period.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>21st Century</h4>
+                        <p>In cryptographic research, it serves as a significant historical example, aiding researchers in tracing the development of encryption techniques. Today, the <strong>Playfair Cipher </strong>remains a key topic in the history and study of cryptography, continuing to draw the interest of scholars and researchers.</p>
+                    </div>                    
+                </div>
+            </div>
         </section>
 
         <section class="section">
@@ -976,7 +1213,7 @@
 
             <h2>Are there any movies or TV shows about Playfair Cipher?</h2>
             <p>
-                The Playfair cipher is a type of encryption technology that was once widely used. Although it is quite famous in history, there are currently no particularly famous movies or TV shows that focus specifically on the Playfair cipher.
+                The Playfair Cipher is a type of encryption technology that was once widely used. Although it is quite famous in history, there are currently no particularly famous movies or TV shows that focus specifically on the Playfair Cipher.
             </p>
 
             <p>
@@ -984,12 +1221,12 @@
             </p>
 
             <p>
-                While there might not be many films or series directly about the Playfair cipher, audiences interested in cryptography, puzzles, and treasure-hunting stories might find many works containing similar themes, where encryption technology often plays a key role in the plot. If you are interested in the history of cryptography and code-breaking, you might enjoy those films and shows that involve complex puzzles and encoded messages.
+                While there might not be many films or series directly about the Playfair Cipher, audiences interested in cryptography, puzzles, and treasure-hunting stories might find many works containing similar themes, where encryption technology often plays a key role in the plot. If you are interested in the history of cryptography and code-breaking, you might enjoy those films and shows that involve complex puzzles and encoded messages.
             </p>
 
             <h2>How to Distinguish Between the Letters "I" and "J"</h2>
             <p>
-                In the original Playfair Cipher, the letters "I" and "J" are usually considered the same character. This approach is primarily because the Playfair cipher requires a 5x5 matrix to accommodate the letters, and since there are 26 letters in the English alphabet, two letters must be considered equivalent to fit this 25-cell matrix.
+                In the original Playfair Cipher, the letters "I" and "J" are usually considered the same character. This approach is primarily because the Playfair Cipher requires a 5x5 matrix to accommodate the letters, and since there are 26 letters in the English alphabet, two letters must be considered equivalent to fit this 25-cell matrix.
             </p>
             <h3>How to Handle "I" and "J":</h3>
             <p>
@@ -1065,12 +1302,11 @@
     </footer>
 
     <script>
-            function toggleDetails(event) {
-        const details = event.querySelector('.details');
-        details.classList.toggle('hidden');
-        event.classList.toggle('active');
-    }
-
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
 
         let shortcutsEnabled = true;
         function manageShortcuts(enable) {
