@@ -395,7 +395,7 @@
         .navbar .submenu li {
             display: block;
             border-bottom: none;
-            width: 80%;
+            width: 100%;
         }
 
         .navbar .submenu li:last-child {
@@ -485,13 +485,15 @@
         img {
             max-width: 75%;
             height: auto;
-            margin-left: -250px;
+            margin-left: -280px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
 
         figcaption.Compare,
         figcaption.caesar,
-        figcaption.playfair {
+        figcaption.playfair,
+        figcaption.Four-Square {
             width: 100%;
             margin-left: -300px;
             color: #007bff;
@@ -502,7 +504,7 @@
 
         #start {
             font-family: 'Arial', sans-serif;
-            padding-top: 50px;
+            padding-top: 110px;
             padding-bottom: 50px;
         }
             
@@ -673,6 +675,38 @@
             animation: pulse 1.5s infinite;
         }
 
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+            margin-top: -60px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
         /* 定义动画 */
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
@@ -746,7 +780,8 @@
 
             figcaption.Compare,
             figcaption.caesar,
-            figcaption.playfair {
+            figcaption.playfair,
+            figcaption.Four-Square {
                 width: 100%;
                 margin-left: -90px;
                 color: #007bff;
@@ -901,9 +936,21 @@
             }
 
             h3.cool-title {
-                top: -80px; /* 调整标题位置以更适应头部空间 */
+                top: -120px; /* 调整标题位置以更适应头部空间 */
                 font-size: 18px; /* 减小标题字体大小 */
                 left: 13%; /* 确保标题居中 */
+            }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
             }
         }
     </style>
@@ -920,6 +967,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/en/Caesar_Cipher.html"><strong>Caesar Cipher</strong></a></li>
                         <li><a href="https://chatcipherai.com/en/Playfair_Cipher.html"><strong>Playfair Cipher</strong></a></li>
+                        <li><a href="https://chatcipherai.com/en/Four_Square_Cipher.html"><strong>Four-Square Cipher</strong></a></li>
                         <li><a href="https://chatcipherai.com/en/Hill_Cipher.html"><strong>Hill Cipher</strong></a></li>  
                     </ul>
                 </li>
@@ -966,7 +1014,7 @@
         
         <section id="start" font-family: 'Arial', sans-serif;">
             <p style=" font-size: 18px; line-height: 1.6;">
-                In the abyss of the digital world, encryption technology is like a dazzling magical barrier, protecting our most precious secrets with complex and elegant mechanisms. Rooted deeply in the fertile soil of mathematics and logic, this technology showcases the pinnacle of human intellect. It is not merely a collection of codes and algorithms but an art form, a profound philosophy……
+                In the digital realm, encryption technology serves as a robust barrier, protecting our secrets with sophisticated precision. Rooted in mathematics and logic, it represents the pinnacle of human intellect. Beyond mere codes and algorithms, encryption is a rigorous science that transforms clear text into secret language with unmatched accuracy.....
             </p>
         </section>
 
@@ -1195,6 +1243,73 @@
                     </ul>
                 </section>
             </article>
+
+            <section id="four-square-cipher-introduction">
+                <h3>Understanding the Four-Square Cipher: A Key to the History of Cryptography</h3>
+                <h4>Definition of Cipher</h4>
+                <p>
+                    Félix Delastelle, in his book <em>Traité Élémentaire de Cryptographie</em>, provides the following definition:
+                </p>
+                <p>
+                    On appelle cryptographie la science qui a pour objet l'étude des moyens susceptibles d'assurer le secret des correspondances ou écrits qu'on a intérêt à soustraire à la curiosité des tiers ou à l'indiscrétion des intermédiaires. En d'autres termes, la cryptographie enseigne à transformer un langage clair en langage secret.
+                </p>
+                <p>
+                    Delastelle emphasizes that cryptography is a science rather than an art. He argues that encryption, when given a specific method and key, results in a unique version of the clear text, akin to arithmetic operations. This underscores the structured and scientific nature of cryptographic processes, contrasting with the more interpretative and variable nature of decryption.
+                </p>
+
+                <h4>How the Four-Square Cipher Works</h4>
+                <p>
+                    The Four-Square Cipher uses four 5x5 matrices to encrypt digraphs. Here is a detailed breakdown of how the cipher works:
+                </p>
+                <p>
+                    <strong>Preparation:</strong> Create four 5x5 squares (grids). The top-left and bottom-right squares contain the standard alphabet (omitting 'J' to fit 25 letters). The top-right and bottom-left squares are filled with mixed or keyword-based alphabets. These mixed alphabets are crucial for the cipher's security.
+                </p>
+                <p>
+                    <strong>Encrypting Digraphs:</strong>
+                </p>
+                <p>
+                    <strong>Step 1:</strong> Divide the plaintext message into digraphs (pairs of letters). If there is an odd number of letters, add an extra letter, such as 'X', to complete the final pair.
+                </p>
+                <p>
+                    <strong>Step 2:</strong> For each digraph, locate the first letter in the top-left square and the second letter in the bottom-right square.
+                </p>
+                <p>
+                    <strong>Step 3:</strong> Identify the coordinates (row and column) of these letters within their respective squares.
+                </p>
+                <p>
+                    <strong>Step 4:</strong> Use these coordinates to find the corresponding letters in the top-right and bottom-left squares. The letter in the same row as the first plaintext letter but in the column of the second plaintext letter from the top-right square becomes the first letter of the ciphertext digraph. Similarly, the letter in the same row as the second plaintext letter but in the column of the first plaintext letter from the bottom-left square becomes the second letter of the ciphertext digraph.
+                </p>
+                <p>
+                    <strong>Example:</strong> Encrypting the digraph "HI".
+                </p>
+                <p>
+                    <strong>Step 1:</strong> Locate 'H' in the top-left square and 'I' in the bottom-right square. Assume 'H' is in the 2nd row, 3rd column of the top-left square, and 'I' is in the 3rd row, 4th column of the bottom-right square.
+                </p>
+                <p>
+                    <strong>Step 2:</strong> Find the letters at these coordinates in the mixed alphabets. In the top-right square, locate the letter in the 2nd row and 4th column. In the bottom-left square, locate the letter in the 3rd row and 3rd column.
+                </p>
+                <p>
+                    <strong>Step 3:</strong> Combine these letters to form the ciphertext digraph.
+                </p>
+                <p>
+                    <strong>Decryption:</strong> The process of decryption involves reversing these steps. The recipient must know the arrangement of the squares and the mixed alphabets used. By locating the ciphertext letters in the top-right and bottom-left squares and mapping them back to the corresponding plaintext letters in the top-left and bottom-right squares, the original message can be reconstructed.
+                </p>
+
+                <figure>
+                    <img src="./images/Diagram of Four-Square Cipher Encryption.jpg" alt="Diagram of Four-Square Cipher Encryption"> <!-- Updated with a relative path and descriptive alt text -->
+                    <figcaption class="Four-Square">Diagram of Four-Square Cipher Encryption</figcaption>
+                </figure>
+
+                <h4>By browsing the page you will learn:</h4>
+                <ul>
+                    <li>Understand the author of the Four-Square Cipher and his works</li>
+                    <li>Master the principles of encryption and decryption with the Four-Square Cipher</li>
+                    <li>Use the tools provided on the webpage to try encryption and decryption yourself</li>
+                </ul>
+                <p>
+                    Additionally, you will gain a deeper understanding of cryptography by reading <em>Traité Élémentaire de Cryptographie</em>. Through interactive tutorials and examples, you will delve into the complexity and allure of this classic encryption method.
+                </p>
+            </section>
         </section>
 
         <section id="end" font-family: 'Arial', sans-serif;">
@@ -1206,6 +1321,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>
@@ -1216,8 +1338,8 @@
         </div>
     
         <div class="info">
-            <p>© 2024 chatcipher Tools. All rights reserved.<strong> Code Translator</strong></p>
-            <p><strong>chatcipher</strong>,<strong>hash</strong>,<strong>morsecode</strong>,<strong>caesar,<strong>playfair</strong>,<strong>Code Translator</strong></p>
+            <p>© 2024 chatcipher Tools. All rights reserved.</p>
+            <p><strong>chatcipherai,</strong> <strong>Hash,</strong> <strong>Morsecode,</strong> <strong>Caesar,</strong> <strong>Playfair,</strong> <strong>Hill,</strong> <strong>Four-Square,</strong> <strong>Code Translator</strong></p>
             <p>
                 <a href="https://chatcipherai.com/en/Privacy_Policy.html" title="Privacy Policy">Privacy Policy</a>
                 |

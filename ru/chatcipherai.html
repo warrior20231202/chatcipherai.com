@@ -530,6 +530,160 @@
             font-weight: 800;
         }
 
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px; /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,123,255,0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px; /* 曲线宽度 */
+            height: 100%;
+            background: #007bff; /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px; /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -100px; /* 将标题放到轴的正上方 */
+            left: 24%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         @media screen and (max-width: 768px) {
             .navbar h1 {
                 font-size: 18px;
@@ -721,6 +875,54 @@
             .sections-container {
                 margin-left: 15px;
             }
+
+            .add {
+                width: 100%; /* 调整宽度为100%以适应较小的屏幕 */
+                margin-top: 20px; /* 减少上边距 */
+                margin-bottom: 20px; /* 减少下边距 */
+            }
+
+            .event {
+                width: 80%; /* 增加宽度以适应单列布局 */
+                padding: 10px 20px; /* 调整内边距 */
+            }
+
+            .left, .right {
+                left: 10%; /* 调整定位以居中显示 */
+                width: 80%; /* 增加宽度以填充更多空间 */
+            }
+
+            .right::before, .left::before {
+                left: 10px; /* 调整左侧箭头的位置 */
+                right: auto; /* 确保右侧箭头不会显示在错误的位置 */
+            }
+
+            .details {
+                padding: 15px 20px; /* 调整细节块的内边距 */
+            }
+
+            .node {
+                width: 15px; /* 调大点的大小 */
+                height: 15px; /* 调大点的大小 */
+                top: 5px; /* 增加点的顶部间距 */
+                left: 55%;
+                margin-left: -15px; /* 保持点居中，根据新的大小调整 */
+            }
+
+            .event {
+                margin-bottom: 15px; /* 增加事件块之间的间距 */
+                margin-left: -10px;
+            }
+
+            .s-curve {
+                left: 50%; /* 调整曲线的位置，保证其在屏幕中心 */
+            }
+
+            h3.cool-title {
+                top: -80px; /* 调整标题位置以更适应头部空间 */
+                font-size: 18px; /* 减小标题字体大小 */
+                left: 8%; /* 确保标题居中 */
+            }
         }
     </style>
 </head>
@@ -782,8 +984,99 @@
         
         <section id="start" font-family: 'Arial', sans-serif;">
             <p style="font-size: 18px; line-height: 1.6;">
-                В бездне цифрового мира, технология шифрования подобна ослепительному магическому барьеру, защищающему наши самые драгоценные секреты с помощью сложных и изящных механизмов. Укоренившись глубоко в плодородной почве математики и логики, эта технология демонстрирует вершину человеческого интеллекта. Это не просто набор кодов и алгоритмов, но и форма искусства, глубокая философия...
+                В цифровой сфере технология шифрования служит надежным барьером, защищающим наши секреты с высокой точностью. Укорененная в математике и логике, она представляет собой вершину человеческого интеллекта. Помимо простых кодов и алгоритмов, шифрование является строгой наукой, которая преобразует открытый текст в секретный язык с непревзойденной точностью......
             </p>
+        </section>
+        
+        <section class="add">
+            <h3 class="cool-title">Прекрасные моменты в истории</h3>
+            <div class="s-curve"></div>
+            <div class="add">
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Использование шифра Цезаря (Древние времена)</h4>
+                        <p><strong>Шифр Цезаря</strong>, изобретённый римским генералом Цезарем, представляет собой простой подстановочный шифр, который шифрует, заменяя каждую букву алфавита на букву, находящуюся на фиксированное количество позиций позже.</p>
+                    </div>                    
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Изобретение шифра Виженера (1467)</h4>
+                        <p><strong>Шифр Виженера</strong>, полиалфавитный подстановочный шифр, был изобретён итальянским криптографом <a href="https://ru.wikipedia.org/wiki/%D0%94%D0%B6%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D0%B8_%D0%91%D0%B0%D1%82%D1%82%D0%B8%D1%81%D1%82%D0%B0_%D0%91%D0%B5%D0%BB%D0%BB%D0%B0%D1%81%D0%BE" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">Джованни Баттиста Белласо</a>. Он шифрует информацию, используя несколько подстановочных алфавитов.</p>                        
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Изобретение одноразового шифра Гилбертом Вернамом (1917)</h4>
+                        <p><strong>Гилберт Вернам</strong> изобрёл одноразовый шифр, теоретически неразгаданный метод шифрования, используя случайный ключ, равный по длине открытому тексту для шифрования.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Предложение теории сложности Колмогорова (1943)</h4>
+                        <p>Андрей Колмогоров предложил теорию сложности, заложив теоретические основы современной криптографии.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Предложение протокола обмена ключами Диффи-Хеллмана (1976)</h4>
+                        <p>Уитфилд Диффи и Мартин Хеллман предложили протокол обмена ключами Диффи-Хеллмана, сделав возможным шифрование с открытым ключом.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Изобретение алгоритма RSA (1977)</h4>
+                        <p>Рон Ривест, Ади Шамир и Леонард Адлеман изобрели <strong>алгоритм RSA</strong>, алгоритм шифрования с открытым ключом, основанный на сложности факторизации больших чисел.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Предложение эллиптической криптографии (1985)</h4>
+                        <p>Нил Коблиц и Виктор Миллер независимо предложили эллиптическую криптографию (ECC), метод шифрования с открытым ключом, основанный на математической структуре эллиптических кривых.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Выпуск PGP (Pretty Good Privacy) (1991)</h4>
+                        <p>Фил Циммерман выпустил PGP, широко используемое программное обеспечение для шифрования электронной почты и файлов.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Запуск конкурса AES (Advanced Encryption Standard) (1997)</h4>
+                        <p>Национальный институт стандартов и технологий (NIST) инициировал конкурс AES для нахождения симметричного стандарта шифрования, который заменит DES. В 2000 году алгоритм Rijndael был выбран в качестве AES (Advanced Encryption Standard), став новым симметричным стандартом шифрования.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Выпуск хеш-алгоритмов SHA-2 (2004)</h4>
+                        <p>Агентство национальной безопасности (NSA) выпустило серию <strong>SHA-2</strong> хеш-алгоритмов для проверки целостности данных и цифровых подписей.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Прорыв в квантовой криптографии (2010)</h4>
+                        <p>Квантовая криптография достигла значительных прорывов в распределении квантовых ключей (QKD), предлагая новые направления для будущей безопасности информации.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Разработка протокола TLS 1.3 (2015)</h4>
+                        <p>Началась разработка протокола TLS 1.3, направленная на повышение безопасности и эффективности интернет-коммуникаций, и он был официально выпущен в 2018 году.</p>
+                    </div>                    
+                </div>
+            </div>
         </section>        
 
         <section id="hash-sha-256">
@@ -956,6 +1249,12 @@
     </footer>
     
     <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
         let shortcutsEnabled = true;
         function manageShortcuts(enable) {
             shortcutsEnabled = enable;

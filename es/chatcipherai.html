@@ -530,6 +530,160 @@
             font-weight: 800;
         }
 
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px; /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,123,255,0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px; /* 曲线宽度 */
+            height: 100%;
+            background: #007bff; /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px; /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -100px; /* 将标题放到轴的正上方 */
+            left: 21%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         @media screen and (max-width: 768px) {
             .navbar h1 {
                 font-size: 18px;
@@ -717,6 +871,54 @@
             .social-links i {
                 font-size: 12px;
             }
+
+            .add {
+                width: 100%; /* 调整宽度为100%以适应较小的屏幕 */
+                margin-top: 20px; /* 减少上边距 */
+                margin-bottom: 20px; /* 减少下边距 */
+            }
+
+            .event {
+                width: 80%; /* 增加宽度以适应单列布局 */
+                padding: 10px 20px; /* 调整内边距 */
+            }
+
+            .left, .right {
+                left: 10%; /* 调整定位以居中显示 */
+                width: 80%; /* 增加宽度以填充更多空间 */
+            }
+
+            .right::before, .left::before {
+                left: 10px; /* 调整左侧箭头的位置 */
+                right: auto; /* 确保右侧箭头不会显示在错误的位置 */
+            }
+
+            .details {
+                padding: 15px 20px; /* 调整细节块的内边距 */
+            }
+
+            .node {
+                width: 15px; /* 调大点的大小 */
+                height: 15px; /* 调大点的大小 */
+                top: 5px; /* 增加点的顶部间距 */
+                left: 55%;
+                margin-left: -15px; /* 保持点居中，根据新的大小调整 */
+            }
+
+            .event {
+                margin-bottom: 15px; /* 增加事件块之间的间距 */
+                margin-left: -10px;
+            }
+
+            .s-curve {
+                left: 50%; /* 调整曲线的位置，保证其在屏幕中心 */
+            }
+
+            h3.cool-title {
+                top: -80px; /* 调整标题位置以更适应头部空间 */
+                font-size: 18px; /* 减小标题字体大小 */
+                left: 10%; /* 确保标题居中 */
+            }
         }
     </style>
 </head>
@@ -779,10 +981,101 @@
         
         <section id="start" font-family: 'Arial', sans-serif;">
             <p style=" font-size: 18px; line-height: 1.6;">
-                En el abismo del mundo digital, la tecnología de cifrado es como una barrera mágica deslumbrante, protegiendo nuestros secretos más preciados con mecanismos complejos y elegantes. Arraigada profundamente en el suelo fértil de las matemáticas y la lógica, esta tecnología muestra el pináculo del intelecto humano. No es simplemente una colección de códigos y algoritmos, sino una forma de arte, una filosofía profunda...
+                En el ámbito digital, la tecnología de cifrado sirve como una barrera robusta, protegiendo nuestros secretos con una precisión sofisticada. Enraizada en las matemáticas y la lógica, representa la cima del intelecto humano. Más allá de meros códigos y algoritmos, el cifrado es una ciencia rigurosa que transforma el texto claro en lenguaje secreto con una precisión inigualable......
             </p>            
         </section>
 
+        <section class="add">
+            <h3 class="cool-title">Momentos maravillosos de la historia</h3>
+            <div class="s-curve"></div>
+            <div class="add">
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Uso del Cifrado César (Tiempos Antiguos)</h4>
+                        <p>El <strong>cifrado César</strong>, inventado por el general romano César, es un cifrado de sustitución simple que encripta reemplazando cada letra del alfabeto con la letra que está un número fijo de posiciones más adelante.</p>
+                    </div>                    
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Invención del Cifrado Vigenère (1467)</h4>
+                        <p>El <strong>cifrado Vigenère</strong>, un cifrado de sustitución polialfabético, fue inventado por el criptógrafo italiano<a href="https://es.wikipedia.org/wiki/Giovan_Battista_Bellaso" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;"> Giovanni Battista Bellaso</a>. Encripta la información utilizando múltiples alfabetos de sustitución.</p>                        
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Invención del One-Time Pad por Gilbert Vernam (1917)</h4>
+                        <p><strong>Gilbert Vernam</strong> inventó el one-time pad, un método de encriptación teóricamente irrompible, utilizando una clave aleatoria tan larga como el texto en claro para la encriptación.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Propuesta de la Teoría de la Complejidad de Kolmogorov (1943)</h4>
+                        <p>Andrey Kolmogorov propuso la teoría de la complejidad, sentando las bases teóricas de la criptografía moderna.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Propuesta del Protocolo de Intercambio de Claves Diffie-Hellman (1976)</h4>
+                        <p>Whitfield Diffie y Martin Hellman propusieron el protocolo de intercambio de claves Diffie-Hellman, haciendo posible la criptografía de clave pública.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Invención del Algoritmo RSA (1977)</h4>
+                        <p>Ron Rivest, Adi Shamir y Leonard Adleman inventaron el <strong>algoritmo RSA</strong>, un algoritmo de encriptación de clave pública basado en la dificultad de factorizar números grandes.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Propuesta de la Criptografía de Curva Elíptica (1985)</h4>
+                        <p>Neal Koblitz y Victor Miller propusieron independientemente la criptografía de curva elíptica (ECC), una técnica de encriptación de clave pública basada en la estructura matemática de las curvas elípticas.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Lanzamiento de PGP (Pretty Good Privacy) (1991)</h4>
+                        <p>Phil Zimmermann lanzó PGP, un software de encriptación ampliamente utilizado para asegurar correos electrónicos y archivos.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Lanzamiento del Concurso AES (Advanced Encryption Standard) (1997)</h4>
+                        <p>El Instituto Nacional de Estándares y Tecnología (NIST) inició el concurso AES para encontrar un estándar de encriptación simétrica para reemplazar DES. En 2000, el algoritmo Rijndael fue seleccionado como AES (Advanced Encryption Standard), convirtiéndose en el nuevo estándar de encriptación simétrica.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Lanzamiento de los Algoritmos Hash SHA-2 (2004)</h4>
+                        <p>La Agencia de Seguridad Nacional (NSA) lanzó la serie <strong>SHA-2</strong> de algoritmos hash para la verificación de integridad de datos y firmas digitales.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Avance en Criptografía Cuántica (2010)</h4>
+                        <p>La criptografía cuántica logró avances significativos en la distribución de claves cuánticas (QKD), ofreciendo nuevas direcciones para la seguridad de la información futura.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Desarrollo del Protocolo TLS 1.3 (2015)</h4>
+                        <p>El desarrollo del protocolo TLS 1.3 comenzó, con el objetivo de mejorar la seguridad y eficiencia de las comunicaciones por internet, y fue lanzado oficialmente en 2018.</p>
+                    </div>                    
+                </div>
+            </div>
+        </section>
+        
         <section id="hash-sha-256">
             <h2>Entendiendo SHA-256: Un Algoritmo de Hash Seguro</h2>
             <p>
@@ -953,6 +1246,12 @@
     </footer>
     
     <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
         let shortcutsEnabled = true;
         function manageShortcuts(enable) {
             shortcutsEnabled = enable;

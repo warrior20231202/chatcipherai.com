@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monde des Cryptosystèmes : Cryptosystème bien connu</title>
-    <meta name="keywords" content="chatcipher,chiffre,hash,code Morse,César,Playfair,Hill"/>
+    <meta name="keywords" content="chatcipherai,chiffre,hash,code Morse,César,Playfair,Hill,à quatre carrés"/>
     <meta name="description"
           content="Explorons ensemble l'incroyable monde de la cryptographie, où vous découvrirez des systèmes de cryptographie mondialement reconnus.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -400,7 +400,7 @@
         .navbar .submenu li {
             display: block;
             border-bottom: none;
-            width: 95%;
+            width: 115%;
         }
 
         .navbar .submenu li:last-child {
@@ -496,9 +496,10 @@
 
         figcaption.Compare,
         figcaption.caesar,
-        figcaption.playfair {
+        figcaption.playfair,
+        figcaption.Four-Square {
             width: 100%;
-            margin-left: -260px;
+            margin-left: -300px;
             color: #007bff;
             font-size: 1.2em;
             font-weight: bold;
@@ -529,6 +530,191 @@
 
         .highlight-key { 
             font-weight: 800;
+        }
+
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px; /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,123,255,0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px; /* 曲线宽度 */
+            height: 100%;
+            background: #007bff; /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px; /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -100px; /* 将标题放到轴的正上方 */
+            left: 23%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         @media screen and (max-width: 768px) {
@@ -611,7 +797,8 @@
 
             figcaption.Compare,
             figcaption.caesar,
-            figcaption.playfair {
+            figcaption.playfair,
+            figcaption.Four-Square {
                 width: 100%;
                 margin-left: -90px;
                 color: #007bff;
@@ -723,6 +910,66 @@
             .sections-container {
                 margin-left: 15px;
             }
+
+            .add {
+                width: 100%; /* 调整宽度为100%以适应较小的屏幕 */
+                margin-top: 20px; /* 减少上边距 */
+                margin-bottom: 20px; /* 减少下边距 */
+            }
+
+            .event {
+                width: 80%; /* 增加宽度以适应单列布局 */
+                padding: 10px 20px; /* 调整内边距 */
+            }
+
+            .left, .right {
+                left: 10%; /* 调整定位以居中显示 */
+                width: 80%; /* 增加宽度以填充更多空间 */
+            }
+
+            .right::before, .left::before {
+                left: 10px; /* 调整左侧箭头的位置 */
+                right: auto; /* 确保右侧箭头不会显示在错误的位置 */
+            }
+
+            .details {
+                padding: 15px 20px; /* 调整细节块的内边距 */
+            }
+
+            .node {
+                width: 15px; /* 调大点的大小 */
+                height: 15px; /* 调大点的大小 */
+                top: 5px; /* 增加点的顶部间距 */
+                left: 55%;
+                margin-left: -15px; /* 保持点居中，根据新的大小调整 */
+            }
+
+            .event {
+                margin-bottom: 15px; /* 增加事件块之间的间距 */
+                margin-left: -10px;
+            }
+
+            .s-curve {
+                left: 50%; /* 调整曲线的位置，保证其在屏幕中心 */
+            }
+
+            h3.cool-title {
+                top: -80px; /* 调整标题位置以更适应头部空间 */
+                font-size: 18px; /* 减小标题字体大小 */
+                left: 13%; /* 确保标题居中 */
+            }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -738,6 +985,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/fr/Caesar_Cipher.html"><strong>Chiffre de César</strong></a></li>
                         <li><a href="https://chatcipherai.com/fr/Playfair_Cipher.html"><strong>Chiffre de Playfair</strong></a></li>
+                        <li><a href="https://chatcipherai.com/fr/Four_Square_Cipher.html"><strong>Chiffre à quatre carrés</strong></a></li>
                         <li><a href="https://chatcipherai.com/fr/Hill_Cipher.html"><strong>Chiffre de Hill</strong></a></li>  
                     </ul>
                 </li>
@@ -787,8 +1035,99 @@
         <section id="start" font-family: 'Arial', sans-serif;">
             <p style=" font-size: 18px; line-height: 1.6;">
             <br>
-            <br>Dans l'abysse du monde numérique, la technologie de cryptage est comme une barrière magique éblouissante, protégeant nos secrets les plus précieux avec des mécanismes complexes et élégants. Ancrée profondément dans le sol fertile des mathématiques et de la logique, cette technologie illustre le pinacle de l'intellect humain. Ce n'est pas seulement une collection de codes et d'algorithmes, mais une forme d'art, une philosophie profonde……
+            <br>Dans le domaine numérique, la technologie de cryptage sert de barrière robuste, protégeant nos secrets avec une précision sophistiquée. Ancrée dans les mathématiques et la logique, elle représente le sommet de l'intellect humain. Au-delà des simples codes et algorithmes, le cryptage est une science rigoureuse qui transforme le texte clair en langage secret avec une précision inégalée......
             </p>
+        </section>
+
+        <section class="add">
+            <h3 class="cool-title">Moments merveilleux de l'histoire</h3>
+            <div class="s-curve"></div>
+            <div class="add">
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Utilisation du Chiffre de César (Temps Anciens)</h4>
+                        <p>Le <strong>chiffre de César</strong>, inventé par le général romain César, est un chiffre de substitution simple qui crypte en remplaçant chaque lettre de l'alphabet par la lettre se trouvant à une position fixe plus tard.</p>
+                    </div>                    
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Invention du Chiffre de Vigenère (1467)</h4>
+                        <p>Le <strong>chiffre de Vigenère</strong>, un chiffre de substitution polyalphabétique, a été inventé par le cryptographe italien<a href="https://fr.wikipedia.org/wiki/Giovan_Battista_Bellaso" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;"> Giovanni Battista Bellaso</a>. Il crypte les informations en utilisant plusieurs alphabets de substitution.</p>                        
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Invention du One-Time Pad par Gilbert Vernam (1917)</h4>
+                        <p><strong>Gilbert Vernam</strong> a inventé le one-time pad, une méthode de chiffrement théoriquement incassable, en utilisant une clé aléatoire aussi longue que le texte clair pour le chiffrement.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Proposition de la Théorie de la Complexité de Kolmogorov (1943)</h4>
+                        <p>Andrey Kolmogorov a proposé la théorie de la complexité, jetant les bases théoriques de la cryptographie moderne.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Proposition du Protocole d'Échange de Clés Diffie-Hellman (1976)</h4>
+                        <p>Whitfield Diffie et Martin Hellman ont proposé le protocole d'échange de clés Diffie-Hellman, rendant possible la cryptographie à clé publique.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Invention de l'Algorithme RSA (1977)</h4>
+                        <p>Ron Rivest, Adi Shamir et Leonard Adleman ont inventé l'<strong>algorithme RSA</strong>, un algorithme de cryptage à clé publique basé sur la difficulté de factoriser de grands nombres.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Proposition de la Cryptographie à Courbes Elliptiques (1985)</h4>
+                        <p>Neal Koblitz et Victor Miller ont proposé indépendamment la cryptographie à courbes elliptiques (ECC), une technique de cryptage à clé publique basée sur la structure mathématique des courbes elliptiques.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Publication de PGP (Pretty Good Privacy) (1991)</h4>
+                        <p>Phil Zimmermann a publié PGP, un logiciel de cryptage largement utilisé pour sécuriser les emails et les fichiers.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Lancement du Concours AES (Advanced Encryption Standard) (1997)</h4>
+                        <p>Le National Institute of Standards and Technology (NIST) a lancé le concours AES pour trouver une norme de cryptage symétrique pour remplacer DES. En 2000, l'algorithme Rijndael a été sélectionné comme AES (Advanced Encryption Standard), devenant la nouvelle norme de cryptage symétrique.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Publication des Algorithmes de Hachage SHA-2 (2004)</h4>
+                        <p>La National Security Agency (NSA) a publié la série <strong>SHA-2</strong> d'algorithmes de hachage pour la vérification de l'intégrité des données et les signatures numériques.</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Avancée en Cryptographie Quantique (2010)</h4>
+                        <p>La cryptographie quantique a réalisé des avancées significatives dans la distribution de clés quantiques (QKD), offrant de nouvelles directions pour la sécurité de l'information à l'avenir.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Développement du Protocole TLS 1.3 (2015)</h4>
+                        <p>Le développement du protocole TLS 1.3 a commencé, visant à améliorer la sécurité et l'efficacité des communications internet, et a été officiellement publié en 2018.</p>
+                    </div>                    
+                </div>
+            </div>
         </section>
         
         <section id="hash-sha-256">
@@ -927,6 +1266,73 @@
                 </section>
             </article>
         </section>
+
+        <section id="four-square-cipher-introduction">
+            <h2>Comprendre le chiffre Four-Square : Une clé pour l'histoire de la cryptographie</h2>
+            <h4>Définition du chiffre</h4>
+            <p>
+                Félix Delastelle, dans son livre <em>Traité Élémentaire de Cryptographie</em>, donne la définition suivante :
+            </p>
+            <p>
+                On appelle cryptographie la science qui a pour objet l'étude des moyens susceptibles d'assurer le secret des correspondances ou écrits qu'on a intérêt à soustraire à la curiosité des tiers ou à l'indiscrétion des intermédiaires. En d'autres termes, la cryptographie enseigne à transformer un langage clair en langage secret.
+            </p>
+            <p>
+                Delastelle souligne que la cryptographie est une science plutôt qu'un art. Il soutient que le chiffrement, lorsqu'il est effectué avec une méthode et une clé spécifiques, produit une version unique du texte clair, semblable aux opérations arithmétiques. Cela met en évidence la nature structurée et scientifique des processus cryptographiques, contrastant avec la nature plus interprétative et variable du déchiffrement.
+            </p>
+        
+            <h4>Comment fonctionne le chiffre Four-Square</h4>
+            <p>
+                Le chiffre Four-Square utilise quatre matrices de 5x5 pour chiffrer des digrammes. Voici une explication détaillée du fonctionnement du chiffre :
+            </p>
+            <p>
+                <strong>Préparation :</strong> Créez quatre carrés de 5x5 (grilles). Les carrés en haut à gauche et en bas à droite contiennent l'alphabet standard (en omettant 'J' pour s'adapter à 25 lettres). Les carrés en haut à droite et en bas à gauche sont remplis d'alphabets mélangés ou basés sur des mots-clés. Ces alphabets mélangés sont essentiels pour la sécurité du chiffre.
+            </p>
+            <p>
+                <strong>Chiffrement des digrammes :</strong>
+            </p>
+            <p>
+                <strong>Étape 1 :</strong> Divisez le message en texte clair en digrammes (paires de lettres). S'il y a un nombre impair de lettres, ajoutez une lettre supplémentaire, comme 'X', pour compléter la dernière paire.
+            </p>
+            <p>
+                <strong>Étape 2 :</strong> Pour chaque digramme, localisez la première lettre dans le carré en haut à gauche et la deuxième lettre dans le carré en bas à droite.
+            </p>
+            <p>
+                <strong>Étape 3 :</strong> Identifiez les coordonnées (ligne et colonne) de ces lettres dans leurs carrés respectifs.
+            </p>
+            <p>
+                <strong>Étape 4 :</strong> Utilisez ces coordonnées pour trouver les lettres correspondantes dans les carrés en haut à droite et en bas à gauche. La lettre dans la même ligne que la première lettre du texte clair mais dans la colonne de la deuxième lettre du texte clair du carré en haut à droite devient la première lettre du digramme chiffré. De même, la lettre dans la même ligne que la deuxième lettre du texte clair mais dans la colonne de la première lettre du texte clair du carré en bas à gauche devient la deuxième lettre du digramme chiffré.
+            </p>
+            <p>
+                <strong>Exemple :</strong> Chiffrement du digramme "HI".
+            </p>
+            <p>
+                <strong>Étape 1 :</strong> Localisez 'H' dans le carré en haut à gauche et 'I' dans le carré en bas à droite. Supposons que 'H' soit dans la 2ème ligne, 3ème colonne du carré en haut à gauche, et que 'I' soit dans la 3ème ligne, 4ème colonne du carré en bas à droite.
+            </p>
+            <p>
+                <strong>Étape 2 :</strong> Trouvez les lettres à ces coordonnées dans les alphabets mélangés. Dans le carré en haut à droite, localisez la lettre dans la 2ème ligne et 4ème colonne. Dans le carré en bas à gauche, localisez la lettre dans la 3ème ligne et 3ème colonne.
+            </p>
+            <p>
+                <strong>Étape 3 :</strong> Combinez ces lettres pour former le digramme chiffré.
+            </p>
+            <p>
+                <strong>Déchiffrement :</strong> Le processus de déchiffrement consiste à inverser ces étapes. Le destinataire doit connaître l'agencement des carrés et les alphabets mélangés utilisés. En localisant les lettres chiffrées dans les carrés en haut à droite et en bas à gauche et en les mappant aux lettres du texte clair correspondantes dans les carrés en haut à gauche et en bas à droite, le message original peut être reconstruit.
+            </p>
+        
+            <figure>
+                <img src="./images/Diagram of Four-Square Cipher Encryption.jpg" alt="Diagramme du chiffrement Four-Square">
+                <figcaption class="Four-Square">Diagramme du chiffrement Four-Square</figcaption>
+            </figure>
+        
+            <h4>En parcourant la page, vous apprendrez :</h4>
+            <ul>
+                <li>Comprendre l'auteur du chiffre Four-Square et ses œuvres</li>
+                <li>Maîtriser les principes du chiffrement et du déchiffrement avec le chiffre Four-Square</li>
+                <li>Utiliser les outils fournis sur la page web pour essayer vous-même le chiffrement et le déchiffrement</li>
+            </ul>
+            <p>
+                De plus, vous acquerrez une compréhension plus profonde de la cryptographie en lisant <em>Traité Élémentaire de Cryptographie</em>. Grâce à des tutoriels interactifs et des exemples, vous plongerez dans la complexité et l'attrait de cette méthode de chiffrement classique.
+            </p>
+        </section>        
         
         <section id="end" font-family: 'Arial', sans-serif;">
             <p style=" font-size: 18px; line-height: 1.6;">
@@ -936,6 +1342,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>
@@ -958,8 +1371,15 @@
             </p>  
             <button id="backToTop" onclick="scrollToTop()">Retour en Haut(<span class="highlight-key">B</span>)</button>
         </div>
-    </footer>   
+    </footer>
+
     <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
         let shortcutsEnabled = true;
         function manageShortcuts(enable) {
             shortcutsEnabled = enable;

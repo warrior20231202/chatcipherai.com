@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hill Cipher Explorer: Accompanied by mathematics, walking alongside cryptography.</title>
     <meta name="description" content="Hill cipher is a classic cryptographic algorithm that belongs to the category of multi-letter substitution ciphers. What is unique about it is that it uses linear algebra and matrix multiplication to perform encryption and decryption processes.">
+    <meta name="keywords" content="cipher,Hill,data,hill,Cipher"/>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -651,6 +652,38 @@
             font-weight: 800;
         }
 
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+            margin-top: -32px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
         @media screen and (max-width: 768px) {
             .navbar h1 {
                 font-size: 18px;
@@ -822,6 +855,18 @@
             .social-links i {
                 font-size: 12px;
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -837,6 +882,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/en/Caesar_Cipher.html"><strong>Caesar Cipher</strong></a></li>
                         <li><a href="https://chatcipherai.com/en/Playfair_Cipher.html"><strong>Playfair Cipher</strong></a></li>
+                        <li><a href="https://chatcipherai.com/en/Four_Square_Cipher.html"><strong>Four-Square Cipher</strong></a></li>
                         <li><a href="https://chatcipherai.com/en/Hill_Cipher.html"><strong>Hill Cipher</strong></a></li>  
                     </ul>
                 </li>
@@ -1190,6 +1236,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>

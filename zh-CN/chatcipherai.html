@@ -528,6 +528,160 @@
             font-weight: 800;
         }
 
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px; /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,123,255,0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px; /* 曲线宽度 */
+            height: 100%;
+            background: #007bff; /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px; /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -100px; /* 将标题放到轴的正上方 */
+            left: 33%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         @media screen and (max-width: 768px) {
             .navbar h1 {
                 font-size: 18px;
@@ -720,6 +874,54 @@
             .sections-container {
                 margin-left: 15px;
             }
+
+            .add {
+                width: 100%; /* 调整宽度为100%以适应较小的屏幕 */
+                margin-top: 20px; /* 减少上边距 */
+                margin-bottom: 20px; /* 减少下边距 */
+            }
+
+            .event {
+                width: 80%; /* 增加宽度以适应单列布局 */
+                padding: 10px 20px; /* 调整内边距 */
+            }
+
+            .left, .right {
+                left: 10%; /* 调整定位以居中显示 */
+                width: 80%; /* 增加宽度以填充更多空间 */
+            }
+
+            .right::before, .left::before {
+                left: 10px; /* 调整左侧箭头的位置 */
+                right: auto; /* 确保右侧箭头不会显示在错误的位置 */
+            }
+
+            .details {
+                padding: 15px 20px; /* 调整细节块的内边距 */
+            }
+
+            .node {
+                width: 15px; /* 调大点的大小 */
+                height: 15px; /* 调大点的大小 */
+                top: 5px; /* 增加点的顶部间距 */
+                left: 55%;
+                margin-left: -15px; /* 保持点居中，根据新的大小调整 */
+            }
+
+            .event {
+                margin-bottom: 15px; /* 增加事件块之间的间距 */
+                margin-left: -10px;
+            }
+
+            .s-curve {
+                left: 50%; /* 调整曲线的位置，保证其在屏幕中心 */
+            }
+
+            h3.cool-title {
+                top: -80px; /* 调整标题位置以更适应头部空间 */
+                font-size: 18px; /* 减小标题字体大小 */
+                left: 30%; /* 确保标题居中 */
+            }
         }
     </style>
 </head>
@@ -783,10 +985,101 @@
         
         <section id="start" style="font-family: 'Arial', sans-serif;">
             <p style="font-size: 18px; line-height: 1.6;">
-                在数字世界的深渊中，加密技术就像一道耀眼的魔法屏障，用复杂而优雅的机制保护着我们最珍贵的秘密。这项技术深深植根于数学和逻辑的肥沃土壤中，展示了人类智慧的顶峰。它不仅仅是代码和算法的集合，而是一种艺术形式，一种深刻的哲学……
+                在数字领域，加密技术作为强大的屏障，以精密的方式保护我们的秘密。植根于数学和逻辑，它代表了人类智慧的顶峰。除了简单的代码和算法之外，加密是一门严格的科学，能够以无与伦比的精度将明文转换为密文......
             </p>
         </section>
-    
+
+        <section class="add">
+            <h3 class="cool-title">历史中的精彩时刻</h3>
+            <div class="s-curve"></div>
+            <div class="add">
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>凯撒密码的使用（古代）</h4>
+                        <p><strong>凯撒密码</strong>，由罗马将军凯撒发明，是一种简单的替换密码，通过将字母表中的每个字母替换为后面固定位置的字母来加密。</p>
+                    </div>                    
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>维吉尼亚密码的发明（1467年）</h4>
+                        <p><strong>维吉尼亚密码</strong>，一种多表替换密码，由意大利密码学家<a href="https://zh.wikipedia.org/wiki/%E5%90%89%E7%BC%96%C2%B7%E5%B7%B4%E5%A1%9E%E9%A1%BF%C2%B7%E8%B4%9D%E6%8B%89%E7%B4%A2" rel="noopener noreferrer" target="_blank" style="color: #007bff; font-size: 1.0em;">乔瓦尼·巴蒂斯塔·贝拉索</a>发明。它使用多个替换字母表来加密信息。</p>                        
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>吉尔伯特·维尔南发明一次性密码本（1917年）</h4>
+                        <p><strong>吉尔伯特·维尔南</strong>发明了一次性密码本，这是一种理论上无法破解的加密方法，通过使用与明文长度相同的随机密钥进行加密。</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>柯尔莫哥洛夫复杂性理论的提出（1943年）</h4>
+                        <p>安德烈·柯尔莫哥洛夫提出了复杂性理论，为现代密码学奠定了理论基础。</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>迪菲-赫尔曼密钥交换协议的提出（1976年）</h4>
+                        <p>惠特菲尔德·迪菲和马丁·赫尔曼提出了迪菲-赫尔曼密钥交换协议，使公钥密码学成为可能。</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>RSA算法的发明（1977年）</h4>
+                        <p>罗纳德·李维斯特、阿迪·萨米尔和伦纳德·阿德尔曼发明了<strong>RSA算法</strong>，这是一种基于大数分解难度的公钥加密算法。</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>椭圆曲线密码学的提出（1985年）</h4>
+                        <p>尼尔·科布利茨和维克托·米勒分别提出了椭圆曲线密码学（ECC），这是一种基于椭圆曲线数学结构的公钥加密技术。</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>PGP（相当好的隐私）发布（1991年）</h4>
+                        <p>菲尔·齐默尔曼发布了PGP，这是一种广泛用于保护电子邮件和文件的加密软件。</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>AES（高级加密标准）竞赛的启动（1997年）</h4>
+                        <p>国家标准与技术研究院（NIST）启动了AES竞赛，以寻找取代DES的对称加密标准。2000年，Rijndael算法被选为AES（高级加密标准），成为新的对称加密标准。</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>SHA-2哈希算法的发布（2004年）</h4>
+                        <p>国家安全局（NSA）发布了<strong>SHA-2</strong>系列哈希算法，用于数据完整性验证和数字签名。</p>
+                    </div>                    
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>量子密码学的突破（2010年）</h4>
+                        <p>量子密码学在量子密钥分发（QKD）方面取得了重大突破，为未来的信息安全提供了新的方向。</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>TLS 1.3协议的开发（2015年）</h4>
+                        <p>TLS 1.3协议的开发开始，旨在提高互联网通信的安全性和效率，并于2018年正式发布。</p>
+                    </div>                    
+                </div>
+            </div>
+        </section>
+        
         <section id="hash-sha-256">
             <h2>了解 SHA-256：一种安全哈希算法</h2>
             <p>
@@ -957,6 +1250,12 @@
         </div>
     </footer>
     <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
         let shortcutsEnabled = true;
         function manageShortcuts(enable) {
             shortcutsEnabled = enable;

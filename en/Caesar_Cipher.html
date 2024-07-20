@@ -442,7 +442,7 @@
         .navbar .submenu li {
             display: block;
             border-bottom: none;
-            width: 80%;
+            width: 100%;
         }
 
         .navbar .submenu li:last-child {
@@ -684,6 +684,37 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
     @media screen and (max-width: 768px) {
         .navbar h1 {
             font-size: 18px;
@@ -903,6 +934,18 @@
             font-size: 18px; /* 减小标题字体大小 */
             left: 13%; /* 确保标题居中 */
         }
+
+        .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
     }
     </style>
 </head>
@@ -918,6 +961,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/en/Caesar_Cipher.html"><strong>Caesar Cipher</strong></a></li>
                         <li><a href="https://chatcipherai.com/en/Playfair_Cipher.html"><strong>Playfair Cipher</strong></a></li>
+                        <li><a href="https://chatcipherai.com/en/Four_Square_Cipher.html"><strong>Four-Square Cipher</strong></a></li>
                         <li><a href="https://chatcipherai.com/en/Hill_Cipher.html"><strong>Hill Cipher</strong></a></li>  
                     </ul>
                 </li>
@@ -1181,6 +1225,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>
