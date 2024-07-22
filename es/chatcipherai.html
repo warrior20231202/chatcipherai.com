@@ -399,7 +399,7 @@
         .navbar .submenu li {
             display: block;
             border-bottom: none;
-            width: 85%;
+            width: 110%;
         }
 
         .navbar .submenu li:last-child {
@@ -489,15 +489,17 @@
         img {
             max-width: 75%;
             height: auto;
-            margin-left: -250px;
+            margin-left: -300px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
 
         figcaption.Compare,
         figcaption.caesar,
-        figcaption.playfair {
+        figcaption.playfair,
+        figcaption.Four-Square {
             width: 100%;
-            margin-left: -260px;
+            margin-left: -300px;
             color: #007bff;
             font-size: 1.2em;
             font-weight: bold;
@@ -506,7 +508,7 @@
 
         #start {
             font-family: 'Arial', sans-serif;
-            padding-top: 50px;
+            padding-top: 110px;
             padding-bottom: 50px;
         }
             
@@ -677,6 +679,36 @@
             animation: pulse 1.5s infinite;
         }
 
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
         /* 定义动画 */
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
@@ -764,7 +796,8 @@
 
             figcaption.Compare,
             figcaption.caesar,
-            figcaption.playfair {
+            figcaption.playfair,
+            figcaption.Four-Square {
                 width: 100%;
                 margin-left: -90px;
                 color: #007bff;
@@ -919,6 +952,18 @@
                 font-size: 18px; /* 减小标题字体大小 */
                 left: 10%; /* 确保标题居中 */
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -934,6 +979,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/es/Caesar_Cipher.html"><strong>Cifrado César</strong></a></li>
                         <li><a href="https://chatcipherai.com/es/Playfair_Cipher.html"><strong>Cifrado Playfair</strong></a></li>
+                        <li><a href="https://chatcipherai.com/es/Four_Square_Cipher.html"><strong>El Cifrado Cuadrado</strong></a></li>
                         <li><a href="https://chatcipherai.com/es/Hill_Cipher.html"><strong>Cifrado Hill</strong></a></li>  
                     </ul>
                 </li>
@@ -1210,6 +1256,73 @@
                     </ul>
                 </section>
             </article>
+
+            <section id="four-square-cipher-introduction">
+                <h2>Comprender El Cifrado de Cuatro Cuadrados: una clave para la historia de la criptografía</h2>
+                <h3>Definición de cifrado</h3>
+                <p>
+                    Félix Delastelle, en su libro <em>Traité Élémentaire de Cryptographie</em>, proporciona la siguiente definición:
+                </p>
+                <p>
+                    On appelle cryptographie la science qui a pour objet l'étude des moyens susceptibles d'assurer le secret des correspondances ou écrits qu'on a intérêt à soustraire à la curiosité des tiers ou à l'indiscrétion des intermédiaires. En d'autres termes, la cryptographie enseigne à transformer un langage clair en langage secret.
+                </p>
+                <p>
+                    Delastelle enfatiza que la criptografía es una ciencia en lugar de un arte. Argumenta que la encriptación, cuando se le da un método y una clave específicos, resulta en una versión única del texto claro, similar a las operaciones aritméticas. Esto subraya la naturaleza estructurada y científica de los procesos criptográficos, en contraste con la naturaleza más interpretativa y variable de la desencriptación.
+                </p>
+            
+                <h3>Cómo funciona el cifrado de cuatro cuadrados</h3>
+                <p>
+                    El cifrado de cuatro cuadrados utiliza cuatro matrices de 5x5 para cifrar dígrafos. Aquí hay un desglose detallado de cómo funciona el cifrado:
+                </p>
+                <p>
+                    <strong>Preparación:</strong> Crea cuatro cuadrados de 5x5 (rejillas). Los cuadrados superior izquierdo e inferior derecho contienen el alfabeto estándar (omitiendo la 'J' para ajustar 25 letras). Los cuadrados superior derecho e inferior izquierdo están llenos de alfabetos mezclados o basados en palabras clave. Estos alfabetos mezclados son cruciales para la seguridad del cifrado.
+                </p>
+                <p>
+                    <strong>Cifrado de dígrafos:</strong>
+                </p>
+                <p>
+                    <strong>Paso 1:</strong> Divide el mensaje de texto plano en dígrafos (pares de letras). Si hay un número impar de letras, agrega una letra extra, como 'X', para completar el par final.
+                </p>
+                <p>
+                    <strong>Paso 2:</strong> Para cada dígrafo, localiza la primera letra en el cuadrado superior izquierdo y la segunda letra en el cuadrado inferior derecho.
+                </p>
+                <p>
+                    <strong>Paso 3:</strong> Identifica las coordenadas (fila y columna) de estas letras dentro de sus respectivos cuadrados.
+                </p>
+                <p>
+                    <strong>Paso 4:</strong> Usa estas coordenadas para encontrar las letras correspondientes en los cuadrados superior derecho e inferior izquierdo. La letra en la misma fila que la primera letra del texto plano pero en la columna de la segunda letra del texto plano del cuadrado superior derecho se convierte en la primera letra del dígrafo cifrado. De manera similar, la letra en la misma fila que la segunda letra del texto plano pero en la columna de la primera letra del texto plano del cuadrado inferior izquierdo se convierte en la segunda letra del dígrafo cifrado.
+                </p>
+                <p>
+                    <strong>Ejemplo:</strong> Cifrar el dígrafo "HI".
+                </p>
+                <p>
+                    <strong>Paso 1:</strong> Localiza 'H' en el cuadrado superior izquierdo y 'I' en el cuadrado inferior derecho. Supongamos que 'H' está en la 2ª fila, 3ª columna del cuadrado superior izquierdo, e 'I' está en la 3ª fila, 4ª columna del cuadrado inferior derecho.
+                </p>
+                <p>
+                    <strong>Paso 2:</strong> Encuentra las letras en estas coordenadas en los alfabetos mezclados. En el cuadrado superior derecho, localiza la letra en la 2ª fila y 4ª columna. En el cuadrado inferior izquierdo, localiza la letra en la 3ª fila y 3ª columna.
+                </p>
+                <p>
+                    <strong>Paso 3:</strong> Combina estas letras para formar el dígrafo cifrado.
+                </p>
+                <p>
+                    <strong>Desencriptación:</strong> El proceso de desencriptación implica invertir estos pasos. El destinatario debe conocer la disposición de los cuadrados y los alfabetos mezclados utilizados. Al localizar las letras del texto cifrado en los cuadrados superior derecho e inferior izquierdo y mapeándolas de regreso a las letras correspondientes del texto plano en los cuadrados superior izquierdo e inferior derecho, se puede reconstruir el mensaje original.
+                </p>
+            
+                <figure>
+                    <img src="./images/Diagram of Four-Square Cipher Encryption.jpg" alt="Diagrama de Cifrado de Cuatro Cuadrados"> <!-- Actualizado con una ruta relativa y texto alternativo descriptivo -->
+                    <figcaption class="Four-Square">Diagrama de Cifrado de Cuatro Cuadrados</figcaption>
+                </figure>
+            
+                <h4>Navegando por la página aprenderás:</h4>
+                <ul>
+                    <li>Comprender al autor del cifrado de cuatro cuadrados y sus obras</li>
+                    <li>Dominar los principios de encriptación y desencriptación con el cifrado de cuatro cuadrados</li>
+                    <li>Utilizar las herramientas proporcionadas en la página web para intentar la encriptación y desencriptación tú mismo</li>
+                </ul>
+                <p>
+                    Además, obtendrás una comprensión más profunda de la criptografía leyendo <em>Traité Élémentaire de Cryptographie</em>. A través de tutoriales interactivos y ejemplos, profundizarás en la complejidad y el atractivo de este método clásico de encriptación.
+                </p>
+            </section>            
         </section>
         
         <section id="end" font-family: 'Arial', sans-serif;">
@@ -1221,6 +1334,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Apoyo</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>

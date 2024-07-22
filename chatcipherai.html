@@ -675,6 +675,38 @@
             animation: pulse 1.5s infinite;
         }
 
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+            margin-top: -60px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
         /* 定义动画 */
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
@@ -907,6 +939,18 @@
                 top: -120px; /* 调整标题位置以更适应头部空间 */
                 font-size: 18px; /* 减小标题字体大小 */
                 left: 13%; /* 确保标题居中 */
+            }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
             }
         }
     </style>
@@ -1277,6 +1321,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>
@@ -1287,8 +1338,8 @@
         </div>
     
         <div class="info">
-            <p>© 2024 chatcipher Tools. All rights reserved.<strong> Code Translator</strong></p>
-            <p><strong>chatcipherai</strong>,<strong>Hash</strong>,<strong>Morsecode</strong>,<strong>Caesar,<strong>Playfair</strong>,<strong>Hill</strong>,<strong>Four-Square</strong> <strong>Code Translator</strong></p>
+            <p>© 2024 chatcipher Tools. All rights reserved.</p>
+            <p><strong>chatcipherai,</strong> <strong>Hash,</strong> <strong>Morsecode,</strong> <strong>Caesar,</strong> <strong>Playfair,</strong> <strong>Hill,</strong> <strong>Four-Square,</strong> <strong>Code Translator</strong></p>
             <p>
                 <a href="https://chatcipherai.com/en/Privacy_Policy.html" title="Privacy Policy">Privacy Policy</a>
                 |
