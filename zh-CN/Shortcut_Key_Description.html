@@ -158,6 +158,7 @@
         #Morse-Code-Translator ,
         #Caesar-Cipher ,
         #Playfair-Cipher ,
+        #Four-Square ,
         #Hill-Cipher {  
             width: 100%;
         } 
@@ -609,6 +610,37 @@
             width: 80%;
         }
 
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
         @media screen and (max-width: 768px) {
             .code-style {
                 font-size: 13px;
@@ -794,6 +826,18 @@
             .social-links i {
                 font-size: 12px;
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }     
     </style>
 
@@ -809,6 +853,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/zh-CN/Caesar_Cipher.html"><strong>恺撒密码</strong></a></li>
                         <li><a href="https://chatcipherai.com/zh-CN/Playfair_Cipher.html"><strong>普莱菲尔密码</strong></a></li>
+                        <li><a href="https://chatcipherai.com/en/Four_Square_Cipher.html"><strong>四方密码</strong></a></li>
                         <li><a href="https://chatcipherai.com/zh-CN/Hill_Cipher.html"><strong>希尔密码</strong></a></li>  
                     </ul>
                 </li>
@@ -907,6 +952,18 @@
             </ul>
         </section>
 
+        <section id="Four-Square">
+            <h2>四方密码</h2>
+            <ul>
+                <li><strong>N</strong>：暗色风格</li>
+                <li><strong>L</strong>：亮色风格</li>
+                <li><strong>B</strong>：回到顶端</li>
+                <li><strong>A</strong>：清除所有</li>
+                <li><strong>E</strong>：明文加密</li>
+                <li><strong>D</strong>：密文解密</li>
+            </ul>
+        </section>
+
         <section id="Hill-Cipher">
             <h2>希尔密码</h2>
             <ul>
@@ -924,6 +981,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>支持</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>

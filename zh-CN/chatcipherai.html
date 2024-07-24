@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>密码系统世界：知名的密码系统</title>
-    <meta name="keywords" content="密码世界,密码,哈希,摩尔斯电码,恺撒,普莱菲尔,希尔"/>
+    <meta name="keywords" content="密码世界,密码,哈希,摩尔斯电码,恺撒,普莱菲尔,希尔,四方"/>
     <meta name="description" content="让我们一起探索密码学的奇妙世界，了解世界知名的密码学系统。">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
@@ -487,13 +487,15 @@
         img {
             max-width: 75%;
             height: auto;
-            margin-left: -250px;
+            margin-left: -270px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
 
         figcaption.Compare,
         figcaption.caesar,
-        figcaption.playfair {
+        figcaption.playfair,
+        figcaption.Four-Square {
             width: 100%;
             margin-left: -260px;
             color: #007bff;
@@ -673,6 +675,37 @@
             font-weight: bold;
             text-transform: uppercase;
             animation: pulse 1.5s infinite;
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
         }
 
         /* 定义动画 */
@@ -922,6 +955,18 @@
                 font-size: 18px; /* 减小标题字体大小 */
                 left: 30%; /* 确保标题居中 */
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -937,6 +982,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/zh-CN/Caesar_Cipher.html"><strong>恺撒密码</strong></a></li>
                         <li><a href="https://chatcipherai.com/zh-CN/Playfair_Cipher.html"><strong>普莱菲尔密码</strong></a></li>
+                        <li><a href="https://chatcipherai.com/en/Four_Square_Cipher.html"><strong>四方密码</strong></a></li>
                         <li><a href="https://chatcipherai.com/zh-CN/Hill_Cipher.html"><strong>希尔密码</strong></a></li>  
                     </ul>
                 </li>
@@ -963,7 +1009,6 @@
             </div>
 
             <h1>知名的密码系统</h1>
-
             <div class="style-selector">
                 <button id="darkStyle">🌙 暗色风格(<span class="highlight-key">N</span>)</button>
                 <button id="lightStyle">☀ 亮色风格(<span class="highlight-key">L</span>)</button>
@@ -1215,6 +1260,73 @@
                 </section>
             </article>
         </section>
+
+        <section id="four-square-cipher-introduction">
+            <h2>了解四方密码：密码学历史的关键</h2>
+            <h3>密码的定义</h3>
+            <p>
+                Félix Delastelle 在他的书 <em>Traité Élémentaire de Cryptographie</em> 中提供了以下定义：
+            </p>
+            <p>
+                On appelle cryptographie la science qui a pour objet l'étude des moyens susceptibles d'assurer le secret des correspondances ou écrits qu'on a intérêt à soustraire à la curiosité des tiers ou à l'indiscrétion des intermédiaires. En d'autres termes, la cryptographie enseigne à transformer un langage clair en langage secret.
+            </p>
+            <p>
+                Delastelle 强调，密码学是一门科学而非艺术。他认为，加密在给定特定方法和密钥时，会生成一个独特的明文版本，类似于算术运算。这突显了密码过程的结构化和科学性，与解密的解释性和可变性形成对比。
+            </p>
+        
+            <h3>四方密码的工作原理</h3>
+            <p>
+                <a href="https://chatcipherai.com/zh-CN/Four_Square_Cipher.html" id="HillCipherLink" target="_blank" style="color: #007bff;" rel="noopener noreferrer">四方密码</a>使用四个5x5矩阵来加密二联字。以下是密码工作原理的详细分解：
+            </p>
+            <p>
+                <strong>准备：</strong> 创建四个5x5的方格（网格）。左上角和右下角的方格包含标准字母表（去掉'J'以适应25个字母）。右上角和左下角的方格用混合或基于关键字的字母表填充。这些混合字母对于密码的安全性至关重要。
+            </p>
+            <p>
+                <strong>加密二联字：</strong>
+            </p>
+            <p>
+                <strong>步骤1：</strong> 将明文消息分成二联字（字母对）。如果字母数量是奇数，则添加一个额外的字母，如'X'，以完成最后一对。
+            </p>
+            <p>
+                <strong>步骤2：</strong> 对于每个二联字，在左上方格中找到第一个字母，在右下方格中找到第二个字母。
+            </p>
+            <p>
+                <strong>步骤3：</strong> 确定这些字母在各自方格中的坐标（行和列）。
+            </p>
+            <p>
+                <strong>步骤4：</strong> 使用这些坐标在右上方格和左下方格中找到对应的字母。在右上方格中，与第一个明文字母在同一行但在第二个明文字母的列中的字母成为密文二联字的第一个字母。同样，在左下方格中，与第二个明文字母在同一行但在第一个明文字母的列中的字母成为密文二联字的第二个字母。
+            </p>
+            <p>
+                <strong>示例：</strong> 加密二联字"HI"。
+            </p>
+            <p>
+                <strong>步骤1：</strong> 在左上方格中找到'H'，在右下方格中找到'I'。假设'H'位于左上方格的第2行第3列，'I'位于右下方格的第3行第4列。
+            </p>
+            <p>
+                <strong>步骤2：</strong> 在混合字母表中找到这些坐标上的字母。在右上方格中，找到第2行第4列的字母。在左下方格中，找到第3行第3列的字母。
+            </p>
+            <p>
+                <strong>步骤3：</strong> 将这些字母组合形成密文二联字。
+            </p>
+            <p>
+                <strong>解密：</strong> 解密过程涉及反向这些步骤。接收者必须知道方格的排列和使用的混合字母。通过在右上方格和左下方格中找到密文字母并将其映射回左上方格和右下方格中的对应明文字母，可以重建原始消息。
+            </p>
+        
+            <figure>
+                <img src="./images/Diagram of Four-Square Cipher Encryption.jpg" alt="四方密码加密示意图">
+                <figcaption class="Four-Square">四方密码加密示意图</figcaption>
+            </figure>
+        
+            <h4>通过浏览页面，您将学习到：</h4>
+            <ul>
+                <li>了解四方密码的作者及其作品</li>
+                <li>掌握四方密码的加密和解密原理</li>
+                <li>使用网页上提供的工具尝试自己进行加密和解密</li>
+            </ul>
+            <p>
+                此外，通过阅读 <em>Traité Élémentaire de Cryptographie</em>，您将对密码学有更深入的了解。通过互动教程和示例，您将深入探讨这种经典加密方法的复杂性和魅力。
+            </p>
+        </section>
         
         <section id="end" style="font-family: 'Arial', sans-serif;">
             <p style="font-size: 18px; line-height: 1.6;">
@@ -1226,6 +1338,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>支持</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>

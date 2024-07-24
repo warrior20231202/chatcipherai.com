@@ -1,0 +1,2149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>四方密码：一种具有双密钥矩阵的经典加密技术</title>
+    <meta name="keywords" content="chatcipher,cipher,hash,morsecode,caesar,playfair,hill,Four-Square"/>
+    <meta name="description"
+        content="四方密码网站的主要功能是提供在线加密和解密工具，用户可以通过输入文本和两个不同的密钥矩阵来生成相应的加密或解密结果。网站还提供四方密码的历史背景、使用指南和互动教程，帮助用户理解和实践这一经典加密技术。">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 10%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        #inputMessage,
+        #shiftValue {
+            width: 60%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            font-size: 1em;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 120px;
+            /* margin-left: 180px; */
+            width: 80%;
+        }
+
+        .sections-container h2,
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            /* 在每个块之间添加一些间隔 */
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .flex-container {
+            display: flex;
+            /* justify-content: space-between;  */
+            justify-content: space-around;
+            /* 在每个块之间添加一些间隔 */
+            gap: 120px;
+
+        }
+
+        .flex-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input[type="text"],
+        textarea {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* 字体样式 */
+            font-size: 20px;
+            color: #0A0F24;
+            padding: 5px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            resize: none;
+        }
+
+        input[type="text"] {
+            width: 4cm;
+        }
+
+        textarea {
+            /* width: 400px; */
+            resize: vertical;
+            min-height: 60px;
+            max-height: 300px;
+            /* margin-left: -80px; */
+        }
+
+        #encryptSection,
+        #decryptSection {
+            flex: 1;
+        }
+
+        .key-input {
+            height: 40px;
+            /* 增加key输入框的高度 */
+            font-size: 16px;
+            width: 300px;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        .key-input:focus {
+            border: 1px solid #0A0F24;
+            /* 输入时边框变粗并显示 */
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .clear-all-button {
+            align-self: center;
+            margin-top: 20px;
+        }
+
+        .output {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 300px;
+            font-size: 18px;
+            color: #0A0F24;
+            margin-top: 10px;
+            word-wrap: break-word;
+            /* 确保自动换行 */
+            /* white-space: pre-wrap; */
+            word-break: break-all;
+            /* 增加这一行以确保自动换行 */
+            /* margin-left: -150px; */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 70%;
+            color: #ffffff;
+            /* margin-left: 5%; */
+            margin-top: 30px;
+            margin-bottom: 200px;
+        }
+
+        .container h2 {
+            text-align: left;
+            margin-left: -50px;
+        }
+
+        .container p {
+            margin-left: -50px;
+            color: #0A0F24;
+        }
+
+        .section {
+            margin-left: 60px;
+        }
+
+        p {
+            margin-bottom: 40px;
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        h3 {
+            margin-top: 30px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            /* margin-left: 5px; */
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+            width: 110px;
+            margin: 0 auto;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 10px;
+            right: 48px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            white-space: nowrap;
+            width: 110px;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: #0A0F24;
+        }
+
+        .dark-mode .container p {
+            color: #FFFFFF;
+        }
+
+        .light-mode .container {
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar,
+        .light-mode {
+            background-color: #FFFFFF;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent;
+            color: #0A0F24;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+        }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px;
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .info button {
+            display: inline-block;
+            font-size: 16px; /* 根据需要调整字体大小 */
+            cursor: pointer;
+            border-radius: 5px;
+            white-space: nowrap; /* 防止文字折叠 */
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: -25px;
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.playfair,
+        figcaption.padding_rules {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 80%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .cipher-matrix {
+            font-size: 20px;
+            letter-spacing: 5px;
+            line-height: 1.5;
+            margin-left: -100px;
+        }
+
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 5px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px;
+        }
+
+        figcaption {
+            margin-top: -40px;
+            margin-bottom: 40px;
+            margin-left: 280px;
+            font-size: 18px;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .language-list {
+            float: right;
+        }
+
+        .language-list a {
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover {
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key {
+            font-weight: 800;
+        }
+
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px;
+            /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px;
+            /* 曲线宽度 */
+            height: 100%;
+            background: #007bff;
+            /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px;
+            /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -130px;
+            /* 将标题放到轴的正上方 */
+            left: 32%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        pre {
+            background-color: #e9f4f4;
+            width: 74%;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #0A0F24;
+        }
+
+        code {
+            font-family: 'Arial', sans-serif;
+            /* 使用非等宽字体 */
+            padding: 1px 4px;
+            border-radius: 4px;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        pre.cipher-matrix {
+            font-family: 'Courier New', Courier, monospace;
+            /* 使用等宽字体 */
+            font-size: 16px;
+            font-weight: bold;
+            border-left: 4px solid #0073e6;
+            margin-left: 0;
+        }
+
+        ul li,
+        ol li {
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        ul ul,
+        ol ol {
+            margin-top: 10px;
+            margin-bottom: -5px;
+        }
+
+        #cipherComparisonTable {
+            border-collapse: collapse;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-left: 0;
+        }
+
+        #cipherComparisonTable th,
+        #cipherComparisonTable td {
+            padding: 12px;
+            text-align: center;
+            border: 0 solid #eae6e6;
+            font-weight: bold;
+        }
+
+        #cipherComparisonTable th {
+            background-color: #7fbef5;
+            color: white;
+            font-size: 16px;
+        }
+
+        #cipherComparisonTable td {
+            color: #333;
+            font-size: 16px;
+        }
+
+        #cipherComparisonTable tr:hover {
+            background-color: #ddd !important;
+        }
+
+        .dark-mode #cipherComparisonTable {
+            background-color: #e9f1f4;
+        }
+
+        .matrix-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .matrix-container h3 {
+            color: #0073e6;
+            margin-bottom: 10px;
+        }
+
+        .matrix-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .matrix {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.9), rgba(0, 100, 210, 0.9));
+            color: white;
+            padding: 15px;
+            margin: 10px;
+            border: 2px solid #005bb5;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 160px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .matrix div {
+            margin-bottom: 5px;
+        }
+
+        .matrix-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .matrix-cell {
+            width: 20%;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .matrix-label {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .shift-right {
+            transform: translateX(120px); /* 可以根据需要调整平移的距离 */
+            flex: 2;
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+            margin-top: -13px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media screen and (max-width: 1200px) {
+            .flex-container {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            body{
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .shift-right {
+                transform: translateX(40px); /* 可以根据需要调整平移的距离 */
+                flex: 2;
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                /* width: 80%; */
+                width: 100%;
+            }
+
+            .section {
+                /* width: 120%; */
+                width: 100%;
+                padding: 10px;
+                margin-left: 0;
+            }
+
+            .section h2 {
+                font-size: 1.2em;
+            }
+
+            .section h3 {
+                font-size: 0.9em;
+            }
+
+            .section h4 {
+                font-size: 0.8em;
+            }
+
+            .section p {
+                font-size: 0.9em;
+            }
+
+            .section li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            .container {
+                width: 90%;
+                /* padding: 20px; */
+                font-size: 0.8em;
+                padding:20px 0;
+                margin: 0 auto;
+            }
+
+            .container h2 {
+                font-size: 1.5em;
+                margin-top: 10px;
+            }
+
+            input[type="text"] {
+                width: 78%;
+            }
+
+            textarea {
+                width: 60%;
+            }
+
+            .cipher-matrix {
+                margin-left: -210px;
+            }
+
+            #cipherComparisonTable {
+                margin-left: 0;
+            }
+
+            #cipherComparisonTable th {
+                background-color: #7fbef5;
+                color: white;
+                font-size: 12px;
+            }
+
+            #cipherComparisonTable td {
+                color: #333;
+                font-size: 12px;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -80px;
+            }
+
+            figcaption.playfair,
+            figcaption.padding_rules {
+                width: 100%;
+                margin-left: -90px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .info button {
+                width: 25px;
+            }
+
+            #inputText {
+                width: 78%;
+            }
+
+            #processedPlaintext,
+            #result {
+                font-weight: bold;
+                color: #0A0F24;
+                word-wrap: break-word;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0;
+                /* Hide text */
+            }
+
+            #menuIcon::before {
+                content: '\2630';
+                /* Unicode character for ☰ */
+                font-size: 16px;
+                /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0;
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px;
+                /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            .style-selector button {
+                width: 30px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+
+            .add {
+                width: 100%;
+                /* 调整宽度为100%以适应较小的屏幕 */
+                margin-top: 80px;
+                /* 减少上边距 */
+                margin-bottom: 20px;
+                /* 减少下边距 */
+            }
+
+            .event {
+                width: 80%;
+                /* 增加宽度以适应单列布局 */
+                padding: 10px 20px;
+                /* 调整内边距 */
+            }
+
+            .left,
+            .right {
+                left: 10%;
+                /* 调整定位以居中显示 */
+                width: 80%;
+                /* 增加宽度以填充更多空间 */
+            }
+
+            .right::before,
+            .left::before {
+                left: 10px;
+                /* 调整左侧箭头的位置 */
+                right: auto;
+                /* 确保右侧箭头不会显示在错误的位置 */
+            }
+
+            .details {
+                padding: 15px 20px;
+                /* 调整细节块的内边距 */
+            }
+
+            .node {
+                width: 15px;
+                /* 调大点的大小 */
+                height: 15px;
+                /* 调大点的大小 */
+                top: 5px;
+                /* 增加点的顶部间距 */
+                left: 55%;
+                margin-left: -15px;
+                /* 保持点居中，根据新的大小调整 */
+            }
+
+            .event {
+                margin-bottom: 15px;
+                /* 增加事件块之间的间距 */
+                margin-left: -10px;
+            }
+
+            .s-curve {
+                left: 50%;
+                /* 调整曲线的位置，保证其在屏幕中心 */
+            }
+
+            h3.cool-title {
+                top: -80px;
+                /* 调整标题位置以更适应头部空间 */
+                font-size: 18px;
+                /* 减小标题字体大小 */
+                left: 30%;
+                /* 确保标题居中 */
+            }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; 菜单</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/zh-CN/chatcipherai.html"><strong>密码世界</strong></a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/zh-CN/Caesar_Cipher.html"><strong>恺撒密码</strong></a></li>
+                        <li><a href="https://chatcipherai.com/zh-CN/Playfair_Cipher.html"><strong>普莱菲尔密码</strong></a></li>
+                        <li><a href="https://chatcipherai.com/en/Four_Square_Cipher.html"><strong>四方密码</strong></a></li>
+                        <li><a href="https://chatcipherai.com/zh-CN/Hill_Cipher.html"><strong>希尔密码</strong></a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/zh-CN/Hash_value_test.html"><strong>哈希值测试</strong></a></li>
+                <li><a href="https://chatcipherai.com/zh-CN/Morsecode_main.html"><strong>摩尔斯电码编译器</strong></a></li>
+                <li><a href="https://chatcipherai.com/zh-CN/Shortcut_Key_Description.html"><strong>快捷键说明</strong></a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; 语言</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Four_Square_Cipher" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Four_Square_Cipher" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Four_Square_Cipher" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Four_Square_Cipher" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Four_Square_Cipher" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Four_Square_Cipher" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Four_Square_Cipher" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Four_Square_Cipher" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Four_Square_Cipher" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Four_Square_Cipher" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Four_Square_Cipher" title="Nederlands">Nederlands</a></li>
+                </ul>
+            </div>
+
+            <h1>四方密码探索器</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 暗色风格(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ 亮色风格(<span class="highlight-key">L</span>)</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <section class="container">
+            <h2>尝试四方密码</h2>
+            <p>利用下面提供的工具来加密或解密消息：</p>
+        
+            <div class="flex-container">
+                <div id="encryptSection" class="flex-item">
+                    <h3>加密</h3>
+                    <textarea id="encryptInput" placeholder="输入要加密的文本..."></textarea>
+                    <input class="key-input" id="key1Encrypt" placeholder="输入密钥1..." />
+                    <input class="key-input" id="key2Encrypt" placeholder="输入密钥2..." />
+                    <button id="encryptButton" onclick="encrypt()">加密(<span class="highlight-key">E</span>)</button>
+                    <div class="output">
+                        <strong>结果：</strong> <span id="encryptOutput"></span>
+                    </div>
+                </div>
+        
+                <div id="decryptSection" class="flex-item">
+                    <h3>解密</h3>
+                    <textarea id="decryptInput" placeholder="输入要解密的文本..."></textarea>
+                    <input class="key-input" id="key1Decrypt" placeholder="输入密钥1..." />
+                    <input class="key-input" id="key2Decrypt" placeholder="输入密钥2..." />
+                    <button id="decryptButton" onclick="decrypt()">加密(<span class="highlight-key">D</span>)</button>
+                    <div class="output">
+                        <strong>结果：</strong> <span id="decryptOutput"></span>
+                    </div>
+                </div>
+            </div>
+        
+            <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">清除全部(<span class="highlight-key">A</span>)</button>
+        
+            <div id="matrixContainer" class="matrix-container">
+                <h3>生成的矩阵</h3>
+                <div class="matrix-grid">
+                    <div id="matrix1" class="matrix"></div>
+                    <div id="matrix2" class="matrix"></div>
+                    <div id="matrix3" class="matrix"></div>
+                    <div id="matrix4" class="matrix"></div>
+                </div>
+            </div>
+        </section>        
+
+        <div class="shift-right">
+        <section class="add">
+            <h3 class="cool-title">历史中的精彩时刻</h3>
+            <div class="s-curve"></div>
+            <div class="add">
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>发明与初步描述（1902年）</h4>
+                        <p>法国密码学家<strong>Félix-Marie Delastelle</strong>首次在他的书<strong><em>Traité Élémentaire de Cryptographie</em></strong>（《密码学初步论》）中描述了四方密码。在书中，Delastelle介绍了四方密码并解释了其加密和解密方法。</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>学术和实际应用（20世纪初）</h4>
+                        <p>在Delastelle的书出版后，<strong>四方密码</strong>在密码学界引起了一些关注。它被用作教育工具，帮助学生理解多字母替换密码的原理和应用。</p>
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>对现代密码学的影响（20世纪中后期）</h4>
+                        <p>随着计算机和现代密码学的发展，<strong>四方密码</strong>已被更复杂和安全的密码系统取代。然而，它仍然作为教学工具和研究对象在密码学历史和教育中占有一席之地。</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>现代应用与研究</h4>
+                        <p>尽管不再用于实际的通信安全，<strong>四方密码</strong>仍作为教育实例在密码学课程中使用，帮助学生理解基本的密码学概念和历史。</p>
+                    </div>
+                </div>
+            </div>
+        </section>            
+
+        <section class="section">
+            <h2>四方密码：历史背景和加密原理</h2>
+            <p>
+                <a href="https://en.wikipedia.org/wiki/Four-square_cipher" rel="noopener noreferrer" target="_blank"
+                    style="color: #007bff; font-size: 1.0em;">四方密码</a>是一种由法国人<a href="https://dbpedia.org/page/F%C3%A9lix_Delastelle" rel="noopener noreferrer"
+                    target="_blank" style="color: #007bff; font-size: 1.0em;">Félix Delastelle</a>（1840-1902）发明的对称加密方法，属于现代密码学的一部分。此加密方法使用四个5×5矩阵加密字母对，每个矩阵包含25个字母。通常，字母Q被省略，或者I和J被视为同一个字母。或者，可以使用6×6矩阵来包括10个数字。
+            </p>
+            
+            <p>
+                在加密过程中，会选择两个英文单词作为密钥，例如“example”和“keyword”。在去除重复字母后，将剩余的字母按顺序放入矩阵。这两个矩阵分别放置在右上角和左下角，而左上角和右下角使用从A到Z的顺序形成矩阵，构成四方密码矩阵。
+            </p>
+            
+            <p>
+                为了加密消息，将字母分成对，例如“hello world”变成“he ll ow or ld”。根据矩阵中的位置，找到相应的加密字母。例如，“he”的加密过程涉及在左上矩阵中找到“h”的位置和在右下矩阵中找到“e”的位置。然后，在右上矩阵中找到与“h”在同一行且与“e”在同一列的字母，在左下矩阵中找到与“h”在同一列且与“e”在同一行的字母。这两个字母组成加密的密文。
+            </p>
+            
+            <p>
+                四方密码的弱点在于当两个字母在同一列时，使用原始字母，这可能暴露约20％的内容。此外，由于它是一种对称加密方法，很容易通过记录的比较来破解，导致安全性低。另一个问题是它只能加密偶数个字符。如果字符数是奇数，最后剩下的字符无法加密，使用原始字符或填充加密会使密文更容易暴露。
+            </p>
+            
+            <p>
+                作为经典密码学的一部分，尽管四方密码不如现代加密算法安全，但其简单性和历史意义为现代加密方法提供了灵感。
+            </p>            
+
+            <h2>四方密码加密逐步指南</h2>
+            <p>以下是使用<strong>四方密码</strong>的详细加密指南，关键词为"Four"和"Cipher"，明文为"Hello World"。</p>
+            
+            <h3>步骤1：准备</h3>
+            <ul>
+                <li><strong>选择关键词</strong>
+                    <ul>
+                        <li>key1 = "Four"</li>
+                        <li>key2 = "Cipher"</li>
+                    </ul>
+                </li>
+                <li><strong>准备明文</strong>
+                    <ul>
+                        <li>明文为"Hello World"。</li>
+                    </ul>
+                </li>
+                <li><strong>将明文转换为适合加密的格式</strong>
+                    <ul>
+                        <li>转换为大写字母并将字母J替换为I：Hello World -> HELLOWORLD</li>
+                        <li>移除非字母字符：HELLOWORLD</li>
+                        <li>如果明文长度为奇数，在末尾填充<strong>X</strong>字符。</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>步骤2：生成字母方格</h3>
+            <p>使用关键词生成四个5x5字母方格。字母表通常省略<strong>J</strong>，使用<strong>I</strong>代替。</p>
+            
+            <h4>生成字母方格的函数</h4>
+            <pre>
+                <code>
+                function createSquare(keyword) {
+                    let alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+                    let used = {};
+                    let square = "";
+                    keyword = keyword.toUpperCase().replace(/J/g, 'I');
+                    for (let i = 0; i < keyword.length; i++) {
+                        if (!used[keyword[i]]) {
+                            (used[keyword[i]]) = true;
+                            square += keyword[i];
+                        }
+                    }
+                    for (let i = 0; i < alphabet.length; i++) {
+                        if (!used[alphabet[i]]) {
+                            square += alphabet[i];
+                        }
+                    }
+                    return square;
+                }
+                </code>
+            </pre>
+            
+            <h4>生成四个字母方格</h4>
+            <p>方格1 (square1) 和 方格4 (square4) 使用 key1 = "FOUR"：</p>
+            <pre class="cipher-matrix">
+                <code>
+                <span class="highlight">F</span> <span class="highlight">O</span> <span class="highlight">U</span> <span class="highlight">R</span> A
+                B C D E G
+                H I K L M
+                N P Q S T
+                V W X Y Z
+                </code>
+            </pre>
+            <p>方格2 (square2) 和 方格3 (square3) 使用 key2 = "CIPHER"：</p>
+            <pre class="cipher-matrix">
+                <code>
+                <span class="highlight">C</span> <span class="highlight">I</span> <span class="highlight">P</span> <span class="highlight">H</span> <span class="highlight">E</span> 
+                <span class="highlight">R</span> A B D F
+                G K L M N
+                O Q S T U
+                V W X Y Z
+                </code>
+            </pre>
+            
+            <h3>步骤3：加密过程</h3>
+            <p>将明文分成字母对并加密每一对。例如，明文：HELLOWORLD。</p>
+            
+            <h4>分割明文</h4>
+            <p>HELLOWORLD -> HE LL OW OR LD</p>
+            
+            <h4>加密每一对字母</h4>
+            <p>使用以下函数找到字母在方格中的位置：</p>
+            <pre>
+                <code>
+                function findPosition(square, char) {
+                    let index = square.indexOf(char);
+                    let row = Math.floor(index / 5);
+                    let col = index % 5;
+                    return [row, col];
+                }
+                </code>
+            </pre>
+            <p>逐步加密每一对字母：</p>
+            <ul>
+                <li><strong>加密字母对 "HE"</strong>
+                    <ul>
+                        <li>H 在方格1中的位置是 (2, 0)</li>
+                        <li>E 在方格4中的位置是 (1, 3)</li>
+                        <li>从方格2的 (2, 3) 位置取字母 -> M</li>
+                        <li>从方格3的 (1, 0) 位置取字母 -> R</li>
+                        <li>结果：HE -> MR</li>
+                    </ul>
+                </li>
+                <li><strong>加密字母对 "LL"</strong>
+                    <ul>
+                        <li>L 在方格1中的位置是 (2, 3)</li>
+                        <li>L 在方格4中的位置是 (2, 3)</li>
+                        <li>从方格2的 (2, 3) 位置取字母 -> M</li>
+                        <li>从方格3的 (2, 3) 位置取字母 -> M</li>
+                        <li>结果：LL -> MM</li>
+                    </ul>
+                </li>
+                <li><strong>加密字母对 "OW"</strong>
+                    <ul>
+                        <li>O 在方格1中的位置是 (0, 1)</li>
+                        <li>W 在方格4中的位置是 (4, 1)</li>
+                        <li>从方格2的 (0, 1) 位置取字母 -> I</li>
+                        <li>从方格3的 (4, 1) 位置取字母 -> W</li>
+                        <li>结果：OW -> IW</li>
+                    </ul>
+                </li>
+                <li><strong>加密字母对 "OR"</strong>
+                    <ul>
+                        <li>O 在方格1中的位置是 (0, 1)</li>
+                        <li>R 在方格4中的位置是 (0, 3)</li>
+                        <li>从方格2的 (0, 3) 位置取字母 -> H</li>
+                        <li>从方格3的 (0, 1) 位置取字母 -> I</li>
+                        <li>结果：OR -> HI</li>
+                    </ul>
+                </li>
+                <li><strong>加密字母对 "LD"</strong>
+                    <ul>
+                        <li>L 在方格1中的位置是 (2, 3)</li>
+                        <li>D 在方格4中的位置是 (1, 2)</li>
+                        <li>从方格2的 (2, 2) 位置取字母 -> L</li>
+                        <li>从方格3的 (1, 3) 位置取字母 -> D</li>
+                        <li>结果：LD -> LD</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>最终密文</h3>
+            <p>将加密的字母对组合在一起。HELLOWORLD 的密文是：<strong>MRMMIWHILD</strong></p>
+            
+            <h2>四方密码、双重普莱菲尔密码和普莱菲尔密码的比较</h2>
+            <h3>相似之处</h3>
+            <ul>
+                <li><strong>多字母替换密码</strong>
+                    <ul>
+                        <li>四方密码、双重普莱菲尔密码和普莱菲尔密码都是多字母替换密码。这意味着它们使用字母对或字母组作为加密和解密的基本单元，而不是单个字母。</li>
+                    </ul>
+                </li>
+                <li><strong>字母矩阵</strong>
+                    <ul>
+                        <li>这三种密码系统都使用字母矩阵进行加密和解密。每种方法都依赖于这些矩阵中字母的位置来执行替换或转换。</li>
+                    </ul>
+                </li>
+                <li><strong>目标</strong>
+                    <ul>
+                        <li>这些密码的设计目标是通过增加加密的复杂性来增强传统单字母替换密码的安全性，从而防止简单的频率分析攻击。</li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>不同之处</h3>
+            <h4>四方密码</h4>
+            <ul>
+                <li><strong>字母矩阵：</strong> 使用四个5x5字母矩阵。</li>
+                <li><strong>加密单元：</strong> 每次处理两个字母。</li>
+                <li><strong>步骤：</strong>
+                    <ul>
+                        <li>四个字母矩阵：两个矩阵由关键词生成，另外两个通常按字母顺序排列。</li>
+                        <li>将明文分成字母对。</li>
+                        <li>在两个不同的矩阵中找到每对字母的位置，然后在另外两个矩阵中找到对应的加密字母。</li>
+                    </ul>
+                </li>
+                <li><strong>复杂性：</strong> 通过使用更多的矩阵增加了比普莱菲尔密码更高的复杂性和安全性。</li>
+            </ul>
+            
+            <h4>双重普莱菲尔密码</h4>
+            <ul>
+                <li><strong>字母矩阵：</strong> 使用两个5x5字母矩阵。</li>
+                <li><strong>加密单元：</strong> 每次处理两个字母。</li>
+                <li><strong>步骤：</strong>
+                    <ul>
+                        <li>两个字母矩阵由不同的关键词生成。</li>
+                        <li>将明文分成字母对。</li>
+                        <li>使用第一个矩阵找到第一个字母的位置，使用第二个矩阵找到第二个字母的位置，然后根据规则替换字母。</li>
+                    </ul>
+                </li>
+                <li><strong>复杂性：</strong> 比单一普莱菲尔密码增加了一个矩阵，从而增加了复杂性和安全性。</li>
+            </ul>
+            
+            <h4>普莱菲尔密码</h4>
+            <ul>
+                <li><strong>字母矩阵：</strong> 使用一个5x5字母矩阵。</li>
+                <li><strong>加密单元：</strong> 每次处理两个字母。</li>
+                <li><strong>步骤：</strong>
+                    <ul>
+                        <li>一个字母矩阵由关键词生成。</li>
+                        <li>将明文分成字母对。</li>
+                        <li>根据它们的位置关系（同一行、同一列或不同的行和列）替换字母。</li>
+                    </ul>
+                </li>
+                <li><strong>复杂性：</strong> 比简单的单字母替换密码复杂，但比双重普莱菲尔和四方密码简单。</li>
+            </ul>
+            
+            <h3>比较表</h3>
+            <table id="cipherComparisonTable">
+                <thead>
+                    <tr>
+                        <th>特征</th>
+                        <th>四方密码</th>
+                        <th>双重普莱菲尔密码</th>
+                        <th>普莱菲尔密码</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>字母矩阵数量</strong></td>
+                        <td>4</td>
+                        <td>2</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>加密单元</strong></td>
+                        <td>每次两个字母</td>
+                        <td>每次两个字母</td>
+                        <td>每次两个字母</td>
+                    </tr>
+                    <tr>
+                        <td><strong>关键词</strong></td>
+                        <td>两个关键词</td>
+                        <td>两个关键词</td>
+                        <td>一个关键词</td>
+                    </tr>
+                    <tr>
+                        <td><strong>复杂性</strong></td>
+                        <td>高</td>
+                        <td>中</td>
+                        <td>低</td>
+                    </tr>
+                    <tr>
+                        <td><strong>加密规则</strong></td>
+                        <td>使用四个矩阵进行替换</td>
+                        <td>使用两个矩阵进行替换</td>
+                        <td>使用一个矩阵进行替换</td>
+                    </tr>
+                </tbody>
+            </table>            
+
+            <h2>换位法和替换法</h2>
+            <p>
+                Felix Delastelle 在<i>Traité Élémentaire de Cryptographie</i>中深入探讨了密码学中的换位法和替换法。换位法涉及改变明文中字母的位置以加密消息。例如，将字母顺序颠倒，如 "Paul est parti pour Lyon" 变成 "NOYLRUOPITRAPTSELUAP"。另一种方法是分组，即将明文按预定的形状排列，然后按照约定的顺序提取字母形成密文。
+            </p>
+            <p>
+                <strong>法文原文：</strong><br>
+                "L'inversion consiste à transposer ou déplacer les lettres du texte clair suivant une méthode convenue entre les correspondants, de telle sorte qu'il soit facile aux initiés de rétablir l'ordre primitif."
+            </p>
+            <p>
+                <strong>中文翻译：</strong><br>
+                "颠倒法是指按照通信双方约定的方法转移或移动明文的字母，以便使内行人员能够轻松恢复原始顺序。"
+            </p>
+            
+            <p>
+                <strong>法文原文：</strong><br>
+                Le renversement s'effectue en écrivant les lettres du clair en sens inverse de l'ordre normal, la dernière lettre devenant la première, l'avant-dernière la seconde, l'antépénultième la troisième, etc. Exemple: "Paul est parti pour Lyon" s'écrira "NOYLRUOPITRAPTSELUAP". Le renversement peut s'appliquer soit au texte entier, soit successivement à chaque mot ou à des groupes d'un nombre de lettres convenu. La phrase ci-dessus, divisée en deux groupes de dix lettres, donnerait: "RAPTSELUAPNOYLRUOPIT". Et en quatre groupes de cinq lettres: "ELUAPRAPTSUOPITNOYLR".
+            </p>
+            <p>
+                <strong>中文翻译：</strong><br>
+                颠倒法是通过将明文的字母按相反顺序书写来实现的，最后一个字母变成第一个，倒数第二个变成第二个，倒数第三个变成第三个，依此类推。例如："Paul est parti pour Lyon" 会被写成 "NOYLRUOPITRAPTSELUAP"。颠倒法可以应用于整个文本，也可以依次应用于每个单词或按约定数量的字母分组。上述句子分成两个十字母的组，会变成："RAPTSELUAPNOYLRUOPIT"。而分成四个五字母的组，则会变成："ELUAPRAPTSUOPITNOYLR"。
+            </p>
+            
+            <p>
+                <strong>法文原文：</strong><br>
+                "De nombreux systèmes ont été imaginés dans ce but: 1 Renversement des lettres; 2 Groupements divers; 3 Carrés et grilles; 4 Méthodes diverses."
+            </p>
+            <p>
+                <strong>中文翻译：</strong><br>
+                "为了这个目的，已经设计了许多系统：1 字母颠倒；2 各种分组；3 方阵和网格；4 各种方法。"
+            </p>
+            
+            <p>
+                <strong>法文原文：</strong><br>
+                "Il est évident que le renversement ne donne aucune sécurité au point de vue du secret, les dépêches écrites dans ce système ne résistant pas à un examen un peu sérieux."
+            </p>
+            <p>
+                <strong>中文翻译：</strong><br>
+                "显然，颠倒法从保密的角度来看没有任何安全性，用这种方法写的消息经不起稍微认真一点的检查。"
+            </p>            
+        </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="support-links">
+            <h3>支持</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a>
+        </div>
+
+        <div class="info">
+            <p>© 2024 chatcipher Tools. 版权所有</p>
+            <p>
+                <a href="https://chatcipherai.com/zh-CN/Privacy_Policy.html" title="Privacy Policy">隐私政策</a>
+                |
+                <a href="https://chatcipherai.com/zh-CN/Terms_of_Use.html" title="Terms of Use">使用条款</a>
+                |
+                <a href="https://chatcipherai.com/zh-CN/About_Us.html" title="About Us">关于我们</a>
+                |
+                <a href="https://chatcipherai.com/zh-CN/Disclaimer.html" title="Disclaimer">免责声明</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">回到顶端(<span class="highlight-key">B</span>)</button>
+        </div>
+    </footer>
+
+    <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
+        let shortcutsEnabled = true;
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'E':
+                    encrypt();
+                    console.log('Encode triggered');
+                    break;
+                case 'D':
+                    decrypt();
+                    console.log('Decode triggered');
+                    break;
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = '回到顶端(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+        document.getElementById('key1Encrypt').addEventListener('input', generateMatrices);
+        document.getElementById('key2Encrypt').addEventListener('input', generateMatrices);
+
+        function createSquare(keyword) {
+            const alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+            let used = {};
+            let square = "";
+            keyword = keyword.toUpperCase().replace(/J/g, 'I');
+            for (let i = 0; i < keyword.length; i++) {
+                if (!used[keyword[i]]) {
+                    used[keyword[i]] = true;
+                    square += keyword[i];
+                }
+            }
+            for (let i = 0; i < alphabet.length; i++) {
+                if (!used[alphabet[i]]) {
+                    square += alphabet[i];
+                }
+            }
+            return square;
+        }
+
+        function generateMatrixHTML(square, label) {
+            let html = '<div>';
+            for (let i = 0; i < 5; i++) {
+                html += '<div class="matrix-row">';
+                for (let j = 0; j < 5; j++) {
+                    html += `<div class="matrix-cell">${square[i * 5 + j]}</div>`;
+                }
+                html += '</div>';
+            }
+            html += `<div class="matrix-label">${label}</div></div>`;
+            return html;
+        }
+
+        function generateMatrices() {
+            const key1 = document.getElementById('key1Encrypt').value;
+            const key2 = document.getElementById('key2Encrypt').value;
+
+            if (key1 && key2) {
+                const square1 = createSquare(key1);
+                const square2 = createSquare(key2);
+                const square3 = createSquare(key2);
+                const square4 = createSquare(key1);
+
+                document.getElementById('matrix1').innerHTML = generateMatrixHTML(square1, "Key 1 - Square 1");
+                document.getElementById('matrix2').innerHTML = generateMatrixHTML(square2, "Key 2 - Square 2");
+                document.getElementById('matrix3').innerHTML = generateMatrixHTML(square3, "Key 2 - Square 3");
+                document.getElementById('matrix4').innerHTML = generateMatrixHTML(square4, "Key 1 - Square 4");
+            }
+        }
+
+        function findPosition(square, char) {
+            const index = square.indexOf(char);
+            return [Math.floor(index / 5), index % 5];
+        }
+
+        function generateMatrixHTML(square) {
+            let html = '';
+            for (let i = 0; i < 5; i++) {
+                html += '<div class="matrix-row">';
+                for (let j = 0; j < 5; j++) {
+                    html += `<div class="matrix-cell">${square[i * 5 + j]}</div>`;
+                }
+                html += '</div>';
+            }
+            return html;
+        }
+
+        function clearAll() {
+            document.getElementById('encryptInput').value = '';
+            document.getElementById('decryptInput').value = '';
+            document.getElementById('key1Encrypt').value = '';
+            document.getElementById('key2Encrypt').value = '';
+            document.getElementById('key1Decrypt').value = '';
+            document.getElementById('key2Decrypt').value = '';
+            document.getElementById('encryptOutput').textContent = '';
+            document.getElementById('decryptOutput').textContent = '';
+            document.getElementById('matrix1').innerHTML = '';
+            document.getElementById('matrix2').innerHTML = '';
+            document.getElementById('matrix3').innerHTML = '';
+            document.getElementById('matrix4').innerHTML = '';
+        }
+
+        function encrypt() {
+            let text = document.getElementById("encryptInput").value.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+            let key1 = document.getElementById("key1Encrypt").value;
+            let key2 = document.getElementById("key2Encrypt").value;
+
+            let square1 = createSquare(key1);
+            let square2 = createSquare(key2);
+            let square3 = createSquare(key2);
+            let square4 = createSquare(key1);
+
+            let result = "";
+            for (let i = 0; i < text.length; i += 2) {
+                let char1 = text[i];
+                let char2 = text[i + 1] || 'X'; // Padding with 'X' if odd length
+
+                let [r1, c1] = findPosition(square1, char1);
+                let [r2, c2] = findPosition(square4, char2);
+
+                result += square2[r1 * 5 + c2] + square3[r2 * 5 + c1];
+            }
+            let encryptOutput = document.getElementById("encryptOutput");
+            encryptOutput.textContent = result;
+            encryptOutput.style.color = 'blue';
+            encryptOutput.innerHTML = `<b>${result}</b>`;
+        }
+
+        function decrypt() {
+            let text = document.getElementById("decryptInput").value.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+            let key1 = document.getElementById("key1Decrypt").value;
+            let key2 = document.getElementById("key2Decrypt").value;
+
+            let square1 = createSquare(key1);
+            let square2 = createSquare(key2);
+            let square3 = createSquare(key2);
+            let square4 = createSquare(key1);
+
+            let result = "";
+            for (let i = 0; i < text.length; i += 2) {
+                let char1 = text[i];
+                let char2 = text[i + 1] || 'X';
+
+                let [r1, c1] = findPosition(square2, char1);
+                let [r2, c2] = findPosition(square3, char2);
+
+                result += square1[r1 * 5 + c2] + square4[r2 * 5 + c1];
+            }
+
+            let decryptOutput = document.getElementById("decryptOutput");
+            if (result.slice(-1) === 'X') {
+                result = result.slice(0, -1) + '<span style="color: red;">X</span>';
+            }
+            decryptOutput.innerHTML = `<b>${result}</b>`;
+        }
+    </script>
+    <div style="display: none;">
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LZTEEH0M4K"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'G-LZTEEH0M4K');
+        </script>
+    </div>
+</body>
+
+</html>
