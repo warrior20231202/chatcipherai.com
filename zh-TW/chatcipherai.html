@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>密碼系統世界：知名的密碼系統</title>
-    <meta name="keywords" content="密碼世界,密碼,哈希,摩爾斯電碼,凱撒,普萊菲爾,希爾"/>
+    <meta name="keywords" content="密碼世界,密碼,哈希,摩爾斯電碼,凱撒,普萊菲爾,希爾,四方"/>
     <meta name="description" content="讓我們一起探索密碼學的奇妙世界，了解世界知名的密碼學系統。">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
@@ -487,13 +487,15 @@
         img {
             max-width: 75%;
             height: auto;
-            margin-left: -250px;
+            margin-left: -270px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
 
         figcaption.Compare,
         figcaption.caesar,
-        figcaption.playfair {
+        figcaption.playfair,
+        figcaption.Four-Square {
             width: 100%;
             margin-left: -260px;
             color: #007bff;
@@ -673,6 +675,37 @@
             font-weight: bold;
             text-transform: uppercase;
             animation: pulse 1.5s infinite;
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
         }
 
         /* 定义动画 */
@@ -922,6 +955,19 @@
                 font-size: 18px; /* 减小标题字体大小 */
                 left: 30%; /* 确保标题居中 */
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
+
         }
     </style>
 </head>
@@ -937,6 +983,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/zh-TW/Caesar_Cipher.html"><strong>凱撒密碼</strong></a></li>
                         <li><a href="https://chatcipherai.com/zh-TW/Playfair_Cipher.html"><strong>普萊菲爾密碼</strong></a></li>
+                        <li><a href="https://chatcipherai.com/zh-TW/Four_Square_Cipher.html"><strong>四方密碼</strong></a></li>
                         <li><a href="https://chatcipherai.com/zh-TW/Hill_Cipher.html"><strong>希爾密碼</strong></a></li>  
                     </ul>
                 </li>
@@ -1213,6 +1260,73 @@
                 </section>
             </article>
         </section>
+
+        <section id="four-square-cipher-introduction">
+            <h2>了解四方密碼：密碼學歷史的關鍵</h2>
+            <h3>密碼的定義</h3>
+            <p>
+                Félix Delastelle 在他的書 <em>Traité Élémentaire de Cryptographie</em> 中提供了以下定義：
+            </p>
+            <p>
+                On appelle cryptographie la science qui a pour objet l'étude des moyens susceptibles d'assurer le secret des correspondances ou écrits qu'on a intérêt à soustraire à la curiosité des tiers ou à l'indiscrétion des intermédiaires. En d'autres termes, la cryptographie enseigne à transformer un langage clair en langage secret.
+            </p>
+            <p>
+                Delastelle 強調，密碼學是一門科學而非藝術。他認為，加密在給定特定方法和密鑰時，會生成一個獨特的明文版本，類似於算術運算。這突顯了密碼過程的結構化和科學性，與解密的解釋性和可變性形成對比。
+            </p>
+        
+            <h3>四方密碼的工作原理</h3>
+            <p>
+                <a href="https://chatcipherai.com/zh-CN/Four_Square_Cipher.html" id="HillCipherLink" target="_blank" style="color: #007bff;" rel="noopener noreferrer">四方密碼</a>使用四個5x5矩陣來加密二聯字。以下是密碼工作原理的詳細分解：
+            </p>
+            <p>
+                <strong>準備：</strong> 創建四個5x5的方格（網格）。左上角和右下角的方格包含標準字母表（去掉'J'以適應25個字母）。右上角和左下角的方格用混合或基於關鍵字的字母表填充。這些混合字母對於密碼的安全性至關重要。
+            </p>
+            <p>
+                <strong>加密二聯字：</strong>
+            </p>
+            <p>
+                <strong>步驟1：</strong> 將明文消息分成二聯字（字母對）。如果字母數量是奇數，則添加一個額外的字母，如'X'，以完成最後一對。
+            </p>
+            <p>
+                <strong>步驟2：</strong> 對於每個二聯字，在左上方格中找到第一個字母，在右下方格中找到第二個字母。
+            </p>
+            <p>
+                <strong>步驟3：</strong> 確定這些字母在各自方格中的坐標（行和列）。
+            </p>
+            <p>
+                <strong>步驟4：</strong> 使用這些坐標在右上方格和左下方格中找到對應的字母。在右上方格中，與第一個明文字母在同一行但在第二個明文字母的列中的字母成為密文二聯字的第一個字母。同樣，在左下方格中，與第二個明文字母在同一行但在第一個明文字母的列中的字母成為密文二聯字的第二個字母。
+            </p>
+            <p>
+                <strong>示例：</strong> 加密二聯字"HI"。
+            </p>
+            <p>
+                <strong>步驟1：</strong> 在左上方格中找到'H'，在右下方格中找到'I'。假設'H'位於左上方格的第2行第3列，'I'位於右下方格的第3行第4列。
+            </p>
+            <p>
+                <strong>步驟2：</strong> 在混合字母表中找到這些坐標上的字母。在右上方格中，找到第2行第4列的字母。在左下方格中，找到第3行第3列的字母。
+            </p>
+            <p>
+                <strong>步驟3：</strong> 將這些字母組合形成密文二聯字。
+            </p>
+            <p>
+                <strong>解密：</strong> 解密過程涉及反向這些步驟。接收者必須知道方格的排列和使用的混合字母。通過在右上方格和左下方格中找到密文字母並將其映射回左上方格和右下方格中的對應明文字母，可以重建原始消息。
+            </p>
+        
+            <figure>
+                <img src="./images/Diagram of Four-Square Cipher Encryption.jpg" alt="四方密碼加密示意圖">
+                <figcaption class="Four-Square">四方密碼加密示意圖</figcaption>
+            </figure>
+        
+            <h4>通過瀏覽頁面，您將學習到：</h4>
+            <ul>
+                <li>了解四方密碼的作者及其作品</li>
+                <li>掌握四方密碼的加密和解密原理</li>
+                <li>使用網頁上提供的工具嘗試自己進行加密和解密</li>
+            </ul>
+            <p>
+                此外，通過閱讀 <em>Traité Élémentaire de Cryptographie</em>，您將對密碼學有更深入的了解。通過互動教程和示例，您將深入探討這種經典加密方法的複雜性和魅力。
+            </p>
+        </section>        
         
         <section id="end" style="font-family: 'Arial', sans-serif;">
             <p style="font-size: 18px; line-height: 1.6;">
@@ -1223,6 +1337,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>支持</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>

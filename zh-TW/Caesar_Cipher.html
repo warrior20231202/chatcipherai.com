@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>凱撒密碼探索器：古代加密技術</title>
-    <meta name="keywords" content="凱撒,密碼,移位,凱撒密碼,字母,字母表,加密,隱寫術"/>
+    <meta name="keywords" content="凱撒,密碼,移位,凱撒密碼,字母,字母表,加密,隱寫術,四方"/>
     <meta name="description" content="開始使用凱撒密碼探索器的旅程，這是一個使古老加密藝術栩栩如生的工具，展開了一種與尤利烏斯·凱撒永恆遺產一樣古老的方法的秘密。">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
@@ -431,6 +431,7 @@
             height: auto;
             margin-left: -290px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
 
         figcaption.caesar,
@@ -686,6 +687,37 @@
             animation: pulse 1.5s infinite;
         }
 
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
         /* 定义动画 */
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
@@ -925,7 +957,19 @@
         .break-url a {
             word-wrap: break-word;
         }
-    }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 0;
+            margin-bottom: -50px;
+            font-size: 10px;
+        }
+
+        .support-links h3 {
+            font-size: 10px;
+        }
+}
     </style>
 </head>
 
@@ -940,6 +984,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/zh-TW/Caesar_Cipher.html"><strong>凱撒密碼</strong></a></li>
                         <li><a href="https://chatcipherai.com/zh-TW/Playfair_Cipher.html"><strong>普萊菲爾密碼</strong></a></li>
+                        <li><a href="https://chatcipherai.com/zh-TW/Four_Square_Cipher.html"><strong>四方密碼</strong></a></li>
                         <li><a href="https://chatcipherai.com/zh-TW/Hill_Cipher.html"><strong>希爾密碼</strong></a></li>  
                     </ul>
                 </li>
@@ -1202,6 +1247,13 @@
         </main>
 
         <footer class="footer">
+            <div class="support-links">
+                <h3>支持</h3>
+                <ul>
+                    <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+                </ul>
+            </div>
+
             <div class="social-links">
                 <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-twitter"></i>

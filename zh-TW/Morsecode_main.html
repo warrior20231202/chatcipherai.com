@@ -658,6 +658,38 @@
             font-weight: 800;
         }
 
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+            margin-top: -2px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
         @media screen and (max-width: 768px) {
             .navbar h1 {
                 font-size: 18px;
@@ -846,6 +878,18 @@
             .social-links i {
                 font-size: 12px; /* 缩小图标大小 */
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -861,6 +905,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/zh-TW/Caesar_Cipher.html"><strong>凱撒密碼</strong></a></li>
                         <li><a href="https://chatcipherai.com/zh-TW/Playfair_Cipher.html"><strong>普萊菲爾密碼</strong></a></li>
+                        <li><a href="https://chatcipherai.com/zh-TW/Four_Square_Cipher.html"><strong>四方密碼</strong></a></li>
                         <li><a href="https://chatcipherai.com/zh-TW/Hill_Cipher.html"><strong>希爾密碼</strong></a></li>  
                     </ul>
                 </li>
@@ -1211,6 +1256,13 @@
     </div>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>支持</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>
