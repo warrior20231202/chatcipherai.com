@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مستكشف تشفير هيل: برفقة الرياضيات، مسيرًا جنبًا إلى جنب مع التشفير.</title>
+    <title>مستكشف تشفير هيل: برفقة الرياضيات، مسيرًا جنبًا إلى جنب مع التشفير</title>
     <meta name="description" content="تشفير هيل هو خوارزمية تشفير كلاسيكية تنتمي إلى فئة تشفيرات الاستبدال المتعددة الحروف. ما يميزه هو استخدامه للجبر الخطي وضرب المصفوفات لأداء عمليات التشفير وفك التشفير.">    
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -530,7 +530,7 @@
         .navbar .submenu li {
             display: block;
             border-bottom: none;
-            width: 80%;
+            width: 100%;
         }
 
         .navbar .submenu li:last-child {
@@ -661,6 +661,39 @@
 
         .highlight-key { 
             font-weight: 800;
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+            margin-top: -32px;
+
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
         }
 
         @media screen and (max-width: 768px) {
@@ -830,6 +863,18 @@
             .social-links i {
                 font-size: 12px;
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -845,6 +890,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/ar/Caesar_Cipher.html"><strong>شفرة قيصر</strong></a></li>
                         <li><a href="https://chatcipherai.com/ar/Playfair_Cipher.html"><strong>شفرة بلاي فير</strong></a></li>
+                        <li><a href="https://chatcipherai.com/ar/Four_Square_Cipher.html"><strong>شيفرة أربعة مربعات</strong></a></li>
                         <li><a href="https://chatcipherai.com/ar/Hill_Cipher.html"><strong>شفرة هيل</strong></a></li>  
                     </ul>
                 </li>
@@ -1186,6 +1232,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>الدعم</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>            
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>

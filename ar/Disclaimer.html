@@ -609,6 +609,38 @@
             width: 80%;
         }
 
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
         @media screen and (max-width: 768px) {
             .code-style {
                 font-size: 13px;
@@ -794,6 +826,18 @@
             .social-links i {
                 font-size: 12px;
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }     
     </style>
 
@@ -809,6 +853,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/ar/Caesar_Cipher.html"><strong>شفرة قيصر</strong></a></li>
                         <li><a href="https://chatcipherai.com/ar/Playfair_Cipher.html"><strong>شفرة بلاي فير</strong></a></li>
+                        <li><a href="https://chatcipherai.com/ar/Four_Square_Cipher.html"><strong>شيفرة أربعة مربعات</strong></a></li>
                         <li><a href="https://chatcipherai.com/ar/Hill_Cipher.html"><strong>شفرة هيل</strong></a></li>  
                     </ul>
                 </li>
@@ -898,6 +943,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>الدعم</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>            
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>
@@ -1090,7 +1142,7 @@
             if (window.innerWidth < 768) {
                 button.innerHTML = '▲';
             } else {
-                button.innerHTML = 'العودة إلى الأعل(<span class="highlight-key">B</span>)';
+                button.innerHTML = 'العودة إلى الأعلى(<span class="highlight-key">B</span>)';
             }
         }
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عالم النظم الكريبتوغرافية: نظام تشفير معروف عالميًا</title>
-    <meta name="keywords" content="chatcipher, تشفير, هاش, شفرة مورس, قيصر, بلاي فير, هيل"/>
+    <meta name="keywords" content="chatcipher, تشفير, هاش, شفرة مورس, قيصر, بلاي فير, هيل,four-square"/>
     <meta name="description"
         content="دعونا نستكشف معًا العالم المذهل للتشفير، حيث ستتعرف على أنظمة التشفير الشهيرة عالميًا.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -399,7 +399,7 @@
         .navbar .submenu li {
             display: block;
             border-bottom: none;
-            width: 80%;
+            width: 100%;
         }
 
         .navbar .submenu li:last-child {
@@ -491,6 +491,7 @@
             height: auto;
             margin-left: -250px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
 
         figcaption.Compare,
@@ -675,6 +676,38 @@
             font-weight: bold;
             text-transform: uppercase;
             animation: pulse 1.5s infinite;
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
         }
 
         /* 定义动画 */
@@ -923,6 +956,18 @@
                 font-size: 18px; /* 减小标题字体大小 */
                 left: 30%; /* 确保标题居中 */
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -938,6 +983,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/ar/Caesar_Cipher.html"><strong>شفرة قيصر</strong></a></li>
                         <li><a href="https://chatcipherai.com/ar/Playfair_Cipher.html"><strong>شفرة بلاي فير</strong></a></li>
+                        <li><a href="https://chatcipherai.com/ar/Four_Square_Cipher.html"><strong>شيفرة أربعة مربعات</strong></a></li>
                         <li><a href="https://chatcipherai.com/ar/Hill_Cipher.html"><strong>شفرة هيل</strong></a></li>  
                     </ul>
                 </li>
@@ -1210,6 +1256,73 @@
                 </section>
             </article>
         </section>
+
+        <section id="four-square-cipher-introduction">
+            <h3>فهم شيفرة أربعة مربعات: مفتاح لتاريخ التشفير</h3>
+            <h4>تعريف الشيفرة</h4>
+            <p>
+                Félix Delastelle، في كتابه <em>Traité Élémentaire de Cryptographie</em>، يقدم التعريف التالي:
+            </p>
+            <p>
+                On appelle cryptographie la science qui a pour objet l'étude des moyens susceptibles d'assurer le secret des correspondances ou écrits qu'on a intérêt à soustraire à la curiosité des tiers ou à l'indiscrétion des intermédiaires. En d'autres termes, la cryptographie enseigne à transformer un langage clair en langage secret.
+            </p>
+            <p>
+                يؤكد Delastelle على أن التشفير هو علم وليس فنًا. ويجادل بأن التشفير، عندما يتم تعيينه بطريقة محددة ومفتاح، ينتج عنه نسخة فريدة من النص الواضح، مماثلة لعمليات الحساب. هذا يبرز الطبيعة المنظمة والعلمية لعمليات التشفير، على عكس الطبيعة الأكثر تفسيرية والمتغيرة لفك التشفير.
+            </p>
+        
+            <h4>كيف تعمل شيفرة أربعة مربعات</h4>
+            <p>
+                The<a href="https://chatcipherai.com/en/Four_Square_Cipher.html" id="HillCipherLink" target="_blank" style="color: #007bff;" rel="noopener noreferrer"> Four-Square Cipher </a>يستخدم أربع مصفوفات 5x5 لتشفير الزوجيات. هنا تفصيل مفصل لكيفية عمل الشيفرة:
+            </p>
+            <p>
+                <strong>التحضير:</strong> قم بإنشاء أربعة مربعات 5x5 (شبكات). تحتوي المربعات العلوية اليسرى والسفلية اليمنى على الأبجدية القياسية (باستثناء 'J' لتناسب 25 حرفًا). يتم ملء المربعات العلوية اليمنى والسفلية اليسرى بأبجديات مختلطة أو مبنية على كلمات مفتاحية. هذه الأبجديات المختلطة حيوية لأمن الشيفرة.
+            </p>
+            <p>
+                <strong>تشفير الزوجيات:</strong>
+            </p>
+            <p>
+                <strong>الخطوة 1:</strong> قسم رسالة النص الواضح إلى زوجيات (أزواج من الأحرف). إذا كان هناك عدد فردي من الأحرف، أضف حرفًا إضافيًا، مثل 'X'، لاستكمال الزوج الأخير.
+            </p>
+            <p>
+                <strong>الخطوة 2:</strong> لكل زوجية، حدد الحرف الأول في المربع العلوي الأيسر والحرف الثاني في المربع السفلي الأيمن.
+            </p>
+            <p>
+                <strong>الخطوة 3:</strong> حدد الإحداثيات (الصف والعمود) لهذه الأحرف داخل مربعاتها المعنية.
+            </p>
+            <p>
+                <strong>الخطوة 4:</strong> استخدم هذه الإحداثيات للعثور على الأحرف المقابلة في المربعات العلوية اليمنى والسفلية اليسرى. الحرف الموجود في نفس صف الحرف الأول للنص الواضح ولكن في عمود الحرف الثاني للنص الواضح من المربع العلوي الأيمن يصبح الحرف الأول من الزوجية المشفرة. وبالمثل، الحرف الموجود في نفس صف الحرف الثاني للنص الواضح ولكن في عمود الحرف الأول للنص الواضح من المربع السفلي الأيسر يصبح الحرف الثاني من الزوجية المشفرة.
+            </p>
+            <p>
+                <strong>مثال:</strong> تشفير الزوجية "HI".
+            </p>
+            <p>
+                <strong>الخطوة 1:</strong> حدد 'H' في المربع العلوي الأيسر و'I' في المربع السفلي الأيمن. افترض أن 'H' في الصف الثاني، العمود الثالث من المربع العلوي الأيسر، و'I' في الصف الثالث، العمود الرابع من المربع السفلي الأيمن.
+            </p>
+            <p>
+                <strong>الخطوة 2:</strong> ابحث عن الأحرف في هذه الإحداثيات في الأبجديات المختلطة. في المربع العلوي الأيمن، حدد الحرف في الصف الثاني والعمود الرابع. في المربع السفلي الأيسر، حدد الحرف في الصف الثالث والعمود الثالث.
+            </p>
+            <p>
+                <strong>الخطوة 3:</strong> اجمع هذه الأحرف لتكوين الزوجية المشفرة.
+            </p>
+            <p>
+                <strong>فك التشفير:</strong> عملية فك التشفير تتضمن عكس هذه الخطوات. يجب أن يعرف المستلم ترتيب المربعات والأبجديات المختلطة المستخدمة. من خلال تحديد الأحرف المشفرة في المربعات العلوية اليمنى والسفلية اليسرى وربطها بالأحرف الأصلية في المربعات العلوية اليسرى والسفلية اليمنى، يمكن إعادة بناء الرسالة الأصلية.
+            </p>
+        
+            <figure>
+                <img src="./images/Diagram of Four-Square Cipher Encryption.jpg" alt="Diagram of Four-Square Cipher Encryption"> <!-- Updated with a relative path and descriptive alt text -->
+                <figcaption class="Four-Square">مخطط تشفير شيفرة أربعة مربعات</figcaption>
+            </figure>
+        
+            <h4>من خلال تصفح الصفحة سوف تتعلم:</h4>
+            <ul>
+                <li>فهم مؤلف شيفرة أربعة مربعات وأعماله</li>
+                <li>إتقان مبادئ التشفير وفك التشفير باستخدام شيفرة أربعة مربعات</li>
+                <li>استخدام الأدوات المقدمة على صفحة الويب لتجربة التشفير وفك التشفير بنفسك</li>
+            </ul>
+            <p>
+                بالإضافة إلى ذلك، سوف تكتسب فهمًا أعمق للتشفير من خلال قراءة <em>Traité Élémentaire de Cryptographie</em>. من خلال الدروس التفاعلية والأمثلة، سوف تتعمق في تعقيدات وجاذبية هذه الطريقة الكلاسيكية للتشفير.
+            </p>
+        </section>
         
         <section id="end" font-family: 'Arial', sans-serif;">
             <p style=" font-size: 18px; line-height: 1.6;">
@@ -1220,6 +1333,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>الدعم</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>            
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>
