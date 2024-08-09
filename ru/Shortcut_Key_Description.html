@@ -158,6 +158,7 @@
         #Morse-Code-Translator ,
         #Caesar-Cipher ,
         #Playfair-Cipher ,
+        #Four-Square,
         #Hill-Cipher {  
             width: 100%;
         } 
@@ -499,7 +500,7 @@
         .navbar .submenu li {
             display: block;
             border-bottom: none;
-            width: 90%;
+            width: 130%;
         }
 
         .navbar .submenu li:last-child {
@@ -607,6 +608,37 @@
             text-align: center;
             white-space: nowrap;
             width: 80%;
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
         }
 
         @media screen and (max-width: 768px) {
@@ -794,6 +826,18 @@
             .social-links i {
                 font-size: 12px;
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }     
     </style>
 
@@ -809,6 +853,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/ru/Caesar_Cipher.html"><strong>Шифр Цезаря</strong></a></li>
                         <li><a href="https://chatcipherai.com/ru/Playfair_Cipher.html"><strong>Шифр Плейфера</strong></a></li>
+                        <li><a href="https://chatcipherai.com/ru/Four_Square_Cipher.html"><strong>Шифр Четыре квадрата</strong></a></li>
                         <li><a href="https://chatcipherai.com/ru/Hill_Cipher.html"><strong>Шифр Хилла</strong></a></li>  
                     </ul>
                 </li>
@@ -906,6 +951,18 @@
                 <li><strong>D</strong> : Расшифровать зашифрованный текст</li>
             </ul>
         </section>
+
+        <section id="Four-Square">
+            <h2>Шифр Четыре квадрата</h2>
+            <ul>
+                <li><strong>N</strong> : Тёмный стиль</li>
+                <li><strong>L</strong> : Светлый стиль</li>
+                <li><strong>B</strong> : Вернуться наверх</li>
+                <li><strong>A</strong> : Очистить все</li>
+                <li><strong>E</strong> : Зашифровать открытый текст</li>
+                <li><strong>D</strong> : Расшифровать зашифрованный текст</li>
+            </ul>
+        </section>
         
         <section id="Hill-Cipher">
             <h2>Шифр Хилла</h2>
@@ -924,6 +981,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Поддержка</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>

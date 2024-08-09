@@ -399,7 +399,7 @@
         .navbar .submenu li {
             display: block;
             border-bottom: none;
-            width: 90%;
+            width: 130%;
         }
 
         .navbar .submenu li:last-child {
@@ -489,13 +489,15 @@
         img {
             max-width: 75%;
             height: auto;
-            margin-left: -250px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);   
+            margin-left: -280px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
 
         figcaption.Compare,
         figcaption.caesar,
-        figcaption.playfair {
+        figcaption.playfair,
+        figcaption.Four-Square {
             width: 100%;
             margin-left: -260px;
             color: #007bff;
@@ -675,6 +677,37 @@
             font-weight: bold;
             text-transform: uppercase;
             animation: pulse 1.5s infinite;
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
         }
 
         /* 定义动画 */
@@ -923,6 +956,18 @@
                 font-size: 18px; /* 减小标题字体大小 */
                 left: 8%; /* 确保标题居中 */
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -938,6 +983,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/ru/Caesar_Cipher.html"><strong>Шифр Цезаря</strong></a></li>
                         <li><a href="https://chatcipherai.com/ru/Playfair_Cipher.html"><strong>Шифр Плейфера</strong></a></li>
+                        <li><a href="https://chatcipherai.com/ru/Four_Square_Cipher.html"><strong>Шифр Четыре квадрата</strong></a></li>
                         <li><a href="https://chatcipherai.com/ru/Hill_Cipher.html"><strong>Шифр Хилла</strong></a></li>  
                     </ul>
                 </li>
@@ -1214,6 +1260,73 @@
                 </section>
             </article>
         </section>
+
+        <section id="four-square-cipher-introduction">
+            <h3>Понимание шифра «Четыре квадрата»: ключ к истории криптографии</h3>
+            <h4>Определение шифра</h4>
+            <p>
+                Félix Delastelle в своей книге <em>Traité Élémentaire de Cryptographie</em> дает следующее определение:
+            </p>
+            <p>
+                On appelle cryptographie la science qui a pour objet l'étude des moyens susceptibles d'assurer le secret des correspondances ou écrits qu'on a intérêt à soustraire à la curiosité des tiers ou à l'indiscrétion des intermédiaires. En d'autres termes, la cryptographie enseigne à transformer un langage clair en langage secret.
+            </p>
+            <p>
+                Деластель подчеркивает, что криптография — это наука, а не искусство. Он утверждает, что шифрование, если ему присвоен определенный метод и ключ, приводит к уникальной версии открытого текста, подобно арифметическим операциям. Это подчеркивает структурированную и научную природу криптографических процессов, в отличие от более интерпретационной и переменной природы дешифрования.
+            </p>
+        
+            <h4>Как работает шифр «Четыре квадрата»</h4>
+            <p>
+                <a href="https://chatcipherai.com/ru/Four_Square_Cipher.html" id="HillCipherLink" target="_blank" style="color: #007bff;" rel="noopener noreferrer">Шифр «Четыре квадрата»</a> использует четыре матрицы 5x5 для шифрования диграфов. Вот подробное описание того, как работает шифр:
+            </p>
+            <p>
+                <strong>Подготовка:</strong> Создайте четыре квадрата 5x5 (сетки). В верхнем левом и нижнем правом квадратах содержится стандартный алфавит (за исключением буквы 'J', чтобы вместить 25 букв). В верхнем правом и нижнем левом квадратах находятся смешанные или основанные на ключевых словах алфавиты. Эти смешанные алфавиты имеют решающее значение для безопасности шифра.
+            </p>
+            <p>
+                <strong>Шифрование диграфов:</strong>
+            </p>
+            <p>
+                <strong>Шаг 1:</strong> Разделите исходное сообщение на диграфы (пары букв). Если количество букв нечетное, добавьте дополнительную букву, например, 'X', чтобы завершить последнюю пару.
+            </p>
+            <p>
+                <strong>Шаг 2:</strong> Для каждого диграфа найдите первую букву в верхнем левом квадрате, а вторую букву — в нижнем правом квадрате.
+            </p>
+            <p>
+                <strong>Шаг 3:</strong> Определите координаты (строку и столбец) этих букв в их соответствующих квадратах.
+            </p>
+            <p>
+                <strong>Шаг 4:</strong> Используйте эти координаты, чтобы найти соответствующие буквы в верхнем правом и нижнем левом квадратах. Буква в той же строке, что и первая буква исходного текста, но в столбце второй буквы исходного текста из верхнего правого квадрата, становится первой буквой шифрованного диграфа. Аналогично, буква в той же строке, что и вторая буква исходного текста, но в столбце первой буквы исходного текста из нижнего левого квадрата, становится второй буквой шифрованного диграфа.
+            </p>
+            <p>
+                <strong>Пример:</strong> Шифрование диграфа «HI».
+            </p>
+            <p>
+                <strong>Шаг 1:</strong> Найдите 'H' в верхнем левом квадрате и 'I' в нижнем правом квадрате. Предположим, что 'H' находится во 2-й строке, 3-м столбце верхнего левого квадрата, а 'I' — в 3-й строке, 4-м столбце нижнего правого квадрата.
+            </p>
+            <p>
+                <strong>Шаг 2:</strong> Найдите буквы в этих координатах в смешанных алфавитах. В верхнем правом квадрате найдите букву во 2-й строке и 4-м столбце. В нижнем левом квадрате найдите букву в 3-й строке и 3-м столбце.
+            </p>
+            <p>
+                <strong>Шаг 3:</strong> Объедините эти буквы, чтобы сформировать шифрованный диграф.
+            </p>
+            <p>
+                <strong>Дешифрование:</strong> Процесс дешифрования включает в себя выполнение этих шагов в обратном порядке. Получатель должен знать расположение квадратов и использованные смешанные алфавиты. Найдя буквы шифра в верхнем правом и нижнем левом квадратах и сопоставив их с соответствующими буквами исходного текста в верхнем левом и нижнем правом квадратах, можно восстановить оригинальное сообщение.
+            </p>
+        
+            <figure>
+                <img src="./images/Diagram of Four-Square Cipher Encryption.jpg" alt="Диаграмма шифрования шифра «Четыре квадрата»"> <!-- Обновлено относительным путем и описательным alt-текстом -->
+                <figcaption class="Four-Square">Диаграмма шифрования шифра «Четыре квадрата»</figcaption>
+            </figure>
+        
+            <h4>Просматривая страницу, вы узнаете:</h4>
+            <ul>
+                <li>Понять автора шифра «Четыре квадрата» и его работы</li>
+                <li>Овладеть принципами шифрования и дешифрования с использованием шифра «Четыре квадрата»</li>
+                <li>Использовать инструменты, предоставленные на веб-странице, чтобы попробовать самостоятельно шифровать и дешифровать сообщения</li>
+            </ul>
+            <p>
+                Кроме того, вы углубите свое понимание криптографии, читая <em>Traité Élémentaire de Cryptographie</em>. Через интерактивные учебные пособия и примеры вы погрузитесь в сложность и привлекательность этого классического метода шифрования.
+            </p>
+        </section>
         
         <section id="end" font-family: 'Arial', sans-serif;">
             <p style="font-size: 18px; line-height: 1.6;">
@@ -1224,6 +1337,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Поддержка</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+        
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>

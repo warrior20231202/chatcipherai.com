@@ -867,4 +867,81 @@
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <url>
+    <loc>https://chatcipherai.com/en/Four_Square_Cipher.html</loc>
+    <lastmod>2024-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://chatcipherai.com/fr/Four_Square_Cipher.html</loc>
+    <lastmod>2024-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://chatcipherai.com/es/Four_Square_Cipher.html</loc>
+    <lastmod>2024-07-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://chatcipherai.com/zh-CN/Four_Square_Cipher.html</loc>
+    <lastmod>2024-07-25</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://chatcipherai.com/zh-TW/Four_Square_Cipher.html</loc>
+    <lastmod>2024-07-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://chatcipherai.com/ar/Four_Square_Cipher.html</loc>
+    <lastmod>2024-07-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://chatcipherai.com/ru/Four_Square_Cipher.html</loc>
+    <lastmod>2024-07-28</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://chatcipherai.com/pt/Four_Square_Cipher.html</loc>
+    <lastmod>2024-07-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://chatcipherai.com/de/Four_Square_Cipher.html</loc>
+    <lastmod>2024-07-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://chatcipherai.com/hi/Four_Square_Cipher.html</loc>
+    <lastmod>2024-07-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://chatcipherai.com/nl/Four_Square_Cipher.html</loc>
+    <lastmod>2024-08-09</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
 </urlset>
