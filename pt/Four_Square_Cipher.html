@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Four Square Cipher: A Classic Encryption Technique with Dual Key Matrices</title>
+    <meta name="keywords" content="chatcipher,cipher,hash,morsecode,caesar,playfair,hill,Four-Square" />
+    <meta name="description"
+        content="A principal função do site Four-Square Cipher é fornecer ferramentas online de criptografia e descriptografia, onde os usuários podem gerar resultados correspondentes de criptografia ou descriptografia inserindo texto e duas matrizes de chaves diferentes. O site também fornece o contexto histórico do Four-Sided Cipher, guias de uso e tutoriais interativos para ajudar os usuários a entender e praticar essa tecnologia clássica de criptografia.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        #inputMessage,
+        #shiftValue {
+            width: 60%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            font-size: 1em;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 120px;
+            /* margin-left: 180px; */
+            width: 80%;
+        }
+
+        .sections-container h2,
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            /* 在每个块之间添加一些间隔 */
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .flex-container {
+            display: flex;
+            /* justify-content: space-between;  */
+            justify-content: space-around;
+            /* 在每个块之间添加一些间隔 */
+            gap: 120px;
+
+        }
+
+        .flex-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input[type="text"],
+        textarea {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* 字体样式 */
+            font-size: 20px;
+            color: #0A0F24;
+            padding: 5px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            resize: none;
+        }
+
+        input[type="text"] {
+            width: 4cm;
+        }
+
+        textarea {
+            /* width: 400px; */
+            resize: vertical;
+            min-height: 60px;
+            max-height: 300px;
+            /* margin-left: -80px; */
+        }
+
+        #encryptSection,
+        #decryptSection {
+            flex: 1;
+        }
+
+        .key-input {
+            height: 40px;
+            /* 增加key输入框的高度 */
+            font-size: 16px;
+            width: 300px;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        .key-input:focus {
+            border: 1px solid #0A0F24;
+            /* 输入时边框变粗并显示 */
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .clear-all-button {
+            align-self: center;
+            margin-top: 20px;
+        }
+
+        .output {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 300px;
+            font-size: 18px;
+            color: #0A0F24;
+            margin-top: 10px;
+            word-wrap: break-word;
+            /* 确保自动换行 */
+            /* white-space: pre-wrap; */
+            word-break: break-all;
+            /* 增加这一行以确保自动换行 */
+            /* margin-left: -150px; */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 70%;
+            color: #ffffff;
+            /* margin-left: 5%; */
+            margin-top: 30px;
+            margin-bottom: 200px;
+        }
+
+        .container h2 {
+            text-align: left;
+            margin-left: -50px;
+        }
+
+        .container p {
+            margin-left: -50px;
+            color: #0A0F24;
+        }
+
+        .section {
+            margin-left: 60px;
+        }
+
+        p {
+            margin-bottom: 40px;
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        h3 {
+            margin-top: 30px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            /* margin-left: 5px; */
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+            width: 140px;
+            margin: 0 auto;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 10px;
+            right: 48px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            white-space: nowrap;
+            width: 140px;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: #0A0F24;
+        }
+
+        .dark-mode .container p {
+            color: #FFFFFF;
+        }
+
+        .light-mode .container {
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar,
+        .light-mode {
+            background-color: #FFFFFF;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent;
+            color: #0A0F24;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+        }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px;
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .info button {
+            display: inline-block;
+            font-size: 16px; /* 根据需要调整字体大小 */
+            cursor: pointer;
+            border-radius: 5px;
+            white-space: nowrap; /* 防止文字折叠 */
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: -25px;
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.playfair,
+        figcaption.padding_rules {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 140%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .cipher-matrix {
+            font-size: 20px;
+            letter-spacing: 5px;
+            line-height: 1.5;
+            margin-left: -100px;
+        }
+
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px;
+        }
+
+        figcaption {
+            margin-top: -40px;
+            margin-bottom: 40px;
+            margin-left: 280px;
+            font-size: 18px;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .language-list {
+            float: right;
+        }
+
+        .language-list a {
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover {
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key {
+            font-weight: 800;
+        }
+
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px;
+            /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px;
+            /* 曲线宽度 */
+            height: 100%;
+            background: #007bff;
+            /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px;
+            /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -130px;
+            /* 将标题放到轴的正上方 */
+            left: 20%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        pre {
+            background-color: #e9f4f4;
+            width: 74%;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #0A0F24;
+        }
+
+        code {
+            font-family: 'Arial', sans-serif;
+            /* 使用非等宽字体 */
+            padding: 1px 4px;
+            border-radius: 4px;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        pre.cipher-matrix {
+            font-family: 'Courier New', Courier, monospace;
+            /* 使用等宽字体 */
+            font-size: 16px;
+            font-weight: bold;
+            border-left: 4px solid #0073e6;
+            margin-left: 0;
+        }
+
+        ul li,
+        ol li {
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        ul ul,
+        ol ol {
+            margin-top: 10px;
+            margin-bottom: -5px;
+        }
+
+        #cipherComparisonTable {
+            border-collapse: collapse;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-left: 0;
+        }
+
+        #cipherComparisonTable th,
+        #cipherComparisonTable td {
+            padding: 12px;
+            text-align: center;
+            border: 0 solid #eae6e6;
+            font-weight: bold;
+        }
+
+        #cipherComparisonTable th {
+            background-color: #7fbef5;
+            color: white;
+            font-size: 16px;
+        }
+
+        #cipherComparisonTable td {
+            color: #333;
+            font-size: 16px;
+        }
+
+        #cipherComparisonTable tr:hover {
+            background-color: #ddd !important;
+        }
+
+        .dark-mode #cipherComparisonTable {
+            background-color: #e9f1f4;
+        }
+
+        .matrix-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .matrix-container h3 {
+            color: #0073e6;
+            margin-bottom: 10px;
+        }
+
+        .matrix-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .matrix {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.9), rgba(0, 100, 210, 0.9));
+            color: white;
+            padding: 15px;
+            margin: 10px;
+            border: 2px solid #005bb5;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 160px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .matrix div {
+            margin-bottom: 5px;
+        }
+
+        .matrix-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .matrix-cell {
+            width: 20%;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .matrix-label {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .shift-right {
+            transform: translateX(120px); /* 可以根据需要调整平移的距离 */
+            flex: 2;
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+            margin-top: -12px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media screen and (max-width: 1200px) {
+            .flex-container {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            body{
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .shift-right {
+                transform: translateX(40px); /* 可以根据需要调整平移的距离 */
+                flex: 2;
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                /* width: 80%; */
+                width: 100%;
+            }
+
+            .section {
+                /* width: 120%; */
+                width: 100%;
+                padding: 10px;
+                margin-left: 0;
+            }
+
+            .section h2 {
+                font-size: 1.2em;
+            }
+
+            .section h3 {
+                font-size: 0.9em;
+            }
+
+            .section h4 {
+                font-size: 0.8em;
+            }
+
+            .section p {
+                font-size: 0.9em;
+            }
+
+            .section li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            .container {
+                width: 90%;
+                /* padding: 20px; */
+                font-size: 0.8em;
+                padding:20px 0;
+                margin: 0 auto;
+            }
+
+            .container h2 {
+                font-size: 1.5em;
+                margin-top: 10px;
+            }
+
+            input[type="text"] {
+                width: 78%;
+            }
+
+            textarea {
+                width: 60%;
+            }
+
+            .cipher-matrix {
+                margin-left: -210px;
+            }
+
+            #cipherComparisonTable {
+                margin-left: 0;
+            }
+
+            #cipherComparisonTable th {
+                background-color: #7fbef5;
+                color: white;
+                font-size: 12px;
+            }
+
+            #cipherComparisonTable td {
+                color: #333;
+                font-size: 12px;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -80px;
+            }
+
+            figcaption.playfair,
+            figcaption.padding_rules {
+                width: 100%;
+                margin-left: -90px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .info button {
+                width: 25px;
+            }
+
+            #inputText {
+                width: 78%;
+            }
+
+            #processedPlaintext,
+            #result {
+                font-weight: bold;
+                color: #0A0F24;
+                word-wrap: break-word;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0;
+                /* Hide text */
+            }
+
+            #menuIcon::before {
+                content: '\2630';
+                /* Unicode character for ☰ */
+                font-size: 16px;
+                /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0;
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px;
+                /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            .style-selector button {
+                width: 30px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+
+            .add {
+                width: 100%;
+                /* 调整宽度为100%以适应较小的屏幕 */
+                margin-top: 80px;
+                /* 减少上边距 */
+                margin-bottom: 20px;
+                /* 减少下边距 */
+            }
+
+            .event {
+                width: 80%;
+                /* 增加宽度以适应单列布局 */
+                padding: 10px 20px;
+                /* 调整内边距 */
+            }
+
+            .left,
+            .right {
+                left: 10%;
+                /* 调整定位以居中显示 */
+                width: 80%;
+                /* 增加宽度以填充更多空间 */
+            }
+
+            .right::before,
+            .left::before {
+                left: 10px;
+                /* 调整左侧箭头的位置 */
+                right: auto;
+                /* 确保右侧箭头不会显示在错误的位置 */
+            }
+
+            .details {
+                padding: 15px 20px;
+                /* 调整细节块的内边距 */
+            }
+
+            .node {
+                width: 15px;
+                /* 调大点的大小 */
+                height: 15px;
+                /* 调大点的大小 */
+                top: 5px;
+                /* 增加点的顶部间距 */
+                left: 55%;
+                margin-left: -15px;
+                /* 保持点居中，根据新的大小调整 */
+            }
+
+            .event {
+                margin-bottom: 15px;
+                /* 增加事件块之间的间距 */
+                margin-left: -10px;
+            }
+
+            .s-curve {
+                left: 50%;
+                /* 调整曲线的位置，保证其在屏幕中心 */
+            }
+
+            h3.cool-title {
+                top: -80px;
+                /* 调整标题位置以更适应头部空间 */
+                font-size: 18px;
+                /* 减小标题字体大小 */
+                left: 10%;
+                /* 确保标题居中 */
+            }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; menu</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/pt/chatcipherai.html"><strong>Mundo dos Criptossistemas</strong></a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/pt/Caesar_Cipher.html"><strong>Cifra de César</strong></a></li>
+                        <li><a href="https://chatcipherai.com/pt/Playfair_Cipher.html"><strong>Cifra de Playfair</strong></a></li>
+                        <li><a href="https://chatcipherai.com/pt/Four_Square_Cipher.html"><strong>Cifra de Quatro Quadrados</strong></a></li>
+                        <li><a href="https://chatcipherai.com/pt/Hill_Cipher.html"><strong>Cifra de Hill</strong></a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/pt/Hash_value_test.html"><strong>Teste de Valor de Hash</strong></a></li>
+                <li><a href="https://chatcipherai.com/pt/Morsecode_main.html"><strong>Tradutor de Código Morse</strong></a></li>
+                <li><a href="https://chatcipherai.com/pt/Shortcut_Key_Description.html"><strong>Descrição da Tecla de Atalho</strong></a></li>
+            </ul>   
+
+            <div id="languageIcon">&#x2637; idioma</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Four_Square_Cipher" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Four_Square_Cipher" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Four_Square_Cipher" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Four_Square_Cipher" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Four_Square_Cipher" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Four_Square_Cipher" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Four_Square_Cipher" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Four_Square_Cipher" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Four_Square_Cipher" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Four_Square_Cipher" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Four_Square_Cipher" title="Nederlands">Nederlands</a></li>
+                </ul>
+            </div>
+
+            <h1>Explorador Cifra de Quatro Quadrados</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 Estilo Escuro(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ Estilo Claro(<span class="highlight-key">L</span>)</button>
+            </div> 
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <section class="container">
+            <h2>Experimente a Cifra de Quatro Quadrados</h2>
+            <p>Utilize as ferramentas fornecidas abaixo para criptografar ou descriptografar uma mensagem:</p>
+
+            <div class="flex-container">
+                <div id="encryptSection" class="flex-item">
+                    <h3>Criptografar</h3>
+                    <textarea id="encryptInput" placeholder="Digite o texto para criptografar..."></textarea>
+                    <input class="key-input" id="key1Encrypt" placeholder="Digite a chave 1..." />
+                    <input class="key-input" id="key2Encrypt" placeholder="Digite a chave 2..." />
+                    <button id="encryptButton" onclick="encrypt()">Codificar (<span class="highlight-key">E</span>)</button>
+                    <div class="output">
+                        <strong>Resultado:</strong> <span id="encryptOutput"></span>
+                    </div>
+                </div>
+
+                <div id="decryptSection" class="flex-item">
+                    <h3>Descriptografar</h3>
+                    <textarea id="decryptInput" placeholder="Digite o texto para descriptografar..."></textarea>
+                    <input class="key-input" id="key1Decrypt" placeholder="Digite a chave 1..." />
+                    <input class="key-input" id="key2Decrypt" placeholder="Digite a chave 2..." />
+                    <button id="decryptButton" onclick="decrypt()">Decodificar (<span class="highlight-key">D</span>)</button>
+                    <div class="output">
+                        <strong>Resultado:</strong> <span id="decryptOutput"></span>
+                    </div>
+                </div>
+            </div>
+
+            <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">Limpar Tudo (<span class="highlight-key">A</span>)</button>
+            <div id="matrixContainer" class="matrix-container">
+                <h3>Matrizes Geradas</h3>
+                <div class="matrix-grid">
+                    <div id="matrix1" class="matrix"></div>
+                    <div id="matrix2" class="matrix"></div>
+                    <div id="matrix3" class="matrix"></div>
+                    <div id="matrix4" class="matrix"></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="shift-right">
+            <section class="add">
+                <h3 class="cool-title">Momentos maravilhosos na história</h3>
+                <div class="s-curve"></div>
+                <div class="add">
+                    <div class="event left" onclick="toggleDetails(this)">
+                        <div class="node"></div>
+                        <div class="details hidden">
+                            <h4>Invenção e Descrição Inicial (1902)</h4>
+                            <p>O criptógrafo francês<strong> Félix-Marie Delastelle </strong>descreveu pela primeira vez a Cifra de Quatro Quadrados em seu livro<strong><em> Traité Élémentaire de Cryptographie </em></strong> (Tratado Elementar de Criptografia). No livro, Delastelle apresentou a Cifra de Quatro Quadrados e explicou seus métodos de criptografia e descriptografia.</p>
+                        </div>
+                    </div>
+                    <div class="event right" onclick="toggleDetails(this)">
+                        <div class="node"></div>
+                        <div class="details hidden">
+                            <h4>Aplicações Acadêmicas e Práticas (Início do século 20)</h4>
+                            <p>Após a publicação do livro de Delastelle, a<strong> Cifra de Quatro Quadrados </strong>ganhou alguma atenção na comunidade criptográfica. Ela foi utilizada como uma ferramenta educacional para ajudar os estudantes a entenderem os princípios e aplicações das cifras de substituição poligráfica.</p>
+                        </div>
+                    </div>
+                    <div class="event left" onclick="toggleDetails(this)">
+                        <div class="node"></div>
+                        <div class="details hidden">
+                            <h4>Influência na Criptografia Moderna (Médio ao final do século 20)</h4>
+                            <p>Com o desenvolvimento dos computadores e da criptografia moderna, a<strong> Cifra de Quatro Quadrados </strong>foi substituída por sistemas criptográficos mais complexos e seguros. No entanto, ela ainda ocupa um lugar na história e na educação da criptografia como uma ferramenta de ensino e objeto de pesquisa.</p>
+                        </div>
+                    </div>
+                    <div class="event right" onclick="toggleDetails(this)">
+                        <div class="node"></div>
+                        <div class="details hidden">
+                            <h4>Aplicações e Pesquisa Modernas</h4>
+                            <p>Embora não seja mais utilizada para a segurança real das comunicações, a<strong> Cifra de Quatro Quadrados </strong>continua sendo empregada como um exemplo educacional em cursos de criptografia, ajudando os alunos a compreender conceitos criptográficos fundamentais e a história.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        <section class="section">
+            <h2>A Cifra de Quatro Quadrados: Contexto Histórico e Princípios de Criptografia</h2>
+            <p>
+                A <a href="https://en.wikipedia.org/wiki/Four-square_cipher" rel="noopener noreferrer" target="_blank"
+                    style="color: #007bff; font-size: 1.0em;"> Cifra de Quatro Quadrados</a> é um método de criptografia simétrica
+                inventado pelo francês <a href="https://dbpedia.org/page/F%C3%A9lix_Delastelle" rel="noopener noreferrer"
+                    target="_blank" style="color: #007bff; font-size: 1.0em;"> Felix Delastelle</a> (1840–1902) e faz parte da
+                criptografia moderna. Este método de criptografia criptografa letras em pares utilizando quatro matrizes de 5×5,
+                cada uma contendo 25 letras. Tipicamente, a letra Q é omitida, ou I e J são consideradas a mesma letra.
+                Alternativamente, o método pode ser adaptado para usar matrizes de 6×6 para incluir 10 dígitos.
+            </p>
+            
+            <p>
+                Durante o processo de criptografia, duas palavras em inglês são escolhidas como chaves, como "example" e "keyword."
+                Após remover as letras duplicadas, as letras restantes são colocadas em ordem nas matrizes. Essas duas matrizes são
+                colocadas nos cantos superior direito e inferior esquerdo, enquanto os cantos superior esquerdo e inferior direito
+                utilizam a sequência de A a Z para formar as matrizes, criando assim a matriz da Cifra de Quatro Quadrados.
+            </p>
+            
+            <p>
+                Para criptografar uma mensagem, as letras são separadas em pares, como "hello world" se tornando "he ll ow or ld."
+                Com base nas posições nas matrizes, as letras criptografadas correspondentes são encontradas. Por exemplo, o
+                processo de criptografia para "he" envolve encontrar a posição de "h" na matriz superior esquerda e "e" na matriz
+                inferior direita. Então, na matriz superior direita, a letra na mesma linha de "h" e na mesma coluna de "e" é
+                localizada, e na matriz inferior esquerda, a letra na mesma coluna de "h" e na mesma linha de "e" é encontrada.
+                Essas duas letras formam o texto cifrado criptografado.
+            </p>
+            
+            <p>
+                A fraqueza da Cifra de Quatro Quadrados reside no caso em que duas letras estão na mesma coluna, as letras originais
+                são usadas, o que pode expor cerca de 20% do conteúdo. Além disso, como é um método de criptografia simétrica, ele é
+                facilmente quebrado por meio de comparações registradas, resultando em baixa segurança. Outro problema é que ele só
+                pode criptografar um número par de caracteres. Se houver um número ímpar, o último caractere restante não pode ser
+                criptografado, e usar o caractere original ou a criptografia de preenchimento torna o texto cifrado mais vulnerável
+                à exposição.
+            </p>
+            
+            <p>
+                Como parte da criptografia clássica, embora a Cifra de Quatro Quadrados não corresponda à segurança dos algoritmos de
+                criptografia modernos, sua simplicidade e significado histórico forneceram inspiração para os métodos modernos de
+                criptografia.
+            </p>            
+
+            <h2>Guia Passo a Passo para Criptografia com a Cifra de Quatro Quadrados</h2>
+            <p>O seguinte é um guia detalhado passo a passo para criptografar usando a<strong> Cifra de Quatro Quadrados</strong>, com as palavras-chave "Four" e "Cipher" e o texto simples "Hello World".</p>
+            
+            <h3>Passo 1: Preparação</h3>
+            <ul>
+                <li><strong>Escolha as Palavras-chave</strong>
+                    <ul>
+                        <li>chave1 = "Four"</li>
+                        <li>chave2 = "Cipher"</li>
+                    </ul>
+                </li>
+                <li><strong>Prepare o Texto Simples</strong>
+                    <ul>
+                        <li>O texto simples é "Hello World".</li>
+                    </ul>
+                </li>
+                <li><strong>Converta o Texto Simples para o Formato Adequado para Criptografia</strong>
+                    <ul>
+                        <li>Converta para letras maiúsculas e substitua a letra J por I: Hello World -> HELLOWORLD</li>
+                        <li>Remova caracteres não alfabéticos: HELLOWORLD</li>
+                        <li>Se o comprimento do texto simples for ímpar, adicione o <strong>caractere X</strong> no final.</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>Passo 2: Gerar os Quadrados de Letras</h3>
+            <p>Use as palavras-chave para gerar quatro quadrados de letras 5x5. O alfabeto geralmente omite a <strong>letra J</strong>, utilizando<strong>I</strong> em seu lugar.</p>
+            
+            <h4>Função para Gerar os Quadrados de Letras</h4>
+            <pre>
+                <code>
+                function createSquare(keyword) {
+                    let alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+                    let used = {};
+                    let square = "";
+                    keyword = keyword.toUpperCase().replace(/J/g, 'I');
+                    for (let i = 0; i < keyword.length; i++) {
+                        if (!used[keyword[i]]) {
+                            (used[keyword[i]]) = true;
+                            square += keyword[i];
+                        }
+                    }
+                    for (let i = 0; i < alphabet.length; i++) {
+                        if (!used[alphabet[i]]) {
+                            square += alphabet[i];
+                        }
+                    }
+                    return square;
+                }
+                </code>
+            </pre>
+            
+            <h4>Gerar 4 Quadrados de Letras</h4>
+            <p>Quadrado 1 (square1) e Quadrado 4 (square4) usando chave1 = "FOUR":</p>
+            <pre class="cipher-matrix">
+                <code>
+                <span class="highlight">F</span> <span class="highlight">O</span> <span class="highlight">U</span> <span class="highlight">R</span> A
+                B C D E G
+                H I K L M
+                N P Q S T
+                V W X Y Z
+                </code>
+            </pre>
+            <p>Quadrado 2 (square2) e Quadrado 3 (square3) usando chave2 = "CIPHER": </p>
+            <pre class="cipher-matrix">
+                <code>
+                <span class="highlight">C</span> <span class="highlight">I</span> <span class="highlight">P</span> <span class="highlight">H</span> <span class="highlight">E</span> 
+                <span class="highlight">R</span> A B D F
+                G K L M N
+                O Q S T U
+                V W X Y Z
+                </code>
+            </pre>
+            
+            <h3>Passo 3: Processo de Criptografia</h3>
+            <p>Divida o texto simples em pares de letras e criptografe cada par. Exemplo de texto simples: HELLOWORLD.</p>
+            
+            <h4>Divida o Texto Simples</h4>
+            <p>HELLOWORLD -> HE LL OW OR LD</p>
+            
+            <h4>Criptografe Cada Par de Letras</h4>
+            <p>Use a seguinte função para encontrar a posição das letras nos quadrados:</p>
+            <pre>
+                <code>
+                    function findPosition(square, char) {
+                        let index = square.indexOf(char);
+                        let row = Math.floor(index / 5);
+                        let col = index % 5;
+                        return [row, col];
+                    }
+                </code>
+            </pre>
+            <p>Criptografe cada par de letras passo a passo:</p>
+            <ul>
+                <li><strong>Criptografar o Par "HE"</strong>
+                    <ul>
+                        <li>H está na posição (2, 0) no square1</li>
+                        <li>E está na posição (1, 3) no square4</li>
+                        <li>Pegue (2, 3) do square2 -> M</li>
+                        <li>Pegue (1, 0) do square3 -> R</li>
+                        <li>Resultado: HE -> MR</li>
+                    </ul>
+                </li>
+                <li><strong>Criptografar o Par "LL"</strong>
+                    <ul>
+                        <li>L está na posição (2, 3) no square1</li>
+                        <li>L está na posição (2, 3) no square4</li>
+                        <li>Pegue (2, 3) do square2 -> M</li>
+                        <li>Pegue (2, 3) do square3 -> M</li>
+                        <li>Resultado: LL -> MM</li>
+                    </ul>
+                </li>
+                <li><strong>Criptografar o Par "OW"</strong>
+                    <ul>
+                        <li>O está na posição (0, 1) no square1</li>
+                        <li>W está na posição (4, 1) no square4</li>
+                        <li>Pegue (0, 1) do square2 -> I</li>
+                        <li>Pegue (4, 1) do square3 -> W</li>
+                        <li>Resultado: OW -> IW</li>
+                    </ul>
+                </li>
+                <li><strong>Criptografar o Par "OR"</strong>
+                    <ul>
+                        <li>O está na posição (0, 1) no square1</li>
+                        <li>R está na posição (0, 3) no square4</li>
+                        <li>Pegue (0, 3) do square2 -> H</li>
+                        <li>Pegue (0, 1) do square3 -> I</li>
+                        <li>Resultado: OR -> HI</li>
+                    </ul>
+                </li>
+                <li><strong>Criptografar o Par "LD"</strong>
+                    <ul>
+                        <li>L está na posição (2, 3) no square1</li>
+                        <li>D está na posição (1, 2) no square4</li>
+                        <li>Pegue (2, 2) do square2 -> L</li>
+                        <li>Pegue (1, 3) do square3 -> D</li>
+                        <li>Resultado: LD -> LD</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>Texto Cifrado Final</h3>
+            <p>Combine os pares de letras criptografados. O texto cifrado para HELLOWORLD é: <strong>MRMMIWHILD</strong></p>            
+
+            <h2>Comparação entre a Cifra de Quatro Quadrados, a Cifra Double Playfair e a Cifra Playfair</h2>
+            <h3>Semelhanças</h3>
+            <ul>
+                <li><strong>Cifras de Substituição Poligráfica</strong>
+                    <ul>
+                        <li>A Cifra de Quatro Quadrados, a Cifra Double Playfair e a Cifra Playfair são todas cifras de substituição poligráfica. Isso significa que elas usam pares ou grupos de letras como a unidade básica para criptografia e descriptografia, em vez de letras individuais.</li>
+                    </ul>
+                </li>
+                <li><strong>Matrizes de Letras</strong>
+                    <ul>
+                        <li>Todos os três sistemas de cifra utilizam matrizes de letras para criptografia e descriptografia. Cada método depende das posições das letras nessas matrizes para realizar substituições ou transformações.</li>
+                    </ul>
+                </li>
+                <li><strong>Objetivo</strong>
+                    <ul>
+                        <li>O objetivo do design dessas cifras é aumentar a segurança das cifras tradicionais de substituição de letras únicas, aumentando a complexidade da criptografia, assim prevenindo ataques simples de análise de frequência.</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>Diferenças</h3>
+            <h4>Cifra de Quatro Quadrados</h4>
+            <ul>
+                <li><strong>Matrizes de Letras:</strong> Usa quatro matrizes de letras 5x5.</li>
+                <li><strong>Unidade de Criptografia:</strong> Processa duas letras de cada vez.</li>
+                <li><strong>Etapas:</strong>
+                    <ul>
+                        <li>Quatro matrizes de letras: Duas matrizes são geradas a partir de palavras-chave, e as outras duas geralmente estão em ordem alfabética padrão.</li>
+                        <li>Divida o texto simples em pares de letras.</li>
+                        <li>Encontre a posição de cada par de letras em duas matrizes diferentes, depois encontre as letras criptografadas correspondentes nas outras duas matrizes.</li>
+                    </ul>
+                </li>
+                <li><strong>Complexidade:</strong> Aumenta a complexidade e a segurança usando mais matrizes em comparação com a cifra Playfair.</li>
+            </ul>
+            
+            <h4>Cifra Double Playfair</h4>
+            <ul>
+                <li><strong>Matrizes de Letras:</strong> Usa duas matrizes de letras 5x5.</li>
+                <li><strong>Unidade de Criptografia:</strong> Processa duas letras de cada vez.</li>
+                <li><strong>Etapas:</strong>
+                    <ul>
+                        <li>Duas matrizes de letras são geradas a partir de diferentes palavras-chave.</li>
+                        <li>Divida o texto simples em pares de letras.</li>
+                        <li>Use a primeira matriz para encontrar a posição da primeira letra, e a segunda matriz para encontrar a posição da segunda letra, depois substitua as letras de acordo com as regras.</li>
+                    </ul>
+                </li>
+                <li><strong>Complexidade:</strong> Adiciona complexidade e segurança ao introduzir uma segunda matriz em comparação com a cifra Playfair simples.</li>
+            </ul>
+            
+            <h4>Cifra Playfair</h4>
+            <ul>
+                <li><strong>Matrizes de Letras:</strong> Usa uma matriz de letras 5x5.</li>
+                <li><strong>Unidade de Criptografia:</strong> Processa duas letras de cada vez.</li>
+                <li><strong>Etapas:</strong>
+                    <ul>
+                        <li>Uma matriz de letras é gerada a partir de uma palavra-chave.</li>
+                        <li>Divida o texto simples em pares de letras.</li>
+                        <li>Substitua as letras com base em sua relação posicional (mesma linha, mesma coluna ou diferentes linhas e colunas).</li>
+                    </ul>
+                </li>
+                <li><strong>Complexidade:</strong> Aumenta a complexidade em comparação com cifras simples de substituição de letras únicas, mas é menos complexa que as cifras Double Playfair e Cifra de Quatro Quadrados.</li>
+            </ul>
+            
+            <h3>Tabela Comparativa</h3>
+            <table id="cipherComparisonTable">
+                <thead>
+                    <tr>
+                        <th>Características</th>
+                        <th>Cifra de Quatro Quadrados</th>
+                        <th>Cifra Double Playfair</th>
+                        <th>Cifra Playfair</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Número de Matrizes de Letras</strong></td>
+                        <td>4</td>
+                        <td>2</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Unidade de Criptografia</strong></td>
+                        <td>Duas letras de cada vez</td>
+                        <td>Duas letras de cada vez</td>
+                        <td>Duas letras de cada vez</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Palavras-chave</strong></td>
+                        <td>Duas palavras-chave</td>
+                        <td>Duas palavras-chave</td>
+                        <td>Uma palavra-chave</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complexidade</strong></td>
+                        <td>Alta</td>
+                        <td>Média</td>
+                        <td>Baixa</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Regras de Criptografia</strong></td>
+                        <td>Usa quatro matrizes para encontrar substituições</td>
+                        <td>Usa duas matrizes para encontrar substituições</td>
+                        <td>Usa uma matriz para encontrar substituições</td>
+                    </tr>
+                </tbody>
+            </table>            
+
+            <h2>Transposição e Substituição</h2>
+            <p>
+                O <i>Traité Élémentaire de Cryptographie</i> de Felix Delastelle explora em profundidade os métodos de transposição e substituição na criptografia. A transposição envolve alterar as posições das letras no texto simples para criptografar a mensagem. Por exemplo, inverter a ordem das letras, como no caso de "Paul est parti pour Lyon" tornando-se "NOYLRUOPITRAPTSELUAP". Outro método é o agrupamento, onde o texto simples é organizado em uma forma predeterminada, e as letras são extraídas em uma ordem acordada para formar o texto cifrado.
+            </p>
+            <p>
+                <strong>Original en français:</strong><br>
+                "L'inversion consiste à transposer ou déplacer les lettres du texte clair suivant une méthode convenue entre les correspondants, de telle sorte qu'il soit facile aux initiés de rétablir l'ordre primitif."
+            </p>
+            <p>
+                <strong>Tradução em português:</strong><br>
+                "A inversão consiste em transpor ou mover as letras do texto claro de acordo com um método acordado entre os correspondentes, de modo que seja fácil para os iniciados restaurar a ordem original."
+            </p>
+            
+            <p>
+                <strong>Original en français:</strong><br>
+                Le renversement s'effectue en écrivant les lettres du clair en sens inverse de l'ordre normal, la dernière lettre devenant la première, l'avant-dernière la seconde, l'antépénultième la troisième, etc. Exemple: "Paul est parti pour Lyon" s'écrira "NOYLRUOPITRAPTSELUAP". Le renversement peut s'appliquer soit au texte entier, soit successivement à chaque mot ou à des groupes d'un nombre de lettres convenu. La phrase ci-dessus, divisée en deux groupes de dix lettres, donnerait: "RAPTSELUAPNOYLRUOPIT". Et en quatre groupes de cinq lettres: "ELUAPRAPTSUOPITNOYLR".
+            </p>
+            <p>
+                <strong>Tradução em português:</strong><br>
+                A inversão é realizada escrevendo as letras do texto claro na direção oposta à ordem normal, a última letra tornando-se a primeira, a penúltima a segunda, a antepenúltima a terceira, etc. Exemplo: "Paul est parti pour Lyon" seria escrito como "NOYLRUOPITRAPTSELUAP". A inversão pode ser aplicada tanto ao texto inteiro, quanto sucessivamente a cada palavra ou a grupos de um número de letras acordado. A frase acima, dividida em dois grupos de dez letras, daria: "RAPTSELUAPNOYLRUOPIT". E em quatro grupos de cinco letras: "ELUAPRAPTSUOPITNOYLR".
+            </p>
+            
+            <p>
+                <strong>Original en français:</strong><br>
+                "De nombreux systèmes ont été imaginés dans ce but: 1 Renversement des lettres; 2 Groupements divers; 3 Carrés et grilles; 4 Méthodes diverses."
+            </p>
+            <p>
+                <strong>Tradução em português:</strong><br>
+                "Muitos sistemas foram imaginados para esse propósito: 1 Reversão de letras; 2 Agrupamentos diversos; 3 Quadrados e grades; 4 Métodos diversos."
+            </p>
+            
+            <p>
+                <strong>Original en français:</strong><br>
+                "Il est évident que le renversement ne donne aucune sécurité au point de vue du secret, les dépêches écrites dans ce système ne résistant pas à un examen un peu sérieux."
+            </p>
+            <p>
+                <strong>Tradução em português:</strong><br>
+                "É evidente que a inversão não oferece nenhuma segurança do ponto de vista do sigilo; as mensagens escritas nesse sistema não resistem a um exame minimamente sério."
+            </p>            
+        </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="support-links">
+            <h3>Suporte</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a>
+        </div>
+
+        <div class="info">
+            <p>© 2024 chatcipher Tools. Todos os direitos reservados.</p>
+            <p>
+                <a href="https://chatcipherai.com/pt/Privacy_Policy.html" title="Privacy Policy">Política de Privacidade</a>
+                |
+                <a href="https://chatcipherai.com/pt/Terms_of_Use.html" title="Terms of Use">Termos de Uso</a>
+                |
+                <a href="https://chatcipherai.com/pt/About_Us.html" title="About Us">Sobre Nós</a>
+                |
+                <a href="https://chatcipherai.com/pt/Disclaimer.html" title="Disclaimer">Aviso Legal</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">Voltar ao Topo(<span class="highlight-key">B</span>)</button>
+        </div>
+    </footer>
+
+    <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
+        let shortcutsEnabled = true;
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'E':
+                    encrypt();
+                    console.log('Encode triggered');
+                    break;
+                case 'D':
+                    decrypt();
+                    console.log('Decode triggered');
+                    break;
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'Voltar ao Topo(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+        document.getElementById('key1Encrypt').addEventListener('input', generateMatrices);
+        document.getElementById('key2Encrypt').addEventListener('input', generateMatrices);
+
+        function createSquare(keyword) {
+            const alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+            let used = {};
+            let square = "";
+            keyword = keyword.toUpperCase().replace(/J/g, 'I');
+            for (let i = 0; i < keyword.length; i++) {
+                if (!used[keyword[i]]) {
+                    used[keyword[i]] = true;
+                    square += keyword[i];
+                }
+            }
+            for (let i = 0; i < alphabet.length; i++) {
+                if (!used[alphabet[i]]) {
+                    square += alphabet[i];
+                }
+            }
+            return square;
+        }
+
+        function generateMatrixHTML(square, label) {
+            let html = '<div>';
+            for (let i = 0; i < 5; i++) {
+                html += '<div class="matrix-row">';
+                for (let j = 0; j < 5; j++) {
+                    html += `<div class="matrix-cell">${square[i * 5 + j]}</div>`;
+                }
+                html += '</div>';
+            }
+            html += `<div class="matrix-label">${label}</div></div>`;
+            return html;
+        }
+
+        function generateMatrices() {
+            const key1 = document.getElementById('key1Encrypt').value;
+            const key2 = document.getElementById('key2Encrypt').value;
+
+            if (key1 && key2) {
+                const square1 = createSquare(key1);
+                const square2 = createSquare(key2);
+                const square3 = createSquare(key2);
+                const square4 = createSquare(key1);
+
+                document.getElementById('matrix1').innerHTML = generateMatrixHTML(square1, "Key 1 - Square 1");
+                document.getElementById('matrix2').innerHTML = generateMatrixHTML(square2, "Key 2 - Square 2");
+                document.getElementById('matrix3').innerHTML = generateMatrixHTML(square3, "Key 2 - Square 3");
+                document.getElementById('matrix4').innerHTML = generateMatrixHTML(square4, "Key 1 - Square 4");
+            }
+        }
+
+        function findPosition(square, char) {
+            const index = square.indexOf(char);
+            return [Math.floor(index / 5), index % 5];
+        }
+
+        function generateMatrixHTML(square) {
+            let html = '';
+            for (let i = 0; i < 5; i++) {
+                html += '<div class="matrix-row">';
+                for (let j = 0; j < 5; j++) {
+                    html += `<div class="matrix-cell">${square[i * 5 + j]}</div>`;
+                }
+                html += '</div>';
+            }
+            return html;
+        }
+
+        function clearAll() {
+            document.getElementById('encryptInput').value = '';
+            document.getElementById('decryptInput').value = '';
+            document.getElementById('key1Encrypt').value = '';
+            document.getElementById('key2Encrypt').value = '';
+            document.getElementById('key1Decrypt').value = '';
+            document.getElementById('key2Decrypt').value = '';
+            document.getElementById('encryptOutput').textContent = '';
+            document.getElementById('decryptOutput').textContent = '';
+            document.getElementById('matrix1').innerHTML = '';
+            document.getElementById('matrix2').innerHTML = '';
+            document.getElementById('matrix3').innerHTML = '';
+            document.getElementById('matrix4').innerHTML = '';
+        }
+
+        function encrypt() {
+            let text = document.getElementById("encryptInput").value.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+            let key1 = document.getElementById("key1Encrypt").value;
+            let key2 = document.getElementById("key2Encrypt").value;
+
+            let square1 = createSquare(key1);
+            let square2 = createSquare(key2);
+            let square3 = createSquare(key2);
+            let square4 = createSquare(key1);
+
+            let result = "";
+            for (let i = 0; i < text.length; i += 2) {
+                let char1 = text[i];
+                let char2 = text[i + 1] || 'X'; // Padding with 'X' if odd length
+
+                let [r1, c1] = findPosition(square1, char1);
+                let [r2, c2] = findPosition(square4, char2);
+
+                result += square2[r1 * 5 + c2] + square3[r2 * 5 + c1];
+            }
+            let encryptOutput = document.getElementById("encryptOutput");
+            encryptOutput.textContent = result;
+            encryptOutput.style.color = 'blue';
+            encryptOutput.innerHTML = `<b>${result}</b>`;
+        }
+
+        function decrypt() {
+            let text = document.getElementById("decryptInput").value.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+            let key1 = document.getElementById("key1Decrypt").value;
+            let key2 = document.getElementById("key2Decrypt").value;
+
+            let square1 = createSquare(key1);
+            let square2 = createSquare(key2);
+            let square3 = createSquare(key2);
+            let square4 = createSquare(key1);
+
+            let result = "";
+            for (let i = 0; i < text.length; i += 2) {
+                let char1 = text[i];
+                let char2 = text[i + 1] || 'X';
+
+                let [r1, c1] = findPosition(square2, char1);
+                let [r2, c2] = findPosition(square3, char2);
+
+                result += square1[r1 * 5 + c2] + square4[r2 * 5 + c1];
+            }
+
+            let decryptOutput = document.getElementById("decryptOutput");
+            if (result.slice(-1) === 'X') {
+                result = result.slice(0, -1) + '<span style="color: red;">X</span>';
+            }
+            decryptOutput.innerHTML = `<b>${result}</b>`;
+        }
+    </script>
+    <div style="display: none;">
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LZTEEH0M4K"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'G-LZTEEH0M4K');
+        </script>
+    </div>
+</body>
+
+</html>

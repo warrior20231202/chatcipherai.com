@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mundo dos Criptossistemas: Criptossistema conhecido</title>
-    <meta name="keywords" content="Mundo dos Criptossistemas,cifra,hash,código Morse,César,Playfair,Hill"/>
-    <meta name="description" content="Vamos explorar juntos o incrível mundo da criptografia, onde você aprenderá sobre sistemas de criptografia mundialmente conhecidos.">
+    <meta name="keywords" content="Mundo dos Criptossistemas,cifra,hash,código Morse,César,Playfair,Hill,Four-Square"/>
+    <meta name="description" 
+        content="Vamos explorar juntos o incrível mundo da criptografia, onde você aprenderá sobre sistemas de criptografia mundialmente conhecidos.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
     <script type="application/ld+json">
@@ -398,7 +399,7 @@
         .navbar .submenu li {
             display: block;
             border-bottom: none;
-            width: 85%;
+            width: 140%;
         }
 
         .navbar .submenu li:last-child {
@@ -488,15 +489,17 @@
         img {
             max-width: 75%;
             height: auto;
-            margin-left: -250px;
+            margin-left: -300px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
 
         figcaption.Compare,
         figcaption.caesar,
-        figcaption.playfair {
+        figcaption.playfair,
+        figcaption.Four-Square {
             width: 100%;
-            margin-left: -260px;
+            margin-left: -300px;
             color: #007bff;
             font-size: 1.2em;
             font-weight: bold;
@@ -674,6 +677,37 @@
             font-weight: bold;
             text-transform: uppercase;
             animation: pulse 1.5s infinite;
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
         }
 
         /* 定义动画 */
@@ -922,6 +956,18 @@
                 font-size: 18px; /* 减小标题字体大小 */
                 left: 5%; /* 确保标题居中 */
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -937,6 +983,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/pt/Caesar_Cipher.html"><strong>Cifra de César</strong></a></li>
                         <li><a href="https://chatcipherai.com/pt/Playfair_Cipher.html"><strong>Cifra de Playfair</strong></a></li>
+                        <li><a href="https://chatcipherai.com/pt/Four_Square_Cipher.html"><strong>Cifra de Quatro Quadrados</strong></a></li>
                         <li><a href="https://chatcipherai.com/pt/Hill_Cipher.html"><strong>Cifra de Hill</strong></a></li>  
                     </ul>
                 </li>
@@ -1211,6 +1258,73 @@
             </article>
         </section>
 
+        <section id="four-square-cipher-introduction">
+            <h3>Compreendendo a Cifra de Quatro Quadrados: Uma Chave para a História da Criptografia</h3>
+            <h4>Definição de Cifra</h4>
+            <p>
+                Félix Delastelle, em seu livro <em>Traité Élémentaire de Cryptographie</em>, fornece a seguinte definição:
+            </p>
+            <p>
+                On appelle cryptographie la science qui a pour objet l'étude des moyens susceptibles d'assurer le secret des correspondances ou écrits qu'on a intérêt à soustraire à la curiosité des tiers ou à l'indiscrétion des intermédiaires. En d'autres termes, la cryptographie enseigne à transformer un langage clair en langage secret.
+            </p>
+            <p>
+                Delastelle enfatiza que a criptografia é uma ciência, e não uma arte. Ele argumenta que a criptografia, quando aplicada a um método e chave específicos, resulta em uma versão única do texto claro, semelhante a operações aritméticas. Isso destaca a natureza estruturada e científica dos processos criptográficos, contrastando com a natureza mais interpretativa e variável da decifração.
+            </p>
+        
+            <h4>Como Funciona a Cifra de Quatro Quadrados</h4>
+            <p>
+                A <a href="https://chatcipherai.com/pt/Four_Square_Cipher.html" id="HillCipherLink" target="_blank" style="color: #007bff;" rel="noopener noreferrer">Cifra de Quatro Quadrados</a> usa quatro matrizes de 5x5 para criptografar digramas. Aqui está uma explicação detalhada de como a cifra funciona:
+            </p>
+            <p>
+                <strong>Preparação:</strong> Crie quatro quadrados de 5x5 (grades). Os quadrados superior esquerdo e inferior direito contêm o alfabeto padrão (omitindo 'J' para ajustar 25 letras). Os quadrados superior direito e inferior esquerdo são preenchidos com alfabetos mistos ou baseados em palavras-chave. Esses alfabetos mistos são cruciais para a segurança da cifra.
+            </p>
+            <p>
+                <strong>Criptografando Digramas:</strong>
+            </p>
+            <p>
+                <strong>Passo 1:</strong> Divida a mensagem em texto claro em digramas (pares de letras). Se houver um número ímpar de letras, adicione uma letra extra, como 'X', para completar o último par.
+            </p>
+            <p>
+                <strong>Passo 2:</strong> Para cada digrama, localize a primeira letra no quadrado superior esquerdo e a segunda letra no quadrado inferior direito.
+            </p>
+            <p>
+                <strong>Passo 3:</strong> Identifique as coordenadas (linha e coluna) dessas letras em seus respectivos quadrados.
+            </p>
+            <p>
+                <strong>Passo 4:</strong> Use essas coordenadas para encontrar as letras correspondentes nos quadrados superior direito e inferior esquerdo. A letra na mesma linha da primeira letra do texto claro, mas na coluna da segunda letra do texto claro, do quadrado superior direito, torna-se a primeira letra do digrama cifrado. Da mesma forma, a letra na mesma linha da segunda letra do texto claro, mas na coluna da primeira letra do texto claro, do quadrado inferior esquerdo, torna-se a segunda letra do digrama cifrado.
+            </p>
+            <p>
+                <strong>Exemplo:</strong> Criptografando o digrama "HI".
+            </p>
+            <p>
+                <strong>Passo 1:</strong> Localize 'H' no quadrado superior esquerdo e 'I' no quadrado inferior direito. Suponha que 'H' esteja na 2ª linha, 3ª coluna do quadrado superior esquerdo, e 'I' esteja na 3ª linha, 4ª coluna do quadrado inferior direito.
+            </p>
+            <p>
+                <strong>Passo 2:</strong> Encontre as letras nessas coordenadas nos alfabetos mistos. No quadrado superior direito, localize a letra na 2ª linha e 4ª coluna. No quadrado inferior esquerdo, localize a letra na 3ª linha e 3ª coluna.
+            </p>
+            <p>
+                <strong>Passo 3:</strong> Combine essas letras para formar o digrama cifrado.
+            </p>
+            <p>
+                <strong>Decifração:</strong> O processo de decifração envolve reverter esses passos. O destinatário deve conhecer a disposição dos quadrados e os alfabetos mistos utilizados. Localizando as letras cifradas nos quadrados superior direito e inferior esquerdo e mapeando-as de volta para as letras correspondentes nos quadrados superior esquerdo e inferior direito, a mensagem original pode ser reconstruída.
+            </p>
+        
+            <figure>
+                <img src="./images/Diagram of Four-Square Cipher Encryption.jpg" alt="Diagrama da Criptografia da Cifra de Quatro Quadrados"> <!-- Atualizado com um caminho relativo e texto alternativo descritivo -->
+                <figcaption class="Four-Square">Diagrama da Criptografia da Cifra de Quatro Quadrados</figcaption>
+            </figure>
+        
+            <h4>Navegando pela página, você aprenderá:</h4>
+            <ul>
+                <li>Compreender o autor da Cifra de Quatro Quadrados e suas obras</li>
+                <li>Dominar os princípios de criptografia e decifração com a Cifra de Quatro Quadrados</li>
+                <li>Usar as ferramentas fornecidas na página para tentar criptografar e decifrar você mesmo</li>
+            </ul>
+            <p>
+                Além disso, você ganhará uma compreensão mais profunda da criptografia ao ler <em>Traité Élémentaire de Cryptographie</em>. Através de tutoriais interativos e exemplos, você mergulhará na complexidade e no fascínio deste método clássico de criptografia.
+            </p>
+        </section>
+        
         <section id="end" style="font-family: 'Arial', sans-serif;">
             <p style="font-size: 18px; line-height: 1.6;">
                 O verdadeiro fascínio da tecnologia de criptografia reside na sua incorporação na busca incessante da humanidade pela liberdade e privacidade. Neste mundo construído sobre dados, ela nos lembra que, apesar dos inúmeros desafios, enquanto possuirmos sabedoria e coragem, podemos proteger nossos tesouros mais preciosos na era digital.
@@ -1219,6 +1333,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Suporte</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>
