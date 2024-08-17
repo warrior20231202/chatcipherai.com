@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welt der Kryptosysteme: Bekanntes Kryptosystem</title>
-    <meta name="keywords" content="Kryptosystem-Welt, Verschlüsselung, Hash, Morsecode, Caesar, Playfair, Hill"/>
+    <meta name="keywords" content="Kryptosystem-Welt, Verschlüsselung, Hash, Morsecode, Caesar, Playfair, Hill, Four-Square"/>
     <meta name="description" content="Entdecken wir gemeinsam die erstaunliche Welt der Kryptographie, wo Sie über weltbekannte Kryptographiesysteme lernen werden.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
@@ -398,7 +398,7 @@
         .navbar .submenu li {
             display: block;
             border-bottom: none;
-            width: 85%;
+            width: 110%;
         }
 
         .navbar .submenu li:last-child {
@@ -488,13 +488,15 @@
         img {
             max-width: 75%;
             height: auto;
-            margin-left: -250px;
+            margin-left: -280px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
 
         figcaption.Compare,
         figcaption.caesar,
-        figcaption.playfair {
+        figcaption.playfair,
+        figcaption.Four-Square {
             width: 100%;
             margin-left: -300px;
             color: #007bff;
@@ -683,6 +685,37 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
         @media screen and (max-width: 768px) {
             .navbar h1 {
                 font-size: 18px;
@@ -753,7 +786,8 @@
 
             figcaption.Compare,
             figcaption.caesar,
-            figcaption.playfair {
+            figcaption.playfair,
+            figcaption.Four-Square {
                 width: 100%;
                 margin-left: -90px;
                 color: #007bff;
@@ -912,6 +946,18 @@
                 font-size: 18px; /* 减小标题字体大小 */
                 left: 5%; /* 确保标题居中 */
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -927,6 +973,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/de/Caesar_Cipher.html"><strong>Caesar-Chiffre</strong></a></li>
                         <li><a href="https://chatcipherai.com/de/Playfair_Cipher.html"><strong>Playfair-Chiffre</strong></a></li>
+                        <li><a href="https://chatcipherai.com/de/Four_Square_Cipher.html"><strong>Four-Square-Chiffre</strong></a></li>
                         <li><a href="https://chatcipherai.com/de/Hill_Cipher.html"><strong>Hill-Chiffre</strong></a></li>  
                     </ul>
                 </li>
@@ -1201,6 +1248,73 @@
                     </ul>
                 </section>
             </article>
+
+            <section id="four-square-cipher-introduction">
+                <h3>Die Four-Square-Chiffre verstehen: Ein Schlüssel zur Geschichte der Kryptographie</h3>
+                <h4>Definition der Chiffre</h4>
+                <p>
+                    Félix Delastelle definiert in seinem Buch <em>Traité Élémentaire de Cryptographie</em> die Chiffre folgendermaßen:
+                </p>
+                <p>
+                    On appelle cryptographie la science qui a pour objet l'étude des moyens susceptibles d'assurer le secret des correspondances ou écrits qu'on a intérêt à soustraire à la curiosité des tiers ou à l'indiscrétion des intermédiaires. En d'autres termes, la cryptographie enseigne à transformer un langage clair en langage secret.
+                </p>
+                <p>
+                    Delastelle betont, dass Kryptographie eine Wissenschaft und keine Kunst ist. Er erklärt, dass eine Verschlüsselung, die mit einer bestimmten Methode und einem Schlüssel durchgeführt wird, zu einer einzigartigen Version des Klartexts führt, ähnlich wie arithmetische Operationen. Dies verdeutlicht die strukturierte und wissenschaftliche Natur kryptographischer Prozesse im Gegensatz zur eher interpretativen und variablen Natur der Entschlüsselung.
+                </p>
+            
+                <h4>Funktionsweise der Four-Square-Chiffre</h4>
+                <p>
+                    Die <a href="https://chatcipherai.com/en/Four_Square_Cipher.html" id="HillCipherLink" target="_blank" style="color: #007bff;" rel="noopener noreferrer">Four-Square-Chiffre</a> verwendet vier 5x5-Matrizen zur Verschlüsselung von Digraphen. Im Folgenden wird die Funktionsweise der Chiffre detailliert erklärt:
+                </p>
+                <p>
+                    <strong>Vorbereitung:</strong> Erstellen Sie vier 5x5-Quadrate (Raster). Die oberen linken und unteren rechten Quadrate enthalten das Standardalphabet (wobei 'J' ausgelassen wird, um 25 Buchstaben zu erhalten). Die oberen rechten und unteren linken Quadrate werden mit gemischten oder schlüsselwortbasierten Alphabeten gefüllt. Diese gemischten Alphabete sind entscheidend für die Sicherheit der Chiffre.
+                </p>
+                <p>
+                    <strong>Verschlüsselung von Digraphen:</strong>
+                </p>
+                <p>
+                    <strong>Schritt 1:</strong> Teilen Sie den Klartext in Digraphen (Buchstabenpaare) auf. Bei ungerader Buchstabenanzahl fügen Sie einen zusätzlichen Buchstaben, z.B. 'X', hinzu, um das letzte Paar zu vervollständigen.
+                </p>
+                <p>
+                    <strong>Schritt 2:</strong> Suchen Sie für jedes Digraph den ersten Buchstaben im oberen linken Quadrat und den zweiten Buchstaben im unteren rechten Quadrat.
+                </p>
+                <p>
+                    <strong>Schritt 3:</strong> Bestimmen Sie die Koordinaten (Reihe und Spalte) dieser Buchstaben in ihren jeweiligen Quadraten.
+                </p>
+                <p>
+                    <strong>Schritt 4:</strong> Verwenden Sie diese Koordinaten, um die entsprechenden Buchstaben in den oberen rechten und unteren linken Quadraten zu finden. Der Buchstabe in derselben Reihe wie der erste Klartextbuchstabe, aber in der Spalte des zweiten Klartextbuchstabens aus dem oberen rechten Quadrat, wird der erste Buchstabe des Chiffre-Digraphen. Ebenso wird der Buchstabe in derselben Reihe wie der zweite Klartextbuchstabe, aber in der Spalte des ersten Klartextbuchstabens aus dem unteren linken Quadrat, der zweite Buchstabe des Chiffre-Digraphen.
+                </p>
+                <p>
+                    <strong>Beispiel:</strong> Verschlüsselung des Digraphen "HI".
+                </p>
+                <p>
+                    <strong>Schritt 1:</strong> Lokalisieren Sie 'H' im oberen linken Quadrat und 'I' im unteren rechten Quadrat. Angenommen, 'H' befindet sich in der 2. Reihe, 3. Spalte des oberen linken Quadrats, und 'I' in der 3. Reihe, 4. Spalte des unteren rechten Quadrats.
+                </p>
+                <p>
+                    <strong>Schritt 2:</strong> Finden Sie die Buchstaben an diesen Koordinaten in den gemischten Alphabeten. Im oberen rechten Quadrat suchen Sie den Buchstaben in der 2. Reihe und der 4. Spalte. Im unteren linken Quadrat suchen Sie den Buchstaben in der 3. Reihe und der 3. Spalte.
+                </p>
+                <p>
+                    <strong>Schritt 3:</strong> Kombinieren Sie diese Buchstaben, um den Chiffre-Digraphen zu bilden.
+                </p>
+                <p>
+                    <strong>Entschlüsselung:</strong> Der Entschlüsselungsprozess kehrt diese Schritte um. Der Empfänger muss die Anordnung der Quadrate und die verwendeten gemischten Alphabete kennen. Durch das Auffinden der Chiffrebuchstaben in den oberen rechten und unteren linken Quadraten und deren Rückführung auf die entsprechenden Klartextbuchstaben in den oberen linken und unteren rechten Quadraten kann die Originalnachricht rekonstruiert werden.
+                </p>
+            
+                <figure>
+                    <img src="./images/Diagram of Four-Square Cipher Encryption.jpg" alt="Diagramm der Four-Square-Chiffre-Verschlüsselung"> <!-- Aktualisiert mit einem relativen Pfad und beschreibendem Alt-Text -->
+                    <figcaption class="Four-Square">Diagramm der Four-Square-Chiffre-Verschlüsselung</figcaption>
+                </figure>
+            
+                <h4>Beim Durchstöbern der Seite lernen Sie:</h4>
+                <ul>
+                    <li>Den Autor der Four-Square-Chiffre und seine Werke verstehen</li>
+                    <li>Die Prinzipien der Verschlüsselung und Entschlüsselung mit der Four-Square-Chiffre beherrschen</li>
+                    <li>Die auf der Webseite bereitgestellten Werkzeuge nutzen, um selbst Verschlüsselung und Entschlüsselung auszuprobieren</li>
+                </ul>
+                <p>
+                    Darüber hinaus vertiefen Sie Ihr Verständnis der Kryptographie, indem Sie <em>Traité Élémentaire de Cryptographie</em> lesen. Durch interaktive Tutorials und Beispiele tauchen Sie in die Komplexität und den Reiz dieser klassischen Verschlüsselungsmethode ein.
+                </p>
+            </section>
         </section>
         
         <section id="end" font-family: 'Arial', sans-serif;">
@@ -1211,6 +1325,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Unterstützung</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>
