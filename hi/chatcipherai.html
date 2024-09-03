@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>क्रिप्टोसिस्टम वर्ल्ड: प्रसिद्ध क्रिप्टोसिस्टम</title>
-    <meta name="keywords" content="क्रिप्टोसिस्टम वर्ल्ड, सिफर, हैश, मोर्सकोड, सीज़र, प्लेफेयर, हिल"/>
+    <meta name="keywords" content="क्रिप्टोसिस्टम वर्ल्ड, सिफर, हैश, मोर्सकोड, सीज़र, प्लेफेयर, हिल, फोर स्क्वायर सिफर"/>
     <meta name="description"
         content="आइए क्रिप्टोग्राफी की अद्भुत दुनिया का साथ में अन्वेषण करें, जहाँ आप विश्व-प्रसिद्ध क्रिप्टोग्राफी सिस्टम के बारे में जानेंगे।">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -399,7 +399,7 @@
         .navbar .submenu li {
             display: block;
             border-bottom: none;
-            width: 80%;
+            width: 100%;
         }
 
         .navbar .submenu li:last-child {
@@ -491,11 +491,13 @@
             height: auto;
             margin-left: -250px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
 
         figcaption.Compare,
         figcaption.caesar,
-        figcaption.playfair {
+        figcaption.playfair,
+        figcaption.Four-Square {
             width: 100%;
             margin-left: -300px;
             color: #007bff;
@@ -684,6 +686,37 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
         @media screen and (max-width: 768px) {
             .navbar h1 {
                 font-size: 18px;
@@ -754,7 +787,8 @@
 
             figcaption.Compare,
             figcaption.caesar,
-            figcaption.playfair {
+            figcaption.playfair,
+            figcaption.Four-Square {
                 width: 100%;
                 margin-left: -90px;
                 color: #007bff;
@@ -913,6 +947,18 @@
                 font-size: 18px; /* 减小标题字体大小 */
                 left: 13%; /* 确保标题居中 */
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -928,6 +974,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/hi/Caesar_Cipher.html"><strong>सीज़र सिफर</strong></a></li>
                         <li><a href="https://chatcipherai.com/hi/Playfair_Cipher.html"><strong>प्लेफेयर सिफर</strong></a></li>
+                        <li><a href="https://chatcipherai.com/hi/Four_Square_Cipher.html"><strong>फोर स्क्वायर सिफर</strong></a></li>
                         <li><a href="https://chatcipherai.com/hi/Hill_Cipher.html"><strong>हिल सिफर</strong></a></li>  
                     </ul>
                 </li>
@@ -1201,6 +1248,73 @@
                     </ul>
                 </section>
             </article>
+
+            <section id="four-square-cipher-introduction">
+                <h2>फोर-स्क्वायर सिफर को समझना: क्रिप्टोग्राफी के इतिहास की कुंजी</h2>
+                <h3>सिफर की परिभाषा</h3>
+                <p>
+                    फेलिक्स डेलास्टेल, अपनी पुस्तक <em>Traité Élémentaire de Cryptographie</em> में निम्नलिखित परिभाषा प्रदान करते हैं:
+                </p>
+                <p>
+                    On appelle cryptographie la science qui a pour objet l'étude des moyens susceptibles d'assurer le secret des correspondances ou écrits qu'on a intérêt à soustraire à la curiosité des tiers ou à l'indiscrétion des intermédiaires. En d'autres termes, la cryptographie enseigne à transformer un langage clair en langage secret.
+                </p>
+                <p>
+                    डेलास्टेल इस बात पर जोर देते हैं कि क्रिप्टोग्राफी एक विज्ञान है, न कि कला। उनका तर्क है कि एक विशिष्ट विधि और कुंजी प्रदान किए जाने पर एन्क्रिप्शन स्पष्ट पाठ का एक अद्वितीय संस्करण उत्पन्न करता है, जो अंकगणितीय क्रियाओं के समान है। यह क्रिप्टोग्राफिक प्रक्रियाओं की संरचित और वैज्ञानिक प्रकृति को रेखांकित करता है, जो डिक्रिप्शन की अधिक व्याख्यात्मक और परिवर्तनीय प्रकृति के विपरीत है।
+                </p>
+            
+                <h3>फोर-स्क्वायर सिफर कैसे काम करता है</h3>
+                <p>
+                    <a href="https://chatcipherai.com/hi/Four_Square_Cipher.html" id="HillCipherLink" target="_blank" style="color: #007bff;" rel="noopener noreferrer">फोर-स्क्वायर सिफर</a> डाइग्राम्स को एन्क्रिप्ट करने के लिए चार 5x5 मैट्रिसेस का उपयोग करता है। यहां बताया गया है कि यह सिफर कैसे काम करता है:
+                </p>
+                <p>
+                    <strong>तैयारी:</strong> चार 5x5 वर्ग (ग्रिड) बनाएं। ऊपरी-बाएं और निचले-दाएं वर्गों में मानक वर्णमाला होती है (25 अक्षरों में फिट होने के लिए 'J' को छोड़कर)। ऊपरी-दाएं और निचले-बाएं वर्गों को मिश्रित या कीवर्ड-आधारित वर्णमालाओं से भरा जाता है। इन मिश्रित वर्णमालाओं का सिफर की सुरक्षा में महत्वपूर्ण योगदान होता है।
+                </p>
+                <p>
+                    <strong>डाइग्राम्स को एन्क्रिप्ट करना:</strong>
+                </p>
+                <p>
+                    <strong>चरण 1:</strong> स्पष्ट पाठ संदेश को डाइग्राम्स (अक्षर युग्मों) में विभाजित करें। यदि अक्षरों की संख्या विषम है, तो अंतिम जोड़ी को पूरा करने के लिए एक अतिरिक्त अक्षर, जैसे 'X', जोड़ें।
+                </p>
+                <p>
+                    <strong>चरण 2:</strong> प्रत्येक डाइग्राम के लिए, पहले अक्षर को ऊपरी-बाएं वर्ग में और दूसरे अक्षर को निचले-दाएं वर्ग में ढूंढें।
+                </p>
+                <p>
+                    <strong>चरण 3:</strong> इन अक्षरों के समन्वय (पंक्ति और स्तंभ) को उनके संबंधित वर्गों के भीतर पहचानें।
+                </p>
+                <p>
+                    <strong>चरण 4:</strong> इन समन्वयों का उपयोग करके ऊपरी-दाएं और निचले-बाएं वर्गों में संबंधित अक्षरों को खोजें। शीर्ष-दाएं वर्ग में पहले स्पष्ट पाठ अक्षर के समान पंक्ति में लेकिन दूसरे स्पष्ट पाठ अक्षर के स्तंभ में स्थित अक्षर सिफर डाइग्राम का पहला अक्षर बन जाएगा। इसी तरह, निचले-बाएं वर्ग में दूसरे स्पष्ट पाठ अक्षर के समान पंक्ति में लेकिन पहले स्पष्ट पाठ अक्षर के स्तंभ में स्थित अक्षर सिफर डाइग्राम का दूसरा अक्षर बन जाएगा।
+                </p>
+                <p>
+                    <strong>उदाहरण:</strong> "HI" डाइग्राम को एन्क्रिप्ट करना।
+                </p>
+                <p>
+                    <strong>चरण 1:</strong> 'H' को ऊपरी-बाएं वर्ग में और 'I' को निचले-दाएं वर्ग में ढूंढें। मान लें कि 'H' ऊपरी-बाएं वर्ग की 2वीं पंक्ति, 3रे स्तंभ में है, और 'I' निचले-दाएं वर्ग की 3री पंक्ति, 4थे स्तंभ में है।
+                </p>
+                <p>
+                    <strong>चरण 2:</strong> मिश्रित वर्णमालाओं में इन समन्वयों पर स्थित अक्षरों को खोजें। शीर्ष-दाएं वर्ग में, 2वीं पंक्ति और 4थे स्तंभ में स्थित अक्षर को ढूंढें। निचले-बाएं वर्ग में, 3री पंक्ति और 3रे स्तंभ में स्थित अक्षर को ढूंढें।
+                </p>
+                <p>
+                    <strong>चरण 3:</strong> इन अक्षरों को मिलाकर सिफर डाइग्राम बनाएं।
+                </p>
+                <p>
+                    <strong>डिक्रिप्शन:</strong> डिक्रिप्शन की प्रक्रिया इन चरणों को उलटकर की जाती है। प्राप्तकर्ता को वर्गों की व्यवस्था और उपयोग की गई मिश्रित वर्णमालाओं की जानकारी होनी चाहिए। शीर्ष-दाएं और निचले-बाएं वर्गों में सिफर टेक्स्ट अक्षरों को ढूंढकर और उन्हें शीर्ष-बाएं और निचले-दाएं वर्गों में संबंधित स्पष्ट पाठ अक्षरों पर मैपिंग करके, मूल संदेश को पुनः निर्मित किया जा सकता है।
+                </p>
+            
+                <figure>
+                    <img src="./images/Diagram of Four-Square Cipher Encryption.jpg" alt="फोर-स्क्वायर सिफर एन्क्रिप्शन का आरेख"> <!-- Updated with a relative path and descriptive alt text -->
+                    <figcaption class="Four-Square">फोर-स्क्वायर सिफर एन्क्रिप्शन का आरेख</figcaption>
+                </figure>
+            
+                <h3>पृष्ठ ब्राउज़ करते समय आप सीखेंगे:</h3>
+                <ul>
+                    <li>फोर-स्क्वायर सिफर के लेखक और उनके कार्यों को समझें</li>
+                    <li>फोर-स्क्वायर सिफर के साथ एन्क्रिप्शन और डिक्रिप्शन के सिद्धांतों में महारत हासिल करें</li>
+                    <li>एन्क्रिप्शन और डिक्रिप्शन को स्वयं आज़माने के लिए वेबपेज पर प्रदान किए गए उपकरणों का उपयोग करें</li>
+                </ul>
+                <p>
+                    इसके अलावा, आप <em>Traité Élémentaire de Cryptographie</em> पढ़कर क्रिप्टोग्राफी की गहरी समझ प्राप्त करेंगे। इंटरैक्टिव ट्यूटोरियल और उदाहरणों के माध्यम से, आप इस क्लासिक एन्क्रिप्शन पद्धति की जटिलता और आकर्षण में गहराई से डूब जाएंगे।
+                </p>
+            </section>            
         </section>
 
         <section id="end" font-family: 'Arial', sans-serif;">
@@ -1212,6 +1326,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>सहायता</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>

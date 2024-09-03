@@ -491,7 +491,7 @@
         .navbar .submenu li {
             display: block;
             border-bottom: none;
-            width: 80%;
+            width: 100%;
         }
 
         .navbar .submenu li:last-child {
@@ -599,6 +599,37 @@
             text-align: center;
             white-space: nowrap;
             width: 80%;
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
         }
 
         @media screen and (max-width: 768px) {
@@ -786,6 +817,18 @@
             .social-links i {
                 font-size: 12px;
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }     
     </style>
 
@@ -801,6 +844,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/en/Caesar_Cipher.html"><strong>Caesar Cipher</strong></a></li>
                         <li><a href="https://chatcipherai.com/en/Playfair_Cipher.html"><strong>Playfair Cipher</strong></a></li>
+                        <li><a href="https://chatcipherai.com/en/Four_Square_Cipher.html"><strong>Four-Square Cipher</strong></a></li>
                         <li><a href="https://chatcipherai.com/en/Hill_Cipher.html"><strong>Hill Cipher</strong></a></li>  
                     </ul>
                 </li>
@@ -843,17 +887,25 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>
             </a>
             <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-youtube"></i>
-            </a> 
+            </a>                       
         </div>
     
         <div class="info">
             <p>© 2024 chatcipher Tools. All rights reserved.</p>
+            <p><strong>chatcipherai,</strong> <strong>Hash,</strong> <strong>Morsecode,</strong> <strong>Caesar,</strong> <strong>Playfair,</strong> <strong>Hill,</strong> <strong>Four-Square,</strong> <strong>Code Translator</strong></p>
             <p>
                 <a href="https://chatcipherai.com/en/Privacy_Policy.html" title="Privacy Policy">Privacy Policy</a>
                 |
@@ -862,10 +914,10 @@
                 <a href="https://chatcipherai.com/en/About_Us.html" title="About Us">About Us</a>
                 |
                 <a href="https://chatcipherai.com/en/Disclaimer.html" title="Disclaimer">Disclaimer</a>
-            </p> 
+            </p>             
             <button id="backToTop" onclick="scrollToTop()"><span class="highlight-key">B</span>ack to Top</button>
         </div>
-    </footer> 
+    </footer>
 
     <script>
         function caesarCipher(str, shift) {
