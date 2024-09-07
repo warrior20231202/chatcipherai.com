@@ -158,6 +158,7 @@
         #Morse-Code-Translator ,
         #Caesar-Cipher ,
         #Playfair-Cipher ,
+        #Four-square ,
         #Hill-Cipher {  
             width: 100%;
         } 
@@ -609,6 +610,37 @@
             width: 80%;
         }
 
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
         @media screen and (max-width: 768px) {
             .code-style {
                 font-size: 13px;
@@ -794,6 +826,18 @@
             .social-links i {
                 font-size: 12px;
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }     
     </style>
 
@@ -809,6 +853,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/nl/Caesar_Cipher.html"><strong>Caesar-cijfer</strong></a></li>
                         <li><a href="https://chatcipherai.com/nl/Playfair_Cipher.html"><strong>Playfair-cijfer</strong></a></li>
+                        <li><a href="https://chatcipherai.com/nl/Four_Square_Cipher.html"><strong>Vierkant-cijfer</strong></a></li>
                         <li><a href="https://chatcipherai.com/nl/Hill_Cipher.html"><strong>Hill-cijfer</strong></a></li>  
                     </ul>
                 </li>
@@ -906,6 +951,18 @@
                 <li><strong>D</strong>: Ontcijfer Cijfertekst</li>
             </ul>
         </section>
+
+        <section id="Four-square">
+            <h2>Vierkant-cijfer</h2>
+            <ul>
+                <li><strong>N</strong>: Donkere Stijl</li>
+                <li><strong>L</strong>: Lichte Stijl</li>
+                <li><strong>B</strong>: Terug naar Boven</li>
+                <li><strong>A</strong>: Alles Wissen</li>
+                <li><strong>E</strong>: Versleutel Plattekst</li>
+                <li><strong>D</strong>: Ontcijfer Cijfertekst</li>
+            </ul>
+        </section>
         
         <section id="Hill-Cipher">
             <h2>Hill-cijfer</h2>
@@ -924,6 +981,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Ondersteuning</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>

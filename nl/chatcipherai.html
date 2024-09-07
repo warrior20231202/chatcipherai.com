@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cryptosystemen Wereld: Bekende cryptosystemen</title>
-    <meta name="keywords" content="Wereld van Cryptosystemen,cijfer,hash,morsecode,Caesar,Playfair,Hill"/>
+    <meta name="keywords" content="Wereld van Cryptosystemen,cijfer,hash,morsecode,Caesar,Playfair,Hill,Four-Square"/>
     <meta name="description"
         content="Laten we samen de verbazingwekkende wereld van cryptografie verkennen, waar je zult leren over wereldberoemde cryptografiesystemen.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -489,13 +489,15 @@
         img {
             max-width: 75%;
             height: auto;
-            margin-left: -250px;
+            margin-left: -280px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
 
         figcaption.Compare,
         figcaption.caesar,
-        figcaption.playfair {
+        figcaption.playfair,
+        figcaption.Four-Square {
             width: 100%;
             margin-left: -300px;
             color: #007bff;
@@ -682,6 +684,37 @@
             0% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.05); opacity: 0.7; }
             100% { transform: scale(1); opacity: 1; }
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
         }
 
         @media screen and (max-width: 768px) {
@@ -913,6 +946,18 @@
                 font-size: 18px; /* 减小标题字体大小 */
                 left: 8%; /* 确保标题居中 */
             }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
@@ -928,6 +973,7 @@
                     <ul class="submenu">
                         <li><a href="https://chatcipherai.com/nl/Caesar_Cipher.html"><strong>Caesar-cijfer</strong></a></li>
                         <li><a href="https://chatcipherai.com/nl/Playfair_Cipher.html"><strong>Playfair-cijfer</strong></a></li>
+                        <li><a href="https://chatcipherai.com/nl/Four_Square_Cipher.html"><strong>Vierkant-cijfer</strong></a></li>
                         <li><a href="https://chatcipherai.com/nl/Hill_Cipher.html"><strong>Hill-cijfer</strong></a></li>  
                     </ul>
                 </li>
@@ -1203,6 +1249,73 @@
                     </ul>
                 </section>
             </article>
+
+            <section id="four-square-cipher-introduction">
+                <h3>Inzicht in het Vierkant-cijfer: Een Sleutel tot de Geschiedenis van Cryptografie</h3>
+                <h4>Definitie van Cijfer</h4>
+                <p>
+                    Félix Delastelle geeft in zijn boek <em>Traité Élémentaire de Cryptographie</em> de volgende definitie:
+                </p>
+                <p>
+                    On appelle cryptographie la science qui a pour objet l'étude des moyens susceptibles d'assurer le secret des correspondances ou écrits qu'on a intérêt à soustraire à la curiosité des tiers ou à l'indiscrétion des intermédiaires. En d'autres termes, la cryptographie enseigne à transformer un langage clair en langage secret.
+                </p>
+                <p>
+                    Delastelle benadrukt dat cryptografie een wetenschap is in plaats van een kunst. Hij stelt dat versleuteling, wanneer een specifieke methode en sleutel worden gebruikt, resulteert in een unieke versie van de klare tekst, vergelijkbaar met rekenkundige bewerkingen. Dit benadrukt de gestructureerde en wetenschappelijke aard van cryptografische processen, in tegenstelling tot de meer interpretatieve en variabele aard van ontsleuteling.
+                </p>
+            
+                <h4>Hoe het Vierkant-cijfer Werkt</h4>
+                <p>
+                    Het <a href="https://chatcipherai.com/nl/Four_Square_Cipher.html" id="HillCipherLink" target="_blank" style="color: #007bff;" rel="noopener noreferrer">Vierkant-cijfer</a> gebruikt vier 5x5-matrixen om digrafen te versleutelen. Hier is een gedetailleerde uitleg van hoe het cijfer werkt:
+                </p>
+                <p>
+                    <strong>Voorbereiding:</strong> Maak vier 5x5 vierkanten (rasters). De vierkanten linksboven en rechtsonder bevatten het standaard alfabet (zonder 'J' om 25 letters te passen). De vierkanten rechtsboven en linksonder zijn gevuld met gemengde of sleutelwoord-gebaseerde alfabetten. Deze gemengde alfabetten zijn cruciaal voor de veiligheid van het cijfer.
+                </p>
+                <p>
+                    <strong>Versleutelen van Digrafen:</strong>
+                </p>
+                <p>
+                    <strong>Stap 1:</strong> Verdeel het bericht in digrafen (paren van letters). Als er een oneven aantal letters is, voeg dan een extra letter toe, zoals 'X', om het laatste paar compleet te maken.
+                </p>
+                <p>
+                    <strong>Stap 2:</strong> Voor elk digraaf, zoek de eerste letter in het vierkant linksboven en de tweede letter in het vierkant rechtsonder.
+                </p>
+                <p>
+                    <strong>Stap 3:</strong> Bepaal de coördinaten (rij en kolom) van deze letters binnen hun respectieve vierkanten.
+                </p>
+                <p>
+                    <strong>Stap 4:</strong> Gebruik deze coördinaten om de overeenkomstige letters in de vierkanten rechtsboven en linksonder te vinden. De letter in dezelfde rij als de eerste klare tekstletter, maar in de kolom van de tweede klare tekstletter uit het vierkant rechtsboven, wordt de eerste letter van het cijferdigraaf. Evenzo wordt de letter in dezelfde rij als de tweede klare tekstletter, maar in de kolom van de eerste klare tekstletter uit het vierkant linksonder, de tweede letter van het cijferdigraaf.
+                </p>
+                <p>
+                    <strong>Voorbeeld:</strong> Versleutelen van het digraaf "HI".
+                </p>
+                <p>
+                    <strong>Stap 1:</strong> Zoek 'H' in het vierkant linksboven en 'I' in het vierkant rechtsonder. Stel dat 'H' zich in de 2e rij, 3e kolom van het vierkant linksboven bevindt, en 'I' in de 3e rij, 4e kolom van het vierkant rechtsonder.
+                </p>
+                <p>
+                    <strong>Stap 2:</strong> Zoek de letters op deze coördinaten in de gemengde alfabetten. In het vierkant rechtsboven, zoek de letter in de 2e rij en 4e kolom. In het vierkant linksonder, zoek de letter in de 3e rij en 3e kolom.
+                </p>
+                <p>
+                    <strong>Stap 3:</strong> Combineer deze letters om het cijferdigraaf te vormen.
+                </p>
+                <p>
+                    <strong>Ontsleuteling:</strong> Het proces van ontsleuteling houdt in dat deze stappen worden teruggedraaid. De ontvanger moet de opstelling van de vierkanten en de gebruikte gemengde alfabetten kennen. Door de cijferletters in de vierkanten rechtsboven en linksonder te lokaliseren en ze terug te brengen naar de overeenkomstige klare tekstletters in de vierkanten linksboven en rechtsonder, kan het oorspronkelijke bericht worden gereconstrueerd.
+                </p>
+            
+                <figure>
+                    <img src="./images/Diagram of Four-Square Cipher Encryption.jpg" alt="Diagram of Four-Square Cipher Encryption">
+                    <figcaption class="Four-Square">Diagram van de Vierkant-cijfer Versleuteling</figcaption>
+                </figure>
+            
+                <h4>Door de pagina te bladeren, leer je:</h4>
+                <ul>
+                    <li>De auteur van het Vierkant-cijfer en zijn werken begrijpen</li>
+                    <li>De principes van versleuteling en ontsleuteling met het Vierkant-cijfer beheersen</li>
+                    <li>De tools op de webpagina gebruiken om zelf te proberen te versleutelen en ontsleutelen</li>
+                </ul>
+                <p>
+                    Daarnaast krijg je een dieper inzicht in cryptografie door <em>Traité Élémentaire de Cryptographie</em> te lezen. Via interactieve tutorials en voorbeelden duik je in de complexiteit en aantrekkingskracht van deze klassieke versleutelingsmethode.
+                </p>
+            </section>            
         </section>
         
         <section id="end" style="font-family: 'Arial', sans-serif;">
@@ -1214,6 +1327,13 @@
     </main>
 
     <footer class="footer">
+        <div class="support-links">
+            <h3>Ondersteuning</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+
         <div class="social-links">
             <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
                 <i class="fab fa-twitter"></i>

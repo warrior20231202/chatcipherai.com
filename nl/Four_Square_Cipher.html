@@ -1,0 +1,2163 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vierkant-cijfer: Een Klassieke Versleutelingstechniek met Dubbele Sleutelmatrices</title>
+    <meta name="keywords" content="chatcipher,cijfer,hash,morsecode,caesar,playfair,hill,Vierkant" />
+    <meta name="description"
+        content="De hoofdfunctie van de Vierkant-cijfer-website is het bieden van online versleutelings- en ontsleutelingshulpmiddelen, waar gebruikers overeenkomstige versleutelings- of ontsleutelingsresultaten kunnen genereren door tekst en twee verschillende sleutelmatrices in te voeren. De website biedt ook de historische achtergrond van het Vierkant-cijfer, gebruiksaanwijzingen en interactieve tutorials om gebruikers te helpen deze klassieke versleutelingstechnologie te begrijpen en te oefenen.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/jpg" href="./images/cipher.jpg">
+    <style>    
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            align-items: center;
+            margin: 0;
+            padding: 0 20px 20px 20px;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(10, 15, 36, 0.0);
+            transition: background-color 0.5s ease;
+            z-index: 1000;
+            height: 40px;
+        }
+
+        .navbar.solid {
+            background-color: rgba(10, 15, 36, 1);
+        }
+
+        #menuIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #menuIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+            left: -10px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        .navbar .langUl {
+            left: 87px;
+            width: 100px;
+        }
+
+        .navbar.active ul {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 15%;
+            background-color: rgba(119, 136, 153, 0.8);
+            padding: 10px 0;
+        }
+
+        .navbar.active ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar.active ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .navbar ul {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: transparent;
+            padding: 10px 0;
+            list-style: none;
+            margin: 0;
+            width: 12%;
+        }
+
+        .navbar.active ul {
+            display: flex;
+        }
+
+        .section.interactive-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: 150px;
+        }
+
+        #inputMessage,
+        #shiftValue {
+            width: 60%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            font-size: 1em;
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 120px;
+            /* margin-left: 180px; */
+            width: 80%;
+        }
+
+        .sections-container h2,
+        .sections-container p {
+            text-align: left;
+            width: 80%;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            /* 在每个块之间添加一些间隔 */
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .flex-container {
+            display: flex;
+            /* justify-content: space-between;  */
+            justify-content: space-around;
+            /* 在每个块之间添加一些间隔 */
+            gap: 120px;
+
+        }
+
+        .flex-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input[type="text"],
+        textarea {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* 字体样式 */
+            font-size: 20px;
+            color: #0A0F24;
+            padding: 5px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #eae6e6;
+            resize: none;
+        }
+
+        input[type="text"] {
+            width: 4cm;
+        }
+
+        textarea {
+            /* width: 400px; */
+            resize: vertical;
+            min-height: 60px;
+            max-height: 300px;
+            /* margin-left: -80px; */
+        }
+
+        #encryptSection,
+        #decryptSection {
+            flex: 1;
+        }
+
+        .key-input {
+            height: 40px;
+            /* 增加key输入框的高度 */
+            font-size: 16px;
+            width: 300px;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        .key-input:focus {
+            border: 1px solid #0A0F24;
+            /* 输入时边框变粗并显示 */
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .clear-all-button {
+            align-self: center;
+            margin-top: 20px;
+        }
+
+        .output {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 300px;
+            font-size: 18px;
+            color: #0A0F24;
+            margin-top: 10px;
+            word-wrap: break-word;
+            /* 确保自动换行 */
+            /* white-space: pre-wrap; */
+            word-break: break-all;
+            /* 增加这一行以确保自动换行 */
+            /* margin-left: -150px; */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #bbbaba;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 70%;
+            color: #ffffff;
+            /* margin-left: 5%; */
+            margin-top: 30px;
+            margin-bottom: 200px;
+        }
+
+        .container h2 {
+            text-align: left;
+            margin-left: -50px;
+        }
+
+        .container p {
+            margin-left: -50px;
+            color: #0A0F24;
+        }
+
+        .section {
+            margin-left: 60px;
+        }
+
+        p {
+            margin-bottom: 40px;
+            text-align: left;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .sections-container h2:hover {
+            color: #4bcfcf;
+            transition: color 0.3s ease;
+        }
+
+        .navbar li a {
+            color: white;
+            padding: 5px;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: block;
+            border-radius: 5px;
+        }
+
+        .navbar ul li {
+            margin-bottom: 1px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .navbar h1 {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 35px;
+            margin-right: 0;
+            font-size: 30px;
+        }
+
+        .navbar-dark {
+            background-color: #0A0F24;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        h3 {
+            margin-top: 30px;
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .morse-code-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .morse-code-container .copy-button {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        button {
+            cursor: pointer;
+            margin: 10px;
+            padding: 8px 15px;
+            /* margin-left: 5px; */
+            background-color: #0A0F24;
+            border: none;
+            border-radius: 5px;
+            color: #FFFFFF;
+            transition: background 0.3s;
+            width: 140px;
+            margin: 0 auto;
+        }
+
+        button:hover {
+            background-color: #a8a8a8;
+            color: #0A0F24;
+        }
+
+        .style-selector {
+            position: absolute;
+            top: 10px;
+            right: 48px;
+            margin-top: 10px;
+        }
+
+        .style-selector button {
+            background-color: #0a0f24;
+            padding: 5px 10px;
+            margin-right: 1px;
+            color: #F5F5F5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            white-space: nowrap;
+            width: 130px;
+        }
+
+        .style-selector button:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        .dark-mode {
+            background-color: #0A0F24;
+            color: white;
+        }
+
+        .light-mode {
+            background-color: white;
+            color: #0A0F24;
+        }
+
+        .dark-mode .container p {
+            color: #FFFFFF;
+        }
+
+        .light-mode .container {
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar,
+        .light-mode {
+            background-color: #FFFFFF;
+            color: #0A0F24;
+        }
+
+        .light-mode .navbar ul {
+            background-color: transparent;
+            color: #0A0F24;
+        }
+
+        .dark-mode .navbar ul li a:hover {
+            color: #30eded;
+        }
+
+        .light-mode .navbar ul li:hover {
+            color: #0A0F24;
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .navbar {
+            justify-content: flex-start;
+        }
+
+        #languageIcon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+            margin-left: 30px;
+        }
+
+        #languageIcon:hover {
+            color: #a3a2a2;
+        }
+
+        #languageSelect {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5f9ea0;
+            color: white;
+            cursor: pointer;
+        }
+
+        #languageSelect:hover {
+            background-color: #2F4F4F;
+        }
+
+        .language-dropdown {
+            width: 6%;
+            display: none;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            position: absolute;
+            top: 40px;
+            left: 100px;
+            background-color: rgba(119, 136, 153, 0.8);
+        }
+
+        .language-dropdown li a {
+            color: #FFFFFF;
+            padding: 5px;
+            margin: 1px;
+            text-decoration: none;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .language-dropdown li a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+            color: #0A0F24;
+        }
+
+        .table-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .table-container.active {
+            display: block;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-right: 20px
+        }
+
+        .button-container button {
+            margin-right: 30px;
+        }
+
+        .footer {
+            position: relative;
+            width: 100%;
+            background-color: #0A0F24;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            margin-bottom: -20px;
+        }
+
+        .footer a {
+            color: #F5F5F5;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #a3a2a2;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .info button {
+            display: inline-block;
+            font-size: 16px; /* 根据需要调整字体大小 */
+            cursor: pointer;
+            border-radius: 5px;
+            white-space: nowrap; /* 防止文字折叠 */
+        }
+
+        .learnMore {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .moreContent p {
+            margin-top: -25px;
+        }
+
+        .clear-all-button {
+            background-color: #47d7ff;
+        }
+
+        .clear-all-button:hover {
+            background-color: #57f7ff;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        img {
+            max-width: 75%;
+            height: auto;
+            margin-left: -250px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        figcaption.playfair,
+        figcaption.padding_rules {
+            width: 100%;
+            margin-left: -300px;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li>a {
+            display: block;
+        }
+
+        .navbar .submenu {
+            display: none;
+            position: absolute;
+            left: 101%;
+            top: 0;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 0;
+            min-width: 150px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .submenu li {
+            display: block;
+            border-bottom: none;
+            width: 80%;
+        }
+
+        .navbar .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .navbar li:hover>.submenu {
+            display: block;
+        }
+
+        .navbar .submenu a {
+            color: #ffffff;
+            padding: 5px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.206);
+        }
+
+        .cipher-matrix {
+            font-size: 20px;
+            letter-spacing: 5px;
+            line-height: 1.5;
+            margin-left: -100px;
+        }
+
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+
+        #backToTop {
+            position: absolute;
+            bottom: 15px;
+            right: 50px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #0a0f24;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+        }
+
+        #backToTop:hover {
+            background-color: #c0c0c0;
+            color: #0a0f24;
+        }
+
+        section li {
+            font-size: 17px;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 80%;
+            padding-bottom: 10px;
+        }
+
+        figcaption {
+            margin-top: -40px;
+            margin-bottom: 40px;
+            margin-left: 280px;
+            font-size: 18px;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .language-list {
+            float: right;
+        }
+
+        .language-list a {
+            margin-left: 20px;
+            color: white;
+        }
+
+        .language-list a:hover {
+            color: #4bcfcf;
+        }
+
+        .language-list a {
+            text-decoration: none;
+        }
+
+        .highlight-key {
+            font-weight: 800;
+        }
+
+        .add {
+            width: 1040px;
+        }
+
+        .add {
+            position: relative;
+            width: 100%;
+            ;
+            margin: 0 auto;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .add::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .event {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .event:hover {
+            transform: translateY(-5px);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 34%;
+        }
+
+        .right::before,
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            border: medium solid #f1f1f1;
+        }
+
+        .right::before {
+            right: 30px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #f1f1f1;
+        }
+
+        .left::before {
+            left: 30px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #f1f1f1 transparent transparent;
+        }
+
+        .details {
+            padding: 20px 30px;
+            background-color: #f1f1f1;
+            position: relative;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #0A0F24;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .details:hover {
+            background-color: #e2e2e2;
+        }
+
+        .details h4 {
+            font-size: 18px;
+            /* Slightly larger to attract attention */
+            color: #0A0F24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .details p {
+            font-size: 15px;
+            color: #0A0F24;
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f1f1f1;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 1;
+            left: 50%;
+            margin-left: -10px;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.8);
+        }
+
+        .event:hover .node {
+            background-color: #a8a8a8;
+        }
+
+        .event.active .node {
+            background-color: #a8a8a8;
+        }
+
+        .s-curve {
+            position: absolute;
+            top: 0;
+            left: 40%;
+            width: 10px;
+            /* 曲线宽度 */
+            height: 100%;
+            background: #007bff;
+            /* 曲线颜色 */
+            transform: translateX(-50%);
+            border-radius: 50%/100px;
+            /* 使线条弯曲形成“S”形 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            /* 给曲线添加阴影以增加深度 */
+        }
+
+        h3.cool-title {
+            position: absolute;
+            top: -130px;
+            /* 将标题放到轴的正上方 */
+            left: 18%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            color: #4bcfcf;
+            text-shadow: 2px 2px 4px #30eded;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* 定义动画 */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        pre {
+            background-color: #e9f4f4;
+            width: 74%;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #0A0F24;
+        }
+
+        code {
+            font-family: 'Arial', sans-serif;
+            /* 使用非等宽字体 */
+            padding: 1px 4px;
+            border-radius: 4px;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        pre.cipher-matrix {
+            font-family: 'Courier New', Courier, monospace;
+            /* 使用等宽字体 */
+            font-size: 16px;
+            font-weight: bold;
+            border-left: 4px solid #0073e6;
+            margin-left: 0;
+        }
+
+        ul li,
+        ol li {
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        ul ul,
+        ol ol {
+            margin-top: 10px;
+            margin-bottom: -5px;
+        }
+
+        #cipherComparisonTable {
+            border-collapse: collapse;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-left: 0;
+        }
+
+        #cipherComparisonTable th,
+        #cipherComparisonTable td {
+            padding: 12px;
+            text-align: center;
+            border: 0 solid #eae6e6;
+            font-weight: bold;
+        }
+
+        #cipherComparisonTable th {
+            background-color: #7fbef5;
+            color: white;
+            font-size: 16px;
+        }
+
+        #cipherComparisonTable td {
+            color: #333;
+            font-size: 16px;
+        }
+
+        #cipherComparisonTable tr:hover {
+            background-color: #ddd !important;
+        }
+
+        .dark-mode #cipherComparisonTable {
+            background-color: #e9f1f4;
+        }
+
+        .matrix-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .matrix-container h3 {
+            color: #0073e6;
+            margin-bottom: 10px;
+        }
+
+        .matrix-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .matrix {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.9), rgba(0, 100, 210, 0.9));
+            color: white;
+            padding: 15px;
+            margin: 10px;
+            border: 2px solid #005bb5;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 160px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .matrix div {
+            margin-bottom: 5px;
+        }
+
+        .matrix-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .matrix-cell {
+            width: 20%;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .matrix-label {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .shift-right {
+            transform: translateX(120px); /* 可以根据需要调整平移的距离 */
+            flex: 2;
+        }
+
+        .support-links {
+            flex: 1;
+            text-align: left;
+            margin-left: 50px;
+            margin-bottom: -50px;
+            margin-top: -13px;
+        }
+
+        .support-links h3 {
+            font-size: 18px;
+            color: white;
+        }
+
+        .support-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .support-links li {
+            margin-bottom: 5px;
+        }
+
+        .support-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .support-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media screen and (max-width: 1200px) {
+            .flex-container {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            body{
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .navbar h1 {
+                font-size: 18px;
+                position: absolute;
+                top: -25px;
+            }
+
+            .shift-right {
+                transform: translateX(40px); /* 可以根据需要调整平移的距离 */
+                flex: 2;
+            }
+
+            .sections-container {
+                margin-left: auto;
+                margin-right: auto;
+                align-items: center;
+                /* width: 80%; */
+                width: 100%;
+            }
+
+            .section {
+                /* width: 120%; */
+                width: 100%;
+                padding: 10px;
+                margin-left: 0;
+            }
+
+            .section h2 {
+                font-size: 1.2em;
+            }
+
+            .section h3 {
+                font-size: 0.9em;
+            }
+
+            .section h4 {
+                font-size: 0.8em;
+            }
+
+            .section p {
+                font-size: 0.9em;
+            }
+
+            .section li {
+                font-size: 14px;
+                margin-left: -20px;
+            }
+
+            .container {
+                width: 90%;
+                /* padding: 20px; */
+                font-size: 0.8em;
+                padding:20px 0;
+                margin: 0 auto;
+            }
+
+            .container h2 {
+                font-size: 1.5em;
+                margin-top: 10px;
+            }
+
+            input[type="text"] {
+                width: 78%;
+            }
+
+            textarea {
+                width: 60%;
+            }
+
+            .cipher-matrix {
+                margin-left: -210px;
+            }
+
+            #cipherComparisonTable {
+                margin-left: 0;
+            }
+
+            #cipherComparisonTable th {
+                background-color: #7fbef5;
+                color: white;
+                font-size: 12px;
+            }
+
+            #cipherComparisonTable td {
+                color: #333;
+                font-size: 12px;
+            }
+
+            img {
+                max-width: 80%;
+                height: auto;
+                margin-left: -80px;
+            }
+
+            figcaption.playfair,
+            figcaption.padding_rules {
+                width: 100%;
+                margin-left: -90px;
+                color: #007bff;
+                font-size: 0.8em;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            .footer p {
+                margin: 0;
+                font-size: 10px;
+            }
+
+            #backToTop {
+                content: '▲';
+                padding: 4px 5px;
+                font-size: 14px;
+                right: 10px;
+                bottom: 0px;
+            }
+
+            .info button {
+                width: 25px;
+            }
+
+            #inputText {
+                width: 78%;
+            }
+
+            #processedPlaintext,
+            #result {
+                font-weight: bold;
+                color: #0A0F24;
+                word-wrap: break-word;
+            }
+
+            .navbar ul {
+                width: 25%;
+            }
+
+            .navbar ul li {
+                padding: 0 5px 0 0;
+            }
+
+            .navbar li a {
+                padding: 5px;
+            }
+
+            .navbar li a {
+                font-size: 10px;
+                width: 100%;
+                padding: 5px 0px 5px 5px;
+            }
+
+            .navbar .submenu {
+                left: 100%;
+            }
+
+            .navbar .submenu li {
+                display: block;
+                border-bottom: none;
+                width: 50%;
+                padding: 0 5px 0 0;
+            }
+
+            .navbar .submenu li a {
+                padding: 5px 0px 5px 5px;
+            }
+
+            #menuIcon {
+                font-size: 0;
+                /* Hide text */
+            }
+
+            #menuIcon::before {
+                content: '\2630';
+                /* Unicode character for ☰ */
+                font-size: 16px;
+                /* Or any other size you prefer */
+            }
+
+            #languageIcon {
+                font-size: 0;
+            }
+
+            #languageIcon::before {
+                content: '\2637';
+                font-size: 16px;
+                /* Or any other size you prefer */
+            }
+
+            .navbar .langUl {
+                left: 42px;
+                width: 65px;
+            }
+
+            .style-selector button {
+                width: 30px;
+            }
+
+            #darkStyle {
+                font-size: 0;
+                margin-left: 10px;
+                padding: 5px 8px;
+            }
+
+            #lightStyle {
+                font-size: 0;
+                margin-right: -10px;
+            }
+
+            #darkStyle::before {
+                font-size: 9px;
+            }
+
+            #lightStyle::before {
+                font-size: 10px;
+            }
+
+            #darkStyle::before {
+                content: "🌙";
+            }
+
+            #lightStyle::before {
+                content: "☀";
+            }
+
+            .social-links i {
+                font-size: 12px;
+            }
+
+            .add {
+                width: 100%;
+                /* 调整宽度为100%以适应较小的屏幕 */
+                margin-top: 80px;
+                /* 减少上边距 */
+                margin-bottom: 20px;
+                /* 减少下边距 */
+            }
+
+            .event {
+                width: 80%;
+                /* 增加宽度以适应单列布局 */
+                padding: 10px 20px;
+                /* 调整内边距 */
+            }
+
+            .left,
+            .right {
+                left: 10%;
+                /* 调整定位以居中显示 */
+                width: 80%;
+                /* 增加宽度以填充更多空间 */
+            }
+
+            .right::before,
+            .left::before {
+                left: 10px;
+                /* 调整左侧箭头的位置 */
+                right: auto;
+                /* 确保右侧箭头不会显示在错误的位置 */
+            }
+
+            .details {
+                padding: 15px 20px;
+                /* 调整细节块的内边距 */
+            }
+
+            .node {
+                width: 15px;
+                /* 调大点的大小 */
+                height: 15px;
+                /* 调大点的大小 */
+                top: 5px;
+                /* 增加点的顶部间距 */
+                left: 55%;
+                margin-left: -15px;
+                /* 保持点居中，根据新的大小调整 */
+            }
+
+            .event {
+                margin-bottom: 15px;
+                /* 增加事件块之间的间距 */
+                margin-left: -10px;
+            }
+
+            .s-curve {
+                left: 50%;
+                /* 调整曲线的位置，保证其在屏幕中心 */
+            }
+
+            h3.cool-title {
+                top: -80px;
+                /* 调整标题位置以更适应头部空间 */
+                font-size: 18px;
+                /* 减小标题字体大小 */
+                left: 10%;
+                /* 确保标题居中 */
+            }
+
+            .support-links {
+                flex: 1;
+                text-align: left;
+                margin-left: 0;
+                margin-bottom: -50px;
+                font-size: 10px;
+            }
+
+            .support-links h3 {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <header>
+        <nav class="navbar">
+            <div id="menuIcon">&#9776; menu</div>
+            <div id="menuItems"></div>
+            <ul class="menuUl">
+                <li>
+                    <a href="https://chatcipherai.com/nl/chatcipherai.html"><strong>Wereld van Cryptosystemen</strong></a>
+                    <ul class="submenu">
+                        <li><a href="https://chatcipherai.com/nl/Caesar_Cipher.html"><strong>Caesar-cijfer</strong></a></li>
+                        <li><a href="https://chatcipherai.com/nl/Playfair_Cipher.html"><strong>Playfair-cijfer</strong></a></li>
+                        <li><a href="https://chatcipherai.com/nl/Four_Square_Cipher.html"><strong>Vierkant-cijfer</strong></a></li>
+                        <li><a href="https://chatcipherai.com/nl/Hill_Cipher.html"><strong>Hill-cijfer</strong></a></li>  
+                    </ul>
+                </li>
+                <li><a href="https://chatcipherai.com/nl/Hash_value_test.html"><strong>Hashwaarde Test</strong></a></li>
+                <li><a href="https://chatcipherai.com/nl/Morsecode_main.html"><strong>Morsecode Vertaler</strong></a></li>
+                <li><a href="https://chatcipherai.com/nl/Shortcut_Key_Description.html"><strong>Sneltoetsbeschrijving</strong></a></li>
+            </ul>
+
+            <div id="languageIcon">&#x2637; lang</div>
+            <div id="languageItems">
+                <ul class="langUl">
+                    <li><a href="https://chatcipherai.com/en/Four_Square_Cipher" title="English">English</a></li>
+                    <li><a href="https://chatcipherai.com/fr/Four_Square_Cipher" title="Français">Français</a></li>
+                    <li><a href="https://chatcipherai.com/es/Four_Square_Cipher" title="Español">Español</a></li>
+                    <li><a href="https://chatcipherai.com/zh-CN/Four_Square_Cipher" title="中文（简体）">中文（简体）</a></li>
+                    <li><a href="https://chatcipherai.com/zh-TW/Four_Square_Cipher" title="中文（繁体）">中文（繁体）</a></li>
+                    <li><a href="https://chatcipherai.com/ar/Four_Square_Cipher" title="العربية">العربية</a></li>
+                    <li><a href="https://chatcipherai.com/ru/Four_Square_Cipher" title="Русский">Русский</a></li>
+                    <li><a href="https://chatcipherai.com/pt/Four_Square_Cipher" title="Português">Português</a></li>
+                    <li><a href="https://chatcipherai.com/de/Four_Square_Cipher" title="Deutsch">Deutsch</a></li>
+                    <li><a href="https://chatcipherai.com/hi/Four_Square_Cipher" title="हिन्दी">हिन्दी</a></li>
+                    <li><a href="https://chatcipherai.com/nl/Four_Square_Cipher" title="Nederlands">Nederlands</a></li>
+                </ul>
+            </div>
+
+            <h1>Vierkant-cijfer Verkenner</h1>
+            <div class="style-selector">
+                <button id="darkStyle">🌙 Donkere Stijl(<span class="highlight-key">N</span>)</button>
+                <button id="lightStyle">☀ Lichte Stijl(<span class="highlight-key">L</span>)</button>
+            </div>  
+        </nav>
+    </header>
+
+    <main class="sections-container">
+        <section class="container">
+            <h2>Probeer het Vierkant-cijfer</h2>
+            <p>Gebruik de onderstaande tools om een bericht te versleutelen of te ontsleutelen:</p>
+        
+            <div class="flex-container">
+                <div id="encryptSection" class="flex-item">
+                    <h3>Versleutelen</h3>
+                    <textarea id="encryptInput" placeholder="Voer tekst in om te versleutelen..."></textarea>
+                    <input class="key-input" id="key1Encrypt" placeholder="Voer sleutel 1 in..." />
+                    <input class="key-input" id="key2Encrypt" placeholder="Voer sleutel 2 in..." />
+                    <button id="encryptButton" onclick="encrypt()">Versleutel (<span class="highlight-key">E</span>)</button>
+                    <div class="output">
+                        <strong>Resultaat:</strong> <span id="encryptOutput"></span>
+                    </div>
+                </div>
+        
+                <div id="decryptSection" class="flex-item">
+                    <h3>Ontsleutelen</h3>
+                    <textarea id="decryptInput" placeholder="Voer tekst in om te ontsleutelen..."></textarea>
+                    <input class="key-input" id="key1Decrypt" placeholder="Voer sleutel 1 in..." />
+                    <input class="key-input" id="key2Decrypt" placeholder="Voer sleutel 2 in..." />
+                    <button id="decryptButton" onclick="decrypt()">Ontsleutel (<span class="highlight-key">D</span>)</button>
+                    <div class="output">
+                        <strong>Resultaat:</strong> <span id="decryptOutput"></span>
+                    </div>
+                </div>
+            </div>
+        
+            <button id="clearAllButton" class="clear-all-button" onclick="clearAll()">Alles wissen (<span class="highlight-key">A</span>)</button>
+        
+            <div id="matrixContainer" class="matrix-container">
+                <h3>Gegenereerde Matrices</h3>
+                <div class="matrix-grid">
+                    <div id="matrix1" class="matrix"></div>
+                    <div id="matrix2" class="matrix"></div>
+                    <div id="matrix3" class="matrix"></div>
+                    <div id="matrix4" class="matrix"></div>
+                </div>
+            </div>
+        </section>        
+
+        <div class="shift-right">
+        <section class="add">
+            <h3 class="cool-title">Prachtige momenten in de geschiedenis</h3>
+            <div class="s-curve"></div>
+            <div class="add">
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Uitvinding en Eerste Beschrijving (1902)</h4>
+                        <p>De Franse cryptograaf <strong>Félix-Marie Delastelle</strong> beschreef voor het eerst het Vierkant-cijfer in zijn boek <strong><em>Traité Élémentaire de Cryptographie</em></strong> (Elementaire Verhandeling over Cryptografie). In het boek introduceerde Delastelle het Vierkant-cijfer en legde hij de versleutelings- en ontsleutelingsmethoden uit.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Academische en Praktische Toepassingen (Begin 20e eeuw)</h4>
+                        <p>Na de publicatie van Delastelle's boek kreeg het <strong>Vierkant-cijfer</strong> enige aandacht in de cryptografische gemeenschap. Het werd gebruikt als een educatief hulpmiddel om studenten te helpen de principes en toepassingen van polygrafische substitutiecijfers te begrijpen.</p>
+                    </div>
+                </div>
+                <div class="event left" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Invloed op Moderne Cryptografie (Midden tot Laat 20e eeuw)</h4>
+                        <p>Met de ontwikkeling van computers en moderne cryptografie is het <strong>Vierkant-cijfer</strong> vervangen door complexere en veiligere cryptografische systemen. Het behoudt echter nog steeds een plaats in de geschiedenis en educatie van cryptografie als een leermiddel en onderzoeksobject.</p>
+                    </div>
+                </div>
+                <div class="event right" onclick="toggleDetails(this)">
+                    <div class="node"></div>
+                    <div class="details hidden">
+                        <h4>Moderne Toepassingen en Onderzoek</h4>
+                        <p>Hoewel het niet langer wordt gebruikt voor daadwerkelijke communicatiebeveiliging, wordt het <strong>Vierkant-cijfer</strong> nog steeds gebruikt als een educatief voorbeeld in cryptografiecursussen, om studenten te helpen de fundamentele cryptografische concepten en geschiedenis te begrijpen.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+     
+        <section class="section">
+            <h2>Het Vierkant-cijfer: Historische Achtergrond en Versleutelingsprincipes</h2>
+            <p>
+                Het <a href="https://en.wikipedia.org/wiki/Four-square_cipher" rel="noopener noreferrer" target="_blank"
+                    style="color: #007bff; font-size: 1.0em;">Vierkant-cijfer</a> is een symmetrische versleutelmethode uitgevonden door de Fransman <a href="https://dbpedia.org/page/F%C3%A9lix_Delastelle" rel="noopener noreferrer"
+                    target="_blank" style="color: #007bff; font-size: 1.0em;">Felix Delastelle</a> (1840–1902) en maakt deel uit van de moderne cryptografie. Deze versleutelmethode versleutelt letters in paren met behulp van vier 5×5 matrixen, elk met 25 letters. Meestal wordt de letter Q weggelaten, of worden I en J als dezelfde letter beschouwd. Alternatief kan de methode worden aangepast om 6×6 matrixen te gebruiken om 10 cijfers op te nemen.
+            </p>
+        
+            <p>
+                Tijdens het versleutelingsproces worden twee Engelse woorden gekozen als sleutels, zoals "example" en "keyword". Na het verwijderen van dubbele letters worden de overgebleven letters in volgorde in de matrixen geplaatst. Deze twee matrixen worden in de rechterbovenhoek en linkeronderhoek geplaatst, terwijl de matrixen linksboven en rechtsonder het alfabet van A tot Z gebruiken om de matrixen te vormen, wat de Vierkant-cijfer-matrix creëert.
+            </p>
+        
+            <p>
+                Om een bericht te versleutelen, worden de letters in paren gescheiden, zoals "hello world" dat "he ll ow or ld" wordt. Op basis van de posities in de matrixen worden de overeenkomstige versleutelde letters gevonden. Bijvoorbeeld, bij het versleutelingsproces van "he" wordt de positie van "h" in de matrix linksboven en de positie van "e" in de matrix rechtsonder gevonden. Vervolgens wordt in de matrix rechtsboven de letter in dezelfde rij als "h" en dezelfde kolom als "e" gelokaliseerd, en in de matrix linksonder wordt de letter in dezelfde kolom als "h" en dezelfde rij als "e" gevonden. Deze twee letters vormen het versleutelde cijfertekst.
+            </p>
+        
+            <p>
+                De zwakte van het Vierkant-cijfer ligt in het geval waar twee letters in dezelfde kolom staan, de oorspronkelijke letters worden gebruikt, wat ongeveer 20% van de inhoud kan blootleggen. Daarnaast, aangezien het een symmetrische versleutelmethode is, is het gemakkelijk te kraken door geregistreerde vergelijkingen, wat resulteert in een lage beveiliging. Een ander probleem is dat het alleen een even aantal karakters kan versleutelen. Als er een oneven aantal is, kan het laatste resterende karakter niet worden versleuteld, en het gebruik van het oorspronkelijke karakter of opvulling maakt de cijfertekst kwetsbaarder voor blootstelling.
+            </p>
+        
+            <p>
+                Als onderdeel van de klassieke cryptografie, hoewel het Vierkant-cijfer niet de veiligheid biedt van moderne versleutelingsalgoritmen, heeft de eenvoud en historische betekenis ervan inspiratie geboden voor moderne versleutelingsmethoden.
+            </p>
+        
+            <h2>Stap-voor-stap Gids voor Vierkant-cijfer Versleuteling</h2>
+            <p>De volgende is een gedetailleerde stap-voor-stap gids voor het versleutelen met het <strong>Vierkant-cijfer</strong>, met de sleutelwoorden "Four" en "Cipher" en de klare tekst "Hello World".</p>
+        
+            <h3>Stap 1: Voorbereiding</h3>
+            <ul>
+                <li><strong>Kies Sleutelwoorden</strong>
+                    <ul>
+                        <li>sleutel1 = "Four"</li>
+                        <li>sleutel2 = "Cipher"</li>
+                    </ul>
+                </li>
+                <li><strong>Bereid de Klare Tekst voor</strong>
+                    <ul>
+                        <li>Klare tekst is "Hello World".</li>
+                    </ul>
+                </li>
+                <li><strong>Converteer de Klare Tekst naar een Geschikt Formaat voor Versleuteling</strong>
+                    <ul>
+                        <li>Converteer naar hoofdletters en vervang de letter J door I: Hello World -> HELLOWORLD</li>
+                        <li>Verwijder niet-alfabetische karakters: HELLOWORLD</li>
+                        <li>Als de lengte van de klare tekst oneven is, voeg dan het <strong>teken X</strong> toe aan het einde.</li>
+                    </ul>
+                </li>
+            </ul>
+        
+            <h3>Stap 2: Genereer Lettervierkanten</h3>
+            <p>Gebruik de sleutelwoorden om vier 5x5 lettervierkanten te genereren. Het alfabet laat doorgaans de <strong>letter J</strong> weg, waarbij <strong>I</strong> wordt gebruikt.</p>
+        
+            <h4>Functie om Lettervierkanten te Genereren</h4>
+            <pre>
+                <code>
+                function createSquare(keyword) {
+                    let alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+                    let used = {};
+                    let square = "";
+                    keyword = keyword.toUpperCase().replace(/J/g, 'I');
+                    for (let i = 0; i < keyword.length; i++) {
+                        if (!used[keyword[i]]) {
+                            (used[keyword[i]]) = true;
+                            square += keyword[i];
+                        }
+                    }
+                    for (let i = 0; i < alphabet.length; i++) {
+                        if (!used[alphabet[i]]) {
+                            square += alphabet[i];
+                        }
+                    }
+                    return square;
+                }
+                </code>
+            </pre>
+        
+            <h4>Genereer 4 Lettervierkanten</h4>
+            <p>Vierkant 1 (square1) en Vierkant 4 (square4) met sleutel1 = "FOUR":</p>
+            <pre class="cipher-matrix">
+                <code>
+                <span class="highlight">F</span> <span class="highlight">O</span> <span class="highlight">U</span> <span class="highlight">R</span> A
+                B C D E G
+                H I K L M
+                N P Q S T
+                V W X Y Z
+                </code>
+            </pre>
+            <p>Vierkant 2 (square2) en Vierkant 3 (square3) met sleutel2 = "CIPHER":</p>
+            <pre class="cipher-matrix">
+                <code>
+                <span class="highlight">C</span> <span class="highlight">I</span> <span class="highlight">P</span> <span class="highlight">H</span> <span class="highlight">E</span> 
+                <span class="highlight">R</span> A B D F
+                G K L M N
+                O Q S T U
+                V W X Y Z
+                </code>
+            </pre>
+        
+            <h3>Stap 3: Versleutelingsproces</h3>
+            <p>Verdeel de klare tekst in paren van letters en versleutel elk paar. Voorbeeld klare tekst: HELLOWORLD.</p>
+        
+            <h4>Verdeel Klare Tekst</h4>
+            <p>HELLOWORLD -> HE LL OW OR LD</p>
+        
+            <h4>Versleutel Elk Paar Letters</h4>
+            <p>Gebruik de volgende functie om de positie van letters in de vierkanten te vinden:</p>
+            <pre>
+                <code>
+                    function findPosition(square, char) {
+                        let index = square.indexOf(char);
+                        let row = Math.floor(index / 5);
+                        let col = index % 5;
+                        return [row, col];
+                    }
+                </code>
+            </pre>
+            <p>Versleutel elk paar letters stap voor stap:</p>
+            <ul>
+                <li><strong>Versleutel Paar "HE"</strong>
+                    <ul>
+                        <li>H staat op positie (2, 0) in square1</li>
+                        <li>E staat op positie (1, 3) in square4</li>
+                        <li>Neem (2, 3) uit square2 -> M</li>
+                        <li>Neem (1, 0) uit square3 -> R</li>
+                        <li>Resultaat: HE -> MR</li>
+                    </ul>
+                </li>
+                <li><strong>Versleutel Paar "LL"</strong>
+                    <ul>
+                        <li>L staat op positie (2, 3) in square1</li>
+                        <li>L staat op positie (2, 3) in square4</li>
+                        <li>Neem (2, 3) uit square2 -> M</li>
+                        <li>Neem (2, 3) uit square3 -> M</li>
+                        <li>Resultaat: LL -> MM</li>
+                    </ul>
+                </li>
+                <li><strong>Versleutel Paar "OW"</strong>
+                    <ul>
+                        <li>O staat op positie (0, 1) in square1</li>
+                        <li>W staat op positie (4, 1) in square4</li>
+                        <li>Neem (0, 1) uit square2 -> I</li>
+                        <li>Neem (4, 1) uit square3 -> W</li>
+                        <li>Resultaat: OW -> IW</li>
+                    </ul>
+                </li>
+                <li><strong>Versleutel Paar "OR"</strong>
+                    <ul>
+                        <li>O staat op positie (0, 1) in square1</li>
+                        <li>R staat op positie (0, 3) in square4</li>
+                        <li>Neem (0, 3) uit square2 -> H</li>
+                        <li>Neem (0, 1) uit square3 -> I</li>
+                        <li>Resultaat: OR -> HI</li>
+                    </ul>
+                </li>
+                <li><strong>Versleutel Paar "LD"</strong>
+                    <ul>
+                        <li>L staat op positie (2, 3) in square1</li>
+                        <li>D staat op positie (1, 2) in square4</li>
+                        <li>Neem (2, 2) uit square2 -> L</li>
+                        <li>Neem (1, 3) uit square3 -> D</li>
+                        <li>Resultaat: LD -> LD</li>
+                    </ul>
+                </li>
+            </ul>
+        
+            <h3>Definitieve Cijfertekst</h3>
+            <p>Combineer de versleutelde paren letters. De cijfertekst voor HELLOWORLD is: <strong>MRMMIWHILD</strong></p>
+
+            <h2>Vergelijking van Vierkant-cijfer, Dubbele Playfair Cijfer, en Playfair Cijfer</h2>
+            <h3>Overeenkomsten</h3>
+            <ul>
+                <li><strong>Polygrafische Substitutie Cijfers</strong>
+                    <ul>
+                        <li>Het Vierkant-cijfer, Dubbele Playfair-cijfer en Playfair-cijfer zijn allemaal polygrafische substitutie
+                            cijfers. Dit betekent dat ze paren of groepen letters gebruiken als de basisunit voor versleuteling en
+                            ontsleuteling, in plaats van individuele letters.</li>
+                    </ul>
+                </li>
+                <li><strong>Lettermatrixen</strong>
+                    <ul>
+                        <li>Alle drie de cijfermethoden gebruiken lettermatrixen voor versleuteling en ontsleuteling. Elke methode
+                            is afhankelijk van de posities van letters in deze matrixen om substituties of transformaties uit te
+                            voeren.</li>
+                    </ul>
+                </li>
+                <li><strong>Doel</strong>
+                    <ul>
+                        <li>Het ontwerpdoel van deze cijfers is om de veiligheid van traditionele substitutie-cijfers met enkele
+                            letters te verbeteren door de complexiteit van de versleuteling te vergroten, waardoor eenvoudige
+                            frequentieanalyse-aanvallen worden voorkomen.</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>Verschillen</h3>
+            <h4>Vierkant-cijfer</h4>
+            <ul>
+                <li><strong>Lettermatrixen:</strong> Gebruikt vier 5x5 lettermatrixen.</li>
+                <li><strong>Versleutelingsunit:</strong> Verwerkt twee letters tegelijk.</li>
+                <li><strong>Stappen:</strong>
+                    <ul>
+                        <li>Vier lettermatrixen: Twee matrixen worden gegenereerd uit sleutelwoorden en de andere twee zijn meestal
+                            in standaard alfabetische volgorde.</li>
+                        <li>Verdeel de klare tekst in paren van letters.</li>
+                        <li>Vind de positie van elk paar letters in twee verschillende matrixen en vind vervolgens de overeenkomstige
+                            versleutelde letters in de andere twee matrixen.</li>
+                    </ul>
+                </li>
+                <li><strong>Complexiteit:</strong> Verhoogt de complexiteit en veiligheid door meer matrixen te gebruiken in
+                    vergelijking met het Playfair-cijfer.</li>
+            </ul>
+            
+            <h4>Dubbele Playfair Cijfer</h4>
+            <ul>
+                <li><strong>Lettermatrixen:</strong> Gebruikt twee 5x5 lettermatrixen.</li>
+                <li><strong>Versleutelingsunit:</strong> Verwerkt twee letters tegelijk.</li>
+                <li><strong>Stappen:</strong>
+                    <ul>
+                        <li>Twee lettermatrixen worden gegenereerd uit verschillende sleutelwoorden.</li>
+                        <li>Verdeel de klare tekst in paren van letters.</li>
+                        <li>Gebruik de eerste matrix om de positie van de eerste letter te vinden en de tweede matrix om de positie
+                            van de tweede letter te vinden, vervang vervolgens de letters volgens de regels.</li>
+                    </ul>
+                </li>
+                <li><strong>Complexiteit:</strong> Voegt complexiteit en veiligheid toe door een tweede matrix in te voeren in
+                    vergelijking met het enkele Playfair-cijfer.</li>
+            </ul>
+            
+            <h4>Playfair Cijfer</h4>
+            <ul>
+                <li><strong>Lettermatrixen:</strong> Gebruikt één 5x5 lettermatrix.</li>
+                <li><strong>Versleutelingsunit:</strong> Verwerkt twee letters tegelijk.</li>
+                <li><strong>Stappen:</strong>
+                    <ul>
+                        <li>Eén lettermatrix wordt gegenereerd uit een sleutelwoord.</li>
+                        <li>Verdeel de klare tekst in paren van letters.</li>
+                        <li>Vervang de letters op basis van hun positionele relatie (dezelfde rij, dezelfde kolom of verschillende
+                            rijen en kolommen).</li>
+                    </ul>
+                </li>
+                <li><strong>Complexiteit:</strong> Verhoogt de complexiteit in vergelijking met eenvoudige substitutie-cijfers met
+                    enkele letters, maar is minder complex dan het Dubbele Playfair- en Vierkant-cijfer.</li>
+            </ul>            
+
+            <h3>Vergelijkingstabel</h3>
+            <table id="cipherComparisonTable">
+                <thead>
+                    <tr>
+                        <th>Kenmerk</th>
+                        <th>Vierkant-cijfer</th>
+                        <th>Dubbele Playfair Cijfer</th>
+                        <th>Playfair Cijfer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Aantal Lettermatrixen</strong></td>
+                        <td>4</td>
+                        <td>2</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Versleutelingsunit</strong></td>
+                        <td>Twee letters tegelijk</td>
+                        <td>Twee letters tegelijk</td>
+                        <td>Twee letters tegelijk</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sleutelwoorden</strong></td>
+                        <td>Twee sleutelwoorden</td>
+                        <td>Twee sleutelwoorden</td>
+                        <td>Eén sleutelwoord</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complexiteit</strong></td>
+                        <td>Hoog</td>
+                        <td>Middel</td>
+                        <td>Laag</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Versleutelingsregels</strong></td>
+                        <td>Gebruikt vier matrixen om substituties te vinden</td>
+                        <td>Gebruikt twee matrixen om substituties te vinden</td>
+                        <td>Gebruikt één matrix om substituties te vinden</td>
+                    </tr>
+                </tbody>
+            </table>            
+
+            <h2>Transpositie en Substitutie</h2>
+            <p>
+                Het <i>Traité Élémentaire de Cryptographie</i> van Felix Delastelle onderzoekt diepgaand de methoden van transpositie en substitutie in de cryptografie. Bij transpositie worden de posities van de letters in de klare tekst gewijzigd om het bericht te versleutelen. Bijvoorbeeld door de volgorde van letters om te keren, zoals in het geval van "Paul est parti pour Lyon", wat wordt "NOYLRUOPITRAPTSELUAP". Een andere methode is groepering, waarbij de klare tekst in een vooraf bepaalde vorm wordt geplaatst en vervolgens letters worden geëxtraheerd in een afgesproken volgorde om de cijfertekst te vormen.
+            </p>
+            <p>
+                <strong>Origineel in het Frans:</strong><br>
+                "L'inversion consiste à transposer ou déplacer les lettres du texte clair suivant une méthode convenue entre les correspondants, de telle sorte qu'il soit facile aux initiés de rétablir l'ordre primitif."
+            </p>
+            <p>
+                <strong>Vertaling in het Engels:</strong><br>
+                "Inversie bestaat uit het verplaatsen of verschuiven van de letters van de klare tekst volgens een afgesproken methode tussen de correspondenten, zodat het voor de ingewijden gemakkelijk is om de oorspronkelijke volgorde te herstellen."
+            </p>
+            
+            <p>
+                <strong>Origineel in het Frans:</strong><br>
+                Le renversement s'effectue en écrivant les lettres du clair en sens inverse de l'ordre normal, la dernière lettre devenant la première, l'avant-dernière la seconde, l'antépénultième la troisième, etc. Exemple: "Paul est parti pour Lyon" s'écrira "NOYLRUOPITRAPTSELUAP". Le renversement peut s'appliquer soit au texte entier, soit successivement à chaque mot ou à des groupes d'un nombre de lettres convenu. La phrase ci-dessus, divisée en deux groupes de dix lettres, donnerait: "RAPTSELUAPNOYLRUOPIT". Et en quatre groupes de cinq lettres: "ELUAPRAPTSUOPITNOYLR".
+            </p>
+            <p>
+                <strong>Vertaling in het Engels:</strong><br>
+                De omkering wordt uitgevoerd door de letters van de klare tekst in omgekeerde volgorde te schrijven, waarbij de laatste letter de eerste wordt, de voorlaatste de tweede, de antepenultime de derde, enz. Voorbeeld: "Paul est parti pour Lyon" zou worden geschreven als "NOYLRUOPITRAPTSELUAP". De omkering kan worden toegepast op de gehele tekst, of opeenvolgend op elk woord of op groepen van een afgesproken aantal letters. De bovenstaande zin, verdeeld in twee groepen van tien letters, zou opleveren: "RAPTSELUAPNOYLRUOPIT". En in vier groepen van vijf letters: "ELUAPRAPTSUOPITNOYLR".
+            </p>
+            
+            <p>
+                <strong>Origineel in het Frans:</strong><br>
+                "De nombreux systèmes ont été imaginés dans ce but: 1 Renversement des lettres; 2 Groupements divers; 3 Carrés et grilles; 4 Méthodes diverses."
+            </p>
+            <p>
+                <strong>Vertaling in het Engels:</strong><br>
+                "Verschillende systemen zijn bedacht voor dit doel: 1 Omdraaiing van letters; 2 Diverse groeperingen; 3 Vierkanten en roosters; 4 Diverse methoden."
+            </p>
+            
+            <p>
+                <strong>Origineel in het Frans:</strong><br>
+                "Il est évident que le renversement ne donne aucune sécurité au point de vue du secret, les dépêches écrites dans ce système ne résistant pas à un examen un peu sérieux."
+            </p>
+            <p>
+                <strong>Vertaling in het Engels:</strong><br>
+                "Het is duidelijk dat omkering geen enkele veiligheid biedt vanuit het oogpunt van geheimhouding; berichten die in dit systeem zijn geschreven, weerstaan geen serieuze analyse."
+            </p>            
+        </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="support-links">
+            <h3>Ondersteuning</h3>
+            <ul>
+                <li><a href="https://tap5ai.com/" target="_blank" rel="noopener noreferrer">Tap5 AI</a></li>
+            </ul>
+        </div>
+        
+        <div class="social-links">
+            <a href="https://twitter.com/xinli_111219" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.youtube.com/@xinli-vj3js" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a> 
+        </div>
+    
+        <div class="info">
+            <p>© 2024 chatcipher Tools. Alle rechten voorbehouden.</p>
+            <p>
+                <a href="https://chatcipherai.com/nl/Privacy_Policy.html" title="Privacy Policy">Privacybeleid</a>
+                |
+                <a href="https://chatcipherai.com/nl/Terms_of_Use.html" title="Terms of Use">Gebruiksvoorwaarden</a>
+                |
+                <a href="https://chatcipherai.com/nl/About_Us.html" title="About Us">Over ons</a>
+                |
+                <a href="https://chatcipherai.com/nl/Disclaimer.html" title="Disclaimer">Disclaimer</a>
+            </p> 
+            <button id="backToTop" onclick="scrollToTop()">Terug naar Boven(<span class="highlight-key">B</span>)</button>
+        </div> 
+    </footer> 
+
+    <script>
+        function toggleDetails(event) {
+            const details = event.querySelector('.details');
+            details.classList.toggle('hidden');
+            event.classList.toggle('active');
+        }
+
+        let shortcutsEnabled = true;
+        function manageShortcuts(enable) {
+            shortcutsEnabled = enable;
+        }
+
+        function handleKeyPress(event) {
+            if (!shortcutsEnabled) {
+                console.log('Shortcuts are disabled');
+                return;
+            }
+
+            switch (event.key.toUpperCase()) {
+                case 'E':
+                    encrypt();
+                    console.log('Encode triggered');
+                    break;
+                case 'D':
+                    decrypt();
+                    console.log('Decode triggered');
+                    break;
+                case 'A':
+                    clearAll();
+                    console.log('Clear All triggered');
+                    break;
+                case 'L':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('light-mode');
+                        console.log('Light style activated');
+                    }
+                    break;
+                case 'N':
+                    if (document.activeElement.type !== 'text' && document.activeElement.type !== 'textarea') {
+                        setStyle('dark-mode');
+                        console.log('Dark style activated');
+                    }
+                    break;
+                case 'B':
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    console.log('Scrolled to top');
+                    break;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const inputElements = document.querySelectorAll('input[type="text"], textarea');
+            inputElements.forEach(input => {
+                input.addEventListener('focus', () => manageShortcuts(false));
+                input.addEventListener('blur', () => manageShortcuts(true));
+            });
+
+            document.addEventListener('keydown', handleKeyPress);
+        });
+
+        document.getElementById('menuIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar ul');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.getElementById('languageIcon').addEventListener('click', function () {
+            var navbarUl = document.querySelector('.navbar .langUl');
+            if (navbarUl.style.display === 'flex') {
+                navbarUl.style.display = 'none';
+            } else {
+                navbarUl.style.display = 'flex';
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var menuIcon = document.getElementById('menuIcon');
+            var menunavbarUl = document.querySelector('.navbar .menuUl');
+
+            var languageIcon = document.getElementById('languageIcon');
+            var langnavbarUl = document.querySelector('.navbar .langUl');
+
+            if (!menuIcon.contains(event.target) && !menunavbarUl.contains(event.target)) {
+                menunavbarUl.style.display = 'none';
+            }
+            if (!languageIcon.contains(event.target) && !langnavbarUl.contains(event.target)) {
+                langnavbarUl.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var savedStyle = localStorage.getItem('style') || 'dark-mode';
+            setStyle(savedStyle);
+        });
+
+        document.getElementById('lightStyle').addEventListener('click', function () {
+            setStyle('light-mode');
+        });
+
+        document.getElementById('darkStyle').addEventListener('click', function () {
+            setStyle('dark-mode');
+        });
+
+        function setStyle(style) {
+            document.body.className = style;
+            localStorage.setItem('style', style);
+            updateButtonStyles();
+            updateNavbarStyles(style);
+        }
+
+        function updateNavbarStyles(style) {
+            var navbar = document.querySelector('.navbar');
+            var ul = navbar.querySelector('ul');
+            navbar.style.backgroundColor = style === 'dark-mode' ? '#0A0F24' : '#FFFFFF';
+            ul.style.backgroundColor = style === 'dark-mode' ? 'rgba(119, 136, 153, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ul.style.color = style === 'dark-mode' ? '#FFFFFF' : '#0A0F24';
+        }
+
+        window.onscroll = function () { scrollFunction(); };
+        function scrollFunction() {
+            if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 20) {
+                document.getElementById("backToTop").style.display = "block";
+            } else {
+                document.getElementById("backToTop").style.display = "none";
+            }
+        }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var navbar = document.querySelector('.navbar');
+            window.onscroll = function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('solid');
+                } else {
+                    navbar.classList.remove('solid');
+                }
+            };
+        });
+
+        function adjustButton() {
+            var button = document.getElementById('backToTop');
+            if (window.innerWidth < 768) {
+                button.innerHTML = '▲';
+            } else {
+                button.innerHTML = 'Terug naar Boven(<span class="highlight-key">B</span>)';
+            }
+        }
+
+        window.onload = adjustButton;
+        window.onresize = adjustButton;
+
+        document.getElementById('key1Encrypt').addEventListener('input', generateMatrices);
+        document.getElementById('key2Encrypt').addEventListener('input', generateMatrices);
+
+        function createSquare(keyword) {
+            const alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+            let used = {};
+            let square = "";
+            keyword = keyword.toUpperCase().replace(/J/g, 'I');
+            for (let i = 0; i < keyword.length; i++) {
+                if (!used[keyword[i]]) {
+                    used[keyword[i]] = true;
+                    square += keyword[i];
+                }
+            }
+            for (let i = 0; i < alphabet.length; i++) {
+                if (!used[alphabet[i]]) {
+                    square += alphabet[i];
+                }
+            }
+            return square;
+        }
+
+        function generateMatrixHTML(square, label) {
+            let html = '<div>';
+            for (let i = 0; i < 5; i++) {
+                html += '<div class="matrix-row">';
+                for (let j = 0; j < 5; j++) {
+                    html += `<div class="matrix-cell">${square[i * 5 + j]}</div>`;
+                }
+                html += '</div>';
+            }
+            html += `<div class="matrix-label">${label}</div></div>`;
+            return html;
+        }
+
+        function generateMatrices() {
+            const key1 = document.getElementById('key1Encrypt').value;
+            const key2 = document.getElementById('key2Encrypt').value;
+
+            if (key1 && key2) {
+                const square1 = createSquare(key1);
+                const square2 = createSquare(key2);
+                const square3 = createSquare(key2);
+                const square4 = createSquare(key1);
+
+                document.getElementById('matrix1').innerHTML = generateMatrixHTML(square1, "Key 1 - Square 1");
+                document.getElementById('matrix2').innerHTML = generateMatrixHTML(square2, "Key 2 - Square 2");
+                document.getElementById('matrix3').innerHTML = generateMatrixHTML(square3, "Key 2 - Square 3");
+                document.getElementById('matrix4').innerHTML = generateMatrixHTML(square4, "Key 1 - Square 4");
+            }
+        }
+
+        function findPosition(square, char) {
+            const index = square.indexOf(char);
+            return [Math.floor(index / 5), index % 5];
+        }
+
+        function generateMatrixHTML(square) {
+            let html = '';
+            for (let i = 0; i < 5; i++) {
+                html += '<div class="matrix-row">';
+                for (let j = 0; j < 5; j++) {
+                    html += `<div class="matrix-cell">${square[i * 5 + j]}</div>`;
+                }
+                html += '</div>';
+            }
+            return html;
+        }
+
+        function clearAll() {
+            document.getElementById('encryptInput').value = '';
+            document.getElementById('decryptInput').value = '';
+            document.getElementById('key1Encrypt').value = '';
+            document.getElementById('key2Encrypt').value = '';
+            document.getElementById('key1Decrypt').value = '';
+            document.getElementById('key2Decrypt').value = '';
+            document.getElementById('encryptOutput').textContent = '';
+            document.getElementById('decryptOutput').textContent = '';
+            document.getElementById('matrix1').innerHTML = '';
+            document.getElementById('matrix2').innerHTML = '';
+            document.getElementById('matrix3').innerHTML = '';
+            document.getElementById('matrix4').innerHTML = '';
+        }
+
+        function encrypt() {
+            let text = document.getElementById("encryptInput").value.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+            let key1 = document.getElementById("key1Encrypt").value;
+            let key2 = document.getElementById("key2Encrypt").value;
+
+            let square1 = createSquare(key1);
+            let square2 = createSquare(key2);
+            let square3 = createSquare(key2);
+            let square4 = createSquare(key1);
+
+            let result = "";
+            for (let i = 0; i < text.length; i += 2) {
+                let char1 = text[i];
+                let char2 = text[i + 1] || 'X'; // Padding with 'X' if odd length
+
+                let [r1, c1] = findPosition(square1, char1);
+                let [r2, c2] = findPosition(square4, char2);
+
+                result += square2[r1 * 5 + c2] + square3[r2 * 5 + c1];
+            }
+            let encryptOutput = document.getElementById("encryptOutput");
+            encryptOutput.textContent = result;
+            encryptOutput.style.color = 'blue';
+            encryptOutput.innerHTML = `<b>${result}</b>`;
+        }
+
+        function decrypt() {
+            let text = document.getElementById("decryptInput").value.toUpperCase().replace(/J/g, 'I').replace(/[^A-Z]/g, '');
+            let key1 = document.getElementById("key1Decrypt").value;
+            let key2 = document.getElementById("key2Decrypt").value;
+
+            let square1 = createSquare(key1);
+            let square2 = createSquare(key2);
+            let square3 = createSquare(key2);
+            let square4 = createSquare(key1);
+
+            let result = "";
+            for (let i = 0; i < text.length; i += 2) {
+                let char1 = text[i];
+                let char2 = text[i + 1] || 'X';
+
+                let [r1, c1] = findPosition(square2, char1);
+                let [r2, c2] = findPosition(square3, char2);
+
+                result += square1[r1 * 5 + c2] + square4[r2 * 5 + c1];
+            }
+
+            let decryptOutput = document.getElementById("decryptOutput");
+            if (result.slice(-1) === 'X') {
+                result = result.slice(0, -1) + '<span style="color: red;">X</span>';
+            }
+            decryptOutput.innerHTML = `<b>${result}</b>`;
+        }
+    </script>
+    <div style="display: none;">
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LZTEEH0M4K"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'G-LZTEEH0M4K');
+        </script>
+    </div>
+</body>
+
+</html>
